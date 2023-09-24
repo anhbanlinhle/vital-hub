@@ -4,7 +4,7 @@
 **Tạo branch mới từ branch đang ở** <br>
 ```git checkout -b feat/tenNguoiLam_ddmm_task```
 
-**Pull code mỗi ngày** <br>
+**Pull code ở branch main mỗi ngày** <br>
 ```git checkout main``` <br>
 ```git pull``` <br>
 *Nếu sang nhánh có sẵn và đang làm* <br>
@@ -22,7 +22,15 @@
 ```git add .``` <br>
 *Commit* <br>
 ```git commit -m "mô tả (viết đầy đủ những thứ đã làm)"``` <br>
+*Trước khi push nhớ check lại với nhánh main để xem còn conflict với main không* <br>
+```git checkout main``` <br>
+```git pull``` <br>
+```git checkout nhánh chuẩn bị push``` <br>
+```git merge main --no-ff``` <br>
 *Push lên remote* <br>
 ```git push origin tên_nhánh``` <br>
+*Sau khi push, lên web sẽ có nút compare & merge request => bấm => ghi nội dung* <br>
+<kbd>Compare & Merge request</kbd>
+
 <h1>ĐÉO ĐƯỢC PUSH LÊN MASTER</h1>
 <h1>ĐÉO CÓ PUSH --FORCE MASTER</h1>
