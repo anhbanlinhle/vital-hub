@@ -1,10 +1,9 @@
 <h1>Code chức năng được giao</h1>
 
-**Đặt tên branch** <br>
-```feat/owner_ddmm_task```
-
-**Tạo branch mới từ branch đang ở** <br>
-```git checkout -b feat/owner_ddmm_task```
+|Action|Command
+|-|-
+|*Đặt tên branch*|```feat/owner_ddmm_task```
+|*Tạo branch mới từ branch đang ở*|```git checkout -b your_branch```
 
 <h1>Pull code ở branch main hàng ngày</h1>
 
