@@ -28,7 +28,7 @@
 |*Chọn file để commit*|```git add file_name```
 |*Chọn tất cả những thứ đã thay đổi*|```git add .```
 |*Commit*|```git commit -m "mô tả (viết đầy đủ những thứ đã làm)"```
-|*Trước khi push nhớ check lại với `main` để xem còn conflict không*|```git checkout main``` <br>```git pull``` <br>```git checkout your_branch``` <br>```git merge main --no-ff``` <br>
+|*Trước khi push nhớ check lại với `main` để xem còn conflict không <br> Nếu có conflict nhớ resolve rồi commit*|```git checkout main``` <br>```git pull``` <br>```git checkout your_branch``` <br>```git merge main --no-ff``` <br>
 |*Push lên remote*|```git push origin your_branch```
 
 *Sau khi push, lên web sẽ có nút <kbd>Compare & Merge request</kbd> => bấm => ghi nội dung* <br>
