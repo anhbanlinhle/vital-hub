@@ -11,6 +11,13 @@
 |-|-
 |*Trước khi checkout sang nhánh khác, <br> phải kiểm tra nhánh hiện tại <br> có còn file nào chưa commit không <br> Nếu không các file chưa commit <br> sẽ bị lôi sang nhánh mới => nguy hiểm <br> Commit như ở dưới đã mô tả*|```git status```
 
+<h1>Kéo 1 branch trên remote về local</h1>
+
+|Action|Command
+|-|-
+|*Làm tuần tự các bước*|```git fetch -a```<br>```git checkout (tên branch ở remote cần kéo)```<br> Lưu ý: KHÔNG CÓ -b, ĐỪNG CÓ checkout -b
+|*Sau khi checkout thành công, tạo nhánh mới từ nhánh hiện tại*|```git checkout -b feat/owner_ddmm_task```<br>BÂY GIỜ MỚI CÓ -b
+
 <h1>Pull code ở branch main hàng ngày</h1>
 
 |Action|Command
