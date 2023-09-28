@@ -20,6 +20,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
                                 .requestMatchers("/user/**").permitAll()
+                                .requestMatchers("/health/**").permitAll()
                 )
                 .build();
     }
