@@ -1,11 +1,9 @@
 package com.main.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.main.server.utils.enums.Sex;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -40,4 +38,9 @@ public class User implements Serializable {
     @Column(name = "avatar")
     private String avatar;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JsonManagedReference
+    private UserDetail userDetail;
 }

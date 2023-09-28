@@ -3,17 +3,16 @@ package com.main.server.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "user_detail")
-public class UserDetail implements Serializable {
-
+@Table(name = "workout_history")
+public class WorkoutHistory implements Serializable {
     private static final long serialVersionUID = -197553281792804396L;
 
     @Id
@@ -24,22 +23,21 @@ public class UserDetail implements Serializable {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "current_height")
-    private Double currentHeight;
+    @Column(name = "group_id")
+    private Long groupId;
 
-    @Column(name = "current_weight")
-    private Double currentWeight;
+    @Column(name = "start_time")
+    private LocalDateTime startTime;
 
-    @Column(name = "exercise_days_per_week")
-    private Integer exerciseDaysPerWeek;
+    @Column(name = "end_time")
+    private LocalDateTime endTime;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "calo")
+    private Float calo;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @JsonBackReference
     private User user;
 }
