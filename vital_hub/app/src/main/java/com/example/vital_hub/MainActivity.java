@@ -35,17 +35,21 @@ public class MainActivity extends AppCompatActivity {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
-                        editor.clear();
-                        editor.apply();
-                        Intent intent = new Intent(MainActivity.this, LoginScreen.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
+                signOut();
+            }
+        });
+    }
+
+    private void signOut() {
+        mGoogleSignInClient.revokeAccess().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+                editor.clear();
+                editor.commit();
+                Intent intent = new Intent(MainActivity.this, LoginScreen.class);
+                startActivity(intent);
+                finish();
             }
         });
     }

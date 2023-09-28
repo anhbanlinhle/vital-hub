@@ -29,12 +29,12 @@ public class LoginScreen extends AppCompatActivity {
         String email = prefs.getString("email", null);
         String name = prefs.getString("name", null);
 
-        if (name != null && email != null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("email", email);
-            intent.putExtra("displayName", name);
-            startActivity(intent);
-        }
+//        if (name != null) {
+//            Intent intent = new Intent(this, MainActivity.class);
+//            intent.putExtra("email", email);
+//            intent.putExtra("displayName", name);
+//            startActivity(intent);
+//        }
 
         loginBtn = findViewById(R.id.btnLogin);
 
@@ -80,7 +80,7 @@ public class LoginScreen extends AppCompatActivity {
             SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
             editor.putString("email", account.getEmail());
             editor.putString("name", account.getDisplayName());
-            editor.apply();
+            editor.commit();
 
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("email", email);
