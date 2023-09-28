@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -37,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
                 mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+                        SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+                        editor.clear();
+                        editor.apply();
                         Intent intent = new Intent(MainActivity.this, LoginScreen.class);
                         startActivity(intent);
                         finish();

@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,17 @@ public class LoginScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
+
+        SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        String email = prefs.getString("email", null);
+        String name = prefs.getString("name", null);
+
+        if (name != null && email != null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("email", email);
+            intent.putExtra("displayName", name);
+            startActivity(intent);
+        }
 
         loginBtn = findViewById(R.id.btnLogin);
 
@@ -64,6 +76,11 @@ public class LoginScreen extends AppCompatActivity {
             String email = account.getEmail();
             String displayName = account.getDisplayName();
             String avatar = String.valueOf(account.getPhotoUrl());
+
+            SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+            editor.putString("email", account.getEmail());
+            editor.putString("name", account.getDisplayName());
+            editor.apply();
 
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("email", email);
