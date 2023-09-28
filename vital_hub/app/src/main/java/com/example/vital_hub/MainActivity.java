@@ -1,5 +1,7 @@
 package com.example.vital_hub;
 
+import static com.example.vital_hub.LoginScreen.oneTapClient;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         email.setText(intent.getStringExtra("email"));
-        displayName.setText(intent.getStringExtra("displayName"));
+        displayName.setText(intent.getStringExtra("name"));
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void signOut() {
-
+        oneTapClient.signOut();
+        SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+        editor.clear();
+        editor.commit();
+        Intent intent = new Intent(MainActivity.this, LoginScreen.class);
+        startActivity(intent);
+        finish();
     }
 }
