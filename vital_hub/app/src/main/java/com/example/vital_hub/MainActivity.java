@@ -1,6 +1,5 @@
 package com.example.vital_hub;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,12 +9,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Button;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
 public class MainActivity extends AppCompatActivity {
-    private GoogleSignInClient mGoogleSignInClient;
     TextView email;
     TextView displayName;
     Button logoutBtn;
@@ -41,16 +36,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void signOut() {
-        mGoogleSignInClient.revokeAccess().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
-                editor.clear();
-                editor.commit();
-                Intent intent = new Intent(MainActivity.this, LoginScreen.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+
     }
 }
