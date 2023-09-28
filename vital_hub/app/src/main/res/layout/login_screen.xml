@@ -2,12 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".LoginScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/gradient_background"
-    android:gravity="center">
+    android:gravity="center_vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,15 +36,16 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/btnLogin"
+            android:id="@+id/google_login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="144dp"
-            android:text="Login with Google"
-            android:textSize="20sp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/gradient_background"
             android:drawableLeft="@drawable/icons8_google"
-            />
+            android:fontFamily="@font/poppin_xtra_bold"
+            android:text="Login with Google"
+            android:textSize="20sp" />
     </LinearLayout>
 
 </LinearLayout>
