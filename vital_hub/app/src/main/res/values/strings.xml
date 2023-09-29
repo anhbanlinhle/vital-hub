@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">vitalHub</string>
+    <string name="app_name">Vital Hub</string>
+    <string name="default_web_client_id">71244422360-dr2n840urb9c7ss9ri3528e9d1rsb1r0.apps.googleusercontent.com</string>
 </resources>
