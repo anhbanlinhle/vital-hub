@@ -31,6 +31,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 public class LoginScreen extends AppCompatActivity {
     protected static SignInClient oneTapClient;
     private BeginSignInRequest signInRequest;
+    private ActivityResultLauncher<IntentSenderRequest> activityResultLauncher;
     Button loginBtn;
     private static final String TAG = "Error";
     private static final int REQ_ONE_TAP = 2;  // Can be any integer unique to the Activity.
@@ -52,19 +53,35 @@ public class LoginScreen extends AppCompatActivity {
             startActivity(intent);
         }
 
+        initGoogleSignInRequest();
+
+        receiveGoogleCredentials();
+
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                trySigningIn();
+            }
+        });
+    }
+
+    protected void initGoogleSignInRequest() {
         oneTapClient = Identity.getSignInClient(this);
-//        oneTapClient.signOut();
+
         signInRequest = BeginSignInRequest.builder()
                 .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                         .setSupported(true)
                         // Your server's client ID, not your Android client ID.
                         .setServerClientId(getString(R.string.default_web_client_id))
                         // Only show accounts previously used to sign in.
-                        .setFilterByAuthorizedAccounts(true).build())
+                        .setFilterByAuthorizedAccounts(false).build())
                 // Automatically sign in when exactly one credential is retrieved.
                 .setAutoSelectEnabled(false).build();
+    }
 
-        ActivityResultLauncher<IntentSenderRequest> activityResultLauncher =
+    protected void receiveGoogleCredentials() {
+        activityResultLauncher =
                 registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(), new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
@@ -90,29 +107,25 @@ public class LoginScreen extends AppCompatActivity {
                         }
                     }
                 });
+    }
 
-
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                oneTapClient.beginSignIn(signInRequest)
-                        .addOnSuccessListener(LoginScreen.this, new OnSuccessListener<BeginSignInResult>() {
-                            @Override
-                            public void onSuccess(BeginSignInResult result) {
-                                IntentSenderRequest intentSenderRequest =
-                                      new IntentSenderRequest.Builder(result.getPendingIntent().getIntentSender()).build();
-                                activityResultLauncher.launch(intentSenderRequest);
-                            }
-                        })
-                        .addOnFailureListener(LoginScreen.this, new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                // No saved credentials found. Launch the One Tap sign-up flow, or
-                                // do nothing and continue presenting the signed-out UI.
-                                Log.d(TAG, e.getLocalizedMessage());
-                            }
-                        });
-            }
-        });
+    protected void trySigningIn() {
+        oneTapClient.beginSignIn(signInRequest)
+                .addOnSuccessListener(LoginScreen.this, new OnSuccessListener<BeginSignInResult>() {
+                    @Override
+                    public void onSuccess(BeginSignInResult result) {
+                        IntentSenderRequest intentSenderRequest =
+                                new IntentSenderRequest.Builder(result.getPendingIntent().getIntentSender()).build();
+                        activityResultLauncher.launch(intentSenderRequest);
+                    }
+                })
+                .addOnFailureListener(LoginScreen.this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // No saved credentials found. Launch the One Tap sign-up flow, or
+                        // do nothing and continue presenting the signed-out UI.
+                        Log.d(TAG, e.getLocalizedMessage());
+                    }
+                });
     }
 }

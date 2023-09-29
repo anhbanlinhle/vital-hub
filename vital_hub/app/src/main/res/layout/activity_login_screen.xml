@@ -5,47 +5,58 @@
     tools:context=".LoginScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/gradient_background"
-    android:gravity="center">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="600dp"
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="152dp"
+        android:layout_height="144dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:background="@drawable/login_page"
-        android:elevation="20dp"
-        android:orientation="vertical">
+        android:layout_marginTop="50dp"
+        app:srcCompat="@drawable/vital_hub_logo" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="262dp"
-            android:layout_height="148dp"
-            android:layout_gravity="center"
-            android:background="#FFFFFF"
-            app:srcCompat="@drawable/vitalhub" />
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/mont_black"
+        android:text="vitalHub"
+        android:textSize="30sp"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="-10dp"/>
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/poppin_xtra_bold"
-            android:text="Welcome to your fitness life"
-            android:textSize="20sp" />
+    <TextView
+        android:id="@+id/welcome_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome back! \n Let's start the journey"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:fontFamily="@font/mont_bold"
+        android:textSize="30sp"
+        android:layout_marginTop="70dp"/>
 
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="144dp"
-            android:text="Login with Google"
-            android:textSize="20sp"
-            android:layout_gravity="center_horizontal"
-            android:drawableLeft="@drawable/icons8_google"
-            />
-    </LinearLayout>
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:text="Login with Google"
+        android:textSize="20sp"
+        app:backgroundTint="@null"
+        android:background="@drawable/gradient_background"
+        android:fontFamily="@font/mont_semi_bold" />
+
+    <TextView
+        android:id="@+id/about"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="By clicking on Login, you agree with \n vitalHub's Terms and Conditions of Use "
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:fontFamily="@font/mont_reg"
+        android:layout_marginTop="100dp"/>
 
 </LinearLayout>
