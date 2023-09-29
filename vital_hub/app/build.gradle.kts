@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.vital_hub"
-        minSdk = 33
+        minSdk = 29
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -33,6 +33,7 @@ android {
 
 dependencies {
     implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
