@@ -6,6 +6,20 @@
     <font
         android:fontStyle="normal"
         android:font="@font/poppin_regular"/>
-
+    <font
+        android:fontStyle="normal"
+        android:font="@font/mont_black"/>
+    <font
+        android:fontStyle="normal"
+        android:font="@font/mont_bold"/>
+    <font
+        android:fontStyle="normal"
+        android:font="@font/mont_extra_bold"/>
+    <font
+        android:fontStyle="normal"
+        android:font="@font/mont_reg"/>
+    <font
+        android:fontStyle="normal"
+        android:font="@font/mont_semi_bold"/>
 
 </font-family>
