@@ -1,6 +1,7 @@
 package com.example.vital_hub;
 
-import androidx.annotation.NonNull;
+import static com.example.vital_hub.LoginScreen.oneTapClient;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,12 +11,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Button;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
 public class MainActivity extends AppCompatActivity {
-    private GoogleSignInClient mGoogleSignInClient;
     TextView email;
     TextView displayName;
     Button logoutBtn;
@@ -30,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         email.setText(intent.getStringExtra("email"));
-        displayName.setText(intent.getStringExtra("displayName"));
+        displayName.setText(intent.getStringExtra("name"));
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,16 +38,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void signOut() {
-        mGoogleSignInClient.revokeAccess().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
-                editor.clear();
-                editor.commit();
-                Intent intent = new Intent(MainActivity.this, LoginScreen.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+        oneTapClient.signOut();
+        SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+        editor.clear();
+        editor.commit();
+        Intent intent = new Intent(MainActivity.this, LoginScreen.class);
+        startActivity(intent);
+        finish();
     }
 }
