@@ -316,8 +316,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="icons8_google" />
-                            <entry key="sourceFile" value="C:\Users\Lenovo\Desktop\icons8-google.svg" />
+                            <entry key="outputName" value="icon_google_solid" />
+                            <entry key="sourceFile" value="C:\Users\Lenovo\Desktop\CODE PROJECTS\vital_hub\vital_hub\app\src\main\res\drawable\icon_google_solid.svg" />
                           </map>
                         </option>
                       </PersistentState>
