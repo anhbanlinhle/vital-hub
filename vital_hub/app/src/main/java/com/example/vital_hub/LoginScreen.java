@@ -75,7 +75,7 @@ public class LoginScreen extends AppCompatActivity {
                         // Your server's client ID, not your Android client ID.
                         .setServerClientId(getString(R.string.default_web_client_id))
                         // Only show accounts previously used to sign in.
-                        .setFilterByAuthorizedAccounts(true).build())
+                        .setFilterByAuthorizedAccounts(false).build())
                 // Automatically sign in when exactly one credential is retrieved.
                 .setAutoSelectEnabled(false).build();
     }
