@@ -30,6 +30,7 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="80dp"
         android:src="@drawable/vitalhub"
+        android:clickable="true"
         app:civ_border_color="#454a52"
         app:civ_border_width="3dp"
         app:layout_constraintStart_toStartOf="@+id/view"
