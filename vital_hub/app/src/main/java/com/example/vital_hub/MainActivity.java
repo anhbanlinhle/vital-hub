@@ -14,7 +14,7 @@ import android.widget.Button;
 
     
 public class MainActivity extends AppCompatActivity {
-    Button button;
+    Button userprofileBtn;
     TextView email;
     TextView displayName;
     Button logoutBtn;
@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        userprofileBtn = findViewById(R.id.btnUserprofile);
         email = findViewById(R.id.email);
         displayName = findViewById(R.id.displayName);
         logoutBtn = findViewById(R.id.btnLogout);
@@ -31,6 +32,13 @@ public class MainActivity extends AppCompatActivity {
         email.setText(intent.getStringExtra("email"));
         displayName.setText(intent.getStringExtra("name"));
 
+        //Open profile page on button click
+        userprofileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openUserprofie();
+            }
+        });
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -38,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void signOut() {
         oneTapClient.signOut();
@@ -47,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, LoginScreen.class);
         startActivity(intent);
         finish();
+    }
+
+    public void openUserprofie(){
+        Intent intent = new Intent(MainActivity.this, UserProfile.class);
+        startActivity(intent);
     }
 
 }
