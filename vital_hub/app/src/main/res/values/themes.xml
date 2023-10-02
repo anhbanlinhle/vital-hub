@@ -17,6 +17,5 @@
             true
         </item>
     </style>
-
     <style name="Theme.Vital_hub" parent="Base.Theme.Vital_hub" />
 </resources>
