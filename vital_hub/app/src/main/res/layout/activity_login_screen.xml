@@ -47,7 +47,8 @@
         android:textSize="20sp"
         app:backgroundTint="@null"
         android:background="@drawable/gradient_background"
-        android:fontFamily="@font/mont_semi_bold" />
+        android:fontFamily="@font/mont_semi_bold"
+        android:drawableLeft="@drawable/icons8_google1"/>
 
     <TextView
         android:id="@+id/about"

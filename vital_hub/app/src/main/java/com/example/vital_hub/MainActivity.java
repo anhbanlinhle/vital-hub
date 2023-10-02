@@ -3,6 +3,7 @@ package com.example.vital_hub;
 import static com.example.vital_hub.LoginScreen.oneTapClient;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowCompat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     Button logoutBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
