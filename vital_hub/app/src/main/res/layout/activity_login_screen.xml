@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="152dp"
-        android:layout_height="144dp"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
         app:srcCompat="@drawable/vital_hub_logo" />
@@ -47,13 +47,14 @@
         android:textSize="20sp"
         app:backgroundTint="@null"
         android:background="@drawable/gradient_background"
-        android:fontFamily="@font/mont_semi_bold" />
+        android:fontFamily="@font/mont_semi_bold"
+        android:drawableLeft="@drawable/icons8_google1"/>
 
     <TextView
         android:id="@+id/about"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="By clicking on Login, you agree with \n vitalHub's Terms and Conditions of Use "
+        android:text="@string/term"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:fontFamily="@font/mont_reg"
