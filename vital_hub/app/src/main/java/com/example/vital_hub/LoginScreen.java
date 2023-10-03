@@ -15,9 +15,11 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
@@ -42,6 +44,11 @@ public class LoginScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
         loginBtn = findViewById(R.id.btnLogin);
+        TextView term = findViewById(R.id.about);
+
+        term.setMovementMethod(LinkMovementMethod.getInstance());
+
+        term.setLinkTextColor(Color.GREEN);
 
         SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
         String email = prefs.getString("email", null);
