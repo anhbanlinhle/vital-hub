@@ -1,17 +1,12 @@
 package com.main.server.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.main.server.middleware.CamelCaseMiddleware;
 import com.main.server.request.CheckObjRequest;
-import com.nimbusds.jose.shaded.gson.JsonObject;
 import net.minidev.json.JSONObject;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/health")
@@ -48,5 +43,58 @@ public class HealthCheckController {
         }
 
     };
+
+    @GetMapping("/get-single")
+    public JSONObject getSingle() {
+        JSONObject data = new JSONObject();
+        data.put("param1", "rangnoduoc");
+        data.put("param2", 20);
+        data.put("param3", true);
+
+
+        return data;
+    };
+
+    @GetMapping("/get-many")
+    public JSONObject[] getMany() {
+        JSONObject data = new JSONObject();
+        data.put("param1", "rangnoduoc");
+        data.put("param2", 37);
+        data.put("param3", true);
+
+        JSONObject data2 = new JSONObject();
+        data2.put("param1", "saochaduoc");
+        data2.put("param2", 29);
+        data2.put("param3", true);
+
+        JSONObject[] result = new JSONObject[2];
+
+        result[0] = data;
+        result[1] = data2;
+
+        return result;
+    };
+
+    @PostMapping("/post-single")
+    public JSONObject postSingle(@RequestBody JSONObject request) {
+        return request;
+    };
+
+    @PostMapping("/post-many")
+    public JSONObject[] postMany(@RequestBody JSONObject[] request) {
+        return request;
+    };
+
+    @PutMapping("/put-single")
+    public JSONObject putSingle(@RequestBody JSONObject request) {
+        return request;
+    };
+
+    @PutMapping("/put-many")
+    public JSONObject[] putMany(@RequestBody JSONObject[] request) {
+        return request;
+    };
+
+
 
 }
