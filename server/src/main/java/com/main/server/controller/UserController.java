@@ -1,5 +1,6 @@
 package com.main.server.controller;
 
+import com.main.server.entity.User;
 import com.main.server.middleware.CamelCaseMiddleware;
 import com.main.server.request.CheckObjRequest;
 import org.springframework.http.ResponseEntity;
@@ -12,17 +13,11 @@ import org.springframework.web.client.RestTemplate;
 public class UserController {
 
     @GetMapping("/test")
-    public ResponseEntity<?> test(@RequestParam(name = "token") String token) {
-        RestTemplate restTemplate = new RestTemplate();
-        String uri = "https://oauth2.googleapis.com/tokeninfo?id_token=" + token;
-        Object object = null;
-        try {
-            object = restTemplate.getForObject(uri, Object.class);
-        } catch (HttpClientErrorException exception) {
-            exception.printStackTrace();
-            return ResponseEntity.badRequest().body("Invalid token");
-        }
+    public ResponseEntity<?> test() {
+        User user = new User();
+        user.setId(1L);
+        user.setName("tuan");
 
-        return ResponseEntity.ok().body(object);
+        return ResponseEntity.ok().body(user);
     }
 }
