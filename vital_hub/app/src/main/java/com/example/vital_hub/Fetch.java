@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.vital_hub.client.ResponseObject;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
@@ -16,14 +19,34 @@ import retrofit2.Response;
 
 public class Fetch extends AppCompatActivity {
     TextView result;
+    Button getSingle;
+    Button getMultiple;
+    Button post;
+    Button put;
+    Button header;
+    EditText title;
+    EditText content;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fetch);
 
         result = findViewById(R.id.result);
+        getSingle = findViewById(R.id.getSingle);
+        getMultiple = findViewById(R.id.getMultiple);
+        post = findViewById(R.id.post);
+        put = findViewById(R.id.put);
+        header = findViewById(R.id.header);
+        title = findViewById(R.id.title);
+        content = findViewById(R.id.content);
 
-        fetchMultipleGet();
+        getMultiple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fetchMultipleGet();
+            }
+        });
+
     }
 
     private void fetchMultipleGet() {
@@ -41,7 +64,7 @@ public class Fetch extends AppCompatActivity {
                     String content = "";
                     content += object.getParam1() +"\n"
                             + object.getParam2() + "\n"
-                            + object.getParam3()+ "\n\n";
+                            + object.getParam3() + "\n\n";
                     result.append(content);
                 }
             }
