@@ -7,17 +7,119 @@
     android:padding="8dp"
     tools:context=".Fetch">
 
-    <TextView
-        android:id="@+id/result"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="20dp"
+
+    <EditText
+        android:id="@+id/title"
+        android:layout_width="340dp"
+        android:layout_height="48dp"
+        android:hint="title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0" />
+        app:layout_constraintVertical_bias="0.023" />
+
+    <EditText
+        android:id="@+id/content"
+        android:layout_width="340dp"
+        android:layout_height="48dp"
+        android:hint="content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.115" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.325">
+
+        <Button
+            android:id="@+id/getSingle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:background="@drawable/gradient_background"
+            android:fontFamily="@font/mont_semi_bold"
+            android:text="GET SINGLE"
+            android:textSize="20dp"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/getMultiple"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:background="@drawable/gradient_background"
+            android:fontFamily="@font/mont_semi_bold"
+            android:text="GET MULTIPLE"
+            android:textSize="20dp"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/post"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:background="@drawable/gradient_background"
+            android:fontFamily="@font/mont_semi_bold"
+            android:text="POST"
+            android:textSize="20dp"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/put"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:background="@drawable/gradient_background"
+            android:fontFamily="@font/mont_semi_bold"
+            android:text="PUT"
+            android:textSize="20dp"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/header"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:background="@drawable/gradient_background"
+            android:fontFamily="@font/mont_semi_bold"
+            android:text="HEADER"
+            android:textSize="20dp"
+            app:backgroundTint="@null" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.091">
+
+        <TextView
+            android:id="@+id/result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+    </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
