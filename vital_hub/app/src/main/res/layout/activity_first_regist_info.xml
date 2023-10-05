@@ -7,7 +7,7 @@
 >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".authentication.FirstRegistInfo"
         android:orientation="vertical"
         >
@@ -17,7 +17,7 @@
             android:layout_height="100dp"
             android:background="@drawable/rounded_br"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></ImageView>
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <LinearLayout
             android:id="@+id/linearLayout2"
@@ -65,13 +65,22 @@
                 android:id="@+id/edit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
                 android:background="@drawable/edit_text_rounded"
                 android:drawableStart="@drawable/baseline_person_24"
                 android:drawablePadding="10dp"
                 android:hint="Name"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="16dp" />
+                android:textSize="20dp"
+                android:paddingVertical="20dp" />
+
+            <TextView
+                android:id="@+id/name_warning"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:textColor="#e05252"
+                android:paddingHorizontal="10dp"
+                android:textStyle="bold"
+            />
 
             <EditText
                 android:id="@+id/edit_phone"
@@ -83,33 +92,18 @@
                 android:hint="Phone"
                 android:inputType="phone"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="16dp" />
+                android:textSize="20dp"
+                android:paddingVertical="20dp" />
 
-<!--            <EditText-->
-<!--                android:id="@+id/edit_sex"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:background="@drawable/edit_text_rounded"-->
-<!--                android:drawableStart="@drawable/baseline_diversity_3_24"-->
-<!--                android:drawablePadding="10dp"-->
-<!--                android:hint="Sex"-->
-<!--                android:inputType="phone"-->
-<!--                android:paddingHorizontal="20dp"-->
-<!--                android:paddingVertical="16dp"-->
-<!--                android:layout_marginBottom="20dp"-->
-<!--                android:layout_marginTop="20dp" />-->
-<!--            <Spinner-->
-<!--                android:id="@+id/spinner"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:background="@drawable/edit_text_rounded"-->
-<!--                android:drawableStart="@drawable/baseline_phone_24"-->
-<!--                android:drawablePadding="10dp"-->
-<!--                android:inputType="phone"-->
-<!--                android:paddingHorizontal="20dp"-->
-<!--                android:paddingVertical="16dp"-->
-<!--                android:layout_marginBottom="20dp"-->
-<!--                android:layout_marginTop="20dp" />-->
+            <TextView
+                android:id="@+id/phone_warning"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:textColor="#e05252"
+                android:paddingHorizontal="10dp"
+                android:textStyle="bold"
+            />
+
             <AutoCompleteTextView
                 android:id="@+id/edit_sex"
                 android:layout_width="match_parent"
@@ -118,12 +112,19 @@
                 android:drawableStart="@drawable/baseline_diversity_3_24"
                 android:drawablePadding="10dp"
                 android:hint="Sex"
-                android:inputType="phone"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="16dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
+                android:textSize="20dp"
+                android:paddingVertical="20dp"
                 android:completionThreshold="0"
+            />
+
+            <TextView
+                android:id="@+id/sex_warning"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:textColor="#e05252"
+                android:paddingHorizontal="10dp"
+                android:textStyle="bold"
             />
 
             <EditText
@@ -135,7 +136,8 @@
                 android:drawablePadding="10dp"
                 android:hint="Height"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="16dp"
+                android:textSize="20dp"
+                android:paddingVertical="20dp"
                 android:layout_marginBottom="20dp"
             />
 
@@ -148,7 +150,8 @@
                 android:drawablePadding="10dp"
                 android:hint="Weight"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="16dp"
+                android:textSize="20dp"
+                android:paddingVertical="20dp"
                 android:layout_marginBottom="20dp" />
 
             <EditText
@@ -160,7 +163,8 @@
                 android:drawablePadding="10dp"
                 android:hint="Exercise days per week"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="16dp"
+                android:textSize="20dp"
+                android:paddingVertical="20dp"
                 android:inputType="numberSigned"
                 android:layout_marginBottom="20dp"
             />
@@ -174,23 +178,35 @@
                 android:drawablePadding="10dp"
                 android:hint="Brief description..."
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="16dp"
+                android:textSize="20dp"
+                android:paddingVertical="20dp"
                 android:inputType="textMultiLine"
                 />
 
             <Button
+                android:id="@+id/btn_submit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="36dp"
-                android:background="@drawable/gradient_background"
-                android:paddingHorizontal="28dp"
-                android:paddingVertical="8dp"
+                android:background="@drawable/ripple_btn_gradient_rounded"
+                android:paddingHorizontal="36dp"
+                android:paddingVertical="12dp"
                 android:text="SUBMIT"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 app:backgroundTint="@null" />
 
+            <TextView
+                android:id="@+id/warning_inadequate_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#e05252"
+                android:paddingHorizontal="10dp"
+                android:textStyle="bold"
+                android:layout_marginBottom="28dp"
+                android:layout_marginTop="8dp"
+            />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
