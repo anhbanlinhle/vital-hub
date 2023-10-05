@@ -53,6 +53,13 @@ public class Fetch extends AppCompatActivity {
                 fetchMultipleGet();
             }
         });
+
+        post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fetchPost();
+            }
+        });
     }
 
     private void fetchSingleGet() {
@@ -103,5 +110,9 @@ public class Fetch extends AppCompatActivity {
                 result.setText(t.getMessage());
             }
         });
+    }
+
+    private void fetchPost() {
+
     }
 }

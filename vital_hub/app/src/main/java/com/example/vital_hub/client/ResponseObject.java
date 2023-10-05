@@ -1,13 +1,20 @@
 package com.example.vital_hub.client;
 
+import android.content.Intent;
+
 import com.google.gson.annotations.SerializedName;
 
 public class ResponseObject {
     private String param1;
-    private int param2;
-    private boolean param3;
+    private Integer param2;
+    private Boolean param3;
     @SerializedName("body")
     private String text;
+    public ResponseObject(String param1, Integer param2, Boolean param3) {
+        this.param1 = param1;
+        this.param2 = param2;
+        this.param3 = param3;
+    }
 
     public String getParam1() {
         return param1;
