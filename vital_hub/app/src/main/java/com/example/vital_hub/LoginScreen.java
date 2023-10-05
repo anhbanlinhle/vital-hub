@@ -96,6 +96,7 @@ public class LoginScreen extends AppCompatActivity {
                         try {
                             SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(result.getData());
                             String idToken = credential.getGoogleIdToken();
+                            Log.i("token", idToken);
                             if (idToken !=  null) {
                                 String email = credential.getId();
                                 String name = credential.getDisplayName();
