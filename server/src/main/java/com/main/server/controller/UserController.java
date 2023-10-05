@@ -113,4 +113,9 @@ public class UserController {
                     .build());
         }
     }
+
+    @GetMapping("/test-header")
+    public ResponseEntity<?> getHeader(@RequestHeader("Authorization") String authorization) {
+        return ResponseEntity.ok().body(authorization == null ? "ko lay' dc" : authorization);
+    }
 }
