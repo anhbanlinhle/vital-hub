@@ -56,7 +56,7 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchSingleGet() {
-        Api.getSingle.enqueue(new Callback<ResponseObject>() {
+        Api.getSingle.clone().enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
@@ -80,7 +80,7 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchMultipleGet() {
-        Api.getMultiple.enqueue(new Callback<List<ResponseObject>>() {
+        Api.getMultiple.clone().enqueue(new Callback<List<ResponseObject>>() {
             @Override
             public void onResponse(Call<List<ResponseObject>> call, Response<List<ResponseObject>> response) {
                 if (!response.isSuccessful()) {
