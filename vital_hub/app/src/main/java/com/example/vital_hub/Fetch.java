@@ -1,9 +1,13 @@
 package com.example.vital_hub;
 
+import static com.example.vital_hub.client.Api.initPost;
+import static com.example.vital_hub.client.Api.postRequest;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.vital_hub.client.Api;
+import com.example.vital_hub.client.Controller;
 import com.example.vital_hub.client.ResponseObject;
 
 import android.os.Bundle;
@@ -116,6 +120,30 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchPost() {
+        ResponseObject object = new ResponseObject(param1.getText().toString(), Integer.valueOf(param2.getText().toString()), param3.isChecked());
+        initPost(object);
 
+        postRequest.clone().enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if (!response.isSuccessful()) {
+                    result.setText("Code: " + response.code());
+                    return;
+                }
+
+                ResponseObject object = response.body();
+
+                String content = "";
+                    content += object.getParam1() +"\n"
+                            + object.getParam2() + "\n"
+                            + object.getParam3() + "\n\n";
+                result.setText(content);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                result.setText(t.getMessage());
+            }
+        });
     }
 }
