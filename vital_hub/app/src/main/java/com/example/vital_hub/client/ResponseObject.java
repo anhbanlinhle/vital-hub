@@ -6,8 +6,6 @@ public class ResponseObject {
     private String param1;
     private int param2;
     private boolean param3;
-    private int id;
-    private String gmail;
     @SerializedName("body")
     private String text;
 
@@ -19,7 +17,7 @@ public class ResponseObject {
         return param2;
     }
 
-    public boolean isParam3() {
+    public boolean getParam3() {
         return param3;
     }
 
@@ -27,11 +25,4 @@ public class ResponseObject {
         return text;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getGmail() {
-        return gmail;
-    }
 }

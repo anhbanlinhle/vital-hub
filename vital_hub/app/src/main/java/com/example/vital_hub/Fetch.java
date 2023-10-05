@@ -35,8 +35,9 @@ public class Fetch extends AppCompatActivity {
 
                 for (ResponseObject object: objects) {
                     String content = "";
-                    content += object.getId() +"\n"
-                        + object.getGmail() + "\n\n";
+                    content += object.getParam1() +"\n"
+                        + object.getParam2() + "\n"
+                            + object.getParam3()+ "\n\n";
                     result.append(content);
                 }
             }
