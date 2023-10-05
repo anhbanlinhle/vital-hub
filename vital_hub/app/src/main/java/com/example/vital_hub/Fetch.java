@@ -1,8 +1,8 @@
 package com.example.vital_hub;
 
-import static com.example.vital_hub.client.Api.call;
-
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.vital_hub.client.Api;
 import com.example.vital_hub.client.ResponseObject;
 
 import android.os.Bundle;
@@ -40,17 +40,47 @@ public class Fetch extends AppCompatActivity {
         title = findViewById(R.id.title);
         content = findViewById(R.id.content);
 
+        getSingle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fetchSingleGet();
+            }
+        });
+
         getMultiple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fetchMultipleGet();
             }
         });
+    }
 
+    private void fetchSingleGet() {
+        Api.getSingle.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if (!response.isSuccessful()) {
+                    result.setText("Code: " + response.code());
+                    return;
+                }
+
+                ResponseObject object = response.body();
+
+                String content = "";
+                content += object.getParam1() +"\n"
+                        + object.getParam2() + "\n"
+                        + object.getParam3();
+                result.setText(content);
+            }
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                result.setText(t.getMessage());
+            }
+        });
     }
 
     private void fetchMultipleGet() {
-        call.enqueue(new Callback<List<ResponseObject>>() {
+        Api.getMultiple.enqueue(new Callback<List<ResponseObject>>() {
             @Override
             public void onResponse(Call<List<ResponseObject>> call, Response<List<ResponseObject>> response) {
                 if (!response.isSuccessful()) {
@@ -60,13 +90,13 @@ public class Fetch extends AppCompatActivity {
 
                 List<ResponseObject> objects = response.body();
 
+                String content = "";
                 for (ResponseObject object: objects) {
-                    String content = "";
                     content += object.getParam1() +"\n"
                             + object.getParam2() + "\n"
                             + object.getParam3() + "\n\n";
-                    result.append(content);
                 }
+                result.setText(content);
             }
             @Override
             public void onFailure(Call<List<ResponseObject>> call, Throwable t) {

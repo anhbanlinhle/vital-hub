@@ -8,6 +8,9 @@ import retrofit2.http.GET;
 public interface Controller {
     // /health/crud-single
     // /health/crud-many
+    @GET("/health/get-single")
+    Call<ResponseObject> getResponseObject();
+
     @GET("/health/get-many")
-    Call<List<ResponseObject>> getResponseObject();
+    Call<List<ResponseObject>> getResponseObjects();
 }
