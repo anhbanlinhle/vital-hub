@@ -23,6 +23,10 @@ public class Fetch extends AppCompatActivity {
 
         result = findViewById(R.id.result);
 
+        fetchMultipleGet();
+    }
+
+    private void fetchMultipleGet() {
         call.enqueue(new Callback<List<ResponseObject>>() {
             @Override
             public void onResponse(Call<List<ResponseObject>> call, Response<List<ResponseObject>> response) {
@@ -36,7 +40,7 @@ public class Fetch extends AppCompatActivity {
                 for (ResponseObject object: objects) {
                     String content = "";
                     content += object.getParam1() +"\n"
-                        + object.getParam2() + "\n"
+                            + object.getParam2() + "\n"
                             + object.getParam3()+ "\n\n";
                     result.append(content);
                 }
