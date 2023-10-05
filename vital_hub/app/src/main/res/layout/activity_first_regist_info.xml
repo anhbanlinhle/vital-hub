@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".authentication.FirstRegistInfo"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/rounded_br"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/full_rounded_white"
+            android:padding="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/vital_hub_logo">
+
+            </ImageView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical"
+            android:paddingHorizontal="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:paddingVertical="20dp"
+                android:text="Something about yourself"
+                android:textColor="#282627"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                app:drawableEndCompat="@drawable/baseline_person_pin_24" />
+
+            <EditText
+                android:id="@+id/edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableStart="@drawable/baseline_person_24"
+                android:drawablePadding="10dp"
+                android:hint="Name"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="16dp" />
+
+            <EditText
+                android:id="@+id/edit_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableStart="@drawable/baseline_phone_24"
+                android:drawablePadding="10dp"
+                android:hint="Phone"
+                android:inputType="phone"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="16dp" />
+
+<!--            <EditText-->
+<!--                android:id="@+id/edit_sex"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@drawable/edit_text_rounded"-->
+<!--                android:drawableStart="@drawable/baseline_diversity_3_24"-->
+<!--                android:drawablePadding="10dp"-->
+<!--                android:hint="Sex"-->
+<!--                android:inputType="phone"-->
+<!--                android:paddingHorizontal="20dp"-->
+<!--                android:paddingVertical="16dp"-->
+<!--                android:layout_marginBottom="20dp"-->
+<!--                android:layout_marginTop="20dp" />-->
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableStart="@drawable/baseline_phone_24"
+                android:drawablePadding="10dp"
+                android:inputType="phone"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="16dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp" />
+
+            <EditText
+                android:id="@+id/edit_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableStart="@drawable/baseline_height_24"
+                android:drawablePadding="10dp"
+                android:hint="Height"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="16dp"
+                android:layout_marginBottom="20dp"
+            />
+
+            <EditText
+                android:id="@+id/edit_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableStart="@drawable/baseline_man_4_24"
+                android:drawablePadding="10dp"
+                android:hint="Weight"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="16dp"
+                android:layout_marginBottom="20dp" />
+
+            <EditText
+                android:id="@+id/edit_exercise_day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableStart="@drawable/baseline_calendar_today_24"
+                android:drawablePadding="10dp"
+                android:hint="Exercise days per week"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="16dp"
+                android:inputType="numberSigned"
+                android:layout_marginBottom="20dp"
+            />
+
+            <EditText
+                android:id="@+id/edit_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableStart="@drawable/baseline_info_24"
+                android:drawablePadding="10dp"
+                android:hint="Brief description..."
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="16dp"
+                android:inputType="textMultiLine"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="36dp"
+                android:background="@drawable/gradient_background"
+                android:paddingHorizontal="28dp"
+                android:paddingVertical="8dp"
+                android:text="SUBMIT"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

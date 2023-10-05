@@ -313,10 +313,25 @@
                   <entry key="vectorAssetStep">
                     <value>
                       <PersistentState>
+                        <option name="children">
+                          <map>
+                            <entry key="clipartAsset">
+                              <value>
+                                <PersistentState>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/diversity_3/baseline_diversity_3_24.xml" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="icons8_google1" />
+                            <entry key="color" value="1db964" />
+                            <entry key="outputName" value="baseline_diversity_3_24" />
                             <entry key="sourceFile" value="C:\Users\Lenovo\Desktop\icons8-google1.svg" />
                           </map>
                         </option>
