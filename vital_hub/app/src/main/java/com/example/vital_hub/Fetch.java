@@ -1,6 +1,7 @@
 package com.example.vital_hub;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.vital_hub.client.Api;
 import com.example.vital_hub.client.ResponseObject;
@@ -24,8 +25,9 @@ public class Fetch extends AppCompatActivity {
     Button post;
     Button put;
     Button header;
-    EditText title;
-    EditText content;
+    EditText param1;
+    EditText param2;
+    SwitchCompat param3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +39,9 @@ public class Fetch extends AppCompatActivity {
         post = findViewById(R.id.post);
         put = findViewById(R.id.put);
         header = findViewById(R.id.header);
-        title = findViewById(R.id.title);
-        content = findViewById(R.id.content);
+        param1 = findViewById(R.id.param1);
+        param2 = findViewById(R.id.param2);
+        param3 = findViewById(R.id.param3);
 
         getSingle.setOnClickListener(new View.OnClickListener() {
             @Override
