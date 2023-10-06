@@ -1,5 +1,6 @@
 package com.main.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.main.server.utils.enums.Sex;
 import jakarta.persistence.*;
@@ -47,4 +48,8 @@ public class User implements Serializable {
     @ToString.Exclude
     @JsonManagedReference
     private UserDetail userDetail;
+
+    @Transient
+    @JsonIgnore
+    private String role = "ROLE_USER";
 }

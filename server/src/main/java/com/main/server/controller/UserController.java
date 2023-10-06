@@ -27,13 +27,9 @@ public class UserController {
     @GetMapping("/test/single-user")
     public ResponseEntity<?> test1() {
         User user = new User();
-        user.setId(100L);
-        user.setUserDetail(null);
-        user.setSex(Sex.MALE);
-        user.setName("tuan dep trai");
-        user.setAvatar("111111111111");
-        user.setPhoneNo("0192401124");
-        user.setGmail("tuan@123");
+        user.setId(1L);
+        user.setName("tuan");
+
         return ResponseEntity.ok().body(user);
     }
 
