@@ -44,11 +44,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
-                                .requestMatchers("/user/**").authenticated()
-                )
-                .authorizeHttpRequests(authorizeHttpRequests ->
-                        authorizeHttpRequests
-                                .requestMatchers("/health/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers("/user/**", "/health/**").authenticated()
                 )
                 .sessionManagement(sessionManagement ->
                         sessionManagement

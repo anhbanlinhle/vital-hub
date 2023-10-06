@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 @Data
 @Builder
@@ -38,6 +39,9 @@ public class User implements Serializable {
 
     @Column(name = "avatar")
     private String avatar;
+
+    @Column(name = "dob")
+    private Date dob;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
