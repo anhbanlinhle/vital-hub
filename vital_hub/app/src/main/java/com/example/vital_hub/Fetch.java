@@ -13,6 +13,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import com.example.vital_hub.client.controller.Api;
 import com.example.vital_hub.client.objects.ResponseObject;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -39,6 +40,7 @@ public class Fetch extends AppCompatActivity {
     EditText param1;
     EditText param2;
     SwitchCompat param3;
+    String jwt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +60,10 @@ public class Fetch extends AppCompatActivity {
         param2.addTextChangedListener(requestTextWatcher);
         post.setEnabled(false);
         put.setEnabled(false);
+
+        SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        jwt = prefs.getString("jwt", null);
+
 
         getSingle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,7 +215,7 @@ public class Fetch extends AppCompatActivity {
 
     private void fetchHeader() {
         Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", "header ok");
+        headers.put("Authorization", "Bearer " + jwt);
         initGetHeader(headers);
         getHeader.clone().enqueue(new Callback<ResponseObject>() {
             @Override
