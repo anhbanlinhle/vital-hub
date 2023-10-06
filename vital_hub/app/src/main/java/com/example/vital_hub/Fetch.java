@@ -3,7 +3,9 @@ package com.example.vital_hub;
 import static com.example.vital_hub.client.Api.getHeader;
 import static com.example.vital_hub.client.Api.initGetHeader;
 import static com.example.vital_hub.client.Api.initPost;
+import static com.example.vital_hub.client.Api.initPut;
 import static com.example.vital_hub.client.Api.postRequest;
+import static com.example.vital_hub.client.Api.putRequest;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -57,6 +59,7 @@ public class Fetch extends AppCompatActivity {
         param1.addTextChangedListener(requestTextWatcher);
         param2.addTextChangedListener(requestTextWatcher);
         post.setEnabled(false);
+        put.setEnabled(false);
 
         getSingle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +148,10 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchPost() {
-        ResponseObject object = new ResponseObject(param1.getText().toString(), Integer.parseInt(param2.getText().toString()), param3.isChecked());
+        ResponseObject object = new ResponseObject(
+                param1.getText().toString(),
+                Integer.parseInt(param2.getText().toString()),
+                param3.isChecked());
         initPost(object);
 
         postRequest.clone().enqueue(new Callback<ResponseObject>() {
@@ -173,7 +179,34 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchPut() {
+        ResponseObject object = new ResponseObject(
+                param1.getText().toString(),
+                Integer.parseInt(param2.getText().toString()),
+                param3.isChecked());
+        initPut(object);
 
+        putRequest.clone().enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if (!response.isSuccessful()) {
+                    result.setText("Code: " + response.code());
+                    return;
+                }
+
+                ResponseObject object = response.body();
+
+                String content = "";
+                content += object.getParam1() +"\n"
+                        + object.getParam2() + "\n"
+                        + object.getParam3() + "\n\n";
+                result.setText(content);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                result.setText(t.getMessage());
+            }
+        });
     }
 
     private void fetchHeader() {
@@ -211,6 +244,7 @@ public class Fetch extends AppCompatActivity {
             String input2 = param2.getText().toString().trim();
 
             post.setEnabled(!input1.isEmpty() && !input2.isEmpty());
+            put.setEnabled(!input1.isEmpty() && !input2.isEmpty());
         }
 
         @Override
@@ -219,6 +253,7 @@ public class Fetch extends AppCompatActivity {
             String input2 = param2.getText().toString().trim();
 
             post.setEnabled(!input1.isEmpty() && !input2.isEmpty());
+            put.setEnabled(!input1.isEmpty() && !input2.isEmpty());
         }
     };
 }

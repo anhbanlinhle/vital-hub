@@ -22,10 +22,15 @@ public class Api {
     public static Call<ResponseObject> getSingle = controller.getResponseObject();
     public static Call<List<ResponseObject>> getMultiple = controller.getResponseObjects();
     public static Call<ResponseObject> postRequest;
+    public static Call<ResponseObject> putRequest;
     public static Call<ResponseObject> getHeader;
 
     public static void initPost(ResponseObject object) {
         postRequest = controller.postResponseObject(object);
+    }
+
+    public static void initPut(ResponseObject object) {
+        putRequest = controller.putResponseObject(object);
     }
 
     public static void initGetHeader(Map<String, String> headers) {
