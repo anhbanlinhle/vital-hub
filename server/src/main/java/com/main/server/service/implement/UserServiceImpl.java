@@ -19,8 +19,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(UserInfoRequest userInfoRequest) {
+        
+        User checkUser = userRepository.findByGmail(userInfoRequest.getGmail()).orElse(null);
 
-        if (userRepository.findByGmail(userInfoRequest.getGmail()) != null) {
+        if (checkUser != null) {
             throw new RuntimeException("User already exists");
         }
 
