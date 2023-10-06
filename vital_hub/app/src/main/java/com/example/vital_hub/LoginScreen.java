@@ -109,13 +109,7 @@ public class LoginScreen extends AppCompatActivity {
                             String idToken = credential.getGoogleIdToken();
                             Log.i("token", idToken);
                             if (idToken !=  null) {
-                                String email = credential.getId();
-                                String name = credential.getDisplayName();
-
-                                SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
-                                editor.putString("email", email);
-                                editor.putString("name", name);
-                                editor.commit();
+                                sendTokenToServer(credential);
 
                                 Intent intent = new Intent(LoginScreen.this, MainActivity.class);
                                 intent.putExtra("email", credential.getId());
@@ -147,5 +141,38 @@ public class LoginScreen extends AppCompatActivity {
                         Log.d(TAG, e.getLocalizedMessage());
                     }
                 });
+    }
+
+    protected void sendTokenToServer(SignInCredential credential) {
+        String accessToken = credential.getGoogleIdToken();
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + accessToken);
+
+        initJwt(headers);
+        getJwt.enqueue(new Callback<AuthResponseObject>() {
+            @Override
+            public void onResponse(Call<AuthResponseObject> call, Response<AuthResponseObject> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(LoginScreen.this, "Failed to login. Code: " + response.code(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                AuthResponseObject object = response.body();
+                String jsonWebToken = object.getToken();
+                String email = credential.getId();
+                String name = credential.getDisplayName();
+
+                SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+                editor.putString("jwt", jsonWebToken);
+                editor.putString("email", email);
+                editor.putString("name", name);
+                editor.commit();
+            }
+
+            @Override
+            public void onFailure(Call<AuthResponseObject> call, Throwable t) {
+                Log.e("LoginError", t.getMessage());
+            }
+        });
+
     }
 }
