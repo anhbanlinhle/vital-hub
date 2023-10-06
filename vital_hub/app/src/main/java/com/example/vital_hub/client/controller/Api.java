@@ -1,5 +1,6 @@
-package com.example.vital_hub.client;
+package com.example.vital_hub.client.controller;
 
+import com.example.vital_hub.client.objects.ResponseObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

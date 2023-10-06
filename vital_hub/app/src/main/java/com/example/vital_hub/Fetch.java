@@ -1,23 +1,21 @@
 package com.example.vital_hub;
 
-import static com.example.vital_hub.client.Api.getHeader;
-import static com.example.vital_hub.client.Api.initGetHeader;
-import static com.example.vital_hub.client.Api.initPost;
-import static com.example.vital_hub.client.Api.initPut;
-import static com.example.vital_hub.client.Api.postRequest;
-import static com.example.vital_hub.client.Api.putRequest;
+import static com.example.vital_hub.client.controller.Api.getHeader;
+import static com.example.vital_hub.client.controller.Api.initGetHeader;
+import static com.example.vital_hub.client.controller.Api.initPost;
+import static com.example.vital_hub.client.controller.Api.initPut;
+import static com.example.vital_hub.client.controller.Api.postRequest;
+import static com.example.vital_hub.client.controller.Api.putRequest;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.example.vital_hub.client.Api;
-import com.example.vital_hub.client.Controller;
-import com.example.vital_hub.client.ResponseObject;
+import com.example.vital_hub.client.controller.Api;
+import com.example.vital_hub.client.objects.ResponseObject;
 
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;

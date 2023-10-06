@@ -1,4 +1,4 @@
-package com.example.vital_hub.client;
+package com.example.vital_hub.client.objects;
 
 import android.content.Intent;
 
