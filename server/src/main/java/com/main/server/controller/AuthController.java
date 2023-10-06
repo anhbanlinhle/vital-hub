@@ -1,40 +1,23 @@
 package com.main.server.controller;
 
-import com.main.server.security.JwtService;
-import com.main.server.security.TokenResponse;
-import com.main.server.utils.dto.OauthResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
+import com.main.server.service.AuthService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
-
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
+@AllArgsConstructor
 public class AuthController {
 
-    @Autowired
-    JwtService jwtService;
+    final AuthService authService;
 
     @GetMapping("/sign-in")
-    public ResponseEntity<?> test(@RequestParam(name = "token") String token) {
-        RestTemplate restTemplate = new RestTemplate();
-        String uri = "https://oauth2.googleapis.com/tokeninfo?id_token=" + token;
-        OauthResponse object = null;
-        try {
-            object = restTemplate.getForObject(uri, OauthResponse.class);
-            if (object == null) {
-                throw new HttpClientErrorException(HttpStatusCode.valueOf(400));
-            }
-        } catch (HttpClientErrorException exception) {
-            exception.printStackTrace();
-            return ResponseEntity.badRequest().body("Invalid token");
+    public ResponseEntity<?> test(@RequestHeader("Authorization") String token) {
+        if (token == null) {
+            throw new AccessDeniedException("No auth");
         }
-
-        return ResponseEntity.ok().body(new TokenResponse(jwtService.generateToken(object.getEmail())));
+        token = token.substring(7);
+        return authService.signInResponse(token);
     }
 }
