@@ -1,5 +1,6 @@
 package com.example.vital_hub.client.controller;
 
+import com.example.vital_hub.client.objects.AuthResponseObject;
 import com.example.vital_hub.client.objects.ResponseObject;
 
 import java.util.List;
@@ -29,4 +30,7 @@ public interface Controller {
 
     @GET("/user/test-header")
     Call<ResponseObject> getHeader(@HeaderMap Map<String, String> headers);
+
+    @GET("/auth/sign-in")
+    Call<AuthResponseObject>  sendAccessToken(@HeaderMap Map<String, String> headers);
 }

@@ -1,5 +1,8 @@
 package com.example.vital_hub;
 
+import static com.example.vital_hub.client.controller.Api.getJwt;
+import static com.example.vital_hub.client.controller.Api.initJwt;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -22,6 +25,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vital_hub.client.objects.AuthResponseObject;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.BeginSignInResult;
 import com.google.android.gms.auth.api.identity.Identity;
@@ -30,6 +34,13 @@ import com.google.android.gms.auth.api.identity.SignInCredential;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginScreen extends AppCompatActivity {
     protected static SignInClient oneTapClient;
@@ -107,8 +118,8 @@ public class LoginScreen extends AppCompatActivity {
                                 editor.commit();
 
                                 Intent intent = new Intent(LoginScreen.this, MainActivity.class);
-                                intent.putExtra("email", email);
-                                intent.putExtra("name", name);
+                                intent.putExtra("email", credential.getId());
+                                intent.putExtra("name", credential.getDisplayName());
                                 startActivity(intent);
                             }
                         } catch (ApiException e) {
