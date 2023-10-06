@@ -13,6 +13,8 @@ import com.example.vital_hub.client.Controller;
 import com.example.vital_hub.client.ResponseObject;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -51,6 +53,10 @@ public class Fetch extends AppCompatActivity {
         param1 = findViewById(R.id.param1);
         param2 = findViewById(R.id.param2);
         param3 = findViewById(R.id.param3);
+
+        param1.addTextChangedListener(requestTextWatcher);
+        param2.addTextChangedListener(requestTextWatcher);
+        post.setEnabled(false);
 
         getSingle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,7 +145,7 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchPost() {
-        ResponseObject object = new ResponseObject(param1.getText().toString(), Integer.valueOf(param2.getText().toString()), param3.isChecked());
+        ResponseObject object = new ResponseObject(param1.getText().toString(), Integer.parseInt(param2.getText().toString()), param3.isChecked());
         initPost(object);
 
         postRequest.clone().enqueue(new Callback<ResponseObject>() {
@@ -192,4 +198,27 @@ public class Fetch extends AppCompatActivity {
             }
         });
     }
+
+    private TextWatcher requestTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String input1 = param1.getText().toString().trim();
+            String input2 = param2.getText().toString().trim();
+
+            post.setEnabled(!input1.isEmpty() && !input2.isEmpty());
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            String input1 = param1.getText().toString().trim();
+            String input2 = param2.getText().toString().trim();
+
+            post.setEnabled(!input1.isEmpty() && !input2.isEmpty());
+        }
+    };
 }
