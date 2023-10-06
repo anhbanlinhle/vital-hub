@@ -115,7 +115,9 @@ public class UserController {
     }
 
     @GetMapping("/test-header")
-    public ResponseEntity<?> getHeader(@RequestHeader("Authorization") String authorization) {
-        return ResponseEntity.ok().body(authorization == null ? "ko lay' dc" : authorization);
+    public ResponseEntity<?> getHeader(@RequestHeader("Authorization") Object authorization) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("data", authorization == null ? "fail" : authorization);
+        return ResponseEntity.ok().body(jsonObject);
     }
 }
