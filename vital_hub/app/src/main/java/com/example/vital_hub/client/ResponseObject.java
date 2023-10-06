@@ -8,6 +8,7 @@ public class ResponseObject {
     private String param1;
     private Integer param2;
     private Boolean param3;
+    private String data;
     @SerializedName("body")
     private String text;
     public ResponseObject(String param1, Integer param2, Boolean param3) {
@@ -26,6 +27,9 @@ public class ResponseObject {
 
     public boolean getParam3() {
         return param3;
+    }
+    public String getData() {
+        return data;
     }
 
     public String getText() {

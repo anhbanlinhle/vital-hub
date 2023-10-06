@@ -1,5 +1,7 @@
 package com.example.vital_hub;
 
+import static com.example.vital_hub.client.Api.getHeader;
+import static com.example.vital_hub.client.Api.initGetHeader;
 import static com.example.vital_hub.client.Api.initPost;
 import static com.example.vital_hub.client.Api.postRequest;
 
@@ -11,12 +13,15 @@ import com.example.vital_hub.client.Controller;
 import com.example.vital_hub.client.ResponseObject;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,6 +70,20 @@ public class Fetch extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 fetchPost();
+            }
+        });
+
+        put.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fetchPut();
+            }
+        });
+
+        header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fetchHeader();
             }
         });
     }
@@ -138,6 +157,33 @@ public class Fetch extends AppCompatActivity {
                             + object.getParam2() + "\n"
                             + object.getParam3() + "\n\n";
                 result.setText(content);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                result.setText(t.getMessage());
+            }
+        });
+    }
+
+    private void fetchPut() {
+
+    }
+
+    private void fetchHeader() {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "header ok");
+        initGetHeader(headers);
+        getHeader.clone().enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if (!response.isSuccessful()) {
+                    result.setText("Code: " + response.code());
+                    return;
+                }
+                ResponseObject object = response.body();
+
+                result.setText(object.getData());
             }
 
             @Override

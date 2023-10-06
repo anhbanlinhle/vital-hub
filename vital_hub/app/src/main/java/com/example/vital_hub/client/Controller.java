@@ -1,10 +1,12 @@
 package com.example.vital_hub.client;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 
 public interface Controller {
@@ -18,4 +20,7 @@ public interface Controller {
 
     @POST("/health/post-single")
     Call<ResponseObject> postResponseObject(@Body ResponseObject object);
+
+    @GET("/user/test-header")
+    Call<ResponseObject> getHeader(@HeaderMap Map<String, String> headers);
 }
