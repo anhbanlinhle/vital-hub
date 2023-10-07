@@ -23,7 +23,7 @@ public interface Controller {
     Call<List<ResponseObject>> getResponseObjects(@HeaderMap Map<String, String> headers);
 
     @POST("/health/post-single")
-    Call<ResponseObject> postResponseObject(@Body ResponseObject object);
+    Call<ResponseObject> postResponseObject(@HeaderMap Map<String, String> headers, @Body ResponseObject object);
 
     @PUT("/health/put-single")
     Call<ResponseObject> putResponseObject(@Body ResponseObject object);

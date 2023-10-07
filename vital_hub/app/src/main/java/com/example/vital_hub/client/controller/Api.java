@@ -11,6 +11,8 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.HeaderMap;
+
 public class Api {
     static Gson gson = new GsonBuilder()
             .setLenient()
@@ -36,8 +38,8 @@ public class Api {
         getMultiple = controller.getResponseObjects(headers);
     }
 
-    public static void initPost(ResponseObject object) {
-        postRequest = controller.postResponseObject(object);
+    public static void initPost(@HeaderMap Map<String, String> headers, ResponseObject object) {
+        postRequest = controller.postResponseObject(headers, object);
     }
 
     public static void initPut(ResponseObject object) {
