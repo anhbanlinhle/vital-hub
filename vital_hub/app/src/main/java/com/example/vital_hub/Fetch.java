@@ -45,6 +45,7 @@ public class Fetch extends AppCompatActivity {
     SharedPreferences prefs;
     String jwt;
     Map<String, String> headers;
+    ResponseObject object;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +66,7 @@ public class Fetch extends AppCompatActivity {
         post.setEnabled(false);
         put.setEnabled(false);
 
-        initHeaderAndBodyForRequest();
+        initHeaderForRequest();
 
 
         getSingle.setOnClickListener(new View.OnClickListener() {
@@ -104,11 +105,18 @@ public class Fetch extends AppCompatActivity {
         });
     }
 
-    private void initHeaderAndBodyForRequest() {
+    private void initHeaderForRequest() {
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
         jwt = prefs.getString("jwt", null);
         headers = new HashMap<>();
         headers.put("Authorization", "Bearer " + jwt);
+    }
+
+    private void initBodyForRequest() {
+        object = new ResponseObject(
+                param1.getText().toString(),
+                Integer.parseInt(param2.getText().toString()),
+                param3.isChecked());
     }
 
     private void fetchSingleGet() {
@@ -164,10 +172,7 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchPost() {
-        ResponseObject object = new ResponseObject(
-                param1.getText().toString(),
-                Integer.parseInt(param2.getText().toString()),
-                param3.isChecked());
+        initBodyForRequest();
         initPost(headers, object);
 
         postRequest.clone().enqueue(new Callback<ResponseObject>() {
@@ -195,10 +200,7 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchPut() {
-        ResponseObject object = new ResponseObject(
-                param1.getText().toString(),
-                Integer.parseInt(param2.getText().toString()),
-                param3.isChecked());
+        initBodyForRequest();
         initPut(headers, object);
 
         putRequest.clone().enqueue(new Callback<ResponseObject>() {
