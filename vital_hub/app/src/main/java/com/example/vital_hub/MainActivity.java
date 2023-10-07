@@ -4,6 +4,7 @@ import static com.example.vital_hub.LoginScreen.oneTapClient;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowCompat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,8 +25,10 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     Button logoutBtn;
 
     BottomNavigationView bottomNavigationView;
+    Button fetch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         email = findViewById(R.id.email);
         displayName = findViewById(R.id.displayName);
         logoutBtn = findViewById(R.id.btnLogout);
+        fetch = findViewById(R.id.fetch);
 
         Intent intent = getIntent();
         email.setText(intent.getStringExtra("email"));
@@ -49,6 +53,13 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             @Override
             public void onClick(View view) {
                 openUserprofie();
+            }
+        });
+        fetch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, Fetch.class);
+                startActivity(intent);
             }
         });
         logoutBtn.setOnClickListener(new View.OnClickListener() {
