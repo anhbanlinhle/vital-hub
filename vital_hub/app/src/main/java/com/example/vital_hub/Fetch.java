@@ -42,7 +42,9 @@ public class Fetch extends AppCompatActivity {
     EditText param1;
     EditText param2;
     SwitchCompat param3;
+    SharedPreferences prefs;
     String jwt;
+    Map<String, String> headers;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +65,7 @@ public class Fetch extends AppCompatActivity {
         post.setEnabled(false);
         put.setEnabled(false);
 
-        SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
-        jwt = prefs.getString("jwt", null);
+        initHeaderAndBodyForRequest();
 
 
         getSingle.setOnClickListener(new View.OnClickListener() {
@@ -103,9 +104,14 @@ public class Fetch extends AppCompatActivity {
         });
     }
 
-    private void fetchSingleGet() {
-        Map<String, String> headers = new HashMap<>();
+    private void initHeaderAndBodyForRequest() {
+        prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        jwt = prefs.getString("jwt", null);
+        headers = new HashMap<>();
         headers.put("Authorization", "Bearer " + jwt);
+    }
+
+    private void fetchSingleGet() {
         initGetSingle(headers);
         Api.getSingle.clone().enqueue(new Callback<ResponseObject>() {
             @Override
@@ -131,8 +137,6 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchMultipleGet() {
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", "Bearer " + jwt);
         initGetMultiple(headers);
         Api.getMultiple.clone().enqueue(new Callback<List<ResponseObject>>() {
             @Override
@@ -160,8 +164,6 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchPost() {
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", "Bearer " + jwt);
         ResponseObject object = new ResponseObject(
                 param1.getText().toString(),
                 Integer.parseInt(param2.getText().toString()),
@@ -193,8 +195,6 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchPut() {
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", "Bearer " + jwt);
         ResponseObject object = new ResponseObject(
                 param1.getText().toString(),
                 Integer.parseInt(param2.getText().toString()),
@@ -226,8 +226,6 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchHeader() {
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", "Bearer " + jwt);
         initGetHeader(headers);
         getHeader.clone().enqueue(new Callback<ResponseObject>() {
             @Override
