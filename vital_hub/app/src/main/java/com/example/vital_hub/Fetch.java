@@ -2,6 +2,8 @@ package com.example.vital_hub;
 
 import static com.example.vital_hub.client.controller.Api.getHeader;
 import static com.example.vital_hub.client.controller.Api.initGetHeader;
+import static com.example.vital_hub.client.controller.Api.initGetMultiple;
+import static com.example.vital_hub.client.controller.Api.initGetSingle;
 import static com.example.vital_hub.client.controller.Api.initPost;
 import static com.example.vital_hub.client.controller.Api.initPut;
 import static com.example.vital_hub.client.controller.Api.postRequest;
@@ -102,6 +104,9 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchSingleGet() {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + jwt);
+        initGetSingle(headers);
         Api.getSingle.clone().enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -126,6 +131,9 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchMultipleGet() {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + jwt);
+        initGetMultiple(headers);
         Api.getMultiple.clone().enqueue(new Callback<List<ResponseObject>>() {
             @Override
             public void onResponse(Call<List<ResponseObject>> call, Response<List<ResponseObject>> response) {

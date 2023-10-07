@@ -17,10 +17,10 @@ public interface Controller {
     // /health/crud-single
     // /health/crud-many
     @GET("/health/get-single")
-    Call<ResponseObject> getResponseObject();
+    Call<ResponseObject> getResponseObject(@HeaderMap Map<String, String> headers);
 
     @GET("/health/get-many")
-    Call<List<ResponseObject>> getResponseObjects();
+    Call<List<ResponseObject>> getResponseObjects(@HeaderMap Map<String, String> headers);
 
     @POST("/health/post-single")
     Call<ResponseObject> postResponseObject(@Body ResponseObject object);
