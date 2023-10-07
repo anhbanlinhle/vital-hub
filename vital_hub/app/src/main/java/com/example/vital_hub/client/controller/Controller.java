@@ -26,7 +26,7 @@ public interface Controller {
     Call<ResponseObject> postResponseObject(@HeaderMap Map<String, String> headers, @Body ResponseObject object);
 
     @PUT("/health/put-single")
-    Call<ResponseObject> putResponseObject(@Body ResponseObject object);
+    Call<ResponseObject> putResponseObject(@HeaderMap Map<String, String> headers, @Body ResponseObject object);
 
     @GET("/user/test-header")
     Call<ResponseObject> getHeader(@HeaderMap Map<String, String> headers);

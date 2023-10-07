@@ -193,11 +193,13 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchPut() {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + jwt);
         ResponseObject object = new ResponseObject(
                 param1.getText().toString(),
                 Integer.parseInt(param2.getText().toString()),
                 param3.isChecked());
-        initPut(object);
+        initPut(headers, object);
 
         putRequest.clone().enqueue(new Callback<ResponseObject>() {
             @Override

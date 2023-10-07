@@ -42,8 +42,8 @@ public class Api {
         postRequest = controller.postResponseObject(headers, object);
     }
 
-    public static void initPut(ResponseObject object) {
-        putRequest = controller.putResponseObject(object);
+    public static void initPut(@HeaderMap Map<String, String> headers, ResponseObject object) {
+        putRequest = controller.putResponseObject(headers, object);
     }
 
     public static void initGetHeader(Map<String, String> headers) {
