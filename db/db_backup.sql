@@ -4,11 +4,12 @@ USE vital_hub;
 
 CREATE TABLE user (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    gmail VARCHAR(100),
+    gmail VARCHAR(100) UNIQUE,
     name VARCHAR(100),
     sex ENUM ('MALE', 'FEMALE'),
     phone_no VARCHAR(15),
-    avatar text
+    avatar text,
+    dob DATE
 );
 
 CREATE TABLE user_detail (
