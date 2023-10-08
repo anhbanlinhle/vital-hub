@@ -316,8 +316,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="icons8_google1" />
-                            <entry key="sourceFile" value="C:\Users\Lenovo\Desktop\icons8-google1.svg" />
+                            <entry key="outputName" value="search_icon" />
+                            <entry key="sourceFile" value="C:\Users\Lenovo\Desktop\search_icon.svg" />
                           </map>
                         </option>
                       </PersistentState>
