@@ -28,6 +28,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
 
     private EditText name;
     private EditText phone;
+    private EditText dob;
     private EditText height;
     private EditText weight;
     private EditText exerciseDays;
@@ -36,6 +37,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
     private TextView sexWarning;
     private TextView phoneWarning;
     private TextView nameWarning;
+    private TextView dobWarning;
 
     private TextView inadequateInfoWarning;
 
@@ -54,6 +56,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
     private void firstDeclaration() {
         name = (EditText) findViewById(R.id.edit_name);
         phone = (EditText) findViewById(R.id.edit_phone);
+        dob = (EditText) findViewById(R.id.edit_dob);
         editSex = (AutoCompleteTextView) findViewById(R.id.edit_sex);
         height = (EditText) findViewById(R.id.edit_height);
         weight = (EditText) findViewById(R.id.edit_weight);
@@ -63,6 +66,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
         sexWarning = (TextView) findViewById(R.id.sex_warning);
         phoneWarning = (TextView) findViewById(R.id.phone_warning);
         nameWarning = (TextView) findViewById(R.id.name_warning);
+        dobWarning = (TextView) findViewById(R.id.dob_warning);
         inadequateInfoWarning = (TextView) findViewById(R.id.warning_inadequate_info);
 
         requiredFieldsList = new ArrayList<>();
@@ -133,6 +137,22 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
                         phoneWarning.setText("Invalid phone number");
                     } else {
                         phoneWarning.setText(null);
+                        if (adequateInformation()) {
+                            inadequateInfoWarning.setText(null);
+                        }
+                    }
+                }
+            }
+        });
+
+        dob.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    if (StringUtil.isEmpty(dob.getText())) {
+                        dobWarning.setText("Invalid phone number");
+                    } else {
+                        dobWarning.setText(null);
                         if (adequateInformation()) {
                             inadequateInfoWarning.setText(null);
                         }

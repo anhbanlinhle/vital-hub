@@ -104,6 +104,28 @@
                 android:textStyle="bold"
             />
 
+            <EditText
+                android:id="@+id/edit_dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableStart="@drawable/baseline_cake_24"
+                android:drawablePadding="10dp"
+                android:hint="D.O.B"
+                android:inputType="date"
+                android:paddingHorizontal="20dp"
+                android:textSize="20dp"
+                android:paddingVertical="20dp" />
+
+            <TextView
+                android:id="@+id/dob_warning"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:textColor="#e05252"
+                android:paddingHorizontal="10dp"
+                android:textStyle="bold"
+                />
+
             <AutoCompleteTextView
                 android:id="@+id/edit_sex"
                 android:layout_width="match_parent"
