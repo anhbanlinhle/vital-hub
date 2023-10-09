@@ -37,6 +37,9 @@
             android:name=".HomePage"
             android:exported="true" />
         <activity android:name=".UserProfile" />
+        <activity
+            android:name=".authentication.FirstRegistInfo"
+            android:exported="true" />
     </application>
 
 </manifest>

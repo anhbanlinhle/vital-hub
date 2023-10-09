@@ -2,6 +2,8 @@ package com.example.vital_hub;
 
 import static com.example.vital_hub.client.controller.Api.getHeader;
 import static com.example.vital_hub.client.controller.Api.initGetHeader;
+import static com.example.vital_hub.client.controller.Api.initGetMultiple;
+import static com.example.vital_hub.client.controller.Api.initGetSingle;
 import static com.example.vital_hub.client.controller.Api.initPost;
 import static com.example.vital_hub.client.controller.Api.initPut;
 import static com.example.vital_hub.client.controller.Api.postRequest;
@@ -40,7 +42,10 @@ public class Fetch extends AppCompatActivity {
     EditText param1;
     EditText param2;
     SwitchCompat param3;
+    SharedPreferences prefs;
     String jwt;
+    Map<String, String> headers;
+    ResponseObject object;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,8 +66,7 @@ public class Fetch extends AppCompatActivity {
         post.setEnabled(false);
         put.setEnabled(false);
 
-        SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
-        jwt = prefs.getString("jwt", null);
+        initHeaderForRequest();
 
 
         getSingle.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +105,22 @@ public class Fetch extends AppCompatActivity {
         });
     }
 
+    private void initHeaderForRequest() {
+        prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        jwt = prefs.getString("jwt", null);
+        headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + jwt);
+    }
+
+    private void initBodyForRequest() {
+        object = new ResponseObject(
+                param1.getText().toString(),
+                Integer.parseInt(param2.getText().toString()),
+                param3.isChecked());
+    }
+
     private void fetchSingleGet() {
+        initGetSingle(headers);
         Api.getSingle.clone().enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -126,6 +145,7 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchMultipleGet() {
+        initGetMultiple(headers);
         Api.getMultiple.clone().enqueue(new Callback<List<ResponseObject>>() {
             @Override
             public void onResponse(Call<List<ResponseObject>> call, Response<List<ResponseObject>> response) {
@@ -152,11 +172,8 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchPost() {
-        ResponseObject object = new ResponseObject(
-                param1.getText().toString(),
-                Integer.parseInt(param2.getText().toString()),
-                param3.isChecked());
-        initPost(object);
+        initBodyForRequest();
+        initPost(headers, object);
 
         postRequest.clone().enqueue(new Callback<ResponseObject>() {
             @Override
@@ -183,11 +200,8 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchPut() {
-        ResponseObject object = new ResponseObject(
-                param1.getText().toString(),
-                Integer.parseInt(param2.getText().toString()),
-                param3.isChecked());
-        initPut(object);
+        initBodyForRequest();
+        initPut(headers, object);
 
         putRequest.clone().enqueue(new Callback<ResponseObject>() {
             @Override
@@ -214,8 +228,6 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void fetchHeader() {
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", "Bearer " + jwt);
         initGetHeader(headers);
         getHeader.clone().enqueue(new Callback<ResponseObject>() {
             @Override

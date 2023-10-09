@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vital_hub.authentication.FirstRegistInfo;
 import com.example.vital_hub.client.objects.AuthResponseObject;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.BeginSignInResult;
@@ -110,11 +111,6 @@ public class LoginScreen extends AppCompatActivity {
                             Log.i("token", idToken);
                             if (idToken !=  null) {
                                 sendTokenToServer(credential);
-
-                                Intent intent = new Intent(LoginScreen.this, MainActivity.class);
-                                intent.putExtra("email", credential.getId());
-                                intent.putExtra("name", credential.getDisplayName());
-                                startActivity(intent);
                             }
                         } catch (ApiException e) {
                             e.printStackTrace();
@@ -166,6 +162,18 @@ public class LoginScreen extends AppCompatActivity {
                 editor.putString("email", email);
                 editor.putString("name", name);
                 editor.commit();
+
+                Intent intent;
+                if (object.getFirstSign()) {
+                    intent = new Intent(LoginScreen.this, FirstRegistInfo.class);
+                    startActivity(intent);
+                }
+                else {
+                    intent = new Intent(LoginScreen.this, MainActivity.class);
+                    intent.putExtra("email", credential.getId());
+                    intent.putExtra("name", credential.getDisplayName());
+                    startActivity(intent);
+                }
             }
 
             @Override
