@@ -8,6 +8,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,9 @@ import java.util.ArrayList;
 public class HomePage extends AppCompatActivity {
     private RecyclerView hpRecycler;
     private ArrayList<HomePagePost> arrayList;
+    boolean isLoading = false;
+    RecyclerAdapter recyclerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,14 +30,41 @@ public class HomePage extends AppCompatActivity {
 
         hpRecycler = findViewById(R.id.home_page_recycler);
 
-        arrayList.add(new HomePagePost(R.drawable.ic_launcher_background, R.drawable.app_icon, "title", "message"));
-        arrayList.add(new HomePagePost(R.drawable.ic_launcher_background, R.drawable.app_icon, "title", "message"));
-        arrayList.add(new HomePagePost(R.drawable.ic_launcher_background, R.drawable.app_icon, "title", "message"));
-        arrayList.add(new HomePagePost(R.drawable.ic_launcher_background, R.drawable.app_icon, "title", "message"));
+        populateData(0);
 
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(arrayList);
+        recyclerAdapter = new RecyclerAdapter(arrayList);
 
         hpRecycler.setAdapter(recyclerAdapter);
         hpRecycler.setLayoutManager(new LinearLayoutManager(this));
+
+        hpRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) hpRecycler.getLayoutManager();
+                if (!isLoading) {
+                    isLoading = true;
+                    getMoreData();
+                }
+            }
+        });
+    }
+
+    private void getMoreData() {
+        arrayList.add(null);
+        recyclerAdapter.notifyItemInserted(arrayList.size() - 1);
+        // ADD DATA FROM DB
+        arrayList.remove(arrayList.size() - 1);
+        populateData(arrayList.size());
+        recyclerAdapter.notifyDataSetChanged();
+        isLoading = false;
+    }
+
+    private void populateData(int currentSize) {
+        currentSize++;
+        int nextSize = currentSize + 10;
+        for (; currentSize < nextSize; currentSize++) {
+            arrayList.add(new HomePagePost(R.drawable.ic_launcher_background, R.drawable.app_icon, "title", String.valueOf(currentSize)));
+        }
     }
 }

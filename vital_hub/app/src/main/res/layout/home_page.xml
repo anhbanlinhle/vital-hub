@@ -4,50 +4,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/color_green"
         android:orientation="horizontal"
-        android:padding="15dp"
-        android:background="@color/color_green">
+        android:padding="15dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:text="Home"
-            android:textSize="20sp"
-            android:fontFamily="@font/mont_black"
-            android:gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:layout_weight="22"
-            android:textColor="@color/color_white"/>
+            android:fontFamily="@font/mont_black"
+            android:gravity="center_vertical"
+            android:text="Home"
+            android:textColor="@color/color_white"
+            android:textSize="20sp" />
 
         <ImageButton
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/search_icon"
-            android:background="@null"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
+            android:background="@null"
+            android:src="@drawable/search_icon"
             app:tint="@color/color_white" />
 
         <ImageButton
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/noti_icon"
-            android:background="@null"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            app:tint="@color/color_white"/>
+            android:background="@null"
+            android:src="@drawable/noti_icon"
+            app:tint="@color/color_white" />
 
         <ImageButton
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/setting_icon"
-            android:background="@null"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            app:tint="@color/color_white"/>
+            android:background="@null"
+            android:src="@drawable/setting_icon"
+            app:tint="@color/color_white" />
 
     </LinearLayout>
 
@@ -55,5 +56,5 @@
         android:id="@+id/home_page_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical" />
 </LinearLayout>
