@@ -43,16 +43,16 @@ public class HomePage extends AppCompatActivity {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) hpRecycler.getLayoutManager();
                 if (!isLoading) {
-                    isLoading = true;
-                    getMoreData();
+                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == arrayList.size() - 1) {
+                        isLoading = true;
+                        getMoreData();
+                    }
                 }
             }
         });
     }
 
     private void getMoreData() {
-        arrayList.add(null);
-        recyclerAdapter.notifyItemInserted(arrayList.size() - 1);
         // ADD DATA FROM DB
         arrayList.remove(arrayList.size() - 1);
         populateData(arrayList.size());
@@ -66,5 +66,6 @@ public class HomePage extends AppCompatActivity {
         for (; currentSize < nextSize; currentSize++) {
             arrayList.add(new HomePagePost(R.drawable.ic_launcher_background, R.drawable.app_icon, "title", String.valueOf(currentSize)));
         }
+        arrayList.add(null);
     }
 }
