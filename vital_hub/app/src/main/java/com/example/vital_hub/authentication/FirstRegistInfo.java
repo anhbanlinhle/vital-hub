@@ -1,8 +1,12 @@
 package com.example.vital_hub.authentication;
 
+import static com.example.vital_hub.client.controller.Api.initPostRegist;
+import static com.example.vital_hub.client.controller.Api.postRegist;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,9 +17,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.vital_hub.MainActivity;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.objects.RegistRequestObject;
+import com.example.vital_hub.client.objects.RegistResponseObject;
 import com.example.vital_hub.utils.StringUtil;
 
 import java.util.ArrayList;
@@ -23,6 +30,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
 
@@ -175,6 +186,24 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
             @Override
             public void onClick(View view) {
                 if (adequateInformation()) {
+                    initHeadersAndBodyForRequest();
+                    initPostRegist(headers, body);
+                    postRegist.clone().enqueue(new Callback<RegistResponseObject>() {
+                        @Override
+                        public void onResponse(Call<RegistResponseObject> call, Response<RegistResponseObject> response) {
+                            if (response.code() != 200) {
+                                Toast.makeText(FirstRegistInfo.this, "Error occured. Code: " + response.code(), Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                            Intent intent = new Intent(FirstRegistInfo.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onFailure(Call<RegistResponseObject> call, Throwable t) {
+                            Toast.makeText(FirstRegistInfo.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
 
                 } else {
                     inadequateInfoWarning.setText("Please fill all the fields required");
@@ -232,6 +261,4 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
                 description.getText().toString()
                 );
     }
-
-
 }
