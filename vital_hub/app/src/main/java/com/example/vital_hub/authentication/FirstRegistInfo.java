@@ -215,5 +215,23 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
         }
     }
 
+    private void initHeadersAndBodyForRequest() {
+        prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        jwt = prefs.getString("jwt", null);
+        headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + jwt);
+
+        body = new RegistRequestObject(
+                name.getText().toString(),
+                phone.getText().toString(),
+                dob.getText().toString(),
+                editSex.getText().toString(),
+                Double.valueOf(height.getText().toString()),
+                Double.valueOf(weight.getText().toString()),
+                Integer.valueOf(exerciseDays.getText().toString()),
+                description.getText().toString()
+                );
+    }
+
 
 }
