@@ -37,6 +37,9 @@
             android:label="false"/>
         <activity android:name=".SettingActivity"
             android:exported="true"/>
+        <activity
+            android:name=".authentication.FirstRegistInfo"
+            android:exported="true" />
     </application>
 
 </manifest>
