@@ -3,6 +3,7 @@ package com.example.vital_hub.authentication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,11 +15,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.vital_hub.R;
+import com.example.vital_hub.client.objects.RegistRequestObject;
 import com.example.vital_hub.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
 
@@ -44,6 +48,10 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
     private List<EditText> requiredFieldsList;
 
     private Button button;
+    SharedPreferences prefs;
+    String jwt;
+    Map<String, String> headers;
+    RegistRequestObject body;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,4 +214,6 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
             }
         }
     }
+
+
 }
