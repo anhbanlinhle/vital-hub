@@ -1,14 +1,20 @@
 package com.main.server.service.implement;
 
 import com.main.server.entity.User;
+import com.main.server.entity.UserDetail;
+import com.main.server.repository.UserDetailRepository;
 import com.main.server.repository.UserRepository;
 import com.main.server.request.UserInfoRequest;
 import com.main.server.service.UserService;
+import com.main.server.utils.dto.FirstSignDto;
+import com.main.server.utils.enums.Sex;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +22,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private final UserRepository userRepository;
+
+    @Autowired
+    private final UserDetailRepository userDetailRepository;
 
     @Override
     public void createUser(UserInfoRequest userInfoRequest) {
@@ -32,7 +41,7 @@ public class UserServiceImpl implements UserService {
                 .sex(userInfoRequest.getSex())
                 .phoneNo(userInfoRequest.getPhoneNo())
                 .avatar(userInfoRequest.getAvatar())
-                .dob(Date.valueOf(userInfoRequest.getDob()))
+                .dob(LocalDate.parse(userInfoRequest.getDob()))
                 .build();
 
         userRepository.save(user);
@@ -50,9 +59,31 @@ public class UserServiceImpl implements UserService {
                 .sex(userInfoRequest.getSex())
                 .phoneNo(userInfoRequest.getPhoneNo())
                 .avatar(userInfoRequest.getAvatar())
-                .dob(Date.valueOf(userInfoRequest.getDob()))
+                .dob(LocalDate.parse(userInfoRequest.getDob()))
                 .build();
 
         userRepository.save(user);
+    }
+
+    @Override
+    public void createUser(FirstSignDto firstSignDto) {
+        User user = userRepository.save(User.builder()
+                .id(null)
+                .gmail(firstSignDto.getGmail())
+                .sex(Sex.valueOf(firstSignDto.getSex()))
+                .dob(firstSignDto.getDob())
+                .phoneNo(firstSignDto.getPhoneNo())
+                .avatar(firstSignDto.getAvatar())
+                .name(firstSignDto.getName())
+                .build());
+
+        userDetailRepository.save(UserDetail.builder()
+                .userId(user.getId())
+                .currentHeight(firstSignDto.getCurrentHeight())
+                .currentWeight(firstSignDto.getCurrentWeight())
+                .description(firstSignDto.getDescription())
+                .exerciseDaysPerWeek(firstSignDto.getExerciseDaysPerWeek())
+                .build()
+        );
     }
 }
