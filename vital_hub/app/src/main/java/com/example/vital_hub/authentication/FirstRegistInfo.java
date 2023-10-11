@@ -6,6 +6,7 @@ import static com.example.vital_hub.client.controller.Api.postRegist;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,10 +27,15 @@ import com.example.vital_hub.client.objects.RegistRequestObject;
 import com.example.vital_hub.client.objects.RegistResponseObject;
 import com.example.vital_hub.utils.StringUtil;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -39,6 +46,8 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
 
     private final String[] sex = {"MALE", "FEMALE"};
 
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     private AutoCompleteTextView editSex;
 
     private EditText name;
@@ -48,6 +57,10 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
     private EditText weight;
     private EditText exerciseDays;
     private EditText description;
+
+    final Calendar myCalendar = Calendar.getInstance();
+
+    DatePickerDialog.OnDateSetListener dateSetListener;
 
     private TextView sexWarning;
     private TextView phoneWarning;
@@ -92,9 +105,16 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
         requiredFieldsList.add(name);
         requiredFieldsList.add(phone);
         requiredFieldsList.add(editSex);
+        requiredFieldsList.add(dob);
 
         button = (Button) findViewById(R.id.btn_submit);
 
+        dateSetListener = (view, year, month, day) -> {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH,month);
+            myCalendar.set(Calendar.DAY_OF_MONTH,day);
+            updateLabel();
+        };
 
         name.requestFocus();
 
@@ -169,7 +189,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
             public void onFocusChange(View view, boolean b) {
                 if (!b) {
                     if (StringUtil.isEmpty(dob.getText())) {
-                        dobWarning.setText("Invalid phone number");
+                        dobWarning.setText("Invalid date of birth");
                     } else {
                         dobWarning.setText(null);
                         if (adequateInformation()) {
@@ -178,6 +198,15 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
                     }
                 }
             }
+        });
+
+        dob.setOnClickListener(v -> {
+            new DatePickerDialog(FirstRegistInfo.this,
+                    dateSetListener,
+                    myCalendar.get(Calendar.YEAR),
+                    myCalendar.get(Calendar.MONTH),
+                    myCalendar.get(Calendar.DAY_OF_MONTH))
+                    .show();
         });
     }
 
@@ -250,15 +279,24 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
         headers = new HashMap<>();
         headers.put("Authorization", "Bearer " + jwt);
 
-        body = new RegistRequestObject(
+        body = new RegistRequestObject (
                 name.getText().toString(),
                 phone.getText().toString(),
-                dob.getText().toString(),
+                LocalDate.parse(dob.getText().toString(), formatter),
                 editSex.getText().toString(),
-                Double.valueOf(height.getText().toString()),
-                Double.valueOf(weight.getText().toString()),
-                Integer.valueOf(exerciseDays.getText().toString()),
-                description.getText().toString()
-                );
+                StringUtil.isEmpty(height.getText()) ? null : Double.valueOf(height.getText().toString()),
+                StringUtil.isEmpty(weight.getText()) ? null : Double.valueOf(weight.getText().toString()),
+                StringUtil.isEmpty(exerciseDays.getText()) ? null : Integer.valueOf(exerciseDays.getText().toString()),
+                StringUtil.isEmpty(description.getText()) ? null : description.getText().toString(),
+                prefs.getString("email", null),
+                null
+        );
     }
+
+    private void updateLabel(){
+        String myFormat="dd/MM/yyyy";
+        SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.US);
+        dob.setText(dateFormat.format(myCalendar.getTime()));
+    }
+
 }
