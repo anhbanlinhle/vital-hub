@@ -1,25 +1,21 @@
-package com.example.vital_hub;
+package com.example.vital_hub.home_page;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.method.LinkMovementMethod;
-import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.vital_hub.R;
+
 import java.util.ArrayList;
 
-public class HomePage extends AppCompatActivity {
+public class HomePageActivity extends AppCompatActivity {
     private RecyclerView hpRecycler;
     private ArrayList<HomePagePost> arrayList;
     boolean isLoading = false;
-    RecyclerAdapter recyclerAdapter;
+    HpRecyclerAdapter recyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +28,7 @@ public class HomePage extends AppCompatActivity {
 
         populateData(0);
 
-        recyclerAdapter = new RecyclerAdapter(arrayList);
-
+        recyclerAdapter = new HpRecyclerAdapter(arrayList);
         hpRecycler.setAdapter(recyclerAdapter);
         hpRecycler.setLayoutManager(new LinearLayoutManager(this));
 

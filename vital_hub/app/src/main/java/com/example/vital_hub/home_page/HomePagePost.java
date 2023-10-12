@@ -1,4 +1,4 @@
-package com.example.vital_hub;
+package com.example.vital_hub.home_page;
 
 public class HomePagePost {
 
