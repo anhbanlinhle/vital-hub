@@ -31,4 +31,10 @@ public class WorkoutExercises implements Serializable {
 
     @Column(name = "total_calo")
     private Float totalCalo;
+
+    @Column(name = "sets")
+    private Integer sets;
+
+    @Column(name = "reps_per_set")
+    private Integer repsPerSet;
 }
