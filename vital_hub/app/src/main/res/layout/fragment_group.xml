@@ -30,10 +30,12 @@
                 android:paddingVertical="16dp"
             />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ge_recycler"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="123"/>
+                android:orientation="vertical"
+            />
         </LinearLayout>
     </FrameLayout>
 </ScrollView>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/rounded_20_white"
+    android:padding="16dp"
+    android:elevation="1dp"
+    android:layout_marginVertical="16dp"
+>
+
+    <TextView
+        android:id="@+id/ge_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Group 1"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/custom_green"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:src="@drawable/gym"
+        android:contentDescription="Gym"
+    />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+    >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+        >
+            <TextView
+                android:id="@+id/ge_calo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total calories: 300"
+                android:textSize="16sp"
+            />
+            <TextView
+                android:id="@+id/ge_ex_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Number of exercises: 5"
+                android:textSize="16sp"
+                android:layout_marginTop="6dp"
+            />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+        >
+            <Button
+                android:id="@+id/ge_btn_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Detail"
+                android:textSize="18sp"
+                android:drawableEnd="@drawable/info_white_icon"
+                android:background="@drawable/rounded_button_green"
+                app:backgroundTint="@null"
+                android:paddingVertical="0dp"
+            />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
