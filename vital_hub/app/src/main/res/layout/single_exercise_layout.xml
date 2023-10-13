@@ -10,46 +10,56 @@
     android:layout_marginVertical="16dp"
 >
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="bottom"
-        >
+    >
         <TextView
-            android:id="@+id/ge_title"
+            android:id="@+id/se_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Group 1"
+            android:text="#1"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="@color/custom_green"/>
+            android:textColor="@color/custom_green"
+        />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            >
+        >
             <TextView
-                android:id="@+id/ge_calo"
+                android:id="@+id/se_calories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total 300 calories"
-                android:drawableRight="@drawable/baseline_bolt_24"
-                android:gravity="center"
+                android:text="100 calories"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="@color/black"
+                android:drawableRight="@drawable/baseline_bolt_24"
+                android:gravity="center"
             />
         </LinearLayout>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/se_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Wide Grip Lat Pull Downs"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:paddingVertical="4dp"
+    />
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:src="@drawable/gym"
-        android:contentDescription="Gym"
+        android:src="@drawable/single_exercise"
+        android:contentDescription="exercise"
     />
 
     <LinearLayout
@@ -57,20 +67,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-    >
+        >
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
         >
-
             <TextView
-                android:id="@+id/ge_ex_count"
+                android:id="@+id/se_reps_set"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Number of exercises: 5"
+                android:text="4 sets - 10 reps per"
                 android:textSize="16sp"
-                android:layout_marginTop="6dp"
             />
         </LinearLayout>
 
@@ -78,9 +86,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-        >
+            >
             <Button
-                android:id="@+id/ge_btn_detail"
+                android:id="@+id/se_btn_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Detail"
@@ -89,7 +97,7 @@
                 android:background="@drawable/rounded_button_green"
                 app:backgroundTint="@null"
                 android:paddingVertical="0dp"
-            />
+                />
         </LinearLayout>
     </LinearLayout>
 
