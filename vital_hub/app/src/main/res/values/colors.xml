@@ -6,6 +6,7 @@
     <color name="color_white">#FEFFFE</color>
     <color name="color_black">#282627</color>
     <color name="custom_green">#1DB964</color>
+    <color name="custom_green_trans_50">#801DB964</color>
     <color name="base_light_green">#9ce892</color>
     <color name="grey">#8d919a</color>
 </resources>

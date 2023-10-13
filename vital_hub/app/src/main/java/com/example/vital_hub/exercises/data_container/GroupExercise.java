@@ -18,7 +18,7 @@ public class GroupExercise {
     }
 
     public String getTotalCaloStr() {
-        return "Total calories: " + this.totalCalo;
+        return "Total " + this.totalCalo + " calories";
     }
 
     public String getGroupName() {
