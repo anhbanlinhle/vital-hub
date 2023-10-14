@@ -1,6 +1,8 @@
 package com.main.server.controller;
 
 import com.main.server.service.AuthService;
+import com.main.server.service.UserService;
+import com.main.server.utils.dto.FirstSignDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
