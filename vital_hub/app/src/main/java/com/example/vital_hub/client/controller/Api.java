@@ -31,7 +31,7 @@ public class Api {
     public static Call<ResponseObject> putRequest;
     public static Call<ResponseObject> getHeader;
     public static Call<AuthResponseObject> getJwt;
-    public static Call<RegistResponseObject> postRegist;
+    public static Call<Void> postRegist;
 
     public static void initGetSingle(Map<String, String> headers) {
         getSingle = controller.getResponseObject(headers);

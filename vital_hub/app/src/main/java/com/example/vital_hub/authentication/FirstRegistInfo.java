@@ -217,9 +217,9 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
                 if (adequateInformation()) {
                     initHeadersAndBodyForRequest();
                     initPostRegist(headers, body);
-                    postRegist.clone().enqueue(new Callback<RegistResponseObject>() {
+                    postRegist.clone().enqueue(new Callback<Void>() {
                         @Override
-                        public void onResponse(Call<RegistResponseObject> call, Response<RegistResponseObject> response) {
+                        public void onResponse(Call<Void> call, Response<Void> response) {
                             if (response.code() != 200) {
                                 Toast.makeText(FirstRegistInfo.this, "Error occured. Code: " + response.code(), Toast.LENGTH_LONG).show();
                                 return;
@@ -229,7 +229,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
                         }
 
                         @Override
-                        public void onFailure(Call<RegistResponseObject> call, Throwable t) {
+                        public void onFailure(Call<Void> call, Throwable t) {
                             Toast.makeText(FirstRegistInfo.this, t.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
@@ -282,14 +282,14 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
         body = new RegistRequestObject (
                 name.getText().toString(),
                 phone.getText().toString(),
-                LocalDate.parse(dob.getText().toString(), formatter),
+                dob.getText().toString(),
                 editSex.getText().toString(),
                 StringUtil.isEmpty(height.getText()) ? null : Double.valueOf(height.getText().toString()),
                 StringUtil.isEmpty(weight.getText()) ? null : Double.valueOf(weight.getText().toString()),
                 StringUtil.isEmpty(exerciseDays.getText()) ? null : Integer.valueOf(exerciseDays.getText().toString()),
                 StringUtil.isEmpty(description.getText()) ? null : description.getText().toString(),
                 prefs.getString("email", null),
-                null
+                "cc"
         );
     }
 
