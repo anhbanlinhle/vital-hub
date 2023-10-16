@@ -67,11 +67,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(FirstSignDto firstSignDto) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         User user = userRepository.save(User.builder()
                 .id(null)
                 .gmail(firstSignDto.getGmail())
                 .sex(Sex.valueOf(firstSignDto.getSex()))
-                .dob(firstSignDto.getDob())
+                .dob(LocalDate.parse(firstSignDto.getDob(), formatter))
                 .phoneNo(firstSignDto.getPhoneNo())
                 .avatar(firstSignDto.getAvatar())
                 .name(firstSignDto.getName())
