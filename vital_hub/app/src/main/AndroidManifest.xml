@@ -37,7 +37,8 @@
         <activity
             android:name=".authentication.FirstRegistInfo"
             android:exported="true" />
-<!--Friend-->
+
+        <!--Friend-->
         <activity
             android:name=".friend.FriendList"
             android:exported="true" />
