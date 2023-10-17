@@ -1,6 +1,8 @@
 package com.example.vital_hub.client.controller;
 
 import com.example.vital_hub.client.objects.AuthResponseObject;
+import com.example.vital_hub.client.objects.RegistRequestObject;
+import com.example.vital_hub.client.objects.RegistResponseObject;
 import com.example.vital_hub.client.objects.ResponseObject;
 
 import java.util.List;
@@ -33,4 +35,8 @@ public interface Controller {
 
     @GET("/auth/sign-in")
     Call<AuthResponseObject>  sendAccessToken(@HeaderMap Map<String, String> headers);
+
+    @POST("/auth/create-user-first-sign")
+    Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);
+
 }
