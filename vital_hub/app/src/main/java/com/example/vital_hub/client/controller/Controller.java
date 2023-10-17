@@ -36,7 +36,7 @@ public interface Controller {
     @GET("/auth/sign-in")
     Call<AuthResponseObject>  sendAccessToken(@HeaderMap Map<String, String> headers);
 
-    @POST("/register/create-user-first-sign")
-    Call<RegistResponseObject> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);
+    @POST("/auth/create-user-first-sign")
+    Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);
 
 }

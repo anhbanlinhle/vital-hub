@@ -6,7 +6,7 @@ import java.time.LocalDate;
 public class RegistRequestObject {
     private String name;
     private String phoneNo;
-    private LocalDate dob;
+    private String dob;
     private String sex;
     private Double currentHeight;
     private Double currentWeight;
@@ -18,7 +18,7 @@ public class RegistRequestObject {
 
     public RegistRequestObject(String name,
                                String phoneNo,
-                               LocalDate dob,
+                               String dob,
                                String sex,
                                Double currentHeight,
                                Double currentWeight,

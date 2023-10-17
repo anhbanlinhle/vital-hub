@@ -15,7 +15,7 @@ public class FirstSignDto {
 
     private String name;
     private String phoneNo;
-    private LocalDate dob;
+    private String dob;
     private String sex;
     private Double currentHeight;
     private Double currentWeight;
