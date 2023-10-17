@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vital_hub.R;
 import com.example.vital_hub.home_page.HomePagePost;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 
@@ -23,6 +25,9 @@ public class PostCommentActivity extends AppCompatActivity {
     CommentRecyclerAdapter recyclerAdapter;
 
     private ImageButton back_button;
+    private ImageButton send_button;
+
+    private TextInputLayout comment_input;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +37,19 @@ public class PostCommentActivity extends AppCompatActivity {
         back_button = findViewById(R.id.back_button);
 
         back_button.setOnClickListener(view -> finish());
+
+        send_button = findViewById(R.id.send_button);
+
+        comment_input = findViewById(R.id.comment_input);
+
+        send_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                arrayList.add(new Comment(R.drawable.ic_launcher_background, "Profile Name" , comment_input.getEditText().getText().toString().trim()));
+                recyclerAdapter.notifyDataSetChanged();
+                comment_input.getEditText().getText().clear();
+            }
+        });
 
         arrayList = new ArrayList<>();
 
@@ -66,11 +84,11 @@ public class PostCommentActivity extends AppCompatActivity {
         for (; currentSize < nextSize; currentSize++) {
             arrayList.add(new Comment(R.drawable.ic_launcher_background, String.valueOf(currentSize), "Comment lorem ifsum"));
         }
-        arrayList.add(null);
     }
 
     private void getMoreData() {
         // ADD DATA FROM DB
+        arrayList.add(null);
         arrayList.remove(arrayList.size() - 1);
         populateData(arrayList.size());
         recyclerAdapter.notifyDataSetChanged();
