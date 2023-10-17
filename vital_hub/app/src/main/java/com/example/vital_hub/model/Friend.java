@@ -1,6 +1,8 @@
 package com.example.vital_hub.model;
 
-public class Friend {
+import java.io.Serializable;
+
+public class Friend implements Serializable {
     private String name;
     private String avatar;
 

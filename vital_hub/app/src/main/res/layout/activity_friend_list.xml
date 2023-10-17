@@ -36,13 +36,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/search"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight=".75"
+        android:background="@drawable/rounded_edittext"
+        android:backgroundTint="#E9ECEF"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        android:hint="Search"
+        android:paddingLeft="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/total_friend"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <TextView
         android:id="@+id/total_friend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="60dp"
         android:fontFamily="@font/mont_bold"
         android:text="Total Friend: 0"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,14 +71,13 @@
         android:id="@+id/friend_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/total_friend"
-        tools:listitem="@layout/friend_list_item"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        />
-
+        tools:listitem="@layout/friend_list_item" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
