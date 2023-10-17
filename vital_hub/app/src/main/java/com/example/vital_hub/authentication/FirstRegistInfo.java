@@ -224,6 +224,14 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
                                 Toast.makeText(FirstRegistInfo.this, "Error occured. Code: " + response.code(), Toast.LENGTH_LONG).show();
                                 return;
                             }
+                            Intent singInIntent = getIntent();
+
+                            SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+                            editor.putString("jwt", singInIntent.getStringExtra("jwt"));
+                            editor.putString("email", singInIntent.getStringExtra("email"));
+                            editor.putString("name", singInIntent.getStringExtra("name"));
+                            editor.commit();
+
                             Intent intent = new Intent(FirstRegistInfo.this, MainActivity.class);
                             startActivity(intent);
                         }
