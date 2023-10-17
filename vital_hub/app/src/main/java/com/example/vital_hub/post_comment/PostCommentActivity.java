@@ -45,7 +45,8 @@ public class PostCommentActivity extends AppCompatActivity {
         send_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                arrayList.add(new Comment(R.drawable.ic_launcher_background, "Profile Name" , comment_input.getEditText().getText().toString().trim()));
+                Comment comment = new Comment(R.drawable.ic_launcher_background, "Profile Name" , comment_input.getEditText().getText().toString().trim());
+                arrayList.add(1, comment);
                 recyclerAdapter.notifyDataSetChanged();
                 comment_input.getEditText().getText().clear();
             }

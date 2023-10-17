@@ -44,6 +44,10 @@ public class JwtService {
         return (extractUsername(token).equals(userDetails.getUsername()) &&!tokenIsExpired(token));
     }
 
+    public boolean tokenIsValid(String token) {
+        return !tokenIsExpired(token);
+    }
+
 
     private Key getSignInKey() {
         byte[] bytes = Decoders.BASE64.decode(USER_SECRET);
