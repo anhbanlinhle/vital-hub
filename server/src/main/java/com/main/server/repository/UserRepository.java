@@ -9,6 +9,10 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+
+
+    @Query("SELECT u.id FROM User u WHERE u.gmail = :gmail")
+    Long idByGmail(String gmail);
     Optional<User> findByGmail(String gmail);
 
     @Query("SELECT u.id FROM User u WHERE u.gmail = ?1")
