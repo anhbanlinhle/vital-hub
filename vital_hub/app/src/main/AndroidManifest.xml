@@ -33,6 +33,12 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+        <activity
+            android:name=".home_page.HomePageActivity"
+            android:exported="true" />
+        <activity
+            android:name=".post_comment.PostCommentActivity"
+            android:exported="true" />
         <activity android:name=".UserProfile" />
         <activity
             android:name=".authentication.FirstRegistInfo"
