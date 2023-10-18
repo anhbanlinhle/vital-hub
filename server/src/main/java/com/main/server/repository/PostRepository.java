@@ -10,7 +10,13 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    @Query("SELECT p FROM Post p WHERE p.isDeleted = FALSE ORDER BY p.updatedAt, p.createdAt")
-    Page<Post> allPostOrderByCreatedTime(Pageable pageable, List<Long> friendList, Boolean noFriend);
+    @Query(value = "(SELECT p.* FROM post p " +
+            "WHERE p.is_deleted = FALSE AND (:noFriend = TRUE OR p.user_id IN :friendList)) " +
+            "UNION " +
+            "(SELECT p.* FROM post p " +
+            "WHERE p.is_deleted = FALSE AND (:noFriend = TRUE OR p.user_id NOT IN :friendList)) " +
+            "ORDER BY created_at " +
+            "LIMIT :pageSize OFFSET :page", nativeQuery = true)
+    List<Post> allPostOrderByCreatedTime(Integer page, Integer pageSize, List<Long> friendList, Boolean noFriend);
 }
 

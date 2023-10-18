@@ -28,7 +28,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> postByPage(int page, int pageSize, Long userId) {
         List<Long> friendList = friendRepository.findFriendList(userId);
-        Page<Post> posts = postRepository.allPostOrderByCreatedTime(PageRequest.of(page, pageSize), friendList, friendList.isEmpty());
-        return posts.getContent();
+        List<Post> posts = postRepository.allPostOrderByCreatedTime(page, pageSize, friendList, friendList.isEmpty());
+        return posts;
     }
 }
