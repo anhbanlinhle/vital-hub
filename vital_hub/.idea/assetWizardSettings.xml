@@ -330,9 +330,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="1db964" />
-                            <entry key="outputName" value="baseline_sort_24" />
-                            <entry key="sourceFile" value="C:\Users\Lenovo\Desktop\icons8-google1.svg" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="send_icon" />
+                            <entry key="sourceFile" value="C:\Users\Lenovo\Desktop\send_icon.svg" />
                           </map>
                         </option>
                       </PersistentState>

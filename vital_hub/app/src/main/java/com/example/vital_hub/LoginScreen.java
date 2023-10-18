@@ -157,15 +157,18 @@ public class LoginScreen extends AppCompatActivity {
                 String email = credential.getId();
                 String name = credential.getDisplayName();
 
-                SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
-                editor.putString("jwt", jsonWebToken);
-                editor.putString("email", email);
-                editor.putString("name", name);
-                editor.commit();
+//                SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+//                editor.putString("jwt", jsonWebToken);
+//                editor.putString("email", email);
+//                editor.putString("name", name);
+//                editor.commit();
 
                 Intent intent;
                 if (object.getFirstSign()) {
                     intent = new Intent(LoginScreen.this, FirstRegistInfo.class);
+                    intent.putExtra("email", email);
+                    intent.putExtra("name", name);
+                    intent.putExtra("jwt", jsonWebToken);
                     startActivity(intent);
                 }
                 else {
