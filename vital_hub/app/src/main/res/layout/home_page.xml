@@ -39,7 +39,8 @@
             android:layout_weight="1"
             android:background="@null"
             android:src="@drawable/noti_icon"
-            app:tint="@color/color_white" />
+            app:tint="@color/color_white"
+            android:id="@+id/logout_button"/>
 
         <ImageButton
             android:layout_width="40dp"

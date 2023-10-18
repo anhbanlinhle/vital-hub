@@ -1,12 +1,20 @@
 package com.example.vital_hub.home_page;
 
+import static com.example.vital_hub.LoginScreen.oneTapClient;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.vital_hub.LoginScreen;
+import com.example.vital_hub.MainActivity;
 import com.example.vital_hub.R;
 
 import java.util.ArrayList;
@@ -17,6 +25,8 @@ public class HomePageActivity extends AppCompatActivity {
     boolean isLoading = false;
     HpRecyclerAdapter recyclerAdapter;
 
+    ImageButton logout_button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +35,8 @@ public class HomePageActivity extends AppCompatActivity {
         arrayList = new ArrayList<>();
 
         hpRecycler = findViewById(R.id.home_page_recycler);
+
+        logout_button = findViewById(R.id.logout_button);
 
         populateData(0);
 
@@ -45,6 +57,13 @@ public class HomePageActivity extends AppCompatActivity {
                 }
             }
         });
+
+        logout_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signOut();
+            }
+        });
     }
 
     private void getMoreData() {
@@ -53,6 +72,16 @@ public class HomePageActivity extends AppCompatActivity {
         populateData(arrayList.size());
         recyclerAdapter.notifyDataSetChanged();
         isLoading = false;
+    }
+
+    private void signOut() {
+        oneTapClient.signOut();
+        SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+        editor.clear();
+        editor.commit();
+        Intent intent = new Intent(HomePageActivity.this, LoginScreen.class);
+        startActivity(intent);
+        finish();
     }
 
     private void populateData(int currentSize) {

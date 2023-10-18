@@ -44,7 +44,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginScreen extends AppCompatActivity {
-    protected static SignInClient oneTapClient;
+    public static SignInClient oneTapClient;
     private BeginSignInRequest signInRequest;
     private ActivityResultLauncher<IntentSenderRequest> activityResultLauncher;
     Button loginBtn;
