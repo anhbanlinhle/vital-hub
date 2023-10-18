@@ -313,11 +313,25 @@
                   <entry key="vectorAssetStep">
                     <value>
                       <PersistentState>
+                        <option name="children">
+                          <map>
+                            <entry key="clipartAsset">
+                              <value>
+                                <PersistentState>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="url" value="file:/$PROJECT_DIR$/../../../../Android_SDK_HOME/icons/material/materialiconsoutlined/settings/outline_settings_24.xml" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="send_icon" />
-                            <entry key="sourceFile" value="C:\Users\Lenovo\Desktop\send_icon.svg" />
+                            <entry key="outputName" value="outline_settings_24" />
+                            <entry key="sourceFile" value="C:\Users\Lenovo\Desktop\icons8-google1.svg" />
                           </map>
                         </option>
                       </PersistentState>
