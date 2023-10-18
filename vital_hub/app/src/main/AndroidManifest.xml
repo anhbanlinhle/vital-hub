@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,7 +13,11 @@
         android:roundIcon="@drawable/vital_hub_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Vital_hub"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".Fetch"
+            android:exported="false" />
         <activity
             android:name=".SplashScreen"
             android:exported="true">
@@ -25,11 +30,23 @@
         <activity
             android:name=".LoginScreen"
             android:exported="true" />
-        <activity android:name=".MainActivity"
-            android:exported="true"/>
+        
         <activity
             android:name=".UserProfile"
             android:label="false"/>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".home_page.HomePageActivity"
+            android:exported="true" />
+        <activity
+            android:name=".post_comment.PostCommentActivity"
+            android:exported="true" />
+        <activity android:name=".UserProfile" />
+        <activity
+            android:name=".authentication.FirstRegistInfo"
+            android:exported="true" />
     </application>
 
 </manifest>

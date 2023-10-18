@@ -1,5 +1,8 @@
 package com.example.vital_hub;
 
+import static com.example.vital_hub.client.controller.Api.getJwt;
+import static com.example.vital_hub.client.controller.Api.initJwt;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -12,13 +15,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vital_hub.authentication.FirstRegistInfo;
+import com.example.vital_hub.client.objects.AuthResponseObject;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.BeginSignInResult;
 import com.google.android.gms.auth.api.identity.Identity;
@@ -27,6 +35,13 @@ import com.google.android.gms.auth.api.identity.SignInCredential;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginScreen extends AppCompatActivity {
     protected static SignInClient oneTapClient;
@@ -41,6 +56,11 @@ public class LoginScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
         loginBtn = findViewById(R.id.btnLogin);
+        TextView term = findViewById(R.id.about);
+
+        term.setMovementMethod(LinkMovementMethod.getInstance());
+
+        term.setLinkTextColor(Color.GREEN);
 
         SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
         String email = prefs.getString("email", null);
@@ -88,19 +108,9 @@ public class LoginScreen extends AppCompatActivity {
                         try {
                             SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(result.getData());
                             String idToken = credential.getGoogleIdToken();
+                            Log.i("token", idToken);
                             if (idToken !=  null) {
-                                String email = credential.getId();
-                                String name = credential.getDisplayName();
-
-                                SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
-                                editor.putString("email", email);
-                                editor.putString("name", name);
-                                editor.commit();
-
-                                Intent intent = new Intent(LoginScreen.this, MainActivity.class);
-                                intent.putExtra("email", email);
-                                intent.putExtra("name", name);
-                                startActivity(intent);
+                                sendTokenToServer(credential);
                             }
                         } catch (ApiException e) {
                             e.printStackTrace();
@@ -127,5 +137,53 @@ public class LoginScreen extends AppCompatActivity {
                         Log.d(TAG, e.getLocalizedMessage());
                     }
                 });
+    }
+
+    protected void sendTokenToServer(SignInCredential credential) {
+        String accessToken = credential.getGoogleIdToken();
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + accessToken);
+
+        initJwt(headers);
+        getJwt.enqueue(new Callback<AuthResponseObject>() {
+            @Override
+            public void onResponse(Call<AuthResponseObject> call, Response<AuthResponseObject> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(LoginScreen.this, "Failed to login. Code: " + response.code(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                AuthResponseObject object = response.body();
+                String jsonWebToken = object.getToken();
+                String email = credential.getId();
+                String name = credential.getDisplayName();
+
+//                SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+//                editor.putString("jwt", jsonWebToken);
+//                editor.putString("email", email);
+//                editor.putString("name", name);
+//                editor.commit();
+
+                Intent intent;
+                if (object.getFirstSign()) {
+                    intent = new Intent(LoginScreen.this, FirstRegistInfo.class);
+                    intent.putExtra("email", email);
+                    intent.putExtra("name", name);
+                    intent.putExtra("jwt", jsonWebToken);
+                    startActivity(intent);
+                }
+                else {
+                    intent = new Intent(LoginScreen.this, MainActivity.class);
+                    intent.putExtra("email", credential.getId());
+                    intent.putExtra("name", credential.getDisplayName());
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AuthResponseObject> call, Throwable t) {
+                Log.e("LoginError", t.getMessage());
+            }
+        });
+
     }
 }

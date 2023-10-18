@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".authentication.FirstRegistInfo"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/rounded_br"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/full_rounded_white"
+            android:padding="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/vital_hub_logo">
+
+            </ImageView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical"
+            android:paddingHorizontal="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:paddingVertical="20dp"
+                android:text="Something about yourself"
+                android:textColor="#282627"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                app:drawableEndCompat="@drawable/baseline_person_pin_24" />
+
+            <EditText
+                android:id="@+id/edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableStart="@drawable/baseline_person_24"
+                android:drawablePadding="10dp"
+                android:hint="Name"
+                android:paddingHorizontal="20dp"
+                android:textSize="20dp"
+                android:paddingVertical="20dp" />
+
+            <TextView
+                android:id="@+id/name_warning"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:textColor="#e05252"
+                android:paddingHorizontal="10dp"
+                android:textStyle="bold"
+            />
+
+            <EditText
+                android:id="@+id/edit_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableStart="@drawable/baseline_phone_24"
+                android:drawablePadding="10dp"
+                android:hint="Phone"
+                android:inputType="phone"
+                android:paddingHorizontal="20dp"
+                android:textSize="20dp"
+                android:paddingVertical="20dp" />
+
+            <TextView
+                android:id="@+id/phone_warning"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:textColor="#e05252"
+                android:paddingHorizontal="10dp"
+                android:textStyle="bold"
+            />
+
+            <EditText
+                android:id="@+id/edit_dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableStart="@drawable/baseline_cake_24"
+                android:drawablePadding="10dp"
+                android:hint="D.O.B"
+                android:inputType="date"
+                android:paddingHorizontal="20dp"
+                android:textSize="20dp"
+                android:paddingVertical="20dp"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+            />
+
+            <TextView
+                android:id="@+id/dob_warning"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:textColor="#e05252"
+                android:paddingHorizontal="10dp"
+                android:textStyle="bold"
+                />
+
+            <AutoCompleteTextView
+                android:id="@+id/edit_sex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableStart="@drawable/baseline_diversity_3_24"
+                android:drawablePadding="10dp"
+                android:hint="Sex"
+                android:paddingHorizontal="20dp"
+                android:textSize="20dp"
+                android:paddingVertical="20dp"
+                android:completionThreshold="0"
+            />
+
+            <TextView
+                android:id="@+id/sex_warning"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:textColor="#e05252"
+                android:paddingHorizontal="10dp"
+                android:textStyle="bold"
+            />
+
+            <EditText
+                android:id="@+id/edit_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableStart="@drawable/baseline_height_24"
+                android:drawablePadding="10dp"
+                android:inputType="numberDecimal"
+                android:hint="Height (Optional)"
+                android:paddingHorizontal="20dp"
+                android:textSize="20dp"
+                android:paddingVertical="20dp"
+                android:layout_marginBottom="20dp"
+            />
+
+            <EditText
+                android:id="@+id/edit_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableStart="@drawable/baseline_man_4_24"
+                android:drawablePadding="10dp"
+                android:inputType="numberDecimal"
+                android:hint="Weight (Optional)"
+                android:paddingHorizontal="20dp"
+                android:textSize="20dp"
+                android:paddingVertical="20dp"
+                android:layout_marginBottom="20dp" />
+
+            <EditText
+                android:id="@+id/edit_exercise_day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableStart="@drawable/baseline_calendar_today_24"
+                android:drawablePadding="10dp"
+                android:hint="Exercise days per week (Optional)"
+                android:paddingHorizontal="20dp"
+                android:textSize="20dp"
+                android:paddingVertical="20dp"
+                android:inputType="numberSigned"
+                android:layout_marginBottom="20dp"
+            />
+
+            <EditText
+                android:id="@+id/edit_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableStart="@drawable/baseline_info_24"
+                android:drawablePadding="10dp"
+                android:hint="Brief description... (Optional)"
+                android:paddingHorizontal="20dp"
+                android:textSize="20dp"
+                android:paddingVertical="20dp"
+                android:inputType="textMultiLine"
+            />
+
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="36dp"
+                android:background="@drawable/ripple_btn_gradient_rounded"
+                android:paddingHorizontal="36dp"
+                android:paddingVertical="12dp"
+                android:text="SUBMIT"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
+
+            <TextView
+                android:id="@+id/warning_inadequate_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#e05252"
+                android:paddingHorizontal="10dp"
+                android:textStyle="bold"
+                android:layout_marginBottom="28dp"
+                android:layout_marginTop="8dp"
+            />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,11 +1,14 @@
 package com.main.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.main.server.utils.enums.Sex;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -38,9 +41,16 @@ public class User implements Serializable {
     @Column(name = "avatar")
     private String avatar;
 
+    @Column(name = "dob")
+    private LocalDate dob;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonManagedReference
     private UserDetail userDetail;
+
+    @Transient
+    @JsonIgnore
+    private String role = "ROLE_USER";
 }
