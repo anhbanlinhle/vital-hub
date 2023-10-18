@@ -8,6 +8,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -41,7 +42,7 @@ public class User implements Serializable {
     private String avatar;
 
     @Column(name = "dob")
-    private Date dob;
+    private LocalDate dob;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
