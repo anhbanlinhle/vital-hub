@@ -2,13 +2,14 @@ package com.main.server.controller;
 
 import com.main.server.middleware.TokenParser;
 import com.main.server.service.PostService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 @RequestMapping("/post")
 public class PostController {
 
