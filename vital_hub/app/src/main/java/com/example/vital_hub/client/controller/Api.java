@@ -67,7 +67,7 @@ public class Api {
 
     public static void initGetFriendList(Map<String, String> headers, String name, Integer limit, Integer offset) {
         getFriendList = controller.getFriendList(headers, name, limit, offset);
-      
+    }
     public static void initPostRegist(Map<String, String> headers, RegistRequestObject body) {
         postRegist = controller.postRegistInfo(headers, body);
     }
