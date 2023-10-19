@@ -1,9 +1,6 @@
 package com.example.vital_hub.client.controller;
 
-import com.example.vital_hub.client.objects.AuthResponseObject;
-import com.example.vital_hub.client.objects.RegistRequestObject;
-import com.example.vital_hub.client.objects.RegistResponseObject;
-import com.example.vital_hub.client.objects.ResponseObject;
+import com.example.vital_hub.client.objects.*;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Query;
 
 public interface Controller {
     // /health/crud-single
@@ -36,7 +34,13 @@ public interface Controller {
     @GET("/auth/sign-in")
     Call<AuthResponseObject>  sendAccessToken(@HeaderMap Map<String, String> headers);
 
+    // /friend/**
+
+    @GET("/friend/total")
+    Call<CountResponse> getTotalFriends(@HeaderMap Map<String, String> headers);
+    @GET("/friend/list")
+    Call<FriendListResponse> getFriendList(@HeaderMap Map<String, String> headers, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
+
     @POST("/auth/create-user-first-sign")
     Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);
-
 }

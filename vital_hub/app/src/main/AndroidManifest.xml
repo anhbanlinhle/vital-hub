@@ -43,6 +43,17 @@
         <activity
             android:name=".authentication.FirstRegistInfo"
             android:exported="true" />
+
+        <!--Friend-->
+        <activity
+            android:name=".friend.FriendList"
+            android:exported="true" />
+<!--        <activity-->
+<!--            android:name=".friend.FriendProfile"-->
+<!--            android:exported="true" />-->
+        <activity
+            android:name=".friend.FindUser"
+            android:exported="true" />
     </application>
 
 </manifest>
