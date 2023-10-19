@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class SettingActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+public class ExerciseActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     BottomNavigationView bottomNavigationView;
     @Override
@@ -20,7 +20,7 @@ public class SettingActivity extends AppCompatActivity implements NavigationBarV
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
-        bottomNavigationView.setSelectedItemId(R.id.setting);
+        bottomNavigationView.setSelectedItemId(R.id.exercise);
 
     }
     @Override
@@ -33,7 +33,7 @@ public class SettingActivity extends AppCompatActivity implements NavigationBarV
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             overridePendingTransition(0, 0);
             return true;
-        } else if (item.getItemId() == R.id.setting) {
+        } else if (item.getItemId() == R.id.exercise) {
             return true;
         } else {
             return false;

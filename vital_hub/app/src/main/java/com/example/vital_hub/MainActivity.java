@@ -18,13 +18,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
     Button userprofileBtn;
     TextView email;
     TextView displayName;
     Button logoutBtn;
 
-    BottomNavigationView bottomNavigationView;
+//    BottomNavigationView bottomNavigationView;
     Button fetch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +32,9 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(this);
-        bottomNavigationView.setSelectedItemId(R.id.home);
+//        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+//        bottomNavigationView.setOnItemSelectedListener(this);
+//        bottomNavigationView.setSelectedItemId(R.id.home);
 
         userprofileBtn = findViewById(R.id.btnUserprofile);
         email = findViewById(R.id.email);
@@ -86,21 +86,25 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         startActivity(intent);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.profile) {
-            startActivity(new Intent(getApplicationContext(), UserProfile.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else if (item.getItemId() == R.id.home) {
-            return true;
-        } else if (item.getItemId() == R.id.setting) {
-            startActivity(new Intent(getApplicationContext(), SettingActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else {
-            return false;
-        }
-    }
+//    @Override
+//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//        if (item.getItemId() == R.id.profile) {
+//            startActivity(new Intent(getApplicationContext(), UserProfile.class));
+//            overridePendingTransition(0, 0);
+//            return true;
+//        } else if (item.getItemId() == R.id.home) {
+//            return true;
+//        } else if (item.getItemId() == R.id.exercise) {
+//            startActivity(new Intent(getApplicationContext(), ExerciseActivity.class));
+//            overridePendingTransition(0, 0);
+//            return true;
+//        } else if (item.getItemId() == R.id.competition) {
+//            startActivity(new Intent(getApplicationContext(), CompetitionActivity.class));
+//            overridePendingTransition(0, 0);
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 
 }

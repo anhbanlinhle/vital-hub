@@ -62,8 +62,8 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             overridePendingTransition(0, 0);
             return true;
-        } else if (item.getItemId() == R.id.setting) {
-            startActivity(new Intent(getApplicationContext(), SettingActivity.class));
+        } else if (item.getItemId() == R.id.exercise) {
+            startActivity(new Intent(getApplicationContext(), ExerciseActivity.class));
             overridePendingTransition(0, 0);
             return true;
         } else {
