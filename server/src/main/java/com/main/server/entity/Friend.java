@@ -1,6 +1,7 @@
 package com.main.server.entity;
 
 import com.main.server.entity.primaryPair.FriendPair;
+import com.main.server.utils.enums.FriendStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class Friend implements Serializable {
     @Column(name = "second_user_id")
     private Long secondUserId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private Boolean status;
+    private FriendStatus status;
 }
