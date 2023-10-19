@@ -74,7 +74,7 @@ public class FriendList extends AppCompatActivity {
 
         // Get total friend
         Api.initGetTotalFriend(headers);
-        Api.getTotalFriend.enqueue(new Callback<CountResponse>() {
+        Api.getTotalFriend.clone().enqueue(new Callback<CountResponse>() {
                @Override
                public void onResponse(Call<CountResponse> call, Response<CountResponse> response) {
                    if (response.isSuccessful()) {
