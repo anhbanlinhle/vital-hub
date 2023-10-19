@@ -43,7 +43,6 @@
         <activity
             android:name=".post_comment.PostCommentActivity"
             android:exported="true" />
-        <activity android:name=".UserProfile" />
         <activity android:name=".SettingActivity"
             android:exported="true"/>
         <activity
