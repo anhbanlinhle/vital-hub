@@ -3,10 +3,11 @@ package com.main.server.middleware;
 import com.main.server.repository.UserRepository;
 import com.main.server.security.JwtService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class TokenParser {
 

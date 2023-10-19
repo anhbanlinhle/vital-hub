@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface FriendService {
     public int countFriend(Long id);
-    public List<FriendListDto> getFriendList(Long id, Integer limit, Integer offset);
+    public List<FriendListDto> getFriendList(Long id, String name, Integer limit, Integer offset);
 }

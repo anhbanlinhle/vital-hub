@@ -1,9 +1,13 @@
 package com.main.server.controller;
 
+import com.main.server.middleware.TokenParser;
 import com.main.server.response.BaseResponse;
+import com.main.server.security.JwtService;
 import com.main.server.service.FriendService;
+import com.main.server.service.UserService;
 import com.main.server.utils.dto.FriendListDto;
 import jakarta.annotation.Nullable;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +27,14 @@ public class FriendController {
     @Autowired
     private final FriendService friendService;
 
+    @Autowired
+    private final TokenParser tokenParser;
+
+
     @GetMapping("/total")
-    public ResponseEntity<BaseResponse> countFriend(@RequestParam Long id) {
+    public ResponseEntity<BaseResponse> countFriend(HttpServletRequest request) {
         try {
+            Long id = tokenParser.getCurrentUserId(request.getHeader("Authorization"));
             int totalFriend = friendService.countFriend(id);
             return ResponseEntity.ok().body(BaseResponse.builder()
                     .message("success")
@@ -42,8 +51,8 @@ public class FriendController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<BaseResponse> getFriendList(@RequestParam Long id, @RequestParam @Nullable Integer limit, @RequestParam @Nullable Integer offset) {
-
+    public ResponseEntity<BaseResponse> getFriendList(HttpServletRequest request, @RequestParam @Nullable String name, @RequestParam @Nullable Integer limit, @RequestParam @Nullable Integer offset) {
+        Long currentUserId = tokenParser.getCurrentUserId(request.getHeader("Authorization"));
         if (limit == null) {
             limit = 10;
         }
@@ -51,7 +60,7 @@ public class FriendController {
             offset = 0;
         }
 
-        List<FriendListDto> friendList = friendService.getFriendList(id, limit, offset);
+        List<FriendListDto> friendList = friendService.getFriendList(currentUserId, name, limit, offset);
         return ResponseEntity.ok().body(BaseResponse.builder()
                 .message("success")
                 .success(true)

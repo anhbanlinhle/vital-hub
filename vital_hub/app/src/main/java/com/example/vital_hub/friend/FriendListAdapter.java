@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import com.example.vital_hub.model.Friend;
-
+import com.example.vital_hub.helper.KeyboardHelper;
 public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.FriendViewHolder> {
 
     private ArrayList<Friend> friendList;
@@ -38,7 +38,6 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
     @Override
     public FriendListAdapter.FriendViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_list_item, parent, false);
-
         return new FriendViewHolder(view);
     }
 
@@ -50,17 +49,23 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
         Glide.with(holder.friendAvatar.getContext()).load(friendList.get(position).getAvatar()).into(holder.friendAvatar);
 
         holder.setItemClickListener((view, position1, isLongClick) -> {
-            if (isLongClick)
+            if (isLongClick){
+                KeyboardHelper.hideKeyboard(view);
                 showPopupWindow(view, position1);
-            else
+            }
+            else{
+                KeyboardHelper.hideKeyboard(view);
                 Toast.makeText(
                                 view.getContext(),
                                 "Click: " + friendList.get(position1).getName(),
                                 Toast.LENGTH_SHORT)
                         .show();
+            }
+
         });
 
         holder.moreButton.setOnClickListener(v -> {
+            KeyboardHelper.hideKeyboard(v);
             showPopupWindow(v, position);
 
 

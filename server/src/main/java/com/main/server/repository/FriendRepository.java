@@ -32,10 +32,10 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
                                     WHERE first_user_id = :id
                                     AND friend.status = 'ACCEPTED'
                                 )
-                                
+                                AND IF(:name IS NOT NULL, name LIKE CONCAT('%', :name, '%'), 1)
                                 ORDER BY name
                                 LIMIT :limit OFFSET :offset
                     """
     )
-    public List<FriendListDto> getFriendList(Long id, Integer limit, Integer offset);
+    public List<FriendListDto> getFriendList(Long id,String name, Integer limit, Integer offset);
 }

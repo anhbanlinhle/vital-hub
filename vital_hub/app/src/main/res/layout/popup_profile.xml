@@ -35,10 +35,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_weight="1"
-            android:fontFamily="@font/mont_semi_bold"
+            android:fontFamily="@font/mont_bold"
             android:text="Friend Name"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
 
     </LinearLayout>

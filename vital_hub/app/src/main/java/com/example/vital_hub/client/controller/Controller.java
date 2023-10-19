@@ -37,7 +37,7 @@ public interface Controller {
     // /friend/**
 
     @GET("/friend/total")
-    Call<CountResponse> getTotalFriends(@HeaderMap Map<String, String> headers, @Query("id") String id);
+    Call<CountResponse> getTotalFriends(@HeaderMap Map<String, String> headers);
     @GET("/friend/list")
-    Call<FriendListResponse> getFriendList(@HeaderMap Map<String, String> headers, @Query("id") Long id, @Query("limit") Integer limit, @Query("offset") Integer offset);
+    Call<FriendListResponse> getFriendList(@HeaderMap Map<String, String> headers, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
 }

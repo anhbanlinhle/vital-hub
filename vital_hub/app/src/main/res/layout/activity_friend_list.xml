@@ -70,14 +70,17 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/friend_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/total_friend"
-        tools:listitem="@layout/friend_list_item" />
+        tools:listitem="@layout/friend_list_item"
+        android:scrollbars="vertical"
+    />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

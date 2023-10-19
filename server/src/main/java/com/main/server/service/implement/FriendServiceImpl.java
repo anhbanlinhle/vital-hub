@@ -25,8 +25,8 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public List<FriendListDto> getFriendList(Long id, Integer limit, Integer offset) {
+    public List<FriendListDto> getFriendList(Long id, String name, Integer limit, Integer offset) {
 
-        return friendRepository.getFriendList(id, limit, offset);
+        return friendRepository.getFriendList(id, name, limit, offset);
     }
 }

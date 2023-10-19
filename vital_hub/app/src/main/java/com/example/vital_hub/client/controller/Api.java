@@ -59,12 +59,12 @@ public class Api {
     }
 
     //Friend
-    public static void initGetTotalFriend(Map<String, String> headers, String id) {
-        getTotalFriend = controller.getTotalFriends(headers, id);
+    public static void initGetTotalFriend(Map<String, String> headers) {
+        getTotalFriend = controller.getTotalFriends(headers);
     }
 
-    public static void initGetFriendList(Map<String, String> headers, Long id, Integer limit, Integer offset) {
-        getFriendList = controller.getFriendList(headers, id, limit, offset);
+    public static void initGetFriendList(Map<String, String> headers, String name, Integer limit, Integer offset) {
+        getFriendList = controller.getFriendList(headers, name, limit, offset);
     }
 
 }
