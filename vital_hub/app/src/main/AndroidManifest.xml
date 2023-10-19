@@ -48,6 +48,8 @@
         <activity
             android:name=".authentication.FirstRegistInfo"
             android:exported="true" />
+        <activity android:name=".competition.CompetitionActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

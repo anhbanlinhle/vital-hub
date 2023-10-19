@@ -185,6 +185,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view"
         app:itemIconTint="@color/color_green"
-        app:menu="@menu/bottom_nav_menu" />
+
+        app:menu="@menu/bottom_nav_menu"
+        app:itemBackground="@android:color/transparent"
+        app:itemActiveIndicatorStyle="@null"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

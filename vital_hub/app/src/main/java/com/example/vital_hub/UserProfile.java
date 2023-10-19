@@ -2,17 +2,18 @@ package com.example.vital_hub;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.Toolbar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.example.vital_hub.competition.CompetitionActivity;
+import com.example.vital_hub.home_page.HomePageActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -26,9 +27,11 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_profile);
 
+        //NavBar
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.profile);
+
         toolbar = findViewById(R.id.toolbar);
         profileImage = findViewById(R.id.profile_image);
         profileImage.setOnClickListener(new View.OnClickListener() {
@@ -59,15 +62,21 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         if (item.getItemId() == R.id.profile) {
             return true;
         } else if (item.getItemId() == R.id.home) {
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
             overridePendingTransition(0, 0);
             return true;
         } else if (item.getItemId() == R.id.exercise) {
             startActivity(new Intent(getApplicationContext(), ExerciseActivity.class));
             overridePendingTransition(0, 0);
             return true;
+        } else if (item.getItemId() == R.id.competition) {
+            startActivity(new Intent(getApplicationContext(), CompetitionActivity.class));
+            overridePendingTransition(0, 0);
+            return true;
         } else {
             return false;
         }
     }
+
+
 }

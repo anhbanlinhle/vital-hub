@@ -67,7 +67,10 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1"
             app:itemIconTint="@color/color_green"
-            app:menu="@menu/bottom_nav_menu" />
+            app:menu="@menu/bottom_nav_menu"
+
+            app:itemBackground="@android:color/transparent"
+            app:itemActiveIndicatorStyle="@null"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
