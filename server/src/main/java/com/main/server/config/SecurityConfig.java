@@ -40,11 +40,11 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
-                                .requestMatchers("/auth/**", "/friend/**").permitAll()
+                                .requestMatchers("/auth/**").permitAll()
                 )
                 .authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
-                                .requestMatchers("/user/**", "/health/**").authenticated()
+                                .requestMatchers("/user/**", "/health/**", "/friend/**").authenticated()
                 )
                 .sessionManagement(sessionManagement ->
                         sessionManagement
