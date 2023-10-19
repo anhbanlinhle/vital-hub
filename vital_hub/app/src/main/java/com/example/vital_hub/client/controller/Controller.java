@@ -40,4 +40,7 @@ public interface Controller {
     Call<CountResponse> getTotalFriends(@HeaderMap Map<String, String> headers);
     @GET("/friend/list")
     Call<FriendListResponse> getFriendList(@HeaderMap Map<String, String> headers, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
+
+    @POST("/auth/create-user-first-sign")
+    Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);
 }

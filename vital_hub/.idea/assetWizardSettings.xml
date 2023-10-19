@@ -333,6 +333,11 @@
                             <entry key="color" value="1db964" />
                             <entry key="outputName" value="baseline_flag_circle_24" />
                             <entry key="sourceFile" value="C:\Users\Lenovo\Desktop\icons8-google1.svg" />
+                        <option name="values">
+                          <map>
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="send_icon" />
+                            <entry key="sourceFile" value="C:\Users\Lenovo\Desktop\send_icon.svg" />
                           </map>
                         </option>
                       </PersistentState>
