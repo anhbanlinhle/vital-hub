@@ -16,9 +16,9 @@
 
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         app:contentInsetEnd="16dp"
         app:contentInsetStart="16dp"
-        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="?attr/colorPrimary"
@@ -45,6 +45,7 @@
             android:src="@drawable/baseline_search_24" />
 
         <ImageView
+            android:id="@+id/setting"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="right"

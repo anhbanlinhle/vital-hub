@@ -1,6 +1,9 @@
 package com.example.vital_hub;
 
+import static com.example.vital_hub.LoginScreen.oneTapClient;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,8 +22,7 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class UserProfile extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     Toolbar toolbar;
-    ImageView profileImage;
-
+    ImageView setting;
     BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +35,24 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         bottomNavigationView.setSelectedItemId(R.id.profile);
 
         toolbar = findViewById(R.id.toolbar);
-        profileImage = findViewById(R.id.profile_image);
-        profileImage.setOnClickListener(new View.OnClickListener() {
+        setting = findViewById(R.id.setting);
+        setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(UserProfile.this, profileImage);
-                popupMenu.getMenuInflater().inflate(R.menu.profile_image_menu, popupMenu.getMenu());
+                PopupMenu popupMenu = new PopupMenu(UserProfile.this, setting);
+                popupMenu.getMenuInflater().inflate(R.menu.setting_menu, popupMenu.getMenu());
+
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
+                        if (menuItem.getItemId() == R.id.test) {
+                            Intent intent = new Intent(UserProfile.this, MainActivity.class);
+                            startActivity(intent);
+                            return true;
+                        } else if (menuItem.getItemId() == R.id.logout) {
+                            signOut();
+                            return true;
+                        }
                         return false;
                     }
                 });
@@ -50,13 +61,15 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         });
 
 
+
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         ActionBar actionBar = getSupportActionBar();
-
-
     }
+
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.profile) {
@@ -79,4 +92,13 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
     }
 
 
+    private void signOut() {
+        oneTapClient.signOut();
+        SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+        editor.clear();
+        editor.commit();
+        Intent intent = new Intent(UserProfile.this, LoginScreen.class);
+        startActivity(intent);
+        finish();
+    }
 }

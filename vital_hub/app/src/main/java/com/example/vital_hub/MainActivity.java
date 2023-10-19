@@ -2,29 +2,31 @@ package com.example.vital_hub;
 
 import static com.example.vital_hub.LoginScreen.oneTapClient;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.WindowCompat;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Button;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowCompat;
+
+import com.example.vital_hub.competition.CompetitionActivity;
+import com.example.vital_hub.home_page.HomePageActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     Button userprofileBtn;
     TextView email;
     TextView displayName;
     Button logoutBtn;
 
-//    BottomNavigationView bottomNavigationView;
+    BottomNavigationView bottomNavigationView;
     Button fetch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +34,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-//        bottomNavigationView.setOnItemSelectedListener(this);
+
+
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(this);
 //        bottomNavigationView.setSelectedItemId(R.id.home);
 
         userprofileBtn = findViewById(R.id.btnUserprofile);
@@ -71,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
+
     private void signOut() {
         oneTapClient.signOut();
         SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
@@ -86,25 +93,27 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    @Override
-//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//        if (item.getItemId() == R.id.profile) {
-//            startActivity(new Intent(getApplicationContext(), UserProfile.class));
-//            overridePendingTransition(0, 0);
-//            return true;
-//        } else if (item.getItemId() == R.id.home) {
-//            return true;
-//        } else if (item.getItemId() == R.id.exercise) {
-//            startActivity(new Intent(getApplicationContext(), ExerciseActivity.class));
-//            overridePendingTransition(0, 0);
-//            return true;
-//        } else if (item.getItemId() == R.id.competition) {
-//            startActivity(new Intent(getApplicationContext(), CompetitionActivity.class));
-//            overridePendingTransition(0, 0);
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.profile) {
+            startActivity(new Intent(getApplicationContext(), UserProfile.class));
+            overridePendingTransition(0, 0);
+            return true;
+        } else if (item.getItemId() == R.id.home) {
+            startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
+            overridePendingTransition(0, 0);
+            return true;
+        } else if (item.getItemId() == R.id.exercise) {
+            startActivity(new Intent(getApplicationContext(), ExerciseActivity.class));
+            overridePendingTransition(0, 0);
+            return true;
+        } else if (item.getItemId() == R.id.competition) {
+            startActivity(new Intent(getApplicationContext(), CompetitionActivity.class));
+            overridePendingTransition(0, 0);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }
