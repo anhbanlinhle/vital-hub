@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
+import com.example.vital_hub.test.TestActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -46,7 +47,7 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         if (menuItem.getItemId() == R.id.test) {
-                            Intent intent = new Intent(UserProfile.this, MainActivity.class);
+                            Intent intent = new Intent(UserProfile.this, TestActivity.class);
                             startActivity(intent);
                             return true;
                         } else if (menuItem.getItemId() == R.id.logout) {

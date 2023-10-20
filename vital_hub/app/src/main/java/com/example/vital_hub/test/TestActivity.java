@@ -1,4 +1,4 @@
-package com.example.vital_hub;
+package com.example.vital_hub.test;
 
 import static com.example.vital_hub.LoginScreen.oneTapClient;
 
@@ -14,13 +14,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
 
+import com.example.vital_hub.ExerciseActivity;
+import com.example.vital_hub.Fetch;
+import com.example.vital_hub.LoginScreen;
+import com.example.vital_hub.R;
+import com.example.vital_hub.UserProfile;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+public class TestActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     Button userprofileBtn;
     TextView email;
     TextView displayName;
@@ -60,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         fetch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, Fetch.class);
+                Intent intent = new Intent(TestActivity.this, Fetch.class);
                 startActivity(intent);
             }
         });
@@ -81,13 +86,13 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
         editor.clear();
         editor.commit();
-        Intent intent = new Intent(MainActivity.this, LoginScreen.class);
+        Intent intent = new Intent(TestActivity.this, LoginScreen.class);
         startActivity(intent);
         finish();
     }
 
     public void openUserprofie(){
-        Intent intent = new Intent(MainActivity.this, UserProfile.class);
+        Intent intent = new Intent(TestActivity.this, UserProfile.class);
         startActivity(intent);
     }
 

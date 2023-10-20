@@ -5,7 +5,6 @@ import static com.example.vital_hub.client.controller.Api.postRegist;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,19 +15,16 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.vital_hub.MainActivity;
+import com.example.vital_hub.test.TestActivity;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.objects.RegistRequestObject;
-import com.example.vital_hub.client.objects.RegistResponseObject;
 import com.example.vital_hub.utils.StringUtil;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -231,7 +227,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
                             editor.putString("name", signInIntent.getStringExtra("name"));
                             editor.apply();
 
-                            Intent intent = new Intent(FirstRegistInfo.this, MainActivity.class);
+                            Intent intent = new Intent(FirstRegistInfo.this, TestActivity.class);
                             startActivity(intent);
                         }
 

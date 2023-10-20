@@ -9,15 +9,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.IntentSenderRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +25,7 @@ import android.widget.Toast;
 import com.example.vital_hub.authentication.FirstRegistInfo;
 import com.example.vital_hub.client.objects.AuthResponseObject;
 import com.example.vital_hub.home_page.HomePageActivity;
+import com.example.vital_hub.test.TestActivity;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.BeginSignInResult;
 import com.google.android.gms.auth.api.identity.Identity;
@@ -45,7 +43,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginScreen extends AppCompatActivity {
-    protected static SignInClient oneTapClient;
+    public static SignInClient oneTapClient;
     private BeginSignInRequest signInRequest;
     private ActivityResultLauncher<IntentSenderRequest> activityResultLauncher;
     Button loginBtn;
@@ -68,7 +66,7 @@ public class LoginScreen extends AppCompatActivity {
         String name = prefs.getString("name", null);
 
         if (name != null) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, TestActivity.class);
             intent.putExtra("email", email);
             intent.putExtra("name", name);
             startActivity(intent);
