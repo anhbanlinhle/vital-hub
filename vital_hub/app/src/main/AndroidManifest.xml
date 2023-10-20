@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -23,7 +24,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -31,7 +31,11 @@
             android:name=".LoginScreen"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".UserProfile"
+            android:exported="true"
+            android:label="false"/>
+        <activity
+            android:name=".test.TestActivity"
             android:exported="true" />
         <activity
             android:name=".home_page.HomePageActivity"
@@ -39,9 +43,23 @@
         <activity
             android:name=".post_comment.PostCommentActivity"
             android:exported="true" />
-        <activity android:name=".UserProfile" />
+        <activity android:name=".ExerciseActivity"
+            android:exported="true"/>
         <activity
             android:name=".authentication.FirstRegistInfo"
+            android:exported="true" />
+        <activity android:name=".competition.CompetitionActivity"
+            android:exported="true" />
+
+        <!--Friend-->
+        <activity
+            android:name=".friend.FriendList"
+            android:exported="true" />
+<!--        <activity-->
+<!--            android:name=".friend.FriendProfile"-->
+<!--            android:exported="true" />-->
+        <activity
+            android:name=".friend.FindUser"
             android:exported="true" />
     </application>
 

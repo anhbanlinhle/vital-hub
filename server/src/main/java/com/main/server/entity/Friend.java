@@ -27,6 +27,7 @@ public class Friend implements Serializable {
     @Column(name = "second_user_id")
     private Long secondUserId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private FriendStatus status;
 }

@@ -9,15 +9,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.IntentSenderRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +24,8 @@ import android.widget.Toast;
 
 import com.example.vital_hub.authentication.FirstRegistInfo;
 import com.example.vital_hub.client.objects.AuthResponseObject;
+import com.example.vital_hub.home_page.HomePageActivity;
+import com.example.vital_hub.test.TestActivity;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.BeginSignInResult;
 import com.google.android.gms.auth.api.identity.Identity;
@@ -67,7 +66,7 @@ public class LoginScreen extends AppCompatActivity {
         String name = prefs.getString("name", null);
 
         if (name != null) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, TestActivity.class);
             intent.putExtra("email", email);
             intent.putExtra("name", name);
             startActivity(intent);
@@ -157,12 +156,6 @@ public class LoginScreen extends AppCompatActivity {
                 String email = credential.getId();
                 String name = credential.getDisplayName();
 
-//                SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
-//                editor.putString("jwt", jsonWebToken);
-//                editor.putString("email", email);
-//                editor.putString("name", name);
-//                editor.commit();
-
                 Intent intent;
                 if (object.getFirstSign()) {
                     intent = new Intent(LoginScreen.this, FirstRegistInfo.class);
@@ -172,7 +165,7 @@ public class LoginScreen extends AppCompatActivity {
                     startActivity(intent);
                 }
                 else {
-                    intent = new Intent(LoginScreen.this, MainActivity.class);
+                    intent = new Intent(LoginScreen.this, HomePageActivity.class);
                     intent.putExtra("email", credential.getId());
                     intent.putExtra("name", credential.getDisplayName());
                     startActivity(intent);
