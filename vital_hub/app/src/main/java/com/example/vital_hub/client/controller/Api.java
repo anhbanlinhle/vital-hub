@@ -1,9 +1,7 @@
 package com.example.vital_hub.client.controller;
 
-import com.example.vital_hub.client.objects.AuthResponseObject;
-import com.example.vital_hub.client.objects.RegistRequestObject;
-import com.example.vital_hub.client.objects.RegistResponseObject;
-import com.example.vital_hub.client.objects.ResponseObject;
+import com.example.vital_hub.client.objects.*;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -33,6 +31,11 @@ public class Api {
     public static Call<AuthResponseObject> getJwt;
     public static Call<Void> postRegist;
 
+    //Friend
+    public static Call<CountResponse> getTotalFriend;
+    public static Call<FriendListResponse> getFriendList;
+
+    //Init
     public static void initGetSingle(Map<String, String> headers) {
         getSingle = controller.getResponseObject(headers);
     }
@@ -57,6 +60,14 @@ public class Api {
         getJwt = controller.sendAccessToken(headers);
     }
 
+    //Friend
+    public static void initGetTotalFriend(Map<String, String> headers) {
+        getTotalFriend = controller.getTotalFriends(headers);
+    }
+
+    public static void initGetFriendList(Map<String, String> headers, String name, Integer limit, Integer offset) {
+        getFriendList = controller.getFriendList(headers, name, limit, offset);
+    }
     public static void initPostRegist(Map<String, String> headers, RegistRequestObject body) {
         postRegist = controller.postRegistInfo(headers, body);
     }
