@@ -13,5 +13,5 @@ import net.minidev.json.JSONObject;
 public class BaseResponse {
     String message;
     Boolean success;
-    JSONObject data;
+    Object data;
 }

@@ -106,7 +106,7 @@ public class Fetch extends AppCompatActivity {
     }
 
     private void initHeaderForRequest() {
-        prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        prefs = getSharedPreferences("UserData", MODE_WORLD_WRITEABLE);
         jwt = prefs.getString("jwt", null);
         headers = new HashMap<>();
         headers.put("Authorization", "Bearer " + jwt);

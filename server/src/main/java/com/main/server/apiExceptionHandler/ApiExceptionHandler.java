@@ -2,6 +2,7 @@ package com.main.server.apiExceptionHandler;
 
 import com.main.server.apiExceptionHandler.response.ErrorResponse;
 import jakarta.persistence.NoResultException;
+import org.hibernate.JDBCException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MissingPathVariableException;
@@ -60,6 +61,14 @@ public class ApiExceptionHandler {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorResponse handleNoResult(IllegalArgumentException ex) {
         String name = ex.getMessage();
+        return new ErrorResponse(400, name);
+        // Actual exception handling
+    }
+
+    @ExceptionHandler(JDBCException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleNoResult(JDBCException ex) {
+        String name = ex.getSQLException().getMessage();
         return new ErrorResponse(400, name);
         // Actual exception handling
     }
