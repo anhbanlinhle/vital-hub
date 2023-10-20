@@ -70,7 +70,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
     private TextView inadequateInfoWarning;
 
     private List<EditText> requiredFieldsList;
-
+    Intent signInIntent = getIntent();
     private Button button;
     SharedPreferences prefs;
     String jwt;
@@ -224,12 +224,11 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
                                 Toast.makeText(FirstRegistInfo.this, "Error occured. Code: " + response.code(), Toast.LENGTH_LONG).show();
                                 return;
                             }
-                            Intent singInIntent = getIntent();
 
                             SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
-                            editor.putString("jwt", singInIntent.getStringExtra("jwt"));
-                            editor.putString("email", singInIntent.getStringExtra("email"));
-                            editor.putString("name", singInIntent.getStringExtra("name"));
+                            editor.putString("jwt", signInIntent.getStringExtra("jwt"));
+                            editor.putString("email", signInIntent.getStringExtra("email"));
+                            editor.putString("name", signInIntent.getStringExtra("name"));
                             editor.commit();
 
                             Intent intent = new Intent(FirstRegistInfo.this, MainActivity.class);
@@ -296,7 +295,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
                 StringUtil.isEmpty(weight.getText()) ? null : Double.valueOf(weight.getText().toString()),
                 StringUtil.isEmpty(exerciseDays.getText()) ? null : Integer.valueOf(exerciseDays.getText().toString()),
                 StringUtil.isEmpty(description.getText()) ? null : description.getText().toString(),
-                prefs.getString("email", null),
+                signInIntent.getStringExtra("email"),
                 "cc"
         );
     }
