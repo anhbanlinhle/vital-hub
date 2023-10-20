@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.vital_hub.authentication.FirstRegistInfo;
 import com.example.vital_hub.client.objects.AuthResponseObject;
+import com.example.vital_hub.home_page.HomePageActivity;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.BeginSignInResult;
 import com.google.android.gms.auth.api.identity.Identity;
@@ -157,12 +158,6 @@ public class LoginScreen extends AppCompatActivity {
                 String email = credential.getId();
                 String name = credential.getDisplayName();
 
-//                SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
-//                editor.putString("jwt", jsonWebToken);
-//                editor.putString("email", email);
-//                editor.putString("name", name);
-//                editor.commit();
-
                 Intent intent;
                 if (object.getFirstSign()) {
                     intent = new Intent(LoginScreen.this, FirstRegistInfo.class);
@@ -172,7 +167,7 @@ public class LoginScreen extends AppCompatActivity {
                     startActivity(intent);
                 }
                 else {
-                    intent = new Intent(LoginScreen.this, MainActivity.class);
+                    intent = new Intent(LoginScreen.this, HomePageActivity.class);
                     intent.putExtra("email", credential.getId());
                     intent.putExtra("name", credential.getDisplayName());
                     startActivity(intent);

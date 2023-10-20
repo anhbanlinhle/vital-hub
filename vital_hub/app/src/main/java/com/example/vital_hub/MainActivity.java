@@ -28,13 +28,14 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
     BottomNavigationView bottomNavigationView;
     Button fetch;
+    SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        prefs = getSharedPreferences("UserData", MODE_PRIVATE);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
@@ -46,11 +47,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         logoutBtn = findViewById(R.id.btnLogout);
         fetch = findViewById(R.id.fetch);
 
-        Intent intent = getIntent();
-        email.setText(intent.getStringExtra("email"));
-        displayName.setText(intent.getStringExtra("name"));
-
-
+        email.setText(prefs.getString("email", "null"));
+        displayName.setText(prefs.getString("name", "null"));
 
         //Open profile page on button click
         userprofileBtn.setOnClickListener(new View.OnClickListener() {

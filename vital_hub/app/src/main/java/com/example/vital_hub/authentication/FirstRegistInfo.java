@@ -229,7 +229,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
                             editor.putString("jwt", signInIntent.getStringExtra("jwt"));
                             editor.putString("email", signInIntent.getStringExtra("email"));
                             editor.putString("name", signInIntent.getStringExtra("name"));
-                            editor.commit();
+                            editor.apply();
 
                             Intent intent = new Intent(FirstRegistInfo.this, MainActivity.class);
                             startActivity(intent);
