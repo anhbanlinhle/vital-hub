@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.vital_hub.R;
+import com.example.vital_hub.exercises.adapter.SingleExerciseAdapter;
+import com.example.vital_hub.exercises.data_container.SingleExercise;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +40,12 @@ public class ExerciseFragment extends Fragment {
     private Spinner spinner;
 
     private SwitchCompat descSwitch;
+
+    private RecyclerView seRecycler;
+
+    private SingleExerciseAdapter singleExerciseAdapter;
+
+    private List<SingleExercise> list;
 
     public ExerciseFragment() {
         // Required empty public constructor
@@ -70,6 +83,7 @@ public class ExerciseFragment extends Fragment {
     }
 
     private void variableInit() {
+
         descSwitch = (SwitchCompat) getView().findViewById(R.id.exercise_sort_desc_switch);
         spinner = (Spinner) getView().findViewById(R.id.exercise_sort_spinner);
 
@@ -88,5 +102,11 @@ public class ExerciseFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, sortOptions);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+        list = new ArrayList<>();
+        singleExerciseAdapter = new SingleExerciseAdapter(list);
+        seRecycler = (RecyclerView) getView().findViewById(R.id.se_recycler);
+        seRecycler.setAdapter(singleExerciseAdapter);
+        seRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 }

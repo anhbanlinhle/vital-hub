@@ -35,4 +35,20 @@ public class SingleExercise {
         this.sets = sets;
         this.repsPerSet = repsPerSet;
     }
+
+    public String getTitle() {
+        return "#" + this.id;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getRepSet() {
+        return this.sets + " sets - " + this.repsPerSet + " reps per";
+    }
+
+    public String getCaloriesString() {
+        return this.totalCalo + " calories";
+    }
 }

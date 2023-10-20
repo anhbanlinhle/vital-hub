@@ -1,5 +1,6 @@
 package com.example.vital_hub.exercises.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vital_hub.R;
+import com.example.vital_hub.exercises.GroupExerciseActivity;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 
 import java.util.List;
@@ -66,7 +68,10 @@ public class GroupExerciseAdapter extends RecyclerView.Adapter<GroupExerciseAdap
 
         private void buttonBinding() {
             detailBtn.setOnClickListener(v -> {
-                // implement start activity here
+                Intent intent = new Intent(v.getContext(), GroupExerciseActivity.class);
+                Long id = Long.parseLong(title.getText().toString().substring(6));
+                intent.putExtra("group_id", id);
+                v.getContext().startActivity(intent);
             });
         }
 

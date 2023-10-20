@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".exercises.SingleExerciseActivity"
+    android:orientation="vertical"
+>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_single_ex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#1DB964"
+        android:theme="?attr/actionBarTheme" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:drawableStartCompat="@drawable/baseline_keyboard_double_arrow_left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:drawableEndCompat="@drawable/baseline_fitness_center_24"
+            android:gravity="center_vertical"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="12dp">
+        <TextView
+            android:id="@+id/se_ac_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wide grip lat pulldown"
+            android:textSize="24sp"
+            android:layout_marginTop="12dp"
+            android:textStyle="bold"
+            />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="273dp"
+            android:contentDescription="exercise"
+            android:src="@drawable/pulldown" />
+
+        <TextView
+            android:id="@+id/se_ac_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ut risus luctus, rhoncus massa nec, commodo sem"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            android:justificationMode="inter_word"
+        />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+        >
+            <TextView
+                android:id="@+id/se_ac_reps_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4 sets - 10 reps per"
+                android:textSize="16sp"
+            />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+            >
+                <TextView
+                    android:id="@+id/se_ac_calories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="100 calories"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:drawableRight="@drawable/baseline_bolt_24"
+                    android:gravity="center"
+                />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
