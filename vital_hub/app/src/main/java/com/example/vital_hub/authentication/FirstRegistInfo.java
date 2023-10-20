@@ -5,7 +5,6 @@ import static com.example.vital_hub.client.controller.Api.postRegist;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,19 +15,16 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.vital_hub.MainActivity;
+import com.example.vital_hub.test.TestActivity;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.objects.RegistRequestObject;
-import com.example.vital_hub.client.objects.RegistResponseObject;
 import com.example.vital_hub.utils.StringUtil;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -70,7 +66,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
     private TextView inadequateInfoWarning;
 
     private List<EditText> requiredFieldsList;
-
+    Intent signInIntent;
     private Button button;
     SharedPreferences prefs;
     String jwt;
@@ -81,7 +77,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_regist_info);
-
+        signInIntent = getIntent();
         this.firstDeclaration();
     }
 
@@ -224,15 +220,14 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
                                 Toast.makeText(FirstRegistInfo.this, "Error occured. Code: " + response.code(), Toast.LENGTH_LONG).show();
                                 return;
                             }
-                            Intent singInIntent = getIntent();
 
                             SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
-                            editor.putString("jwt", singInIntent.getStringExtra("jwt"));
-                            editor.putString("email", singInIntent.getStringExtra("email"));
-                            editor.putString("name", singInIntent.getStringExtra("name"));
-                            editor.commit();
+                            editor.putString("jwt", signInIntent.getStringExtra("jwt"));
+                            editor.putString("email", signInIntent.getStringExtra("email"));
+                            editor.putString("name", signInIntent.getStringExtra("name"));
+                            editor.apply();
 
-                            Intent intent = new Intent(FirstRegistInfo.this, MainActivity.class);
+                            Intent intent = new Intent(FirstRegistInfo.this, TestActivity.class);
                             startActivity(intent);
                         }
 
@@ -296,7 +291,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
                 StringUtil.isEmpty(weight.getText()) ? null : Double.valueOf(weight.getText().toString()),
                 StringUtil.isEmpty(exerciseDays.getText()) ? null : Integer.valueOf(exerciseDays.getText().toString()),
                 StringUtil.isEmpty(description.getText()) ? null : description.getText().toString(),
-                prefs.getString("email", null),
+                signInIntent.getStringExtra("email"),
                 "cc"
         );
     }
