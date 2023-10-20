@@ -70,7 +70,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
     private TextView inadequateInfoWarning;
 
     private List<EditText> requiredFieldsList;
-    Intent signInIntent = getIntent();
+    Intent signInIntent;
     private Button button;
     SharedPreferences prefs;
     String jwt;
@@ -81,7 +81,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_regist_info);
-
+        signInIntent = getIntent();
         this.firstDeclaration();
     }
 
