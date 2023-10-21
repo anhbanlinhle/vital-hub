@@ -1,6 +1,6 @@
 package com.example.vital_hub.test;
 
-import static com.example.vital_hub.LoginScreen.oneTapClient;
+import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +16,7 @@ import androidx.core.view.WindowCompat;
 
 import com.example.vital_hub.ExerciseActivity;
 import com.example.vital_hub.Fetch;
-import com.example.vital_hub.LoginScreen;
+import com.example.vital_hub.authentication.LoginScreen;
 import com.example.vital_hub.R;
 import com.example.vital_hub.UserProfile;
 import com.example.vital_hub.competition.CompetitionActivity;

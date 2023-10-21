@@ -1,4 +1,4 @@
-package com.example.vital_hub;
+package com.example.vital_hub.authentication;
 
 import static com.example.vital_hub.client.controller.Api.getJwt;
 import static com.example.vital_hub.client.controller.Api.initJwt;
@@ -22,7 +22,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.vital_hub.authentication.FirstRegistInfo;
+import com.example.vital_hub.R;
 import com.example.vital_hub.client.objects.AuthResponseObject;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.test.TestActivity;

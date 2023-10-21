@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginScreen"
+            android:name=".authentication.LoginScreen"
             android:exported="true" />
         <activity
             android:name=".UserProfile"
