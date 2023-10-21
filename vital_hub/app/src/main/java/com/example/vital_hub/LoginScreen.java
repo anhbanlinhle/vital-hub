@@ -169,6 +169,11 @@ public class LoginScreen extends AppCompatActivity {
                 }
                 else {
                     intent = new Intent(LoginScreen.this, HomePageActivity.class);
+                    SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+                    editor.putString("jwt", jsonWebToken);
+                    editor.putString("email", email);
+                    editor.putString("name",name);
+                    editor.apply();
                     intent.putExtra("email", credential.getId());
                     intent.putExtra("name", credential.getDisplayName());
                     startActivity(intent);
