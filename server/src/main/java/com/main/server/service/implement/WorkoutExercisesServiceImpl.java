@@ -6,6 +6,9 @@ import com.main.server.service.WorkoutExercisesService;
 import com.main.server.utils.dto.GroupExerciseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +26,9 @@ public class WorkoutExercisesServiceImpl implements WorkoutExercisesService {
     }
 
     @Override
-    public List<WorkoutExercises> getAllExercises() {
-        return workoutExercisesRepository.allExerciseOrderByName();
+    public List<WorkoutExercises> getAllExercises(Integer page, Integer pageSize, String order) {
+        Page<WorkoutExercises> workoutExercisesPage = workoutExercisesRepository.allExerciseOrderBy(PageRequest.of(page, pageSize, Sort.by(order)));
+        return workoutExercisesPage.getContent();
     }
 
     @Override

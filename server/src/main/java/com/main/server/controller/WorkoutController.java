@@ -6,10 +6,7 @@ import com.main.server.utils.dto.GroupExerciseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,8 +28,10 @@ public class WorkoutController {
     }
 
     @GetMapping("/all-exercises")
-    public ResponseEntity<?> allExercises() {
-        List<WorkoutExercises> groupExercise = workoutExercisesService.getAllExercises();
+    public ResponseEntity<?> allExercises(@RequestParam("page") Integer page,
+                                          @RequestParam("pageSize") Integer pageSize,
+                                          @RequestParam("order") String order) {
+        List<WorkoutExercises> groupExercise = workoutExercisesService.getAllExercises(page, pageSize, order);
         if (groupExercise == null || groupExercise.isEmpty()) {
             return ResponseEntity.badRequest().body(null);
         }

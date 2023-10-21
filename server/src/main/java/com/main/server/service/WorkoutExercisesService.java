@@ -8,7 +8,7 @@ import java.util.List;
 public interface WorkoutExercisesService {
     List<GroupExerciseDto> getExerciseGroups();
 
-    List<WorkoutExercises> getAllExercises();
+    List<WorkoutExercises> getAllExercises(Integer page, Integer pageSize, String order);
 
     WorkoutExercises singleExerciseById(Long id);
 
