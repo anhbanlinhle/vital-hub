@@ -24,11 +24,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import com.example.vital_hub.model.Friend;
 import com.example.vital_hub.helper.KeyboardHelper;
 public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.FriendViewHolder> {
 
-    private ArrayList<Friend> friendList;
+    private final ArrayList<Friend> friendList;
 
     public FriendListAdapter(ArrayList<Friend> friendList) {
         this.friendList = friendList;
@@ -94,6 +93,11 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
         name.setText(friendList.get(position).getName());
         Glide.with(avatar.getContext()).load(friendList.get(position).getAvatar()).into(avatar);
         dimBehind(popupWindow);
+
+        //Handle when dismiss popup, using slide down animation
+        popupWindow.setOnDismissListener(() -> {
+            popupView.setAnimation(AnimationUtils.loadAnimation(v.getContext(), R.animator.slide_down));
+        });
     }
 
     public void dimBehind(PopupWindow popupWindow) {

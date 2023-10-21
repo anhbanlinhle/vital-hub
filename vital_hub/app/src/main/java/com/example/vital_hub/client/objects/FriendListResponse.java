@@ -1,6 +1,6 @@
 package com.example.vital_hub.client.objects;
 
-import com.example.vital_hub.model.Friend;
+import com.example.vital_hub.friend.Friend;
 public class FriendListResponse {
     private String message;
     private Boolean success;

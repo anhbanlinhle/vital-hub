@@ -1,4 +1,4 @@
-package com.example.vital_hub.model;
+package com.example.vital_hub.friend;
 
 import java.io.Serializable;
 

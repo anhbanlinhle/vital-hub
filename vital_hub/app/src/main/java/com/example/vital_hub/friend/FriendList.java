@@ -1,7 +1,6 @@
 package com.example.vital_hub.friend;
 
 
-import com.example.vital_hub.model.Friend;
 import com.example.vital_hub.client.controller.Api;
 
 import android.content.Intent;
