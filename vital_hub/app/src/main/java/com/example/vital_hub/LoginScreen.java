@@ -107,6 +107,7 @@ public class LoginScreen extends AppCompatActivity {
                         try {
                             SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(result.getData());
                             String idToken = credential.getGoogleIdToken();
+
                             Log.i("token", idToken);
                             if (idToken !=  null) {
                                 sendTokenToServer(credential);
@@ -155,6 +156,7 @@ public class LoginScreen extends AppCompatActivity {
                 String jsonWebToken = object.getToken();
                 String email = credential.getId();
                 String name = credential.getDisplayName();
+                String ava = String.valueOf(credential.getProfilePictureUri());
 
                 Intent intent;
                 if (object.getFirstSign()) {
@@ -162,6 +164,7 @@ public class LoginScreen extends AppCompatActivity {
                     intent.putExtra("email", email);
                     intent.putExtra("name", name);
                     intent.putExtra("jwt", jsonWebToken);
+                    intent.putExtra("ava", ava);
                     startActivity(intent);
                 }
                 else {

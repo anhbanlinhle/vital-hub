@@ -292,7 +292,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
                 StringUtil.isEmpty(exerciseDays.getText()) ? null : Integer.valueOf(exerciseDays.getText().toString()),
                 StringUtil.isEmpty(description.getText()) ? null : description.getText().toString(),
                 signInIntent.getStringExtra("email"),
-                "cc"
+                signInIntent.getStringExtra("ava")
         );
     }
 
