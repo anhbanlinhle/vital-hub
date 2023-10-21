@@ -11,13 +11,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.vital_hub.R;
+import com.example.vital_hub.client.controller.Api;
 import com.example.vital_hub.exercises.adapter.GroupExerciseAdapter;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
+import com.example.vital_hub.helper.EndlessScrollListener;
+import com.example.vital_hub.utils.HeaderInitUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +42,8 @@ public class GroupFragment extends Fragment {
     private RecyclerView geRecycler;
     private GroupExerciseAdapter groupExerciseAdapter;
     private List<GroupExercise> geList;
+
+    private Map<String, String> header;
 
     public GroupFragment() {
         // Required empty public constructor
@@ -81,12 +92,30 @@ public class GroupFragment extends Fragment {
     private void variableInit() {
         geList = new ArrayList<>();
         geRecycler = (RecyclerView) getView().findViewById(R.id.ge_recycler);
+        header = HeaderInitUtil.headerWithToken(getContext());
 
-        for (int i = 0; i < 10; i++) {
-            geList.add(new GroupExercise(1L, 5, 300F));
-        }
+        fetchGroupExData();
+
         groupExerciseAdapter = new GroupExerciseAdapter(geList);
         geRecycler.setAdapter(groupExerciseAdapter);
-        geRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        geRecycler.setLayoutManager(linearLayoutManager);
+    }
+
+    private void fetchGroupExData() {
+        Api.getListGroupExercise(header);
+        Api.groupExerciseList.clone().enqueue(new Callback<List<GroupExercise>>() {
+            @Override
+            public void onResponse(Call<List<GroupExercise>> call, Response<List<GroupExercise>> response) {
+                if (response.isSuccessful()) {
+                    geList = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<GroupExercise>> call, Throwable t) {
+                Toast.makeText(getContext(), "Fail to get exercise", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

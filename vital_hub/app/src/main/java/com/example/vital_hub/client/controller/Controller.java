@@ -1,6 +1,8 @@
 package com.example.vital_hub.client.controller;
 
 import com.example.vital_hub.client.objects.*;
+import com.example.vital_hub.exercises.data_container.GroupExercise;
+import com.example.vital_hub.exercises.data_container.SingleExercise;
 
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,7 @@ import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface Controller {
@@ -43,4 +46,16 @@ public interface Controller {
 
     @POST("/auth/create-user-first-sign")
     Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);
+
+    @GET("/workout/exercise-groups")
+    Call<List<GroupExercise>> getGroupExerciseAll(@HeaderMap Map<String, String> header);
+
+    @GET("/workout/all-exercises")
+    Call<List<SingleExercise>> getSingleExercisePartial(@HeaderMap Map<String, String> header, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
+
+    @GET("/workout/{id}")
+    Call<SingleExercise> getSingleExerciseById(@HeaderMap Map<String, String> header, @Path("id") Long id);
+
+    @GET("/workout/group/{id}")
+    Call<GroupExercise> getGroupExerciseById(@HeaderMap Map<String, String> header, @Path("id") Long id);
 }

@@ -2,6 +2,8 @@ package com.example.vital_hub.client.controller;
 
 import com.example.vital_hub.client.objects.*;
 
+import com.example.vital_hub.exercises.data_container.GroupExercise;
+import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -34,6 +36,14 @@ public class Api {
     //Friend
     public static Call<CountResponse> getTotalFriend;
     public static Call<FriendListResponse> getFriendList;
+
+    public static Call<List<SingleExercise>> singleExerciseList;
+
+    public static Call<List<GroupExercise>> groupExerciseList;
+
+    public static Call<GroupExercise> groupExercise;
+
+    public static Call<SingleExercise> singleExercise;
 
     //Init
     public static void initGetSingle(Map<String, String> headers) {
@@ -72,4 +82,19 @@ public class Api {
         postRegist = controller.postRegistInfo(headers, body);
     }
 
+    public static void getListSingleExerciseByPage(Map<String, String> headers, Integer page, Integer pageSize) {
+        singleExerciseList = controller.getSingleExercisePartial(headers, page, pageSize);
+    }
+
+    public static void getListGroupExercise(Map<String, String> headers) {
+        groupExerciseList = controller.getGroupExerciseAll(headers);
+    }
+
+    public static void getGroupExerciseById(Map<String, String> headers, Long id) {
+        groupExercise = controller.getGroupExerciseById(headers, id);
+    }
+
+    public static void getSingleExerciseById(Map<String, String> headers, Long id) {
+        singleExercise = controller.getSingleExerciseById(headers, id);
+    }
 }
