@@ -51,4 +51,8 @@ public class SingleExercise {
     public String getCaloriesString() {
         return this.totalCalo + " calories";
     }
+
+    public String getDescription() {
+        return this.description;
+    }
 }

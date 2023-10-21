@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.example.vital_hub.R;
@@ -42,6 +44,8 @@ public class GroupFragment extends Fragment {
     private RecyclerView geRecycler;
     private GroupExerciseAdapter groupExerciseAdapter;
     private List<GroupExercise> geList;
+
+    private SwitchCompat suggestSwitch;
 
     private Map<String, String> header;
 
@@ -93,22 +97,29 @@ public class GroupFragment extends Fragment {
         geList = new ArrayList<>();
         geRecycler = (RecyclerView) getView().findViewById(R.id.ge_recycler);
         header = HeaderInitUtil.headerWithToken(getContext());
+        suggestSwitch = (SwitchCompat) getView().findViewById(R.id.switch_ex_suggestion);
+        suggestSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                fetchGroupExData(b);
+            }
+        });
 
-        fetchGroupExData();
+        fetchGroupExData(false);
 
-        groupExerciseAdapter = new GroupExerciseAdapter(geList);
-        geRecycler.setAdapter(groupExerciseAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        geRecycler.setLayoutManager(linearLayoutManager);
     }
 
-    private void fetchGroupExData() {
-        Api.getListGroupExercise(header);
+    private void fetchGroupExData(boolean isSuggest) {
+        Api.getListGroupExercise(header, isSuggest);
         Api.groupExerciseList.clone().enqueue(new Callback<List<GroupExercise>>() {
             @Override
             public void onResponse(Call<List<GroupExercise>> call, Response<List<GroupExercise>> response) {
                 if (response.isSuccessful()) {
                     geList = response.body();
+
+                    groupExerciseAdapter = new GroupExerciseAdapter(geList);
+                    geRecycler.setAdapter(groupExerciseAdapter);
+                    geRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
                 }
             }
 

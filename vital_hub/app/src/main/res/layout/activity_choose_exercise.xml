@@ -16,6 +16,7 @@
         android:theme="?attr/actionBarTheme" >
 
         <TextView
+            android:id="@+id/back_to_home_from_ex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:drawableStartCompat="@drawable/baseline_keyboard_double_arrow_left" />
@@ -24,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:drawableEndCompat="@drawable/baseline_fitness_center_24"
+            app:drawableEndCompat="@drawable/baseline_fitness_center_24_white"
             android:gravity="center_vertical"/>
     </androidx.appcompat.widget.Toolbar>
 
@@ -48,9 +49,39 @@
             android:text="EXERCISES"/>
     </com.google.android.material.tabs.TabLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager_exercise"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_weight="0">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager_exercise"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="84dp"
+        />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1"
+            app:itemIconTint="@color/color_green"
+            app:menu="@menu/bottom_nav_menu"
+
+            app:itemBackground="@android:color/transparent"
+            app:itemActiveIndicatorStyle="@null"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </LinearLayout>

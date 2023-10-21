@@ -4,15 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.vital_hub.R;
+import com.example.vital_hub.home_page.HomePageActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 public class ChooseExerciseActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
+    private TextView back;
     private ViewPager2 viewPager2;
 
     private ExerciseViewPagerAdapter exerciseViewPagerAdapter;
@@ -27,10 +32,18 @@ public class ChooseExerciseActivity extends AppCompatActivity {
     }
 
     private void firstDeclaration() {
+        back = findViewById(R.id.back_to_home_from_ex);
         tabLayout = findViewById(R.id.tab_layout_exercise);
         viewPager2 = findViewById(R.id.view_pager_exercise);
         exerciseViewPagerAdapter = new ExerciseViewPagerAdapter(this);
         viewPager2.setAdapter(exerciseViewPagerAdapter);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ChooseExerciseActivity.this, HomePageActivity.class));
+            }
+        });
 
         new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
             if (position == 0) {

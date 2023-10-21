@@ -48,7 +48,7 @@ public interface Controller {
     Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);
 
     @GET("/workout/exercise-groups")
-    Call<List<GroupExercise>> getGroupExerciseAll(@HeaderMap Map<String, String> header);
+    Call<List<GroupExercise>> getGroupExerciseAll(@HeaderMap Map<String, String> header, @Query("suggest") Boolean suggest);
 
     @GET("/workout/all-exercises")
     Call<List<SingleExercise>> getSingleExercisePartial(@HeaderMap Map<String, String> header, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
@@ -57,5 +57,5 @@ public interface Controller {
     Call<SingleExercise> getSingleExerciseById(@HeaderMap Map<String, String> header, @Path("id") Long id);
 
     @GET("/workout/group/{id}")
-    Call<GroupExercise> getGroupExerciseById(@HeaderMap Map<String, String> header, @Path("id") Long id);
+    Call<List<SingleExercise>> getGroupExerciseById(@HeaderMap Map<String, String> header, @Path("id") Long id);
 }

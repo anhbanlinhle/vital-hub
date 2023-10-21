@@ -41,7 +41,7 @@ public class Api {
 
     public static Call<List<GroupExercise>> groupExerciseList;
 
-    public static Call<GroupExercise> groupExercise;
+    public static Call<List<SingleExercise>> exercisesInGroup;
 
     public static Call<SingleExercise> singleExercise;
 
@@ -86,12 +86,12 @@ public class Api {
         singleExerciseList = controller.getSingleExercisePartial(headers, page, pageSize);
     }
 
-    public static void getListGroupExercise(Map<String, String> headers) {
-        groupExerciseList = controller.getGroupExerciseAll(headers);
+    public static void getListGroupExercise(Map<String, String> headers, Boolean suggest) {
+        groupExerciseList = controller.getGroupExerciseAll(headers, suggest);
     }
 
     public static void getGroupExerciseById(Map<String, String> headers, Long id) {
-        groupExercise = controller.getGroupExerciseById(headers, id);
+        exercisesInGroup = controller.getGroupExerciseById(headers, id);
     }
 
     public static void getSingleExerciseById(Map<String, String> headers, Long id) {
