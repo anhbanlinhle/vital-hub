@@ -1,6 +1,7 @@
 package com.main.server.controller;
 
 import com.main.server.entity.WorkoutExercises;
+import com.main.server.middleware.TokenParser;
 import com.main.server.service.WorkoutExercisesService;
 import com.main.server.utils.dto.GroupExerciseDto;
 import lombok.AllArgsConstructor;
@@ -18,9 +19,13 @@ public class WorkoutController {
     @Autowired
     WorkoutExercisesService workoutExercisesService;
 
+    @Autowired
+    private final TokenParser tokenParser;
+
     @GetMapping("/exercise-groups")
-    public ResponseEntity<?> exerciseGroups() {
-        List<GroupExerciseDto> groupExercise = workoutExercisesService.getExerciseGroups();
+    public ResponseEntity<?> exerciseGroups(@RequestParam(name = "suggest") Boolean isSuggest,
+                                            @RequestHeader("Authorization") String token) {
+        List<GroupExerciseDto> groupExercise = workoutExercisesService.getExerciseGroups(isSuggest, tokenParser.getCurrentUserId(token));
         if (groupExercise == null || groupExercise.isEmpty()) {
             return ResponseEntity.badRequest().body(null);
         }
@@ -41,7 +46,7 @@ public class WorkoutController {
     @GetMapping("/{id}")
     public ResponseEntity<?> exerciseById(@PathVariable(name = "id") Long id) {
         WorkoutExercises result = workoutExercisesService.singleExerciseById(id);
-        return result == null ? ResponseEntity.ok().body(result) : ResponseEntity.badRequest().body(null);
+        return result != null ? ResponseEntity.ok().body(result) : ResponseEntity.badRequest().body(null);
     }
 
     @GetMapping("/group/{id}")

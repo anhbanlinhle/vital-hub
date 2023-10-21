@@ -6,7 +6,7 @@ import com.main.server.utils.dto.GroupExerciseDto;
 import java.util.List;
 
 public interface WorkoutExercisesService {
-    List<GroupExerciseDto> getExerciseGroups();
+    List<GroupExerciseDto> getExerciseGroups(Boolean isSuggest, Long userId);
 
     List<WorkoutExercises> getAllExercises(Integer page, Integer pageSize, String order);
 

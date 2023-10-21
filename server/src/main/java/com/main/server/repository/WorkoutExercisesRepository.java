@@ -16,6 +16,9 @@ public interface WorkoutExercisesRepository extends JpaRepository<WorkoutExercis
     @Query("SELECT w.groupId AS groupId, COUNT(w.groupId) AS exerciseCount, SUM(w.totalCalo) AS totalCalo FROM WorkoutExercises w GROUP BY w.groupId")
     List<GroupExerciseDto> getGroupExercise();
 
+    @Query("SELECT w.groupId AS groupId, COUNT(w.groupId) AS exerciseCount, SUM(w.totalCalo) AS totalCalo FROM WorkoutExercises w WHERE w.groupId = :groupId GROUP BY w.groupId")
+    List<GroupExerciseDto> getGroupExerciseByGroupId(Long groupId);
+
     @Query("SELECT w FROM WorkoutExercises w")
     Page<WorkoutExercises> allExerciseOrderBy(Pageable pageable);
 
