@@ -277,8 +277,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
     }
 
     private void initHeadersAndBodyForRequest() {
-        prefs = getSharedPreferences("UserData", MODE_PRIVATE);
-        jwt = prefs.getString("jwt", null);
+        jwt = signInIntent.getStringExtra("jwt");
         headers = new HashMap<>();
         headers.put("Authorization", "Bearer " + jwt);
 
