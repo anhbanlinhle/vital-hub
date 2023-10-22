@@ -1,4 +1,4 @@
-package com.example.vital_hub;
+package com.example.vital_hub.test;
 
 import static com.example.vital_hub.client.controller.Api.getHeader;
 import static com.example.vital_hub.client.controller.Api.initGetHeader;
@@ -12,6 +12,7 @@ import static com.example.vital_hub.client.controller.Api.putRequest;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.example.vital_hub.R;
 import com.example.vital_hub.client.controller.Api;
 import com.example.vital_hub.client.objects.ResponseObject;
 

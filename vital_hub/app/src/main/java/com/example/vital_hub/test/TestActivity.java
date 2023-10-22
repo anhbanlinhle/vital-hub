@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
 
 import com.example.vital_hub.ExerciseActivity;
-import com.example.vital_hub.Fetch;
 import com.example.vital_hub.authentication.LoginScreen;
 import com.example.vital_hub.R;
 import com.example.vital_hub.UserProfile;
