@@ -40,6 +40,7 @@ public class TestFetch extends AppCompatActivity {
     Button post;
     Button put;
     Button header;
+    Button finish;
     EditText param1;
     EditText param2;
     SwitchCompat param3;
@@ -57,6 +58,7 @@ public class TestFetch extends AppCompatActivity {
         getMultiple = findViewById(R.id.getMultiple);
         post = findViewById(R.id.post);
         put = findViewById(R.id.put);
+        finish = findViewById(R.id.finish);
         header = findViewById(R.id.header);
         param1 = findViewById(R.id.param1);
         param2 = findViewById(R.id.param2);
@@ -102,6 +104,13 @@ public class TestFetch extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 fetchHeader();
+            }
+        });
+
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
