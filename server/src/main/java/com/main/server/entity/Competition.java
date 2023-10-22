@@ -32,7 +32,7 @@ public class Competition implements Serializable {
     private Boolean isDeleted = false;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "started_at")
     private LocalDateTime startedAt;
