@@ -1,6 +1,6 @@
 package com.example.vital_hub;
 
-import static com.example.vital_hub.LoginScreen.oneTapClient;
+import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,9 +15,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.vital_hub.authentication.LoginScreen;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
-import com.example.vital_hub.test.TestActivity;
+import com.example.vital_hub.test.TestMain;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -47,7 +48,7 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         if (menuItem.getItemId() == R.id.test) {
-                            Intent intent = new Intent(UserProfile.this, TestActivity.class);
+                            Intent intent = new Intent(UserProfile.this, TestMain.class);
                             startActivity(intent);
                             return true;
                         } else if (menuItem.getItemId() == R.id.logout) {
