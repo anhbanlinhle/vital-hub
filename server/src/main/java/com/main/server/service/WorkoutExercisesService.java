@@ -8,7 +8,7 @@ import java.util.List;
 public interface WorkoutExercisesService {
     List<GroupExerciseDto> getExerciseGroups(Boolean isSuggest, Long userId);
 
-    List<WorkoutExercises> getAllExercises(Integer page, Integer pageSize, String order);
+    List<WorkoutExercises> getAllExercises(Integer page, Integer pageSize, String order, Boolean desc);
 
     WorkoutExercises singleExerciseById(Long id);
 

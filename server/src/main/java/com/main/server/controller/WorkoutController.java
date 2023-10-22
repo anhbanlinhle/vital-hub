@@ -35,8 +35,9 @@ public class WorkoutController {
     @GetMapping("/all-exercises")
     public ResponseEntity<?> allExercises(@RequestParam("page") Integer page,
                                           @RequestParam("pageSize") Integer pageSize,
-                                          @RequestParam("order") String order) {
-        List<WorkoutExercises> groupExercise = workoutExercisesService.getAllExercises(page, pageSize, order);
+                                          @RequestParam("order") String order,
+                                          @RequestParam("desc") Boolean desc) {
+        List<WorkoutExercises> groupExercise = workoutExercisesService.getAllExercises(page, pageSize, order, desc);
         if (groupExercise == null || groupExercise.isEmpty()) {
             return ResponseEntity.badRequest().body(null);
         }

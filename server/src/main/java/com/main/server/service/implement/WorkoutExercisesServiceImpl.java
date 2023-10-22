@@ -46,8 +46,8 @@ public class WorkoutExercisesServiceImpl implements WorkoutExercisesService {
     }
 
     @Override
-    public List<WorkoutExercises> getAllExercises(Integer page, Integer pageSize, String order) {
-        Page<WorkoutExercises> workoutExercisesPage = workoutExercisesRepository.allExerciseOrderBy(PageRequest.of(page, pageSize, Sort.by(order)));
+    public List<WorkoutExercises> getAllExercises(Integer page, Integer pageSize, String order, Boolean desc) {
+        Page<WorkoutExercises> workoutExercisesPage = workoutExercisesRepository.allExerciseOrderBy(PageRequest.of(page, pageSize, desc ? Sort.by(order).descending() : Sort.by(order)));
         return workoutExercisesPage.getContent();
     }
 
