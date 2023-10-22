@@ -1,4 +1,4 @@
-package com.example.vital_hub;
+package com.example.vital_hub.test;
 
 import static com.example.vital_hub.client.controller.Api.getHeader;
 import static com.example.vital_hub.client.controller.Api.initGetHeader;
@@ -12,6 +12,7 @@ import static com.example.vital_hub.client.controller.Api.putRequest;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.example.vital_hub.R;
 import com.example.vital_hub.client.controller.Api;
 import com.example.vital_hub.client.objects.ResponseObject;
 
@@ -32,13 +33,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Fetch extends AppCompatActivity {
+public class TestFetch extends AppCompatActivity {
     TextView result;
     Button getSingle;
     Button getMultiple;
     Button post;
     Button put;
     Button header;
+    Button finish;
     EditText param1;
     EditText param2;
     SwitchCompat param3;
@@ -49,13 +51,14 @@ public class Fetch extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fetch);
+        setContentView(R.layout.test_fetch);
 
         result = findViewById(R.id.result);
         getSingle = findViewById(R.id.getSingle);
         getMultiple = findViewById(R.id.getMultiple);
         post = findViewById(R.id.post);
         put = findViewById(R.id.put);
+        finish = findViewById(R.id.finish);
         header = findViewById(R.id.header);
         param1 = findViewById(R.id.param1);
         param2 = findViewById(R.id.param2);
@@ -101,6 +104,13 @@ public class Fetch extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 fetchHeader();
+            }
+        });
+
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

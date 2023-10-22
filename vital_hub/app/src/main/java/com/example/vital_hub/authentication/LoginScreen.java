@@ -1,4 +1,4 @@
-package com.example.vital_hub;
+package com.example.vital_hub.authentication;
 
 import static com.example.vital_hub.client.controller.Api.getJwt;
 import static com.example.vital_hub.client.controller.Api.initJwt;
@@ -9,15 +9,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.IntentSenderRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -25,8 +22,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.vital_hub.authentication.FirstRegistInfo;
+import com.example.vital_hub.R;
 import com.example.vital_hub.client.objects.AuthResponseObject;
+import com.example.vital_hub.home_page.HomePageActivity;
+import com.example.vital_hub.test.TestMain;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.BeginSignInResult;
 import com.google.android.gms.auth.api.identity.Identity;
@@ -44,7 +43,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginScreen extends AppCompatActivity {
-    protected static SignInClient oneTapClient;
+    public static SignInClient oneTapClient;
     private BeginSignInRequest signInRequest;
     private ActivityResultLauncher<IntentSenderRequest> activityResultLauncher;
     Button loginBtn;
@@ -67,7 +66,7 @@ public class LoginScreen extends AppCompatActivity {
         String name = prefs.getString("name", null);
 
         if (name != null) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, TestMain.class);
             intent.putExtra("email", email);
             intent.putExtra("name", name);
             startActivity(intent);
@@ -108,6 +107,7 @@ public class LoginScreen extends AppCompatActivity {
                         try {
                             SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(result.getData());
                             String idToken = credential.getGoogleIdToken();
+
                             Log.i("token", idToken);
                             if (idToken !=  null) {
                                 sendTokenToServer(credential);
@@ -156,12 +156,7 @@ public class LoginScreen extends AppCompatActivity {
                 String jsonWebToken = object.getToken();
                 String email = credential.getId();
                 String name = credential.getDisplayName();
-
-//                SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
-//                editor.putString("jwt", jsonWebToken);
-//                editor.putString("email", email);
-//                editor.putString("name", name);
-//                editor.commit();
+                String ava = String.valueOf(credential.getProfilePictureUri());
 
                 Intent intent;
                 if (object.getFirstSign()) {
@@ -169,10 +164,16 @@ public class LoginScreen extends AppCompatActivity {
                     intent.putExtra("email", email);
                     intent.putExtra("name", name);
                     intent.putExtra("jwt", jsonWebToken);
+                    intent.putExtra("ava", ava);
                     startActivity(intent);
                 }
                 else {
-                    intent = new Intent(LoginScreen.this, MainActivity.class);
+                    intent = new Intent(LoginScreen.this, HomePageActivity.class);
+                    SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+                    editor.putString("jwt", jsonWebToken);
+                    editor.putString("email", email);
+                    editor.putString("name",name);
+                    editor.apply();
                     intent.putExtra("email", credential.getId());
                     intent.putExtra("name", credential.getDisplayName());
                     startActivity(intent);

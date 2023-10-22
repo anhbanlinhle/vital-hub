@@ -1,6 +1,6 @@
-package com.example.vital_hub;
+package com.example.vital_hub.test;
 
-import static com.example.vital_hub.LoginScreen.oneTapClient;
+import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,55 +14,47 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
 
+import com.example.vital_hub.ExerciseActivity;
+import com.example.vital_hub.authentication.LoginScreen;
+import com.example.vital_hub.R;
+import com.example.vital_hub.UserProfile;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
-    Button userprofileBtn;
+public class TestMain extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     TextView email;
     TextView displayName;
     Button logoutBtn;
 
     BottomNavigationView bottomNavigationView;
     Button fetch;
+    SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.test_main);
 
-
+        prefs = getSharedPreferences("UserData", MODE_PRIVATE);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
-//        bottomNavigationView.setSelectedItemId(R.id.home);
 
-        userprofileBtn = findViewById(R.id.btnUserprofile);
         email = findViewById(R.id.email);
         displayName = findViewById(R.id.displayName);
         logoutBtn = findViewById(R.id.btnLogout);
         fetch = findViewById(R.id.fetch);
 
-        Intent intent = getIntent();
-        email.setText(intent.getStringExtra("email"));
-        displayName.setText(intent.getStringExtra("name"));
+        email.setText(prefs.getString("email", "null"));
+        displayName.setText(prefs.getString("name", "null"));
 
-
-
-        //Open profile page on button click
-        userprofileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openUserprofie();
-            }
-        });
         fetch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, Fetch.class);
+                Intent intent = new Intent(TestMain.this, TestFetch.class);
                 startActivity(intent);
             }
         });
@@ -74,23 +66,14 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         });
     }
 
-
-
-
-
     private void signOut() {
         oneTapClient.signOut();
         SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
         editor.clear();
         editor.commit();
-        Intent intent = new Intent(MainActivity.this, LoginScreen.class);
+        Intent intent = new Intent(TestMain.this, LoginScreen.class);
         startActivity(intent);
         finish();
-    }
-
-    public void openUserprofie(){
-        Intent intent = new Intent(MainActivity.this, UserProfile.class);
-        startActivity(intent);
     }
 
     @Override
