@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.vital_hub.test.TestActivity;
+import com.example.vital_hub.test.TestMain;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.objects.RegistRequestObject;
 import com.example.vital_hub.utils.StringUtil;
@@ -227,7 +227,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
                             editor.putString("name", signInIntent.getStringExtra("name"));
                             editor.apply();
 
-                            Intent intent = new Intent(FirstRegistInfo.this, TestActivity.class);
+                            Intent intent = new Intent(FirstRegistInfo.this, TestMain.class);
                             startActivity(intent);
                         }
 
@@ -292,7 +292,7 @@ public class FirstRegistInfo extends AppCompatActivity implements TextWatcher {
                 StringUtil.isEmpty(exerciseDays.getText()) ? null : Integer.valueOf(exerciseDays.getText().toString()),
                 StringUtil.isEmpty(description.getText()) ? null : description.getText().toString(),
                 signInIntent.getStringExtra("email"),
-                "cc"
+                signInIntent.getStringExtra("ava")
         );
     }
 
