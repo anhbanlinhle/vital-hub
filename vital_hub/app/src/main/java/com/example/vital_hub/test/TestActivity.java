@@ -25,7 +25,6 @@ import com.google.android.material.navigation.NavigationBarView;
 
 
 public class TestActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
-    Button userprofileBtn;
     TextView email;
     TextView displayName;
     Button logoutBtn;
@@ -43,9 +42,7 @@ public class TestActivity extends AppCompatActivity implements NavigationBarView
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
-//        bottomNavigationView.setSelectedItemId(R.id.home);
 
-        userprofileBtn = findViewById(R.id.btnUserprofile);
         email = findViewById(R.id.email);
         displayName = findViewById(R.id.displayName);
         logoutBtn = findViewById(R.id.btnLogout);
@@ -54,13 +51,6 @@ public class TestActivity extends AppCompatActivity implements NavigationBarView
         email.setText(prefs.getString("email", "null"));
         displayName.setText(prefs.getString("name", "null"));
 
-        //Open profile page on button click
-        userprofileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openUserprofie();
-            }
-        });
         fetch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,10 +66,6 @@ public class TestActivity extends AppCompatActivity implements NavigationBarView
         });
     }
 
-
-
-
-
     private void signOut() {
         oneTapClient.signOut();
         SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
@@ -88,11 +74,6 @@ public class TestActivity extends AppCompatActivity implements NavigationBarView
         Intent intent = new Intent(TestActivity.this, LoginScreen.class);
         startActivity(intent);
         finish();
-    }
-
-    public void openUserprofie(){
-        Intent intent = new Intent(TestActivity.this, UserProfile.class);
-        startActivity(intent);
     }
 
     @Override
