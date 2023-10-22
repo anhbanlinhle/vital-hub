@@ -24,7 +24,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 
-public class TestActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+public class TestMain extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     TextView email;
     TextView displayName;
     Button logoutBtn;
@@ -36,7 +36,7 @@ public class TestActivity extends AppCompatActivity implements NavigationBarView
     protected void onCreate(Bundle savedInstanceState) {
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.test_main);
 
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
 
@@ -54,7 +54,7 @@ public class TestActivity extends AppCompatActivity implements NavigationBarView
         fetch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(TestActivity.this, Fetch.class);
+                Intent intent = new Intent(TestMain.this, Fetch.class);
                 startActivity(intent);
             }
         });
@@ -71,7 +71,7 @@ public class TestActivity extends AppCompatActivity implements NavigationBarView
         SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
         editor.clear();
         editor.commit();
-        Intent intent = new Intent(TestActivity.this, LoginScreen.class);
+        Intent intent = new Intent(TestMain.this, LoginScreen.class);
         startActivity(intent);
         finish();
     }

@@ -25,7 +25,7 @@ import android.widget.Toast;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.objects.AuthResponseObject;
 import com.example.vital_hub.home_page.HomePageActivity;
-import com.example.vital_hub.test.TestActivity;
+import com.example.vital_hub.test.TestMain;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.BeginSignInResult;
 import com.google.android.gms.auth.api.identity.Identity;
@@ -66,7 +66,7 @@ public class LoginScreen extends AppCompatActivity {
         String name = prefs.getString("name", null);
 
         if (name != null) {
-            Intent intent = new Intent(this, TestActivity.class);
+            Intent intent = new Intent(this, TestMain.class);
             intent.putExtra("email", email);
             intent.putExtra("name", name);
             startActivity(intent);
