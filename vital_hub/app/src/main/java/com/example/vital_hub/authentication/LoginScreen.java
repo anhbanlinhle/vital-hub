@@ -1,4 +1,4 @@
-package com.example.vital_hub.authentication;
+package com.example.vital_hub;
 
 import static com.example.vital_hub.client.controller.Api.getJwt;
 import static com.example.vital_hub.client.controller.Api.initJwt;
@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vital_hub.R;
+import com.example.vital_hub.authentication.FirstRegistInfo;
 import com.example.vital_hub.client.objects.AuthResponseObject;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.test.TestMain;
@@ -164,20 +165,20 @@ public class LoginScreen extends AppCompatActivity {
                     intent.putExtra("email", email);
                     intent.putExtra("name", name);
                     intent.putExtra("jwt", jsonWebToken);
-                    intent.putExtra("ava", ava);
-                    startActivity(intent);
+
                 }
                 else {
                     intent = new Intent(LoginScreen.this, HomePageActivity.class);
-                    SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
-                    editor.putString("jwt", jsonWebToken);
-                    editor.putString("email", email);
-                    editor.putString("name",name);
-                    editor.apply();
                     intent.putExtra("email", credential.getId());
                     intent.putExtra("name", credential.getDisplayName());
-                    startActivity(intent);
+
                 }
+                SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+                editor.putString("jwt", jsonWebToken);
+                editor.putString("email", email);
+                editor.putString("name", name);
+                editor.apply();
+                startActivity(intent);
             }
 
             @Override
