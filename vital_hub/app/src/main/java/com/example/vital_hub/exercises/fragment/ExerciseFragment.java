@@ -14,15 +14,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.vital_hub.R;
+import com.example.vital_hub.client.controller.Api;
 import com.example.vital_hub.exercises.adapter.SingleExerciseAdapter;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
+import com.example.vital_hub.helper.EndlessScrollListener;
+import com.example.vital_hub.utils.HeaderInitUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +55,16 @@ public class ExerciseFragment extends Fragment {
     private SingleExerciseAdapter singleExerciseAdapter;
 
     private List<SingleExercise> list;
+
+    private Integer pageIndex;
+
+    private Integer pageSize;
+
+    private Map<String, String> header;
+
+    private String sort;
+
+    private Boolean desc;
 
     public ExerciseFragment() {
         // Required empty public constructor
@@ -83,21 +102,13 @@ public class ExerciseFragment extends Fragment {
     }
 
     private void variableInit() {
+        pageIndex = 0;
+        pageSize = 10;
+        header = HeaderInitUtil.headerWithToken(getContext());
+        desc = false;
 
         descSwitch = (SwitchCompat) getView().findViewById(R.id.exercise_sort_desc_switch);
         spinner = (Spinner) getView().findViewById(R.id.exercise_sort_spinner);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(requireContext(), sortOptions[i], Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, sortOptions);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -108,5 +119,77 @@ public class ExerciseFragment extends Fragment {
         seRecycler = (RecyclerView) getView().findViewById(R.id.se_recycler);
         seRecycler.setAdapter(singleExerciseAdapter);
         seRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        listenerBinding();
+    }
+
+    private void listenerBinding() {
+
+        descSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                desc = b;
+                resetList();
+            }
+        });
+        seRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) seRecycler.getLayoutManager();
+                if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == list.size() - 1) {
+                    pageIndex++;
+                    fetchExerciseData(false);
+                }
+            }
+        });
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (sortOptions[i].equals(sortOptions[2])) {
+                    sort = "totalCalo";
+                } else {
+                    sort = sortOptions[i].toLowerCase();
+                }
+                resetList();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void fetchExerciseData(boolean isReset) {
+        Api.getListSingleExerciseByPage(header, pageIndex, pageSize, sort == null ? "id" : sort, desc);
+
+        Api.singleExerciseList.clone().enqueue(new Callback<List<SingleExercise>>() {
+            @Override
+            public void onResponse(Call<List<SingleExercise>> call, Response<List<SingleExercise>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        list.addAll(response.body());
+                        if (isReset) {
+                            singleExerciseAdapter.notifyDataSetChanged();
+                        } else {
+                            singleExerciseAdapter.notifyItemRangeChanged(list.size() - pageSize, pageSize);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<SingleExercise>> call, Throwable t) {
+                Toast.makeText(getContext(), "Fail to get exercises", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void resetList() {
+        pageIndex = 0;
+        list.clear();
+        fetchExerciseData(true);
     }
 }

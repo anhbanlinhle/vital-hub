@@ -82,8 +82,8 @@ public class Api {
         postRegist = controller.postRegistInfo(headers, body);
     }
 
-    public static void getListSingleExerciseByPage(Map<String, String> headers, Integer page, Integer pageSize) {
-        singleExerciseList = controller.getSingleExercisePartial(headers, page, pageSize);
+    public static void getListSingleExerciseByPage(Map<String, String> headers, Integer page, Integer pageSize, String order, Boolean desc) {
+        singleExerciseList = controller.getSingleExercisePartial(headers, page, pageSize, order, desc);
     }
 
     public static void getListGroupExercise(Map<String, String> headers, Boolean suggest) {
