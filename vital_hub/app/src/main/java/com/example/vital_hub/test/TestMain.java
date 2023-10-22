@@ -54,7 +54,7 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
         fetch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(TestMain.this, Fetch.class);
+                Intent intent = new Intent(TestMain.this, TestFetch.class);
                 startActivity(intent);
             }
         });

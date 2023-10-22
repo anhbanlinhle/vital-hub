@@ -33,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Fetch extends AppCompatActivity {
+public class TestFetch extends AppCompatActivity {
     TextView result;
     Button getSingle;
     Button getMultiple;
@@ -50,7 +50,7 @@ public class Fetch extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fetch);
+        setContentView(R.layout.test_fetch);
 
         result = findViewById(R.id.result);
         getSingle = findViewById(R.id.getSingle);

@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".test.Fetch"
+            android:name=".test.TestFetch"
             android:exported="false" />
         <activity
             android:name=".SplashScreen"
