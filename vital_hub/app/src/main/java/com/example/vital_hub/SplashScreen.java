@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.vital_hub.authentication.LoginScreen;
+
 public class SplashScreen extends Activity {
     Handler handler;
     @Override

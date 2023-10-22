@@ -17,7 +17,16 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".Fetch"
+            android:name=".exercises.GroupExerciseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".exercises.SingleExerciseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".exercises.ChooseExerciseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".test.TestFetch"
             android:exported="false" />
         <activity
             android:name=".SplashScreen"
@@ -28,14 +37,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginScreen"
+            android:name=".authentication.LoginScreen"
             android:exported="true" />
         <activity
             android:name=".UserProfile"
             android:exported="true"
             android:label="false"/>
         <activity
-            android:name=".test.TestActivity"
+            android:name=".test.TestMain"
             android:exported="true" />
         <activity
             android:name=".home_page.HomePageActivity"
