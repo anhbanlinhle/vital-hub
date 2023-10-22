@@ -44,7 +44,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
-                                .requestMatchers("/user/**", "/health/**", "/friend/**").authenticated()
+                                .requestMatchers("/user/**", "/health/**", "/friend/**", "/workout/**").authenticated()
                 )
                 .sessionManagement(sessionManagement ->
                         sessionManagement
