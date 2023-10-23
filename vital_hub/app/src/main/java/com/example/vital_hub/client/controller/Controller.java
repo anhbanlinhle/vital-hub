@@ -58,4 +58,8 @@ public interface Controller {
 
     @GET("/workout/group/{id}")
     Call<List<SingleExercise>> getGroupExerciseById(@HeaderMap Map<String, String> header, @Path("id") Long id);
+
+    //post & comment
+    @GET("/post/all")
+    Call<PostResponse> getPostResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize);
 }

@@ -1,38 +1,45 @@
 package com.example.vital_hub.home_page;
 
-<<<<<<< HEAD
-import static com.example.vital_hub.LoginScreen.oneTapClient;
+
+import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
+
+import com.example.vital_hub.authentication.LoginScreen;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-=======
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
->>>>>>> main
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-<<<<<<< HEAD
-import com.example.vital_hub.LoginScreen;
-import com.example.vital_hub.MainActivity;
-=======
+import com.example.vital_hub.client.controller.Api;
+import com.example.vital_hub.client.objects.PostResponse;
+import com.example.vital_hub.client.objects.PostResponse;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.ExerciseActivity;
->>>>>>> main
 import com.example.vital_hub.R;
 import com.example.vital_hub.UserProfile;
 import com.example.vital_hub.exercises.ChooseExerciseActivity;
+import com.example.vital_hub.model.Friend;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomePageActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     private RecyclerView hpRecycler;
@@ -40,17 +47,18 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
     boolean isLoading = false;
     HpRecyclerAdapter recyclerAdapter;
 
-<<<<<<< HEAD
     ImageButton logout_button;
-
-=======
     BottomNavigationView bottomNavigationView;
->>>>>>> main
+    SharedPreferences prefs;
+    String jwt;
+    Map<String, String> headers;
+    public static PostResponse postResponse;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
-
+        initHeaderForRequest();
         arrayList = new ArrayList<>();
 
         hpRecycler = findViewById(R.id.home_page_recycler);
@@ -85,7 +93,8 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
         logout_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signOut();
+                Log.d("click", "fetch");
+                fetchPost(10);
             }
         });
     }
@@ -110,6 +119,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
             return false;
         }
     }
+
     private void getMoreData() {
         // ADD DATA FROM DB
         arrayList.remove(arrayList.size() - 1);
@@ -135,5 +145,32 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
             arrayList.add(new HomePagePost(R.drawable.ic_launcher_background, R.drawable.app_icon, "title", String.valueOf(currentSize)));
         }
         arrayList.add(null);
+    }
+
+    private void initHeaderForRequest() {
+        prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        jwt = prefs.getString("jwt", null);
+        headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + jwt);
+    }
+
+    private void fetchPost(int pageNum) {
+        Api.initGetPostResponse(headers, pageNum);
+        Api.getPostResponse.enqueue(new Callback<PostResponse>() {
+            @Override
+            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+                if (response.isSuccessful()) {
+                    postResponse = response.body();
+                    for(HomePagePost post : postResponse.getData()) {
+                        Log.d("success", post.getId().toString());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostResponse> call, Throwable t) {
+                Log.e("Error", t.getMessage());
+            }
+        });
     }
 }

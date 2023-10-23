@@ -45,6 +45,8 @@ public class Api {
 
     public static Call<SingleExercise> singleExercise;
 
+    public static Call<PostResponse> getPostResponse;
+
     //Init
     public static void initGetSingle(Map<String, String> headers) {
         getSingle = controller.getResponseObject(headers);
@@ -96,5 +98,10 @@ public class Api {
 
     public static void getSingleExerciseById(Map<String, String> headers, Long id) {
         singleExercise = controller.getSingleExerciseById(headers, id);
+    }
+
+    //post & comment
+    public static void initGetPostResponse(Map<String, String> headers, int pageNum) {
+        getPostResponse = controller.getPostResponse(headers, pageNum, 10);
     }
 }
