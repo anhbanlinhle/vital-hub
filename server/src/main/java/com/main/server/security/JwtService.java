@@ -23,6 +23,8 @@ public class JwtService {
     UserRepository userRepository;
     public static final String USER_SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
+    private final long expireTime = 1000L *60*60*24*30;
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -59,7 +61,7 @@ public class JwtService {
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000*60*60*24))
+                .setExpiration(new Date(System.currentTimeMillis() + this.expireTime))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
     }
 
