@@ -4,6 +4,7 @@ import com.example.vital_hub.client.objects.*;
 
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
+import com.example.vital_hub.home_page.HomePagePost;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -45,7 +46,7 @@ public class Api {
 
     public static Call<SingleExercise> singleExercise;
 
-    public static Call<PostResponse> getPostResponse;
+    public static Call<List<HomePagePost>> getPostResponse;
 
     //Init
     public static void initGetSingle(Map<String, String> headers) {

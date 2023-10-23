@@ -35,6 +35,7 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -52,7 +53,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
     SharedPreferences prefs;
     String jwt;
     Map<String, String> headers;
-    public static PostResponse postResponse;
+    public static List<HomePagePost> postResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +95,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
             @Override
             public void onClick(View view) {
                 Log.d("click", "fetch");
-                fetchPost(10);
+                fetchPost(0);
             }
         });
     }
@@ -156,19 +157,17 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
 
     private void fetchPost(int pageNum) {
         Api.initGetPostResponse(headers, pageNum);
-        Api.getPostResponse.clone().enqueue(new Callback<PostResponse>() {
+        Api.getPostResponse.clone().enqueue(new Callback<List<HomePagePost>>() {
             @Override
-            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+            public void onResponse(Call<List<HomePagePost>> call, Response<List<HomePagePost>> response) {
                 if (response.isSuccessful()) {
                     postResponse = response.body();
-                    for(HomePagePost post : postResponse.getData()) {
-                        Log.d("success", post.getId().toString());
-                    }
+
                 }
             }
 
             @Override
-            public void onFailure(Call<PostResponse> call, Throwable t) {
+            public void onFailure(Call<List<HomePagePost>> call, Throwable t) {
                 Log.e("Error", t.getMessage());
             }
         });

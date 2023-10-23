@@ -3,6 +3,7 @@ package com.example.vital_hub.client.controller;
 import com.example.vital_hub.client.objects.*;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
+import com.example.vital_hub.home_page.HomePagePost;
 
 import java.util.List;
 import java.util.Map;
@@ -61,5 +62,5 @@ public interface Controller {
 
     //post & comment
     @GET("/post/all")
-    Call<PostResponse> getPostResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize);
+    Call<List<HomePagePost>> getPostResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize);
 }
