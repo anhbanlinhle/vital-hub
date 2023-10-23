@@ -1,4 +1,4 @@
-package com.example.vital_hub;
+package com.example.vital_hub.authentication;
 
 import static com.example.vital_hub.client.controller.Api.getJwt;
 import static com.example.vital_hub.client.controller.Api.initJwt;
