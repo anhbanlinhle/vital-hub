@@ -49,7 +49,7 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
     public void onBindViewHolder(@NonNull HpRecyclerAdapter.ViewHolder holder, int position) {
         if (holder.itemType == VIEW_TYPE_ITEM) {
             HomePagePost post = arrayList.get(position);
-
+            holder.postId = post.getId();
             holder.title.setText(post.getTitle());
             holder.message.setText(post.getMessage());
             holder.profileImage.setImageResource(post.getProfileIcon());
@@ -70,6 +70,7 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView profileImage;
+        Long postId;
         ImageView postImage;
         TextView title;
         TextView message;
@@ -113,6 +114,7 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(), PostCommentActivity.class);
+                        intent.putExtra("postId", postId);
                         view.getContext().startActivity(intent);
                     }
                 });

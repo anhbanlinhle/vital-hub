@@ -54,7 +54,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
 
             holder.profileIcon.setImageResource(cmt.getProfileIcon());
             holder.profileName.setText(cmt.getProfileName());
-            holder.comment.setText(cmt.getComment());
+            holder.comment.setText(cmt.getContent());
         } else if (holder.itemType == VIEW_TYPE_POST) {
             HomePagePost post = arrayList.get(position).getPost();
 

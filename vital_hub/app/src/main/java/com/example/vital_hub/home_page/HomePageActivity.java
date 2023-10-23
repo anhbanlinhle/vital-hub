@@ -22,8 +22,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vital_hub.client.controller.Api;
-import com.example.vital_hub.client.objects.PostResponse;
-import com.example.vital_hub.client.objects.PostResponse;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.ExerciseActivity;
 import com.example.vital_hub.R;
@@ -54,6 +52,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
     String jwt;
     Map<String, String> headers;
     public static List<HomePagePost> postResponse;
+    int pageNum = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +64,6 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
         hpRecycler = findViewById(R.id.home_page_recycler);
 
         logout_button = findViewById(R.id.logout_button);
-
-        populateData(0);
-
-        //NavBar
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home);
@@ -76,6 +71,11 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
         recyclerAdapter = new HpRecyclerAdapter(arrayList);
         hpRecycler.setAdapter(recyclerAdapter);
         hpRecycler.setLayoutManager(new LinearLayoutManager(this));
+
+        populateData(0);
+
+        //NavBar
+
 
         hpRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -124,8 +124,8 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
     private void getMoreData() {
         // ADD DATA FROM DB
         arrayList.remove(arrayList.size() - 1);
-        populateData(arrayList.size());
-        recyclerAdapter.notifyDataSetChanged();
+        fetchPost(pageNum);
+        pageNum++;
         isLoading = false;
     }
 
@@ -140,12 +140,8 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
     }
 
     private void populateData(int currentSize) {
-        currentSize++;
-        int nextSize = currentSize + 10;
-        for (; currentSize < nextSize; currentSize++) {
-            arrayList.add(new HomePagePost(R.drawable.ic_launcher_background, R.drawable.app_icon, "title", String.valueOf(currentSize)));
-        }
-        arrayList.add(null);
+        fetchPost(pageNum);
+        pageNum++;
     }
 
     private void initHeaderForRequest() {
@@ -162,7 +158,12 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
             public void onResponse(Call<List<HomePagePost>> call, Response<List<HomePagePost>> response) {
                 if (response.isSuccessful()) {
                     postResponse = response.body();
-
+                    for(HomePagePost post : postResponse) {
+                        post.setMessage(String.valueOf(arrayList.size()));
+                        arrayList.add(post);
+                    }
+                    recyclerAdapter.notifyItemRangeChanged(arrayList.size() - postResponse.size(), postResponse.size());
+                    arrayList.add(null);
                 }
             }
 

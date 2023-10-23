@@ -3,20 +3,23 @@ package com.example.vital_hub.home_page;
 import java.time.LocalDateTime;
 
 public class HomePagePost {
-    private Long id;
+    private Long postId;
     private Long userId;
+    private String username;
     private String title;
     private Long joggingId;
     private Boolean isDeleted = false;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private String createdAt;
+    private String updatedAt;
     private int profileIcon;
     private int postImage;
     private String message;
 
-    public HomePagePost(Long id, Long userId, String title, Long joggingId, Boolean isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt, int profileIcon, int postImage, String message) {
-        this.id = id;
+
+    public HomePagePost(Long postId, Long userId, String username, String title, Long joggingId, Boolean isDeleted, String createdAt, String updatedAt, int profileIcon, int postImage, String message) {
+        this.postId = postId;
         this.userId = userId;
+        this.username = username;
         this.title = title;
         this.joggingId = joggingId;
         this.isDeleted = isDeleted;
@@ -67,11 +70,11 @@ public class HomePagePost {
     }
 
     public Long getId() {
-        return id;
+        return postId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.postId = id;
     }
 
     public Long getUserId() {
@@ -98,19 +101,19 @@ public class HomePagePost {
         isDeleted = deleted;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public String getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

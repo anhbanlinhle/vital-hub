@@ -5,6 +5,7 @@ import com.example.vital_hub.client.objects.*;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.example.vital_hub.home_page.HomePagePost;
+import com.example.vital_hub.post_comment.Comment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -46,7 +47,14 @@ public class Api {
 
     public static Call<SingleExercise> singleExercise;
 
+
+    //post & comment
+
     public static Call<List<HomePagePost>> getPostResponse;
+
+    public static Call<List<Comment>> getCommentResponse;
+
+    public static Call<Void> postComment;
 
     //Init
     public static void initGetSingle(Map<String, String> headers) {
@@ -104,5 +112,13 @@ public class Api {
     //post & comment
     public static void initGetPostResponse(Map<String, String> headers, int pageNum) {
         getPostResponse = controller.getPostResponse(headers, pageNum, 10);
+    }
+
+    public static void initGetCommentResponse(Map<String, String> headers, int pageNum, Long postId) {
+        getCommentResponse = controller.getCommentResponse(headers, pageNum, 10, postId);
+    }
+
+    public static void initPostComment(Map<String, String> headers, CommentPost body) {
+        postComment = controller.postComment(headers, body);
     }
 }

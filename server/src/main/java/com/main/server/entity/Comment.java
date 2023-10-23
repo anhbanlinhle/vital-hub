@@ -38,9 +38,4 @@ public class Comment implements Serializable {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private User user;
 }

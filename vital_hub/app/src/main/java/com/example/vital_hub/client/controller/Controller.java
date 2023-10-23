@@ -4,6 +4,7 @@ import com.example.vital_hub.client.objects.*;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.example.vital_hub.home_page.HomePagePost;
+import com.example.vital_hub.post_comment.Comment;
 
 import java.util.List;
 import java.util.Map;
@@ -63,4 +64,10 @@ public interface Controller {
     //post & comment
     @GET("/post/all")
     Call<List<HomePagePost>> getPostResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize);
+
+    @GET("/comment/by-post")
+    Call<List<Comment>> getCommentResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize, @Query("postId") Long postId);
+
+    @POST("/comment/add-comment")
+    Call<Void> postComment(@HeaderMap Map<String, String> header, @Body CommentPost body);
 }
