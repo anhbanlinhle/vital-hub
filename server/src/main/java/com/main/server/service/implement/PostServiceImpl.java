@@ -5,6 +5,7 @@ import com.main.server.middleware.TokenParser;
 import com.main.server.repository.FriendRepository;
 import com.main.server.repository.PostRepository;
 import com.main.server.service.PostService;
+import com.main.server.utils.dto.PostDto;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,9 +27,9 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public List<Post> postByPage(int page, int pageSize, Long userId) {
+    public List<PostDto> postByPage(int page, int pageSize, Long userId) {
         List<Long> friendList = friendRepository.findFriendList(userId);
-        List<Post> posts = postRepository.allPostOrderByCreatedTime(page * pageSize, pageSize, friendList, friendList.isEmpty());
+        List<PostDto> posts = postRepository.allPostOrderByCreatedTime(page * pageSize, pageSize, friendList, friendList.isEmpty());
         return posts;
     }
 
