@@ -156,7 +156,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
 
     private void fetchPost(int pageNum) {
         Api.initGetPostResponse(headers, pageNum);
-        Api.getPostResponse.enqueue(new Callback<PostResponse>() {
+        Api.getPostResponse.clone().enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
                 if (response.isSuccessful()) {
