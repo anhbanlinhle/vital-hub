@@ -1,2 +1,4 @@
 prompt.txt
 __pycache__
+data/*.mp4
+.DS_Store
