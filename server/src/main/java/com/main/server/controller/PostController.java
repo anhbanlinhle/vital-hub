@@ -1,5 +1,6 @@
 package com.main.server.controller;
 
+import com.main.server.entity.Post;
 import com.main.server.middleware.TokenParser;
 import com.main.server.service.PostService;
 import lombok.AllArgsConstructor;
@@ -24,5 +25,11 @@ public class PostController {
                                             @RequestParam(name = "pageSize") Integer pageSize,
                                             @RequestHeader(name = "Authorization") String token) {
         return ResponseEntity.ok().body(postService.postByPage(page, pageSize, tokenParser.getCurrentUserId(token)));
+    }
+
+    @GetMapping("")
+    public ResponseEntity<?> getPostById(@RequestParam(name = "id") Long id) {
+        Post post = postService.postById(id);
+        return post != null ? ResponseEntity.ok().body(post) : ResponseEntity.badRequest().body(null);
     }
 }

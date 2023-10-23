@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface PostService {
     List<Post> postByPage(int page, int pageSize, Long userId);
+
+    Post postById(Long id);
 }

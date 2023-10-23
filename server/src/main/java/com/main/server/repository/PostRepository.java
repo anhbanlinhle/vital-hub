@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
@@ -18,5 +19,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "ORDER BY created_at " +
             "LIMIT :pageSize OFFSET :page", nativeQuery = true)
     List<Post> allPostOrderByCreatedTime(Integer page, Integer pageSize, List<Long> friendList, Boolean noFriend);
+
+    Optional<Post> findByIdAndIsDeletedFalse(Long id);
 }
 
