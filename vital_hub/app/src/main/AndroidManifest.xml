@@ -52,7 +52,7 @@
         <activity
             android:name=".post_comment.PostCommentActivity"
             android:exported="true" />
-        <activity android:name=".ExerciseActivity"
+        <activity android:name=".exercises.ExerciseGeneralActivity"
             android:exported="true"/>
         <activity
             android:name=".authentication.FirstRegistInfo"
