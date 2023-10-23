@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -27,6 +28,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment addComment(Long userId, Comment comment) {
         comment.setUserId(userId);
+        comment.setCreatedAt(LocalDateTime.now());
+        comment.setUpdatedAt(LocalDateTime.now());
+        comment.setIsDeleted(false);
         return commentRepository.save(comment);
     }
 }
