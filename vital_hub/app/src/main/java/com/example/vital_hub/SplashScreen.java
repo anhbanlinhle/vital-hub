@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.example.vital_hub.authentication.LoginScreen;
+import com.example.vital_hub.home_page.HomePageActivity;
 
 public class SplashScreen extends Activity {
     Handler handler;
@@ -17,7 +17,7 @@ public class SplashScreen extends Activity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashScreen.this, LoginScreen.class);
+                Intent intent = new Intent(SplashScreen.this, HomePageActivity.class);
                 startActivity(intent);
                 finish();
             }

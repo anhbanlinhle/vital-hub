@@ -31,7 +31,7 @@
             android:name=".authentication.LoginScreen"
             android:exported="true" />
         <activity
-            android:name=".UserProfile"
+            android:name=".profile.UserProfile"
             android:exported="true"
             android:label="false"/>
         <activity
@@ -50,7 +50,8 @@
             android:exported="true" />
         <activity android:name=".competition.CompetitionActivity"
             android:exported="true" />
-
+        <activity android:name=".profile.EditProfile"
+            android:exported="true" />
         <!--Friend-->
         <activity
             android:name=".friend.FriendList"

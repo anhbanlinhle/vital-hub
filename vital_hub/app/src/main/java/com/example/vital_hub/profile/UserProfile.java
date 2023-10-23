@@ -1,4 +1,4 @@
-package com.example.vital_hub;
+package com.example.vital_hub.profile;
 
 import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
 
@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 
@@ -15,6 +16,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.vital_hub.ExerciseActivity;
+import com.example.vital_hub.R;
 import com.example.vital_hub.authentication.LoginScreen;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
@@ -25,6 +28,8 @@ import com.google.android.material.navigation.NavigationBarView;
 public class UserProfile extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     Toolbar toolbar;
     ImageView setting;
+
+    Button editProfileBtn;
     BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +41,17 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.profile);
 
+        editProfileBtn = findViewById(R.id.edit_profile);
         toolbar = findViewById(R.id.toolbar);
         setting = findViewById(R.id.setting);
+
+        editProfileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserProfile.this, EditProfile.class);
+                startActivity(intent);
+            }
+        });
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
