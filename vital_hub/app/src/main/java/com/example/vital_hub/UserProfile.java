@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.vital_hub.authentication.LoginScreen;
 import com.example.vital_hub.competition.CompetitionActivity;
+import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.test.TestMain;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -81,7 +82,7 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
             overridePendingTransition(0, 0);
             return true;
         } else if (item.getItemId() == R.id.exercise) {
-            startActivity(new Intent(getApplicationContext(), ExerciseActivity.class));
+            startActivity(new Intent(getApplicationContext(), ExerciseGeneralActivity.class));
             overridePendingTransition(0, 0);
             return true;
         } else if (item.getItemId() == R.id.competition) {
