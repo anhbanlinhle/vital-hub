@@ -3,6 +3,7 @@ package com.main.server.service.implement;
 import com.main.server.entity.Comment;
 import com.main.server.repository.CommentRepository;
 import com.main.server.service.CommentService;
+import com.main.server.utils.dto.CommentDto;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,8 +21,8 @@ public class CommentServiceImpl implements CommentService {
     private CommentRepository commentRepository;
 
     @Override
-    public List<Comment> commentsInPost(Long postId, Integer page, Integer pageSize) {
-        Page<Comment> comments = commentRepository.commentsInPost(PageRequest.of(page, pageSize), postId);
+    public List<CommentDto> commentsInPost(Long postId, Integer page, Integer pageSize) {
+        Page<CommentDto> comments = commentRepository.commentsInPost(PageRequest.of(page, pageSize), postId);
         return comments.getContent();
     }
 

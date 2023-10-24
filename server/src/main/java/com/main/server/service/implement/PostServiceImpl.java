@@ -1,15 +1,12 @@
 package com.main.server.service.implement;
 
 import com.main.server.entity.Post;
-import com.main.server.middleware.TokenParser;
 import com.main.server.repository.FriendRepository;
 import com.main.server.repository.PostRepository;
 import com.main.server.service.PostService;
 import com.main.server.utils.dto.PostDto;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,8 +31,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post postById(Long id) {
-        Post post = postRepository.findByIdAndIsDeletedFalse(id).orElse(null);
+    public PostDto postById(Long id) {
+        PostDto post = postRepository.getCommentWithUserByCid(id).orElse(null);
         return post;
     }
 }

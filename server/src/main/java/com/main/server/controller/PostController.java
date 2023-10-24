@@ -3,6 +3,7 @@ package com.main.server.controller;
 import com.main.server.entity.Post;
 import com.main.server.middleware.TokenParser;
 import com.main.server.service.PostService;
+import com.main.server.utils.dto.PostDto;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class PostController {
 
     @GetMapping("")
     public ResponseEntity<?> getPostById(@RequestParam(name = "id") Long id) {
-        Post post = postService.postById(id);
+        PostDto post = postService.postById(id);
         return post != null ? ResponseEntity.ok().body(post) : ResponseEntity.badRequest().body(null);
     }
 }
