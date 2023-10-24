@@ -1,6 +1,7 @@
 package com.example.vital_hub.test;
 
 import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
+import static com.example.vital_hub.client.controller.Api.initRetrofitAndController;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,6 +35,7 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
     BottomNavigationView bottomNavigationView;
     Button fetch;
     Button restart;
+    Button changeIp;
     SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +54,11 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
         logoutBtn = findViewById(R.id.btnLogout);
         fetch = findViewById(R.id.fetch);
         restart = findViewById(R.id.restart);
+        changeIp = findViewById(R.id.changeIp);
 
         email.setText(prefs.getString("email", "null"));
         displayName.setText(prefs.getString("name", "null"));
-        server.setText(prefs.getString("server", "http://10.0.2.2"));
+        server.setText(prefs.getString("server", "null"));
 
         fetch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,11 +67,16 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
                 startActivity(intent);
             }
         });
+        changeIp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TestMain.this, TestServer.class);
+                startActivity(intent);
+            }
+        });
         restart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // this process phoenix library is used
-                // in case to restart our application
                 ProcessPhoenix.triggerRebirth(getApplicationContext());
             }
         });
@@ -78,6 +86,14 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
                 signOut();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        email.setText(prefs.getString("email", "null"));
+        displayName.setText(prefs.getString("name", "null"));
+        server.setText(prefs.getString("server", "null"));
     }
 
     private void signOut() {
