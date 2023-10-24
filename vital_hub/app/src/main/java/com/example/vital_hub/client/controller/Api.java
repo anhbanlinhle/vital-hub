@@ -25,11 +25,13 @@ public class Api {
     static Gson gson = new GsonBuilder()
             .setLenient()
             .create();
-    static Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8080/")
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build();
-    static Controller controller = retrofit.create(Controller.class);
+//    static Retrofit retrofit = new Retrofit.Builder()
+//            .baseUrl("http://10.0.2.2:8080/")
+//            .addConverterFactory(GsonConverterFactory.create(gson))
+//            .build();
+//    static Controller controller = retrofit.create(Controller.class);
+    static Retrofit retrofit;
+    static Controller controller;
 
     public static Call<ResponseObject> getSingle;
     public static Call<List<ResponseObject>> getMultiple;
@@ -50,6 +52,15 @@ public class Api {
     public static Call<List<SingleExercise>> exercisesInGroup;
 
     public static Call<SingleExercise> singleExercise;
+
+    public static void initRetrofitAndController(String server) {
+        String url = "http://" + server + ":8080/";
+        retrofit = new Retrofit.Builder()
+                .baseUrl(url)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        controller = retrofit.create(Controller.class);
+    }
 
     //Init
     public static void initGetSingle(Map<String, String> headers) {
