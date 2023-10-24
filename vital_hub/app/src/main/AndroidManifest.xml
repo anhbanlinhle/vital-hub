@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -16,6 +15,9 @@
         android:theme="@style/Theme.Vital_hub"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".test.TestServer"
+            android:exported="false" />
         <activity
             android:name=".exercises.GroupExerciseActivity"
             android:exported="false" />
@@ -33,6 +35,8 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -42,7 +46,7 @@
         <activity
             android:name=".UserProfile"
             android:exported="true"
-            android:label="false"/>
+            android:label="false" />
         <activity
             android:name=".test.TestMain"
             android:exported="true" />
@@ -57,16 +61,14 @@
         <activity
             android:name=".authentication.FirstRegistInfo"
             android:exported="true" />
-        <activity android:name=".competition.CompetitionActivity"
-            android:exported="true" />
-
-        <!--Friend-->
+        <activity
+            android:name=".competition.CompetitionActivity"
+            android:exported="true" /> <!-- Friend -->
         <activity
             android:name=".friend.FriendList"
-            android:exported="true" />
-<!--        <activity-->
-<!--            android:name=".friend.FriendProfile"-->
-<!--            android:exported="true" />-->
+            android:exported="true" /> <!-- <activity -->
+        <!-- android:name=".friend.FriendProfile" -->
+        <!-- android:exported="true" /> -->
         <activity
             android:name=".friend.FindUser"
             android:exported="true" />
