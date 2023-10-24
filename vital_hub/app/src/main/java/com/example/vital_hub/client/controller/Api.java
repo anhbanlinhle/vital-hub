@@ -1,5 +1,11 @@
 package com.example.vital_hub.client.controller;
 
+import android.content.Context;
+import static android.content.Context.MODE_PRIVATE;
+import  android.content.ContextWrapper;
+
+import android.content.SharedPreferences;
+
 import com.example.vital_hub.client.objects.*;
 
 import com.example.vital_hub.exercises.data_container.GroupExercise;

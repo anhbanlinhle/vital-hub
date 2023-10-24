@@ -22,15 +22,18 @@ import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.jakewharton.processphoenix.ProcessPhoenix;
 
 
 public class TestMain extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     TextView email;
     TextView displayName;
+    TextView server;
     Button logoutBtn;
 
     BottomNavigationView bottomNavigationView;
     Button fetch;
+    Button restart;
     SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,17 +48,28 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
 
         email = findViewById(R.id.email);
         displayName = findViewById(R.id.displayName);
+        server = findViewById(R.id.serverAddress);
         logoutBtn = findViewById(R.id.btnLogout);
         fetch = findViewById(R.id.fetch);
+        restart = findViewById(R.id.restart);
 
         email.setText(prefs.getString("email", "null"));
         displayName.setText(prefs.getString("name", "null"));
+        server.setText(prefs.getString("server", "http://10.0.2.2"));
 
         fetch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TestMain.this, TestFetch.class);
                 startActivity(intent);
+            }
+        });
+        restart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // this process phoenix library is used
+                // in case to restart our application
+                ProcessPhoenix.triggerRebirth(getApplicationContext());
             }
         });
         logoutBtn.setOnClickListener(new View.OnClickListener() {
