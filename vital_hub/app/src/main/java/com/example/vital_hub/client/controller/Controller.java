@@ -1,6 +1,8 @@
 package com.example.vital_hub.client.controller;
 
 import com.example.vital_hub.client.objects.*;
+import com.example.vital_hub.exercises.data_container.GroupExercise;
+import com.example.vital_hub.exercises.data_container.SingleExercise;
 
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,7 @@ import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface Controller {
@@ -51,4 +54,16 @@ public interface Controller {
     // Others Profile
     @GET("/user/info")
     Call<ProfileResponse> getOthersProfile(@HeaderMap Map<String, String> header, @Query("id") Long id);
+    
+    @GET("/workout/exercise-groups")
+    Call<List<GroupExercise>> getGroupExerciseAll(@HeaderMap Map<String, String> header, @Query("suggest") Boolean suggest);
+
+    @GET("/workout/all-exercises")
+    Call<List<SingleExercise>> getSingleExercisePartial(@HeaderMap Map<String, String> header, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("order") String order, @Query("desc") Boolean desc);
+
+    @GET("/workout/{id}")
+    Call<SingleExercise> getSingleExerciseById(@HeaderMap Map<String, String> header, @Path("id") Long id);
+
+    @GET("/workout/group/{id}")
+    Call<List<SingleExercise>> getGroupExerciseById(@HeaderMap Map<String, String> header, @Path("id") Long id);
 }
