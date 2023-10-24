@@ -7,6 +7,7 @@ import com.main.server.repository.UserRepository;
 import com.main.server.request.UserInfoRequest;
 import com.main.server.service.UserService;
 import com.main.server.utils.dto.FirstSignDto;
+import com.main.server.utils.dto.UserDto;
 import com.main.server.utils.enums.Sex;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,5 +87,15 @@ public class UserServiceImpl implements UserService {
                 .exerciseDaysPerWeek(firstSignDto.getExerciseDaysPerWeek())
                 .build()
         );
+    }
+
+    @Override
+    public User getUserDetailById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public UserDto getUserDtoById(Long id) {
+        return userRepository.findUserDtoById(id);
     }
 }

@@ -4,6 +4,7 @@ import com.main.server.entity.Competition;
 import com.main.server.utils.dto.CompetitionListDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -24,12 +25,13 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
                         FROM competition c
                         LEFT JOIN participants p ON c.id = p.comp_id
                         LEFT JOIN user u ON c.host_id = u.id
-                        WHERE IF(:name IS NOT NULL, u.name LIKE CONCAT('%', :name, '%'), 1)
-                        AND (((c.id IN (SELECT comp_id FROM participants WHERE participant_id = :id)) OR (c.host_id = :id)) = :isJoined)
+                        WHERE ((c.id IN (SELECT comp_id FROM participants WHERE participant_id = :id) OR c.host_id = :id) = :isJoined)
+                        AND IF(:name IS NOT NULL, c.title LIKE CONCAT('%', :name, '%'), 1)
                         GROUP BY c.id, c.title, c.background, c.ended_at, u.id, u.name, u.avatar
                         ORDER BY remainDay DESC
                         LIMIT :limit OFFSET :offset
                     """
     )
-    public List<CompetitionListDto> getCompetitionList(Boolean isJoined, Long id, String name, Integer limit, Integer offset);
+    public List<CompetitionListDto> getCompetitionList(@Param("isJoined") Boolean isJoined, @Param("id") Long id, @Param("name") String name, @Param("limit") Integer limit, @Param("offset") Integer offset);
+
 }
