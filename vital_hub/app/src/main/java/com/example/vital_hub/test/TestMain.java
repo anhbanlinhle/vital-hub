@@ -58,7 +58,7 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
 
         email.setText(prefs.getString("email", "null"));
         displayName.setText(prefs.getString("name", "null"));
-        server.setText(prefs.getString("server", "null"));
+        server.setText(prefs.getString("server", "default"));
 
         fetch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +93,7 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
         super.onResume();
         email.setText(prefs.getString("email", "null"));
         displayName.setText(prefs.getString("name", "null"));
-        server.setText(prefs.getString("server", "null"));
+        server.setText(prefs.getString("server", "default"));
     }
 
     private void signOut() {
