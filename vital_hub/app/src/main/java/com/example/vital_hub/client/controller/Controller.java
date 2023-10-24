@@ -43,4 +43,12 @@ public interface Controller {
 
     @POST("/auth/create-user-first-sign")
     Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);
+
+    // User Profile
+    @GET("/user/info")
+    Call<ProfileResponse> getUserProfile(@HeaderMap Map<String, String> header);
+
+    // Others Profile
+    @GET("/user/info")
+    Call<ProfileResponse> getOthersProfile(@HeaderMap Map<String, String> header, @Query("id") Long id);
 }

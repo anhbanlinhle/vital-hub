@@ -35,6 +35,11 @@ public class Api {
     public static Call<CountResponse> getTotalFriend;
     public static Call<FriendListResponse> getFriendList;
 
+    //User profile
+    public static Call<ProfileResponse> getUserProfile;
+    //Others profile
+    public static Call<ProfileResponse> getOthersProfile;
+
     //Init
     public static void initGetSingle(Map<String, String> headers) {
         getSingle = controller.getResponseObject(headers);
@@ -72,4 +77,12 @@ public class Api {
         postRegist = controller.postRegistInfo(headers, body);
     }
 
+    //User profile
+    public static void initGetUserProfile(Map<String, String> headers) {
+        getUserProfile = controller.getUserProfile(headers);
+    }
+    //Others profile
+    public static void initGetOthersProfile(Map<String, String> headers, Long id) {
+        getOthersProfile = controller.getOthersProfile(headers, id);
+    }
 }

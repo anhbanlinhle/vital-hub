@@ -52,6 +52,8 @@
             android:exported="true" />
         <activity android:name=".profile.EditProfile"
             android:exported="true" />
+        <activity android:name=".TestPage"
+            android:exported="true" />
         <!--Friend-->
         <activity
             android:name=".friend.FriendList"
