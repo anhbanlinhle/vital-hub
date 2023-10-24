@@ -105,7 +105,7 @@
                 android:layout_marginVertical="8dp"
                 android:background="@drawable/gradient_background"
                 android:fontFamily="@font/mont_semi_bold"
-                android:text="CLEAR"
+                android:text="RESET"
                 android:textSize="30dp"
                 app:backgroundTint="@null" />
 

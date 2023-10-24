@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +32,12 @@ public class TestServer extends AppCompatActivity {
 
         SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
 
+        ip1.addTextChangedListener(requestTextWatcher);
+        ip2.addTextChangedListener(requestTextWatcher);
+        ip3.addTextChangedListener(requestTextWatcher);
+        ip4.addTextChangedListener(requestTextWatcher);
+        commit.setEnabled(false);
+
         commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,4 +58,31 @@ public class TestServer extends AppCompatActivity {
             }
         });
     }
+
+    private TextWatcher requestTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String input1 = ip1.getText().toString().trim();
+            String input2 = ip2.getText().toString().trim();
+            String input3 = ip3.getText().toString().trim();
+            String input4 = ip4.getText().toString().trim();
+
+            commit.setEnabled(!input1.isEmpty() && !input2.isEmpty() && !input3.isEmpty() && !input4.isEmpty());
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            String input1 = ip1.getText().toString().trim();
+            String input2 = ip2.getText().toString().trim();
+            String input3 = ip3.getText().toString().trim();
+            String input4 = ip4.getText().toString().trim();
+
+            commit.setEnabled(!input1.isEmpty() && !input2.isEmpty() && !input3.isEmpty() && !input4.isEmpty());
+        }
+    };
 }
