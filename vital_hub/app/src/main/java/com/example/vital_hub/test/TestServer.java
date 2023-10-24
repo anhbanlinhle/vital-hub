@@ -31,6 +31,7 @@ public class TestServer extends AppCompatActivity {
         clear = findViewById(R.id.clear);
 
         SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+        SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
 
         ip1.addTextChangedListener(requestTextWatcher);
         ip2.addTextChangedListener(requestTextWatcher);
@@ -44,7 +45,6 @@ public class TestServer extends AppCompatActivity {
                 String ip = ip1.getText().toString() + "." + ip2.getText().toString() + "." + ip3.getText().toString() + "." + ip4.getText().toString();
                 editor.putString("server", ip);
                 editor.apply();
-                SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
                 initRetrofitAndController(prefs.getString("server", "10.0.2.2"));
                 finish();
             }
@@ -54,6 +54,7 @@ public class TestServer extends AppCompatActivity {
             public void onClick(View v) {
                 editor.remove("server");
                 editor.apply();
+                initRetrofitAndController(prefs.getString("server", "10.0.2.2"));
                 finish();
             }
         });
