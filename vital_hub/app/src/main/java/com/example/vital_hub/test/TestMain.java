@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
 
-import com.example.vital_hub.ExerciseActivity;
+import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.authentication.LoginScreen;
 import com.example.vital_hub.R;
 import com.example.vital_hub.UserProfile;
@@ -87,7 +87,7 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
             overridePendingTransition(0, 0);
             return true;
         } else if (item.getItemId() == R.id.exercise) {
-            startActivity(new Intent(getApplicationContext(), ExerciseActivity.class));
+            startActivity(new Intent(getApplicationContext(), ExerciseGeneralActivity.class));
             overridePendingTransition(0, 0);
             return true;
         } else if (item.getItemId() == R.id.competition) {
