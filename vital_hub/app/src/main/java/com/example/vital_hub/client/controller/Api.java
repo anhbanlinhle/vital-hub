@@ -57,6 +57,15 @@ public class Api {
 
     public static Call<SingleExercise> singleExercise;
 
+    public static void initRetrofitAndController(String server) {
+        String url = "http://" + server + ":8080/";
+        retrofit = new Retrofit.Builder()
+                .baseUrl(url)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        controller = retrofit.create(Controller.class);
+    }
+
 
     //post & comment
     public static Call<List<HomePagePost>> getPostResponse;

@@ -3,6 +3,7 @@ package com.example.vital_hub.home_page;
 import java.time.LocalDateTime;
 
 public class HomePagePost {
+    private String avatar;
     private Long postId;
     private Long userId;
     private String username;
@@ -15,8 +16,8 @@ public class HomePagePost {
     private int postImage;
     private String message;
 
-
-    public HomePagePost(Long postId, Long userId, String username, String title, Long joggingId, Boolean isDeleted, String createdAt, String updatedAt, int profileIcon, int postImage, String message) {
+    public HomePagePost(String avatar, Long postId, Long userId, String username, String title, Long joggingId, Boolean isDeleted, String createdAt, String updatedAt, int profileIcon, int postImage, String message) {
+        this.avatar = avatar;
         this.postId = postId;
         this.userId = userId;
         this.username = username;
