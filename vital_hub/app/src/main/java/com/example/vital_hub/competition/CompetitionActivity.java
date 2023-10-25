@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.vital_hub.ExerciseActivity;
+import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.R;
 import com.example.vital_hub.profile.UserProfile;
 import com.example.vital_hub.home_page.HomePageActivity;
@@ -38,7 +38,7 @@ public class CompetitionActivity extends AppCompatActivity implements Navigation
             overridePendingTransition(0, 0);
             return true;
         } else if (item.getItemId() == R.id.exercise) {
-            startActivity(new Intent(getApplicationContext(), ExerciseActivity.class));
+            startActivity(new Intent(getApplicationContext(), ExerciseGeneralActivity.class));
             overridePendingTransition(0, 0);
             return true;
         } else if (item.getItemId() == R.id.competition) {
