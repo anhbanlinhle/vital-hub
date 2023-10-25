@@ -1,5 +1,11 @@
 package com.example.vital_hub.client.controller;
 
+import android.content.Context;
+import static android.content.Context.MODE_PRIVATE;
+import  android.content.ContextWrapper;
+
+import android.content.SharedPreferences;
+
 import com.example.vital_hub.client.objects.*;
 
 import com.example.vital_hub.exercises.data_container.GroupExercise;
@@ -21,11 +27,13 @@ public class Api {
     static Gson gson = new GsonBuilder()
             .setLenient()
             .create();
-    static Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8080/")
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build();
-    static Controller controller = retrofit.create(Controller.class);
+//    static Retrofit retrofit = new Retrofit.Builder()
+//            .baseUrl("http://10.0.2.2:8080/")
+//            .addConverterFactory(GsonConverterFactory.create(gson))
+//            .build();
+//    static Controller controller = retrofit.create(Controller.class);
+    static Retrofit retrofit;
+    static Controller controller;
 
     public static Call<ResponseObject> getSingle;
     public static Call<List<ResponseObject>> getMultiple;
@@ -46,15 +54,6 @@ public class Api {
     public static Call<List<SingleExercise>> exercisesInGroup;
 
     public static Call<SingleExercise> singleExercise;
-
-
-    //post & comment
-
-    public static Call<List<HomePagePost>> getPostResponse;
-
-    public static Call<List<Comment>> getCommentResponse;
-
-    public static Call<Void> postComment;
 
     //Init
     public static void initGetSingle(Map<String, String> headers) {
@@ -107,18 +106,5 @@ public class Api {
 
     public static void getSingleExerciseById(Map<String, String> headers, Long id) {
         singleExercise = controller.getSingleExerciseById(headers, id);
-    }
-
-    //post & comment
-    public static void initGetPostResponse(Map<String, String> headers, int pageNum) {
-        getPostResponse = controller.getPostResponse(headers, pageNum, 10);
-    }
-
-    public static void initGetCommentResponse(Map<String, String> headers, int pageNum, Long postId) {
-        getCommentResponse = controller.getCommentResponse(headers, pageNum, 10, postId);
-    }
-
-    public static void initPostComment(Map<String, String> headers, CommentPost body) {
-        postComment = controller.postComment(headers, body);
     }
 }

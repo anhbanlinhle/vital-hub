@@ -27,6 +27,7 @@ import com.example.vital_hub.ExerciseActivity;
 import com.example.vital_hub.R;
 import com.example.vital_hub.UserProfile;
 import com.example.vital_hub.exercises.ChooseExerciseActivity;
+import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.model.Friend;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -109,7 +110,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
         } else if (item.getItemId() == R.id.home) {
             return true;
         } else if (item.getItemId() == R.id.exercise) {
-            startActivity(new Intent(getApplicationContext(), ChooseExerciseActivity.class));
+            startActivity(new Intent(getApplicationContext(), ExerciseGeneralActivity.class));
             overridePendingTransition(0, 0);
             return true;
         } else if (item.getItemId() == R.id.competition) {
