@@ -15,6 +15,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.Button;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -45,21 +46,9 @@ public class PushupVideoScan extends AppCompatActivity {
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
         initFastapi(prefs.getString("server", "10.0.2.2"));
 
-        if (ContextCompat.checkSelfPermission(
-                PushupVideoScan.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(PushupVideoScan.this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION);
-        }
-        if (ContextCompat.checkSelfPermission(
-                PushupVideoScan.this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Request permission to read external storage
-            ActivityCompat.requestPermissions(PushupVideoScan.this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION);
-        }
+        checkSelfPermission();
+
+        configVideoView();
     }
 
     @Override
@@ -68,6 +57,7 @@ public class PushupVideoScan extends AppCompatActivity {
 
     }
 
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
@@ -85,5 +75,41 @@ public class PushupVideoScan extends AppCompatActivity {
                 Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    void checkSelfPermission() {
+        if (ContextCompat.checkSelfPermission(
+                PushupVideoScan.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(PushupVideoScan.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION);
+        }
+        if (ContextCompat.checkSelfPermission(
+                PushupVideoScan.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Request permission to read external storage
+            ActivityCompat.requestPermissions(PushupVideoScan.this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION);
+        }
+    }
+
+    void configVideoView() {
+        MediaController mediaController = new MediaController(this);
+        mediaController.setAnchorView(videoView);
+        videoView.setMediaController(mediaController);
+    }
+
+    void selectVideo() {
+
+    }
+
+    void processVideo() {
+
+    }
+
+    void goBack() {
+
     }
 }
