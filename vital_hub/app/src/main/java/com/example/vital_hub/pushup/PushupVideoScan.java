@@ -129,6 +129,6 @@ public class PushupVideoScan extends AppCompatActivity {
     }
 
     void goBack() {
-
+        finish();
     }
 }
