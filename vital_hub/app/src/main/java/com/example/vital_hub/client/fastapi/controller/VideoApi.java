@@ -28,7 +28,7 @@ public class VideoApi {
     static Retrofit videoRetrofit;
     static VideoController videoController;
     static Call<PushUpResponse> pushupCall;
-    public static void initRetrofitAndController(String server) {
+    public static void initFastapi(String server) {
         String url = "http://" + server + ":7979/";
         client = new OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
