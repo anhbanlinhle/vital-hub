@@ -19,6 +19,9 @@
             android:name=".test.TestServer"
             android:exported="false" />
         <activity
+            android:name=".competition.AddCompeActivity"
+            android:exported="true" />
+        <activity
             android:name=".exercises.GroupExerciseActivity"
             android:exported="false" />
         <activity
@@ -46,7 +49,7 @@
         <activity
             android:name=".profile.UserProfile"
             android:exported="true"
-            android:label="false" />
+            android:label="false"  />
         <activity
             android:name=".test.TestMain"
             android:exported="true" />
@@ -56,14 +59,15 @@
         <activity
             android:name=".post_comment.PostCommentActivity"
             android:exported="true" />
-        <activity android:name=".exercises.ExerciseGeneralActivity"
-            android:exported="true"/>
+        <activity
+            android:name=".exercises.ExerciseGeneralActivity"
+            android:exported="true" />
         <activity
             android:name=".authentication.FirstRegistInfo"
             android:exported="true" />
         <activity 
             android:name=".competition.CompetitionActivity"
-            android:exported="true" /> <!--Friend-->
+            android:exported="true" />
         <activity android:name=".profile.EditProfile"
             android:exported="true" />
         <activity android:name=".TestPage"

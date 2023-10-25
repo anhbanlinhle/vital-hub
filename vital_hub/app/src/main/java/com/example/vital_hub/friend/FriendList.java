@@ -1,7 +1,6 @@
 package com.example.vital_hub.friend;
 
 
-import com.example.vital_hub.model.Friend;
 import com.example.vital_hub.client.controller.Api;
 
 import android.content.Intent;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.vital_hub.client.objects.*;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,8 +23,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.vital_hub.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -69,8 +71,6 @@ public class FriendList extends AppCompatActivity {
         fetchedFriendList = new ArrayList<>();
         initHeaderForRequest();
 
-        // Set jwt for request
-        Api.initJwt(headers);
 
         // Get total friend
         Api.initGetTotalFriend(headers);
@@ -164,19 +164,21 @@ public class FriendList extends AppCompatActivity {
         Api.initGetFriendList(headers, name, limit, offset);
         Api.getFriendList.enqueue(new Callback<FriendListResponse>() {
                 @Override
-                public void onResponse(Call<FriendListResponse> call, Response<FriendListResponse> response) {
+                public void onResponse(@NonNull Call<FriendListResponse> call, @NonNull Response<FriendListResponse> response) {
                     if (response.isSuccessful()) {
                         friendListResponse = response.body();
-                        for (Friend friend : friendListResponse.getData()) {
-                            fetchedFriendList.add(friend);
-                        }
+                        assert friendListResponse != null;
+                        fetchedFriendList.addAll(Arrays.asList(friendListResponse.getData()));
                         friendListAdapter.notifyDataSetChanged();
+                    }
+                    else {
+                        Log.e("Error", String.valueOf(response.code()));
                     }
                 }
 
                 @Override
-                public void onFailure(Call<FriendListResponse> call, Throwable t) {
-                    Log.e("Error", t.getMessage());
+                public void onFailure(@NonNull Call<FriendListResponse> call, @NonNull Throwable t) {
+                    Log.e("Error", Objects.requireNonNull(t.getMessage()));
                 }
             }
         );

@@ -1,12 +1,16 @@
 package com.main.server.service;
 
-import com.main.server.entity.Friend;
-import com.main.server.entity.User;
-import com.main.server.utils.dto.FriendListDto;
+import com.main.server.utils.dto.UserDto;
 
 import java.util.List;
 
 public interface FriendService {
-    public int countFriend(Long id);
-    public List<FriendListDto> getFriendList(Long id, String name, Integer limit, Integer offset);
+    int countFriend(Long id);
+    List<UserDto> getFriendList(Long id, String name, Integer limit, Integer offset);
+
+    void addFriend(Long id, Long friendId);
+
+    void deleteFriend(Long id, Long friendId);
+
+    void acceptFriend(Long id, Long friendId);
 }

@@ -45,6 +45,10 @@ public class Api {
     public static Call<CountResponse> getTotalFriend;
     public static Call<FriendListResponse> getFriendList;
 
+    //Competition
+    public static Call<CompetitionListResponse> getCompetitionList;
+
+    //Exercise
     public static Call<List<SingleExercise>> singleExerciseList;
 
     public static Call<List<GroupExercise>> groupExerciseList;
@@ -100,6 +104,12 @@ public class Api {
     public static void initGetFriendList(Map<String, String> headers, String name, Integer limit, Integer offset) {
         getFriendList = controller.getFriendList(headers, name, limit, offset);
     }
+
+    //Competition
+    public static void initGetCompetitionList(Map<String, String> headers, Boolean isJoined, String name, Integer limit, Integer offset) {
+        getCompetitionList = controller.getCompetitionList(headers, isJoined, name, limit, offset);
+    }
+
     public static void initPostRegist(Map<String, String> headers, RegistRequestObject body) {
         postRegist = controller.postRegistInfo(headers, body);
     }

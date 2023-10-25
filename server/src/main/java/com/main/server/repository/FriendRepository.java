@@ -1,8 +1,7 @@
 package com.main.server.repository;
 
 import com.main.server.entity.Friend;
-import com.main.server.entity.User;
-import com.main.server.utils.dto.FriendListDto;
+import com.main.server.utils.dto.UserDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -37,5 +36,44 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
                                 LIMIT :limit OFFSET :offset
                     """
     )
-    public List<FriendListDto> getFriendList(Long id,String name, Integer limit, Integer offset);
+    public List<UserDto> getFriendList(Long id, String name, Integer limit, Integer offset);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                                INSERT INTO friend (first_user_id, second_user_id, status)
+                                VALUES (:firstUserId, :secondUserId, 'PENDING')
+                    """
+    )
+    void addFriend(Long firstUserId, Long secondUserId);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                                DELETE FROM friend
+                                WHERE (first_user_id = :firstUserId AND second_user_id = :secondUserId)
+                                OR (first_user_id = :secondUserId AND second_user_id = :firstUserId)
+                    """
+    )
+    void deleteFriend(Long firstUserId, Long secondUserId);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                                UPDATE friend
+                                SET status = 'ACCEPTED'
+                                WHERE (first_user_id = :firstUserId AND second_user_id = :secondUserId)
+                                OR (first_user_id = :secondUserId AND second_user_id = :firstUserId)
+                    """
+    )
+    void acceptFriend(Long firstUserId, Long secondUserId);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                                DELETE FROM friend
+                                WHERE (first_user_id = :firstUserId AND second_user_id = :secondUserId)
+                    """
+    )
+    void denyFriend(Long firstUserId, Long secondUserId);
 }

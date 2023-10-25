@@ -24,11 +24,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import com.example.vital_hub.model.Friend;
 import com.example.vital_hub.helper.KeyboardHelper;
 public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.FriendViewHolder> {
 
-    private ArrayList<Friend> friendList;
+    private final ArrayList<Friend> friendList;
 
     public FriendListAdapter(ArrayList<Friend> friendList) {
         this.friendList = friendList;
@@ -90,26 +89,37 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
         TextView name = popupView.findViewById(R.id.friendName);
         ImageView avatar = popupView.findViewById(R.id.avatar);
 
+        // 2 actions: View profile, Remove friend
+        LinearLayout viewProfile = popupView.findViewById(R.id.item_1);
+        LinearLayout removeFriend = popupView.findViewById(R.id.item_4);
+
+        // View profile
+        viewProfile.setOnClickListener(v1 -> {
+            Toast.makeText(v1.getContext(), "View profile of user: " + friendList.get(position).getId(), Toast.LENGTH_SHORT).show();
+            popupWindow.dismiss();
+        });
+
+        // Remove friend
+        removeFriend.setOnClickListener(v1 -> {
+            Toast.makeText(v1.getContext(), "Remove friend: " + friendList.get(position).getId(), Toast.LENGTH_SHORT).show();
+            popupWindow.dismiss();
+        });
+
 
         name.setText(friendList.get(position).getName());
         Glide.with(avatar.getContext()).load(friendList.get(position).getAvatar()).into(avatar);
         dimBehind(popupWindow);
+
+        //Handle when dismiss popup, using slide down animation
+        popupWindow.setOnDismissListener(() -> popupView.setAnimation(AnimationUtils.loadAnimation(v.getContext(), R.animator.slide_down)));
     }
 
     public void dimBehind(PopupWindow popupWindow) {
         View container;
         if (popupWindow.getBackground() == null) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                container = (View) popupWindow.getContentView().getParent();
-            } else {
-                container = popupWindow.getContentView();
-            }
+            container = (View) popupWindow.getContentView().getParent();
         } else {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                container = (View) popupWindow.getContentView().getParent().getParent();
-            } else {
-                container = (View) popupWindow.getContentView().getParent();
-            }
+            container = (View) popupWindow.getContentView().getParent().getParent();
         }
         WindowManager wm = (WindowManager) popupWindow.getContentView().getContext().getSystemService(Context.WINDOW_SERVICE);
         WindowManager.LayoutParams p = (WindowManager.LayoutParams) container.getLayoutParams();
@@ -123,11 +133,11 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
         return friendList.size();
     }
 
-    public class FriendViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public static class FriendViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        private TextView friendName;
-        private ImageView friendAvatar;
-        private Button moreButton;
+        private final TextView friendName;
+        private final ImageView friendAvatar;
+        private final Button moreButton;
         private ItemClickListener itemClickListener;
 
         public FriendViewHolder(@NonNull View view) {

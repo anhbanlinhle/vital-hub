@@ -1,12 +1,13 @@
 package com.example.vital_hub.client.objects;
 
-import com.example.vital_hub.friend.Friend;
-public class FriendListResponse {
+import com.example.vital_hub.competition.Competition;
+
+public class CompetitionListResponse {
     private final String message;
     private final Boolean success;
-    private final Friend[] data;
+    private final Competition[] data;
 
-    public FriendListResponse(String message, Boolean success, Friend[] data) {
+    public CompetitionListResponse(String message, Boolean success, Competition[] data) {
         this.message = message;
         this.success = success;
         this.data = data;
@@ -20,7 +21,7 @@ public class FriendListResponse {
         return success;
     }
 
-    public Friend[] getData() {
+    public Competition[] getData() {
         return data;
     }
 }

@@ -2,20 +2,14 @@ package com.main.server.controller;
 
 import com.main.server.middleware.TokenParser;
 import com.main.server.response.BaseResponse;
-import com.main.server.security.JwtService;
 import com.main.server.service.FriendService;
-import com.main.server.service.UserService;
-import com.main.server.utils.dto.FriendListDto;
+import com.main.server.utils.dto.UserDto;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
-import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -60,7 +54,7 @@ public class FriendController {
             offset = 0;
         }
 
-        List<FriendListDto> friendList = friendService.getFriendList(currentUserId, name, limit, offset);
+        List<UserDto> friendList = friendService.getFriendList(currentUserId, name, limit, offset);
         return ResponseEntity.ok().body(BaseResponse.builder()
                 .message("success")
                 .success(true)
@@ -69,4 +63,33 @@ public class FriendController {
 
     }
 
+    @PostMapping("/add")
+    public ResponseEntity<BaseResponse> addFriend(@RequestHeader("Authorization") String token, @RequestParam Long id) {
+        Long currentUserId = tokenParser.getCurrentUserId(token);
+        friendService.addFriend(currentUserId, id);
+        return ResponseEntity.ok().body(BaseResponse.builder()
+                .message("Add friend success")
+                .success(true)
+                .build());
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<BaseResponse> deleteFriend(@RequestHeader("Authorization") String token, @RequestParam Long id) {
+        Long currentUserId = tokenParser.getCurrentUserId(token);
+        friendService.deleteFriend(currentUserId, id);
+        return ResponseEntity.ok().body(BaseResponse.builder()
+                .message("Delete friend success")
+                .success(true)
+                .build());
+    }
+
+    @PutMapping("/accept")
+    public ResponseEntity<BaseResponse> acceptFriend(@RequestHeader("Authorization") String token, @RequestParam Long id) {
+        Long currentUserId = tokenParser.getCurrentUserId(token);
+        friendService.acceptFriend(currentUserId, id);
+        return ResponseEntity.ok().body(BaseResponse.builder()
+                .message("Accept friend success")
+                .success(true)
+                .build());
+    }
 }
