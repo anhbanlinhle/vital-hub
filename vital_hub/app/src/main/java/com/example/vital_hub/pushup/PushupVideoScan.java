@@ -12,6 +12,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -63,6 +64,15 @@ public class PushupVideoScan extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == REQUEST_CODE_SELECT_VIDEO && resultCode == RESULT_OK && data != null) {
+            Uri videoUri = data.getData();
+
+            videoView.setVideoURI(videoUri);
+            videoView.setTag(videoUri);
+            videoView.start();
+        } else {
+            Toast.makeText(this, "No video selected", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -73,14 +83,14 @@ public class PushupVideoScan extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Read permisson granted", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
             }
         }
         if (requestCode == REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Write permisson granted", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
             }
         }
     }
