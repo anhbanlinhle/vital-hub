@@ -1,6 +1,8 @@
 package com.example.vital_hub.pushup;
 
 import static com.example.vital_hub.client.fastapi.controller.VideoApi.initFastapi;
+import static com.example.vital_hub.client.fastapi.controller.VideoApi.initPushupCall;
+import static com.example.vital_hub.client.fastapi.controller.VideoApi.pushupCall;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,8 +26,13 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.vital_hub.R;
+import com.example.vital_hub.client.fastapi.objects.PushUpResponse;
 import com.example.vital_hub.test.TestMain;
 import com.example.vital_hub.test.TestVideo;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PushupVideoScan extends AppCompatActivity {
     private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION = 0;
@@ -126,7 +133,31 @@ public class PushupVideoScan extends AppCompatActivity {
     }
 
     void processVideo() {
+        result.setText("Processing... Please wait!");
+        Uri videoUri = videoView.getTag() != null ? (Uri) videoView.getTag() : null;
+        if (videoUri == null) {
+            Toast.makeText(PushupVideoScan.this, "No video selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String videoPath = getVideoPathFromUri(videoUri);
+        initPushupCall(videoPath);
 
+        pushupCall.clone().enqueue(new Callback<PushUpResponse>() {
+            @Override
+            public void onResponse(Call<PushUpResponse> call, Response<PushUpResponse> response) {
+                if (response.isSuccessful()) {
+                    PushUpResponse body = response.body();
+                    if (body != null) {
+                        result.setText("Count: " + body.getCount());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PushUpResponse> call, Throwable t) {
+                result.setText(t.getMessage());
+            }
+        });
     }
 
     void goBack() {

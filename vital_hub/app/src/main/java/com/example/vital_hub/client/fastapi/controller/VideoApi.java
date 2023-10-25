@@ -27,7 +27,7 @@ public class VideoApi {
     static OkHttpClient client;
     static Retrofit videoRetrofit;
     static VideoController videoController;
-    static Call<PushUpResponse> pushupCall;
+    public static Call<PushUpResponse> pushupCall;
     public static void initFastapi(String server) {
         String url = "http://" + server + ":7979/";
         client = new OkHttpClient.Builder()
