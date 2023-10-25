@@ -1,6 +1,7 @@
 package com.example.vital_hub.test;
 
 import static com.example.vital_hub.client.controller.Api.initRetrofitAndController;
+import static com.example.vital_hub.client.fastapi.controller.VideoApi.initFastapi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -46,6 +47,7 @@ public class TestServer extends AppCompatActivity {
                 editor.putString("server", ip);
                 editor.apply();
                 initRetrofitAndController(prefs.getString("server", "10.0.2.2"));
+                initFastapi(prefs.getString("server", "10.0.2.2"));
                 finish();
             }
         });
@@ -55,6 +57,7 @@ public class TestServer extends AppCompatActivity {
                 editor.remove("server");
                 editor.apply();
                 initRetrofitAndController(prefs.getString("server", "10.0.2.2"));
+                initFastapi(prefs.getString("server", "10.0.2.2"));
                 finish();
             }
         });

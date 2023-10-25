@@ -27,8 +27,6 @@ import android.widget.VideoView;
 
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.fastapi.objects.PushUpResponse;
-import com.example.vital_hub.test.TestMain;
-import com.example.vital_hub.test.TestVideo;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,7 +52,7 @@ public class PushupVideoScan extends AppCompatActivity {
         result = findViewById(R.id.result);
 
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
-        initFastapi(prefs.getString("server", "192.168.1.7"));
+        initFastapi(prefs.getString("server", "10.0.2.2"));
 
         checkSelfPermission();
 
