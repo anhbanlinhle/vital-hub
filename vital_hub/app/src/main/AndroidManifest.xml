@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".test.TestVideo"
+            android:exported="false" />
+        <activity
             android:name=".test.TestServer"
             android:exported="false" />
         <activity
@@ -56,8 +59,9 @@
         <activity
             android:name=".post_comment.PostCommentActivity"
             android:exported="true" />
-        <activity android:name=".exercises.ExerciseGeneralActivity"
-            android:exported="true"/>
+        <activity
+            android:name=".exercises.ExerciseGeneralActivity"
+            android:exported="true" />
         <activity
             android:name=".authentication.FirstRegistInfo"
             android:exported="true" />

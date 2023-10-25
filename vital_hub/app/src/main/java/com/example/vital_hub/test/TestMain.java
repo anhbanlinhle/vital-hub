@@ -36,6 +36,7 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
     Button fetch;
     Button restart;
     Button changeIp;
+    Button video;
     SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
         fetch = findViewById(R.id.fetch);
         restart = findViewById(R.id.restart);
         changeIp = findViewById(R.id.changeIp);
+        video = findViewById(R.id.video);
 
         email.setText(prefs.getString("email", "null"));
         displayName.setText(prefs.getString("name", "null"));
@@ -78,6 +80,13 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
             @Override
             public void onClick(View v) {
                 ProcessPhoenix.triggerRebirth(getApplicationContext());
+            }
+        });
+        video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TestMain.this, TestVideo.class);
+                startActivity(intent);
             }
         });
         logoutBtn.setOnClickListener(new View.OnClickListener() {
