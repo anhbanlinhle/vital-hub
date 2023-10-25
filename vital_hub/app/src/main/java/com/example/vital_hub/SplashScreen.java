@@ -1,6 +1,6 @@
 package com.example.vital_hub;
 
-import static com.example.vital_hub.client.controller.Api.initRetrofitAndController;
+
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.vital_hub.authentication.LoginScreen;
+import static com.example.vital_hub.client.controller.Api.initRetrofitAndController;
 
 public class SplashScreen extends Activity {
     Handler handler;

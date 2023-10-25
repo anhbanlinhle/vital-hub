@@ -2,6 +2,7 @@ package com.example.vital_hub.home_page;
 
 
 import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
+import static com.example.vital_hub.client.controller.Api.initGetPostResponse;
 
 import com.example.vital_hub.authentication.LoginScreen;
 
@@ -23,7 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vital_hub.client.controller.Api;
 import com.example.vital_hub.competition.CompetitionActivity;
-import com.example.vital_hub.ExerciseActivity;
 import com.example.vital_hub.R;
 import com.example.vital_hub.UserProfile;
 import com.example.vital_hub.exercises.ChooseExerciseActivity;
@@ -153,7 +153,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
     }
 
     private void fetchPost(int pageNum) {
-        Api.initGetPostResponse(headers, pageNum);
+        initGetPostResponse(headers, pageNum);
         Api.getPostResponse.clone().enqueue(new Callback<List<HomePagePost>>() {
             @Override
             public void onResponse(Call<List<HomePagePost>> call, Response<List<HomePagePost>> response) {
