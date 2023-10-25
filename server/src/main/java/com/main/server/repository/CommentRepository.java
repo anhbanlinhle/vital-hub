@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    @Query("SELECT c.id AS id, c.userId AS userId, c.content AS content, u.avatar AS avatar, u.name AS profileName, c.createdAt AS createdAt, c.updatedAt AS updatedAt FROM Comment c JOIN User u " +
+    @Query("SELECT c.id AS id, c.userId AS userId, c.content AS content, u.avatar AS avatar, u.name AS profileName, c.createdAt AS createdAt, c.updatedAt AS updatedAt FROM Comment c JOIN User u ON c.userId = u.id " +
             "WHERE c.isDeleted = FALSE AND c.postId = :postId ORDER BY c.updatedAt, c.createdAt")
     Page<CommentDto> commentsInPost(Pageable pageable, Long postId);
 }
