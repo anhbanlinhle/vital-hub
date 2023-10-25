@@ -25,6 +25,7 @@ import com.example.vital_hub.R;
 import com.example.vital_hub.UserProfile;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
+import com.example.vital_hub.pushup.PushupVideoScan;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.jakewharton.processphoenix.ProcessPhoenix;
@@ -66,10 +67,6 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
         displayName.setText(prefs.getString("name", "null"));
         server.setText(prefs.getString("server", "default"));
 
-        if (ContextCompat.checkSelfPermission(TestMain.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            // Request the permission from the user
-            ActivityCompat.requestPermissions(TestMain.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
-        }
 
         fetch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +91,7 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
         video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TestMain.this, TestVideo.class);
+                Intent intent = new Intent(TestMain.this, PushupVideoScan.class);
                 startActivity(intent);
             }
         });

@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.TextView;
@@ -44,11 +45,18 @@ public class PushupVideoScan extends AppCompatActivity {
         result = findViewById(R.id.result);
 
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
-        initFastapi(prefs.getString("server", "10.0.2.2"));
+        initFastapi(prefs.getString("server", "192.168.1.7"));
 
         checkSelfPermission();
 
         configVideoView();
+
+        video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectVideo();
+            }
+        });
     }
 
     @Override
@@ -102,7 +110,8 @@ public class PushupVideoScan extends AppCompatActivity {
     }
 
     void selectVideo() {
-
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_CODE_SELECT_VIDEO);
     }
 
     void processVideo() {
