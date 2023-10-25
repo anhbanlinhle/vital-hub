@@ -10,10 +10,10 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    @Query(value = "(SELECT p.user_id AS userId, p.id AS postId, u.name AS username, p.created_at AS createdAt, p.title AS title, user.avatar AS avatar FROM post p JOIN user u ON p.user_id = u.id " +
+    @Query(value = "(SELECT p.user_id AS userId, p.id AS postId, u.name AS username, p.created_at AS createdAt, p.title AS title, u.avatar AS avatar FROM post p JOIN user u ON p.user_id = u.id " +
             "WHERE p.is_deleted = FALSE AND (:noFriend = TRUE OR p.user_id IN :friendList)) " +
             "UNION " +
-            "(SELECT p.user_id AS userId, p.id AS postId, u.name AS username, p.created_at AS createdAt, p.title AS title, user.avatar AS avatar FROM post p JOIN user u ON p.user_id = u.id " +
+            "(SELECT p.user_id AS userId, p.id AS postId, u.name AS username, p.created_at AS createdAt, p.title AS title, u.avatar AS avatar FROM post p JOIN user u ON p.user_id = u.id " +
             "WHERE p.is_deleted = FALSE AND (:noFriend = TRUE OR p.user_id NOT IN :friendList)) " +
             "ORDER BY createdAt " +
             "LIMIT :pageSize OFFSET :page", nativeQuery = true)
