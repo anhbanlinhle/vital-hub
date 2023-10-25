@@ -3,8 +3,10 @@ package com.example.vital_hub.test;
 import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
 import static com.example.vital_hub.client.controller.Api.initRetrofitAndController;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.WindowCompat;
 
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
@@ -21,6 +25,7 @@ import com.example.vital_hub.R;
 import com.example.vital_hub.UserProfile;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
+import com.example.vital_hub.pushup.PushupVideoScan;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.jakewharton.processphoenix.ProcessPhoenix;
@@ -36,6 +41,7 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
     Button fetch;
     Button restart;
     Button changeIp;
+    Button video;
     SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +61,12 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
         fetch = findViewById(R.id.fetch);
         restart = findViewById(R.id.restart);
         changeIp = findViewById(R.id.changeIp);
+        video = findViewById(R.id.video);
 
         email.setText(prefs.getString("email", "null"));
         displayName.setText(prefs.getString("name", "null"));
         server.setText(prefs.getString("server", "default"));
+
 
         fetch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +86,13 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
             @Override
             public void onClick(View v) {
                 ProcessPhoenix.triggerRebirth(getApplicationContext());
+            }
+        });
+        video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TestMain.this, PushupVideoScan.class);
+                startActivity(intent);
             }
         });
         logoutBtn.setOnClickListener(new View.OnClickListener() {
