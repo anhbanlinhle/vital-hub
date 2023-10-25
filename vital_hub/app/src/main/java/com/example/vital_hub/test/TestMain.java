@@ -3,8 +3,10 @@ package com.example.vital_hub.test;
 import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
 import static com.example.vital_hub.client.controller.Api.initRetrofitAndController;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.WindowCompat;
 
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
@@ -61,6 +65,11 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
         email.setText(prefs.getString("email", "null"));
         displayName.setText(prefs.getString("name", "null"));
         server.setText(prefs.getString("server", "default"));
+
+        if (ContextCompat.checkSelfPermission(TestMain.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // Request the permission from the user
+            ActivityCompat.requestPermissions(TestMain.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
+        }
 
         fetch.setOnClickListener(new View.OnClickListener() {
             @Override
