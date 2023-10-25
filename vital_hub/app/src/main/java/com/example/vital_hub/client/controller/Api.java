@@ -1,5 +1,13 @@
 package com.example.vital_hub.client.controller;
 
+import android.content.Context;
+
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.ContextWrapper;
+
+import android.content.SharedPreferences;
+
 import com.example.vital_hub.client.objects.*;
 
 import com.example.vital_hub.exercises.data_container.GroupExercise;
@@ -21,11 +29,13 @@ public class Api {
     static Gson gson = new GsonBuilder()
             .setLenient()
             .create();
-    static Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8080/")
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build();
-    static Controller controller = retrofit.create(Controller.class);
+    //    static Retrofit retrofit = new Retrofit.Builder()
+//            .baseUrl("http://10.0.2.2:8080/")
+//            .addConverterFactory(GsonConverterFactory.create(gson))
+//            .build();
+//    static Controller controller = retrofit.create(Controller.class);
+    static Retrofit retrofit;
+    static Controller controller;
 
     public static Call<ResponseObject> getSingle;
     public static Call<List<ResponseObject>> getMultiple;
@@ -49,11 +59,8 @@ public class Api {
 
 
     //post & comment
-
     public static Call<List<HomePagePost>> getPostResponse;
-
     public static Call<List<Comment>> getCommentResponse;
-
     public static Call<Void> postComment;
 
     //Init
@@ -89,6 +96,7 @@ public class Api {
     public static void initGetFriendList(Map<String, String> headers, String name, Integer limit, Integer offset) {
         getFriendList = controller.getFriendList(headers, name, limit, offset);
     }
+
     public static void initPostRegist(Map<String, String> headers, RegistRequestObject body) {
         postRegist = controller.postRegistInfo(headers, body);
     }
@@ -109,7 +117,7 @@ public class Api {
         singleExercise = controller.getSingleExerciseById(headers, id);
     }
 
-    //post & comment
+    // post and comment
     public static void initGetPostResponse(Map<String, String> headers, int pageNum) {
         getPostResponse = controller.getPostResponse(headers, pageNum, 10);
     }

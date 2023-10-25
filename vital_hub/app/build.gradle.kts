@@ -32,6 +32,7 @@ android {
 }
 
 dependencies {
+    implementation("com.jakewharton:process-phoenix:2.0.0")
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
