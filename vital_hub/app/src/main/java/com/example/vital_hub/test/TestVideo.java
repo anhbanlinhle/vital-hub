@@ -24,13 +24,15 @@ public class TestVideo extends AppCompatActivity {
     private static final int REQUEST_CODE_SELECT_VIDEO = 1;
     private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION = 2;
     private VideoView videoView;
-    Button video;
+    Button video, back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_video);
 
         video = findViewById(R.id.choose);
+        back = findViewById(R.id.back);
+
         video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,6 +48,13 @@ public class TestVideo extends AppCompatActivity {
                     Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, REQUEST_CODE_SELECT_VIDEO);
                 }
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

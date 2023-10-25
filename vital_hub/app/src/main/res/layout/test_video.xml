@@ -8,14 +8,14 @@
 
     <VideoView
         android:id="@+id/video_view"
-        android:layout_width="288dp"
-        android:layout_height="183dp"
+        android:layout_width="360dp"
+        android:layout_height="241dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.133">
+        app:layout_constraintVertical_bias="0.065">
 
     </VideoView>
 
