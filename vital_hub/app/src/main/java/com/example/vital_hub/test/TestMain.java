@@ -1,9 +1,12 @@
 package com.example.vital_hub.test;
 
 import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
+import static com.example.vital_hub.client.controller.Api.initRetrofitAndController;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,25 +15,33 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.WindowCompat;
 
-import com.example.vital_hub.ExerciseActivity;
+import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.authentication.LoginScreen;
 import com.example.vital_hub.R;
 import com.example.vital_hub.UserProfile;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
+import com.example.vital_hub.pushup.PushupVideoScan;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.jakewharton.processphoenix.ProcessPhoenix;
 
 
 public class TestMain extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     TextView email;
     TextView displayName;
+    TextView server;
     Button logoutBtn;
 
     BottomNavigationView bottomNavigationView;
     Button fetch;
+    Button restart;
+    Button changeIp;
+    Button video;
     SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,16 +56,42 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
 
         email = findViewById(R.id.email);
         displayName = findViewById(R.id.displayName);
+        server = findViewById(R.id.serverAddress);
         logoutBtn = findViewById(R.id.btnLogout);
         fetch = findViewById(R.id.fetch);
+        restart = findViewById(R.id.restart);
+        changeIp = findViewById(R.id.changeIp);
+        video = findViewById(R.id.video);
 
         email.setText(prefs.getString("email", "null"));
         displayName.setText(prefs.getString("name", "null"));
+        server.setText(prefs.getString("server", "default"));
+
 
         fetch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TestMain.this, TestFetch.class);
+                startActivity(intent);
+            }
+        });
+        changeIp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TestMain.this, TestServer.class);
+                startActivity(intent);
+            }
+        });
+        restart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProcessPhoenix.triggerRebirth(getApplicationContext());
+            }
+        });
+        video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TestMain.this, PushupVideoScan.class);
                 startActivity(intent);
             }
         });
@@ -64,6 +101,14 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
                 signOut();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        email.setText(prefs.getString("email", "null"));
+        displayName.setText(prefs.getString("name", "null"));
+        server.setText(prefs.getString("server", "default"));
     }
 
     private void signOut() {
@@ -87,7 +132,7 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
             overridePendingTransition(0, 0);
             return true;
         } else if (item.getItemId() == R.id.exercise) {
-            startActivity(new Intent(getApplicationContext(), ExerciseActivity.class));
+            startActivity(new Intent(getApplicationContext(), ExerciseGeneralActivity.class));
             overridePendingTransition(0, 0);
             return true;
         } else if (item.getItemId() == R.id.competition) {

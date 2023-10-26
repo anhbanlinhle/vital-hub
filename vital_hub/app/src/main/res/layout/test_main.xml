@@ -15,10 +15,10 @@
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.086" />
 
     <TextView
         android:id="@+id/displayName"
@@ -28,10 +28,22 @@
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.282" />
+        app:layout_constraintVertical_bias="0.19" />
+
+    <TextView
+        android:id="@+id/serverAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Server"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.283" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -43,29 +55,62 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" >
+        app:layout_constraintVertical_bias="0.648">
 
         <Button
             android:id="@+id/fetch"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="4dp"
-            android:text="Fetch"
-            android:textSize="20dp"
-            app:backgroundTint="@null"
             android:background="@drawable/gradient_background"
-            android:fontFamily="@font/mont_semi_bold" />
+            android:fontFamily="@font/mont_semi_bold"
+            android:text="FETCH"
+            android:textSize="20dp"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/changeIp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:background="@drawable/gradient_background"
+            android:fontFamily="@font/mont_semi_bold"
+            android:text="SERVER"
+            android:textSize="20dp"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/video"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:background="@drawable/gradient_background"
+            android:fontFamily="@font/mont_semi_bold"
+            android:text="VIDEO"
+            android:textSize="20dp"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/restart"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:background="@drawable/gradient_background"
+            android:fontFamily="@font/mont_semi_bold"
+            android:text="RESTART"
+            android:textSize="20dp"
+            app:backgroundTint="@null" />
 
         <Button
             android:id="@+id/btnLogout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="4dp"
-            android:text="Logout"
-            android:textSize="20dp"
-            app:backgroundTint="@null"
             android:background="@drawable/gradient_background"
-            android:fontFamily="@font/mont_semi_bold" />
+            android:fontFamily="@font/mont_semi_bold"
+            android:text="LOGOUT"
+            android:textSize="20dp"
+            app:backgroundTint="@null" />
 
     </LinearLayout>
 
