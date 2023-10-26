@@ -50,6 +50,9 @@
             android:name=".profile.UserProfile"
             android:exported="true"
             android:label="false"  />
+        <activity android:name=".profile.OthersProfile"
+            android:exported="true"
+            android:label="false" />
         <activity
             android:name=".test.TestMain"
             android:exported="true" />

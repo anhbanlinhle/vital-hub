@@ -1,13 +1,12 @@
 package com.example.vital_hub.client.controller;
 
-import android.content.Context;
-import static android.content.Context.MODE_PRIVATE;
-import  android.content.ContextWrapper;
-
-import android.content.SharedPreferences;
-
-import com.example.vital_hub.client.objects.*;
-
+import com.example.vital_hub.client.objects.AuthResponseObject;
+import com.example.vital_hub.client.objects.CompetitionListResponse;
+import com.example.vital_hub.client.objects.CountResponse;
+import com.example.vital_hub.client.objects.FriendListResponse;
+import com.example.vital_hub.client.objects.ProfileResponse;
+import com.example.vital_hub.client.objects.RegistRequestObject;
+import com.example.vital_hub.client.objects.ResponseObject;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.google.gson.Gson;
@@ -57,6 +56,11 @@ public class Api {
 
     public static Call<SingleExercise> singleExercise;
 
+    //User profile
+    public static Call<ProfileResponse> getUserProfile;
+    //Others profile
+    public static Call<ProfileResponse> getOthersProfile;
+
     public static void initRetrofitAndController(String server) {
         String url = "http://" + server + ":8080/";
         retrofit = new Retrofit.Builder()
@@ -66,10 +70,7 @@ public class Api {
         controller = retrofit.create(Controller.class);
     }
 
-    //User profile
-    public static Call<ProfileResponse> getUserProfile;
-    //Others profile
-    public static Call<ProfileResponse> getOthersProfile;
+
 
     //Init
     public static void initGetSingle(Map<String, String> headers) {
@@ -129,6 +130,7 @@ public class Api {
     public static void getSingleExerciseById(Map<String, String> headers, Long id) {
         singleExercise = controller.getSingleExerciseById(headers, id);
     }
+
     //User profile
     public static void initGetUserProfile(Map<String, String> headers) {
         getUserProfile = controller.getUserProfile(headers);

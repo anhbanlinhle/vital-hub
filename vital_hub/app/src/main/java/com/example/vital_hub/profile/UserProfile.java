@@ -1,22 +1,25 @@
 package com.example.vital_hub.profile;
 
 import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
+import static com.example.vital_hub.client.controller.Api.initRetrofitAndController;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
 import com.example.vital_hub.TestPage;
 import com.example.vital_hub.authentication.LoginScreen;
@@ -48,15 +51,25 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
     SharedPreferences prefs;
     String jwt;
     Map<String, String> headers;
-
     ProfileResponse profileResponse;
-
     Button shareButton;
+    TextView name;
+    TextView id;
+    ImageView profileImage;
+
+    Button openOthersProfileTest;
+
+    private UserInfo fetchedUserProfile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_profile);
         initHeaderForRequest();
+        fetchUserProfile();
+        initRetrofitAndController(prefs.getString("server", "10.0.2.2"));
+
+
         //NavBar
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
@@ -69,14 +82,26 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         statistic = findViewById(R.id.statistic_view);
         friend = findViewById(R.id.friend_view);
         shareButton = findViewById(R.id.share_button);
+        name = findViewById(R.id.username);
+        id = findViewById(R.id.user_id);
+        profileImage = findViewById(R.id.profile_image);
+        openOthersProfileTest = findViewById(R.id.others_profile);
 
-
-        shareButton.setOnClickListener(new View.OnClickListener() {
+        openOthersProfileTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fetchUserProfile();
+                Intent intent = new Intent(UserProfile.this, OthersProfile.class);
+                startActivity(intent);
             }
         });
+
+
+//        shareButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                fetchUserProfile();
+//            }
+//        });
         activity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,10 +155,6 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
                 popupMenu.show();
             }
         });
-
-
-
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -175,18 +196,24 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         headers.put("Authorization", "Bearer " + jwt);
     }
 
+
     private void fetchUserProfile() {
         Api.initGetUserProfile(headers);
-        Api.getUserProfile.enqueue(new Callback<ProfileResponse>() {
+        Api.getUserProfile.clone().enqueue(new Callback<ProfileResponse>() {
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 if (response.isSuccessful()) {
                     profileResponse = response.body();
+                    assert profileResponse != null;
+                    fetchedUserProfile = profileResponse.getData();
+                    name.setText(fetchedUserProfile.getName());
+                    id.setText(String.valueOf(fetchedUserProfile.getId()));
+                    Glide.with(UserProfile.this).load(fetchedUserProfile.getAvatar()).into(profileImage);
                 }
             }
             @Override
             public void onFailure(Call<ProfileResponse> call, Throwable t) {
-                Log.e("Error", t.getMessage());
+                Toast.makeText(UserProfile.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
