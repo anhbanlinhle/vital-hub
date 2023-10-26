@@ -9,4 +9,6 @@ public interface PostService {
     List<PostDto> postByPage(int page, int pageSize, Long userId);
 
     PostDto postById(Long id);
+
+    Post deletePost(Long id);
 }

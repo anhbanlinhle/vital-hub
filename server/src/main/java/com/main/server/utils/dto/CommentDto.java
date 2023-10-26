@@ -10,4 +10,5 @@ public interface CommentDto {
     String getProfileName();
     LocalDateTime getCreatedAt();
     LocalDateTime getUpdatedAt();
+    Boolean getIsOwned();
 }

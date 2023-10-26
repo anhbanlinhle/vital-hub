@@ -26,13 +26,26 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostDto> postByPage(int page, int pageSize, Long userId) {
         List<Long> friendList = friendRepository.findFriendList(userId);
-        List<PostDto> posts = postRepository.allPostOrderByCreatedTime(page * pageSize, pageSize, friendList, friendList.isEmpty());
+        friendList.add(userId);
+        List<PostDto> posts = postRepository.allPostOrderByCreatedTime(page * pageSize, pageSize, friendList, userId);
         return posts;
     }
 
     @Override
     public PostDto postById(Long id) {
-        PostDto post = postRepository.getCommentWithUserByCid(id).orElse(null);
+        PostDto post = postRepository.getPostWithUserByCid(id).orElse(null);
         return post;
+    }
+
+    @Override
+    public Post deletePost(Long id) {
+        Post post = postRepository.findByIdAndIsDeletedFalse(id).orElse(null);
+        if (post == null) {
+            return null;
+        } else {
+            post.setIsDeleted(true);
+            postRepository.save(post);
+            return post;
+        }
     }
 }

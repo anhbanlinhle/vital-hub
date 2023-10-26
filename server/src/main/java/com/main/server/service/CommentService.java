@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface CommentService {
 
-    List<CommentDto> commentsInPost(Long postId, Integer page, Integer pageSize);
+    List<CommentDto> commentsInPost(Long postId, Integer page, Integer pageSize, Long currentUserId);
 
     Comment addComment(Long userId, Comment comment);
+
+    Comment deleteComment(Long id);
 }

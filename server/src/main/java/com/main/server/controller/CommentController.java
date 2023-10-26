@@ -22,9 +22,10 @@ public class CommentController {
 
     @GetMapping("/by-post")
     public ResponseEntity<?> getCommentsInPost(@RequestParam(name = "page") Integer page,
-                                              @RequestParam(name = "pageSize") Integer pageSize,
-                                              @RequestParam(name = "postId") Long postId) {
-        return ResponseEntity.ok().body(commentService.commentsInPost(postId, page, pageSize));
+                                               @RequestParam(name = "pageSize") Integer pageSize,
+                                               @RequestParam(name = "postId") Long postId,
+                                               @RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok().body(commentService.commentsInPost(postId, page, pageSize, tokenParser.getCurrentUserId(token)));
     }
 
     @PostMapping("/add-comment")
@@ -32,5 +33,15 @@ public class CommentController {
                                         @RequestHeader(name = "Authorization") String token) {
         commentService.addComment(tokenParser.getCurrentUserId(token), comment);
         return ResponseEntity.ok().body(null);
+    }
+
+    @DeleteMapping("/remove")
+    public ResponseEntity<?> addComment(@RequestParam(name = "id") Long id) {
+        Comment comment = commentService.deleteComment(id);
+        if (comment == null) {
+            return ResponseEntity.badRequest().body(null);
+        } else {
+            return ResponseEntity.ok().body(comment);
+        }
     }
 }
