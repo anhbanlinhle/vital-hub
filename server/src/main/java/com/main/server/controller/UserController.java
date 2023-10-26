@@ -139,13 +139,38 @@ public class UserController {
     @GetMapping("/info")
     public ResponseEntity<BaseResponse> getUserInfo(@RequestHeader("Authorization") String token, @Nullable @RequestParam Long id) {
         try {
+            Long self_id = tokenParser.getCurrentUserId(token);
             if (id == null) {
                 id = tokenParser.getCurrentUserId(token);
             }
             return ResponseEntity.ok().body(BaseResponse.builder()
                     .message("Get user info success")
                     .success(true)
-                    .data(userService.getUserDtoById(id))
+                    .data(userService.getUserDtoById(self_id, id))
+                    .build());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(BaseResponse.builder()
+                    .message(e.getMessage())
+                    .success(false)
+                    .data(null)
+                    .build());
+        }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<BaseResponse> searchUser(@RequestHeader("Authorization") String token, @Nullable @RequestParam String name, @Nullable @RequestParam Integer limit, @Nullable @RequestParam Integer offset) {
+        try {
+            Long self_id = tokenParser.getCurrentUserId(token);
+            if (limit == null) {
+                limit = 10;
+            }
+            if (offset == null) {
+                offset = 0;
+            }
+            return ResponseEntity.ok().body(BaseResponse.builder()
+                    .message("Get user info success")
+                    .success(true)
+                    .data(userService.findUser(self_id, name, limit, offset))
                     .build());
         } catch (Exception e) {
             return ResponseEntity.status(500).body(BaseResponse.builder()

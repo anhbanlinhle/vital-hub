@@ -29,6 +29,18 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
+    public List<UserDto> getRequestFriendList(Long id, Integer limit, Integer offset) {
+
+        return friendRepository.getRequestFriendList(id, limit, offset);
+    }
+
+    @Override
+    public List<UserDto> searchFriend(Long id, String name, Integer limit, Integer offset) {
+
+        return friendRepository.searchNonFriendList(id, name, limit, offset);
+    }
+
+    @Override
     public void addFriend(Long id, Long friendId) {
         friendRepository.addFriend(id, friendId);
     }
@@ -41,6 +53,16 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public void acceptFriend(Long id, Long friendId) {
         friendRepository.acceptFriend(id, friendId);
+    }
+
+    @Override
+    public void denyFriend(Long id, Long friendId) {
+        friendRepository.denyFriend(id, friendId);
+    }
+
+    @Override
+    public void revokeRequest(Long id, Long friendId) {
+        friendRepository.revokeRequest(id, friendId);
     }
 
 

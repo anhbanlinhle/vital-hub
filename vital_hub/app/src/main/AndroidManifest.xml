@@ -63,14 +63,15 @@
             android:exported="true" />
         <activity
             android:name=".competition.CompetitionActivity"
-            android:exported="true" /> <!-- Friend -->
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true" />
+
+        <!-- Friend -->
         <activity
             android:name=".friend.FriendList"
-            android:exported="true" /> <!-- <activity -->
-        <!-- android:name=".friend.FriendProfile" -->
-        <!-- android:exported="true" /> -->
+            android:exported="true" />
         <activity
-            android:name=".friend.FindUser"
+            android:name=".friend.AddFriendActivity"
             android:exported="true" />
     </application>
 

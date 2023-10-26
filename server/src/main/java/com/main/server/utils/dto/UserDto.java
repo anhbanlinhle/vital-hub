@@ -4,4 +4,5 @@ public interface UserDto {
     Long getId();
     String getName();
     String getAvatar();
+    String getStatus();
 }

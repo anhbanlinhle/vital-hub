@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -95,7 +96,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserDtoById(Long id) {
-        return userRepository.findUserDtoById(id);
+    public UserDto getUserDtoById(Long self_id, Long other_id) {
+        return userRepository.findUserDtoById(self_id, other_id);
+    }
+
+    @Override
+    public List<UserDto> findUser(Long self_id, String name, Integer limit, Integer offset) {
+        return userRepository.findUser(self_id, name, limit, offset);
     }
 }

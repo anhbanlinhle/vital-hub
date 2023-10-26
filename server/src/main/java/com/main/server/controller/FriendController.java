@@ -56,11 +56,47 @@ public class FriendController {
 
         List<UserDto> friendList = friendService.getFriendList(currentUserId, name, limit, offset);
         return ResponseEntity.ok().body(BaseResponse.builder()
-                .message("success")
+                .message("Get friend list success")
                 .success(true)
                 .data(friendList)
                 .build());
 
+    }
+
+    @GetMapping("/request-list")
+    public ResponseEntity<BaseResponse> getRequestFriendList(HttpServletRequest request, @RequestParam @Nullable Integer limit, @RequestParam @Nullable Integer offset) {
+        Long currentUserId = tokenParser.getCurrentUserId(request.getHeader("Authorization"));
+        if (limit == null) {
+            limit = 10;
+        }
+        if (offset == null) {
+            offset = 0;
+        }
+
+        List<UserDto> friendList = friendService.getRequestFriendList(currentUserId, limit, offset);
+        return ResponseEntity.ok().body(BaseResponse.builder()
+                .message("Get request friend list success")
+                .success(true)
+                .data(friendList)
+                .build());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<BaseResponse> searchFriend(HttpServletRequest request, @RequestParam @Nullable String name, @RequestParam @Nullable Integer limit, @RequestParam @Nullable Integer offset) {
+        Long currentUserId = tokenParser.getCurrentUserId(request.getHeader("Authorization"));
+        if (limit == null) {
+            limit = 10;
+        }
+        if (offset == null) {
+            offset = 0;
+        }
+
+        List<UserDto> friendList = friendService.searchFriend(currentUserId, name, limit, offset);
+        return ResponseEntity.ok().body(BaseResponse.builder()
+                .message("Search friend success")
+                .success(true)
+                .data(friendList)
+                .build());
     }
 
     @PostMapping("/add")
@@ -89,6 +125,26 @@ public class FriendController {
         friendService.acceptFriend(currentUserId, id);
         return ResponseEntity.ok().body(BaseResponse.builder()
                 .message("Accept friend success")
+                .success(true)
+                .build());
+    }
+
+    @DeleteMapping("/deny")
+    public ResponseEntity<BaseResponse> denyFriend(@RequestHeader("Authorization") String token, @RequestParam Long id) {
+        Long currentUserId = tokenParser.getCurrentUserId(token);
+        friendService.denyFriend(currentUserId, id);
+        return ResponseEntity.ok().body(BaseResponse.builder()
+                .message("Deny friend success")
+                .success(true)
+                .build());
+    }
+
+    @DeleteMapping("/revoke")
+    public ResponseEntity<BaseResponse> revokeFriend(@RequestHeader("Authorization") String token, @RequestParam Long id) {
+        Long currentUserId = tokenParser.getCurrentUserId(token);
+        friendService.revokeRequest(currentUserId, id);
+        return ResponseEntity.ok().body(BaseResponse.builder()
+                .message("Revoke friend success")
                 .success(true)
                 .build());
     }
