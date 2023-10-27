@@ -27,6 +27,7 @@ import android.widget.VideoView;
 
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.fastapi.objects.PushUpResponse;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,6 +39,7 @@ public class PushupVideoScan extends AppCompatActivity {
     private static final int REQUEST_CODE_SELECT_VIDEO = 2;
     VideoView videoView;
     Button video, back, upload;
+    FloatingActionButton chooseVideo, uploadVideo;
     TextView result;
     SharedPreferences prefs;
     @Override
@@ -50,6 +52,8 @@ public class PushupVideoScan extends AppCompatActivity {
         upload = findViewById(R.id.upload);
         back = findViewById(R.id.back);
         result = findViewById(R.id.result);
+        chooseVideo = findViewById(R.id.chooseVideo);
+        uploadVideo = findViewById(R.id.uploadVideo);
 
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
         initFastapi(prefs.getString("server", "10.0.2.2"));
@@ -58,14 +62,14 @@ public class PushupVideoScan extends AppCompatActivity {
 
         configVideoView();
 
-        video.setOnClickListener(new View.OnClickListener() {
+        chooseVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectVideo();
             }
         });
 
-        upload.setOnClickListener(new View.OnClickListener() {
+        uploadVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 processVideo();
@@ -145,12 +149,13 @@ public class PushupVideoScan extends AppCompatActivity {
     }
 
     void processVideo() {
-        result.setText("Processing... Please wait!");
         Uri videoUri = videoView.getTag() != null ? (Uri) videoView.getTag() : null;
         if (videoUri == null) {
             Toast.makeText(PushupVideoScan.this, "No video selected", Toast.LENGTH_SHORT).show();
             return;
         }
+        result.setText("Processing... Please wait!");
+
         String videoPath = getVideoPathFromUri(videoUri);
         initPushupCall(videoPath);
 
