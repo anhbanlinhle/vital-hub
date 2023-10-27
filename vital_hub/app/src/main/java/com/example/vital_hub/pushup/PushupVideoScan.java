@@ -61,6 +61,7 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
+        bottomNavigationView.setSelectedItemId(R.id.exercise);
 
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
         initFastapi(prefs.getString("server", "10.0.2.2"));
