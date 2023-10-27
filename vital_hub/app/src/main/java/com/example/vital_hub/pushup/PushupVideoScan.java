@@ -38,7 +38,6 @@ public class PushupVideoScan extends AppCompatActivity {
     private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 1;
     private static final int REQUEST_CODE_SELECT_VIDEO = 2;
     VideoView videoView;
-    Button video, back, upload;
     FloatingActionButton chooseVideo, uploadVideo;
     TextView result;
     SharedPreferences prefs;
@@ -48,9 +47,6 @@ public class PushupVideoScan extends AppCompatActivity {
         setContentView(R.layout.pushup_video_scan);
 
         videoView = findViewById(R.id.video_view);
-        video = findViewById(R.id.choose);
-        upload = findViewById(R.id.upload);
-        back = findViewById(R.id.back);
         result = findViewById(R.id.result);
         chooseVideo = findViewById(R.id.chooseVideo);
         uploadVideo = findViewById(R.id.uploadVideo);
@@ -73,13 +69,6 @@ public class PushupVideoScan extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 processVideo();
-            }
-        });
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goBack();
             }
         });
     }
@@ -175,10 +164,6 @@ public class PushupVideoScan extends AppCompatActivity {
                 result.setText(t.getMessage());
             }
         });
-    }
-
-    void goBack() {
-        finish();
     }
 
     public String getVideoPathFromUri(Uri uri) {
