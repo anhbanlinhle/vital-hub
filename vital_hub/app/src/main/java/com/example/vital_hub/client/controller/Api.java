@@ -71,6 +71,7 @@ public class Api {
     public static Call<List<HomePagePost>> getPostResponse;
     public static Call<List<Comment>> getCommentResponse;
     public static Call<Void> postComment;
+    public static Call<HomePagePost> getSinglePost;
 
     //Init
     public static void initGetSingle(Map<String, String> headers) {
@@ -129,6 +130,10 @@ public class Api {
     // post and comment
     public static void initGetPostResponse(Map<String, String> headers, int pageNum) {
         getPostResponse = controller.getPostResponse(headers, pageNum, 10);
+    }
+
+    public static void initGetSinglePost(Map<String, String> headers, Long postId) {
+        getSinglePost = controller.getSinglePost(headers, postId);
     }
 
     public static void initGetCommentResponse(Map<String, String> headers, int pageNum, Long postId) {

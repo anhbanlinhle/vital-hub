@@ -12,70 +12,38 @@ public class HomePagePost {
     private Boolean isDeleted = false;
     private String createdAt;
     private String updatedAt;
-    private int profileIcon;
-    private int postImage;
-    private String message;
 
-    public HomePagePost(String avatar, Long postId, Long userId, String username, String title, Long joggingId, Boolean isDeleted, String createdAt, String updatedAt, int profileIcon, int postImage, String message) {
+    private Boolean isOwned;
+
+
+    public HomePagePost(String avatar, String username, String title) {
         this.avatar = avatar;
-        this.postId = postId;
-        this.userId = userId;
         this.username = username;
         this.title = title;
-        this.joggingId = joggingId;
-        this.isDeleted = isDeleted;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.profileIcon = profileIcon;
-        this.postImage = postImage;
-        this.message = message;
     }
 
-    public HomePagePost(int profileIcon, int postImage, String title, String message) {
-        this.profileIcon = profileIcon;
-        this.postImage = postImage;
-        this.title = title;
-        this.message = message;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public int getProfileIcon() {
-        return profileIcon;
+    public Boolean getOwned() {
+        return isOwned;
     }
 
-    public void setProfileIcon(int profileIcon) {
-        this.profileIcon = profileIcon;
+    public void setOwned(Boolean owned) {
+        isOwned = owned;
     }
 
-    public int getPostImage() {
-        return postImage;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
-    public void setPostImage(int postImage) {
-        this.postImage = postImage;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Long getId() {
+    public Long getPostId() {
         return postId;
     }
 
-    public void setId(Long id) {
-        this.postId = id;
+    public void setPostId(Long postId) {
+        this.postId = postId;
     }
 
     public Long getUserId() {
@@ -84,6 +52,22 @@ public class HomePagePost {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Long getJoggingId() {
