@@ -34,7 +34,6 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#9ce892"
@@ -51,7 +50,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:cardCornerRadius="15dp">
-
             <VideoView
                 android:id="@+id/video_view"
                 android:layout_width="360dp"
@@ -162,37 +160,53 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/chooseVideo"
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#9ce892"
-        android:fontFamily="@font/mont_semi_bold"
+        app:cardBackgroundColor="#9ce892"
+        app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.06"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.94"
-        app:maxImageSize="35dp"
-        app:srcCompat="@drawable/baseline_video_file_24"
-        app:tint="@color/white" />
+        app:layout_constraintVertical_bias="0.94">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/chooseVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:backgroundTint="#282627"
+            android:fontFamily="@font/mont_semi_bold"
+            app:maxImageSize="35dp"
+            app:srcCompat="@drawable/baseline_video_file_24"
+            app:tint="#9ce892" />
+    </androidx.cardview.widget.CardView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/uploadVideo"
+
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#9ce892"
-        android:fontFamily="@font/mont_semi_bold"
+        app:cardBackgroundColor="#9ce892"
+        app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.94"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.94"
-        app:maxImageSize="35dp"
-        app:srcCompat="@drawable/baseline_auto_fix_high_24"
-        app:tint="@color/white" />
+        app:layout_constraintVertical_bias="0.94">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/uploadVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:backgroundTint="#282627"
+            android:fontFamily="@font/mont_semi_bold"
+            app:maxImageSize="35dp"
+            app:srcCompat="@drawable/baseline_auto_fix_high_24"
+            app:tint="#9ce892"/>
+    </androidx.cardview.widget.CardView>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
