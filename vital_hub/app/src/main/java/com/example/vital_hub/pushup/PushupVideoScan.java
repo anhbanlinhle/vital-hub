@@ -27,6 +27,7 @@ import android.widget.VideoView;
 
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.fastapi.objects.PushUpResponse;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import retrofit2.Call;
@@ -40,6 +41,7 @@ public class PushupVideoScan extends AppCompatActivity {
     VideoView videoView;
     FloatingActionButton chooseVideo, uploadVideo;
     TextView result;
+    BottomNavigationView bottomNavigationView;
     SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +156,7 @@ public class PushupVideoScan extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     PushUpResponse body = response.body();
                     if (body != null) {
-                        result.setText("Count: " + body.getCount());
+                        result.setText(body.getCount());
                     }
                 }
             }
