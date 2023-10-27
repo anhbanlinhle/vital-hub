@@ -35,7 +35,7 @@ public class CommentController {
         return ResponseEntity.ok().body(null);
     }
 
-    @DeleteMapping("/remove")
+    @PutMapping("/remove")
     public ResponseEntity<?> addComment(@RequestParam(name = "id") Long id) {
         Comment comment = commentService.deleteComment(id);
         if (comment == null) {

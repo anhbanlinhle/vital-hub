@@ -35,7 +35,7 @@ public class PostController {
         return post != null ? ResponseEntity.ok().body(post) : ResponseEntity.badRequest().body(null);
     }
 
-    @DeleteMapping("/remove")
+    @PutMapping("/remove")
     public ResponseEntity<?> addComment(@RequestParam(name = "id") Long id) {
         Post post = postService.deletePost(id);
         if (post == null) {
