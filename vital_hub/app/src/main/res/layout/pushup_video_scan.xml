@@ -68,16 +68,16 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.196"
+        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_pushup"
-        app:layout_constraintVertical_bias="0.728">
+        app:layout_constraintVertical_bias="0.731">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
@@ -117,13 +117,16 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="48dp"
-            android:orientation="vertical"></androidx.appcompat.widget.LinearLayoutCompat>
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical">
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_gravity="right">
 
             <TextView
                 android:id="@+id/path"
@@ -165,12 +168,12 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#9ce892"
         android:fontFamily="@font/mont_semi_bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.938"
+        app:layout_constraintHorizontal_bias="0.06"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.835"
+        app:layout_constraintVertical_bias="0.94"
         app:maxImageSize="35dp"
         app:srcCompat="@drawable/baseline_video_file_24"
         app:tint="@color/white" />
@@ -181,9 +184,9 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#9ce892"
         android:fontFamily="@font/mont_semi_bold"
-        app:layout_constraintBottom_toTopOf="@+id/chooseVideo"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.938"
+        app:layout_constraintHorizontal_bias="0.94"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.94"
