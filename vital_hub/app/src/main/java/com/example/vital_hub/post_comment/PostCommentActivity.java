@@ -65,6 +65,32 @@ public class PostCommentActivity extends AppCompatActivity {
         send_button = findViewById(R.id.send_button);
         comment_input = findViewById(R.id.comment_input);
 
+        arrayList = new ArrayList<>();
+
+        cmtRecycler = findViewById(R.id.comment_recycler);
+
+        arrayList.add(new Comment(new HomePagePost("https://scontent.fhan20-1.fna.fbcdn.net/v/t31.18172-8/29351723_822613291279059_3602777089680633850_o.jpg?_nc_cat=100&ccb=1-7&_nc_sid=be3454&_nc_ohc=pX5F5UNtm7gAX8SME-o&_nc_ht=scontent.fhan20-1.fna&oh=00_AfBQ6WFeXKesvGBFrURwGIi0spue9nMxasu9K2wF3eHumg&oe=656009BD");
+
+        populateData();
+
+        recyclerAdapter = new CommentRecyclerAdapter(arrayList);
+        cmtRecycler.setAdapter(recyclerAdapter);
+        cmtRecycler.setLayoutManager(new LinearLayoutManager(this));
+
+        cmtRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) cmtRecycler.getLayoutManager();
+                if (!isLoading) {
+                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == arrayList.size() - 1) {
+                        isLoading = true;
+                        getMoreData();
+                    }
+                }
+            }
+        });
+
         send_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,32 +114,6 @@ public class PostCommentActivity extends AppCompatActivity {
                         Toast.makeText(PostCommentActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
-            }
-        });
-
-        arrayList = new ArrayList<>();
-
-        cmtRecycler = findViewById(R.id.comment_recycler);
-
-        arrayList.add(new Comment(new HomePagePost(R.drawable.ic_launcher_background, R.drawable.app_icon, "title", "message")));
-
-        populateData();
-
-        recyclerAdapter = new CommentRecyclerAdapter(arrayList);
-        cmtRecycler.setAdapter(recyclerAdapter);
-        cmtRecycler.setLayoutManager(new LinearLayoutManager(this));
-
-        cmtRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) cmtRecycler.getLayoutManager();
-                if (!isLoading) {
-                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == arrayList.size() - 1) {
-                        isLoading = true;
-                        getMoreData();
-                    }
-                }
             }
         });
     }

@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
 import com.example.vital_hub.post_comment.PostCommentActivity;
 
@@ -49,11 +50,14 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
     public void onBindViewHolder(@NonNull HpRecyclerAdapter.ViewHolder holder, int position) {
         if (holder.itemType == VIEW_TYPE_ITEM) {
             HomePagePost post = arrayList.get(position);
-            holder.postId = post.getId();
-            holder.title.setText(post.getTitle());
-            holder.message.setText(post.getMessage());
-            holder.profileImage.setImageResource(post.getProfileIcon());
-            holder.postImage.setImageResource(post.getPostImage());
+
+            holder.isOwned = post.getOwned();
+            holder.postId = post.getPostId();
+            holder.userId = post.getUserId();
+            holder.title.setText(post.getUsername());
+            holder.message.setText(post.getTitle());
+            Glide.with(holder.profileImage.getContext()).load(post.getAvatar()).into(holder.profileImage);
+            Glide.with(holder.postImage.getContext()).load(post.getAvatar()).into(holder.postImage);
         }
     }
 
@@ -71,6 +75,8 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
 
         ImageView profileImage;
         Long postId;
+        Long userId;
+        Boolean isOwned;
         ImageView postImage;
         TextView title;
         TextView message;

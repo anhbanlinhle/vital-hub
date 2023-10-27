@@ -160,7 +160,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
                 if (response.isSuccessful()) {
                     postResponse = response.body();
                     for(HomePagePost post : postResponse) {
-                        post.setMessage(String.valueOf(arrayList.size()));
+                        post.setTitle(String.valueOf(post.getPostId()));
                         arrayList.add(post);
                     }
                     recyclerAdapter.notifyItemRangeChanged(arrayList.size() - postResponse.size(), postResponse.size());
