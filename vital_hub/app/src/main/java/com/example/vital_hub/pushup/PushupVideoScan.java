@@ -18,6 +18,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
@@ -26,15 +27,20 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.vital_hub.R;
+import com.example.vital_hub.UserProfile;
 import com.example.vital_hub.client.fastapi.objects.PushUpResponse;
+import com.example.vital_hub.competition.CompetitionActivity;
+import com.example.vital_hub.exercises.ExerciseGeneralActivity;
+import com.example.vital_hub.home_page.HomePageActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PushupVideoScan extends AppCompatActivity {
+public class PushupVideoScan extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION = 0;
     private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 1;
     private static final int REQUEST_CODE_SELECT_VIDEO = 2;
@@ -52,6 +58,9 @@ public class PushupVideoScan extends AppCompatActivity {
         result = findViewById(R.id.result);
         chooseVideo = findViewById(R.id.chooseVideo);
         uploadVideo = findViewById(R.id.uploadVideo);
+
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(this);
 
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
         initFastapi(prefs.getString("server", "10.0.2.2"));
@@ -178,5 +187,26 @@ public class PushupVideoScan extends AppCompatActivity {
             return filePath;
         }
         return null;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.profile) {
+            startActivity(new Intent(getApplicationContext(), UserProfile.class));
+            overridePendingTransition(0, 0);
+            return true;
+        } else if (item.getItemId() == R.id.home) {
+            startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
+            overridePendingTransition(0, 0);
+            return true;
+        } else if (item.getItemId() == R.id.exercise) {
+            return true;
+        } else if (item.getItemId() == R.id.competition) {
+            startActivity(new Intent(getApplicationContext(), CompetitionActivity.class));
+            overridePendingTransition(0, 0);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
