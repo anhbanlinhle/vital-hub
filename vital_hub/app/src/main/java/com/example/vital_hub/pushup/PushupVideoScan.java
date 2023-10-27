@@ -30,6 +30,7 @@ import com.example.vital_hub.R;
 import com.example.vital_hub.UserProfile;
 import com.example.vital_hub.client.fastapi.objects.PushUpResponse;
 import com.example.vital_hub.competition.CompetitionActivity;
+import com.example.vital_hub.exercises.ChooseExerciseActivity;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -47,6 +48,7 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
     VideoView videoView;
     FloatingActionButton chooseVideo, uploadVideo;
     TextView result;
+    TextView back;
     BottomNavigationView bottomNavigationView;
     SharedPreferences prefs;
     @Override
@@ -58,6 +60,7 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
         result = findViewById(R.id.result);
         chooseVideo = findViewById(R.id.chooseVideo);
         uploadVideo = findViewById(R.id.uploadVideo);
+        back = findViewById(R.id.back_to_home_from_pushup);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
@@ -70,6 +73,12 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
 
         configVideoView();
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PushupVideoScan.this, ExerciseGeneralActivity.class));
+            }
+        });
         chooseVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
