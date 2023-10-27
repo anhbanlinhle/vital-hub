@@ -6,19 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".pushup.PushupVideoScan">
 
-    <VideoView
-        android:id="@+id/video_view"
-        android:layout_width="360dp"
-        android:layout_height="241dp"
-        android:backgroundTint="@null"
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.065">
+        <VideoView
+            android:id="@+id/video_view"
+            android:layout_width="360dp"
+            android:layout_height="241dp"
+            android:backgroundTint="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.49"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.065">
+        </VideoView>
 
-    </VideoView>
+    </androidx.cardview.widget.CardView>
+
+
 
     <LinearLayout
         android:id="@+id/linearLayout"
