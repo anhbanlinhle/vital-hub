@@ -21,8 +21,8 @@ public class CommentServiceImpl implements CommentService {
     private CommentRepository commentRepository;
 
     @Override
-    public List<CommentDto> commentsInPost(Long postId, Integer page, Integer pageSize) {
-        Page<CommentDto> comments = commentRepository.commentsInPost(PageRequest.of(page, pageSize), postId);
+    public List<CommentDto> commentsInPost(Long postId, Integer page, Integer pageSize, Long currentUserId) {
+        Page<CommentDto> comments = commentRepository.commentsInPost(PageRequest.of(page, pageSize), postId, currentUserId);
         return comments.getContent();
     }
 
@@ -33,5 +33,17 @@ public class CommentServiceImpl implements CommentService {
         comment.setUpdatedAt(LocalDateTime.now());
         comment.setIsDeleted(false);
         return commentRepository.save(comment);
+    }
+
+    @Override
+    public Comment deleteComment(Long id) {
+        Comment comment = commentRepository.findByIdAndIsDeletedFalse(id).orElse(null);
+        if (comment == null) {
+            return null;
+        } else {
+            comment.setIsDeleted(true);
+            commentRepository.save(comment);
+            return comment;
+        }
     }
 }

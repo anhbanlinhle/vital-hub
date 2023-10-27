@@ -1,5 +1,7 @@
 package com.main.server.utils.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDateTime;
 
 public interface PostDto {
@@ -9,4 +11,11 @@ public interface PostDto {
     Long getPostId();
     String getTitle();
     LocalDateTime getCreatedAt();
+
+    @JsonIgnore
+    Integer getIsOwnedInt();
+
+    default Boolean getIsOwned(){
+        return getIsOwnedInt() == 1;
+    }
 }
