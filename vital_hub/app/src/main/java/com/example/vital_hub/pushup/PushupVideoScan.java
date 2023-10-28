@@ -57,7 +57,7 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
         setContentView(R.layout.pushup_video_scan);
 
         videoView = findViewById(R.id.video_view);
-        result = findViewById(R.id.result);
+        result = findViewById(R.id.status);
         chooseVideo = findViewById(R.id.chooseVideo);
         uploadVideo = findViewById(R.id.uploadVideo);
         back = findViewById(R.id.back_to_home_from_pushup);
@@ -175,7 +175,7 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
                 if (response.isSuccessful()) {
                     PushUpResponse body = response.body();
                     if (body != null) {
-                        result.setText(body.getCount());
+                        result.setText(String.valueOf(body.getCount()));
                     }
                 }
             }
