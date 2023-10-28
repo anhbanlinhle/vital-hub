@@ -33,9 +33,6 @@
             android:name=".competition.AddCompeActivity"
             android:exported="true" />
         <activity
-            android:name=".competition.AddCompeActivity"
-            android:exported="true" />
-        <activity
             android:name=".exercises.GroupExerciseActivity"
             android:exported="false" />
         <activity

@@ -10,6 +10,7 @@ import com.example.vital_hub.client.objects.RegistRequestObject;
 import com.example.vital_hub.client.objects.ResponseObject;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
+import com.example.vital_hub.profile.UserDetail;
 
 import java.util.List;
 import java.util.Map;
@@ -80,6 +81,9 @@ public interface Controller {
     Call<ProfileResponse> getUserProfile(@HeaderMap Map<String, String> header);
     @GET("/user/detail")
     Call<ProfileDetailResponse> getUserProfileDetail(@HeaderMap Map<String, String> header);
+    @PUT("/user/detail")
+    Call<UserDetail> updateProfileDetail(@HeaderMap Map<String, String> headers, @Body UserDetail object);
+
 
     // Others Profile
     @GET("/user/info")

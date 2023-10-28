@@ -24,9 +24,10 @@
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/next_icon"
+            android:layout_gravity="left"
             android:scaleX="-1"
-            android:layout_gravity="left" />
+            android:src="@drawable/next_icon" />
+
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
@@ -129,19 +130,37 @@
             app:layout_constraintTop_toBottomOf="@+id/friend_count" />
 
         <Button
+            android:id="@+id/function_button"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/rounded_corner"
+            android:paddingVertical="0dp"
+            android:text="Function"
+            android:textColor="@color/color_green"
+            android:textSize="15sp"
+            app:backgroundTint="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.7" />
+
+        <Button
             android:id="@+id/profile_detail_button"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginStart="10dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
             android:background="@drawable/rounded_corner"
             android:paddingVertical="0dp"
             android:text="Detail"
             android:textColor="@color/color_green"
-            android:textSize="18sp"
+            android:textSize="15sp"
             app:backgroundTint="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintHorizontal_bias="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.9" />

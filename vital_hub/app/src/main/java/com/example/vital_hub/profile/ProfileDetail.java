@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,6 +49,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
     EditText weight;
     TextView enableEdit;
     EditText description;
+    Button saveButton;
     String[] gender = {"Female", "Male"};
     Spinner chooseGender;
     ColorStateList colorStateList;
@@ -56,6 +58,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
     Map<String, String> headers;
     ProfileDetailResponse profileDetailResponse;
     private UserDetail fetchedUserProfileDetail;
+    private UserDetail object;
 
     @Override
     protected void onCreate(Bundle SavedInstanceState) {
@@ -78,6 +81,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         profileImage = findViewById(R.id.profile_image);
         chooseGender.setOnItemSelectedListener(this);
         enableEdit = findViewById(R.id.edit);
+        saveButton = findViewById(R.id.save_button);
 
         colorStateList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.color_black));
 
@@ -95,11 +99,18 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
 
         chooseGender.setAdapter(adapter);
 
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                fetchPut();
+                finish();
+            }
+        });
 
         enableEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                enableEdit.setText("Save", TextView.BufferType.NORMAL);
+                enableEdit.setText("Editting", TextView.BufferType.NORMAL);
 
                 description.setEnabled(true);
                 description.requestFocus();
@@ -142,8 +153,6 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
             }
         });
 
-//        birthDate.setText("Your DOB", TextView.BufferType.EDITABLE);
-//        userName.setText("Username", TextView.BufferType.EDITABLE);
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,6 +178,14 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         headers.put("Authorization", "Bearer " + jwt);
     }
 
+//    private void initBodyForRequest() {
+//        object = new UserDetail(
+//
+//                userName.getText().toString(),
+//                birthDate.getText().toString(),
+//               phoneNumber.getText().toString());
+//
+//    }
     private void updateLabel() {
         String myFormat = "dd/MM/yyyy";
         SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
@@ -189,6 +206,24 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         // TODO Auto-generated method stub
     }
 
+//    private void fetchPut() {
+//        initBodyForRequest();
+//        initPutUpdateProfileDetail(headers, object);
+//        updateUserProfile.clone().enqueue(new Callback<UserDetail>() {
+//            @Override
+//            public void onResponse(Call<UserDetail> call, Response<UserDetail> response) {
+//                if (!response.isSuccessful()) {
+//                    Log.d("Fail", "Fail");
+//                    return;
+//                }
+//                Log.d("Fail", "Fail");
+//            }
+//            @Override
+//            public void onFailure(Call<UserDetail> call, Throwable t) {
+//
+//            }
+//        });
+//    }
     private void fetchUserProfileDetail() {
         Api.initGetUserProfileDetail(headers);
         Api.getUserProfileDetail.clone().enqueue(new Callback<ProfileDetailResponse>() {

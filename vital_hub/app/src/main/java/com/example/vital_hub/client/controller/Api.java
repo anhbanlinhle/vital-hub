@@ -66,7 +66,7 @@ public class Api {
     //User profile
     public static Call<ProfileResponse> getUserProfile;
     public static Call<ProfileDetailResponse> getUserProfileDetail;
-    public static Call<UserDetail> getUserExtraDetail;
+    public static Call<UserDetail> updateUserProfile;
     //Others profile
     public static Call<ProfileResponse> getOthersProfile;
 
@@ -176,9 +176,10 @@ public class Api {
     public static void initGetUserProfileDetail(Map<String, String> headers) {
         getUserProfileDetail = controller.getUserProfileDetail(headers);
     }
-//    public static void initGetUserExtraDetail(Map<String, String> headers) {
-//        getUserExtraDetail = controller.getUserExtraDetail(headers);
-//    }
+
+    public static void initPutUpdateProfileDetail(Map<String, String> headers, UserDetail body) {
+        updateUserProfile = controller.updateProfileDetail(headers, body);
+    }
 
     //Others profile
     public static void initGetOthersProfile(Map<String, String> headers, Long id) {

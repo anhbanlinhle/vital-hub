@@ -28,7 +28,6 @@ import com.example.vital_hub.client.objects.CountResponse;
 import com.example.vital_hub.client.objects.ProfileResponse;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
-import com.example.vital_hub.friend.FriendList;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.test.TestMain;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -114,7 +113,7 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserProfile.this, FriendList.class);
+                Intent intent = new Intent(UserProfile.this, TestPage.class);
                 startActivity(intent);
             }
         });
@@ -214,6 +213,7 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
             }
         });
     }
+
     private void fetchFriends() {
         Api.initGetTotalFriend(headers);
         Api.getTotalFriend.clone().enqueue(new Callback<CountResponse>() {
@@ -225,6 +225,7 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
                     totalFriend.setText(String.valueOf(countResponse.getData()));
                 }
             }
+
             @Override
             public void onFailure(Call<CountResponse> call, Throwable t) {
                 Toast.makeText(UserProfile.this, t.getMessage(), Toast.LENGTH_SHORT).show();
