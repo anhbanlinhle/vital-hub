@@ -64,20 +64,17 @@
         </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="wrap_content"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/resultRecycle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/mont_semi_bold"
-        android:text=""
-        android:textColor="#1DB964"
-        android:textSize="35sp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_pushup"
-        app:layout_constraintVertical_bias="0.683" />
+        app:layout_constraintVertical_bias="0.661" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/chooseVideo"
