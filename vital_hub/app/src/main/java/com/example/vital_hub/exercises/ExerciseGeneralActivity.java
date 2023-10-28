@@ -12,6 +12,7 @@ import com.example.vital_hub.R;
 import com.example.vital_hub.UserProfile;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
+import com.example.vital_hub.pushup.PushupVideoScan;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -45,6 +46,9 @@ public class ExerciseGeneralActivity extends AppCompatActivity implements Naviga
     private void btnBinding() {
         chooseGymBtn.setOnClickListener(v -> {
             startActivity(new Intent(ExerciseGeneralActivity.this, ChooseExerciseActivity.class));
+        });
+        choosePushupBtn.setOnClickListener(v -> {
+            startActivity(new Intent(ExerciseGeneralActivity.this, PushupVideoScan.class));
         });
     }
 
