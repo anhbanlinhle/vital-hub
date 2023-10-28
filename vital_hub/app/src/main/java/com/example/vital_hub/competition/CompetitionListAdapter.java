@@ -22,9 +22,10 @@ import com.example.vital_hub.helper.KeyboardHelper;
 public class CompetitionListAdapter extends RecyclerView.Adapter<CompetitionListAdapter.CompetitionViewHolder>{
 
     private final ArrayList<Competition> competitionList;
-
-    public CompetitionListAdapter(ArrayList<Competition> competitionList) {
+    private final boolean isJoined;
+    public CompetitionListAdapter(ArrayList<Competition> competitionList, boolean isJoined) {
         this.competitionList = competitionList;
+        this.isJoined = isJoined;
     }
 
     @NonNull
@@ -36,6 +37,15 @@ public class CompetitionListAdapter extends RecyclerView.Adapter<CompetitionList
 
     @Override
     public void onBindViewHolder(@NonNull CompetitionListAdapter.CompetitionViewHolder holder, int position) {
+        if (isJoined) {
+            holder.joinButton.setText("Leave");
+            holder.joinButton.setBackground(holder.joinButton.getContext().getDrawable(R.drawable.rounded_corner_red));
+            holder.joinButton.setTextColor(holder.joinButton.getContext().getColor(R.color.color_red));
+        } else {
+            holder.joinButton.setText("Join");
+            holder.joinButton.setBackground(holder.joinButton.getContext().getDrawable(R.drawable.rounded_corner));
+            holder.joinButton.setTextColor(holder.joinButton.getContext().getColor(R.color.color_green));
+        }
         Glide.with(holder.background.getContext()).load(competitionList.get(position).getBackground()).into(holder.background);
         Glide.with(holder.hostAvatar.getContext()).load(competitionList.get(position).getHostAvatar()).into(holder.hostAvatar);
         holder.title.setText(competitionList.get(position).getTitle());
@@ -46,8 +56,12 @@ public class CompetitionListAdapter extends RecyclerView.Adapter<CompetitionList
         } else {
             holder.status.setText("Ended");
         }
+        // If isJoined = true, set text = Leave, else set text = Join
+
         holder.joinButton.setOnClickListener(v -> {
 
+
+            // Call API to join or leave competition
         });
 
         holder.setItemClickListener((view, position1, isLongClick) -> {

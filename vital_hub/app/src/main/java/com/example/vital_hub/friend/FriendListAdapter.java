@@ -3,6 +3,7 @@ package com.example.vital_hub.friend;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,12 +24,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Map;
 
+import com.example.vital_hub.client.controller.Api;
 import com.example.vital_hub.helper.KeyboardHelper;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.FriendViewHolder> {
-
+    private FriendActionListener friendActionListener;
     private final ArrayList<Friend> friendList;
-
+    private final Map<String, String> headers = FriendList.headers;
     public FriendListAdapter(ArrayList<Friend> friendList) {
         this.friendList = friendList;
     }
@@ -40,19 +48,21 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
         return new FriendViewHolder(view);
     }
 
+    public void setFriendActionListener(FriendActionListener friendActionListener) {
+        this.friendActionListener = friendActionListener;
+    }
 
     @Override
     public void onBindViewHolder(@NonNull FriendListAdapter.FriendViewHolder holder, int position) {
 
         holder.friendName.setText(friendList.get(position).getName());
         Glide.with(holder.friendAvatar.getContext()).load(friendList.get(position).getAvatar()).into(holder.friendAvatar);
-
+        holder.relation.setText(friendList.get(position).getStatus());
         holder.setItemClickListener((view, position1, isLongClick) -> {
-            if (isLongClick){
+            if (isLongClick) {
                 KeyboardHelper.hideKeyboard(view);
-                showPopupWindow(view, position1);
-            }
-            else{
+                showPopupWindow(view, position1, friendList.get(position1).getRawStatus());
+            } else {
                 KeyboardHelper.hideKeyboard(view);
                 Toast.makeText(
                                 view.getContext(),
@@ -65,16 +75,30 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
 
         holder.moreButton.setOnClickListener(v -> {
             KeyboardHelper.hideKeyboard(v);
-            showPopupWindow(v, position);
+            showPopupWindow(v, position, friendList.get(position).getRawStatus());
 
 
         });
     }
 
-    public void showPopupWindow(View v, int position) {
+    public void showPopupWindow(View v, int position, String status) {
 
         LayoutInflater inflater = (LayoutInflater) v.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.popup_profile, null);
+        View popupView;
+        switch (status) {
+            case "FRIEND":
+                popupView = inflater.inflate(R.layout.popup_profile, null);
+                break;
+            case "PENDING":
+                popupView = inflater.inflate(R.layout.popup_profile_pending, null);
+                break;
+            case "INCOMING":
+                popupView = inflater.inflate(R.layout.popup_profile_incoming, null);
+                break;
+            default:
+                popupView = inflater.inflate(R.layout.popup_profile_non_friend, null);
+                break;
+        }
         popupView.setAnimation(AnimationUtils.loadAnimation(v.getContext(), R.animator.slide_up));
         int width = LinearLayout.LayoutParams.MATCH_PARENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -90,19 +114,132 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
         ImageView avatar = popupView.findViewById(R.id.avatar);
 
         // 2 actions: View profile, Remove friend
-        LinearLayout viewProfile = popupView.findViewById(R.id.item_1);
-        LinearLayout removeFriend = popupView.findViewById(R.id.item_4);
+        LinearLayout viewProfile = popupView.findViewById(R.id.profile);
+        LinearLayout action = popupView.findViewById(R.id.action);
+        // if status is incoming, there is 1 more action: Deny
+        if (status.equals("INCOMING")) {
+            LinearLayout action_deny = popupView.findViewById(R.id.action_deny);
+            // Action deny
+            action_deny.setOnClickListener(v1 -> {
+                Api.initDenyRequest(headers, friendList.get(position).getId());
+                Api.denyRequest.clone().enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                        if(response.isSuccessful()) {
+                            friendActionListener.onAction();
+                            Toast.makeText(v1.getContext(), "Deny friend request successfully", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(v1.getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                        Toast.makeText(v1.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                popupWindow.dismiss();
+            });
+        }
         // View profile
         viewProfile.setOnClickListener(v1 -> {
+            // TODO: View profile
             Toast.makeText(v1.getContext(), "View profile of user: " + friendList.get(position).getId(), Toast.LENGTH_SHORT).show();
             popupWindow.dismiss();
         });
 
-        // Remove friend
-        removeFriend.setOnClickListener(v1 -> {
-            Toast.makeText(v1.getContext(), "Remove friend: " + friendList.get(position).getId(), Toast.LENGTH_SHORT).show();
-            popupWindow.dismiss();
+        // Action
+        action.setOnClickListener(v1 -> {
+            switch (friendList.get(position).getRawStatus()) {
+                case "FRIEND":
+                    Api.initDeleteFriend(headers, friendList.get(position).getId());
+                    Api.deleteFriend.clone().enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                            if(response.isSuccessful()) {
+                                Toast.makeText(v1.getContext(), "Remove friend successfully", Toast.LENGTH_SHORT).show();
+                                // Reload friend list
+                                friendActionListener.onAction();
+
+                            }
+                            else {
+                                Toast.makeText(v1.getContext(), "Error: " + response, Toast.LENGTH_SHORT).show();
+                                Log.d("Error", "Error: " + response);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                            Toast.makeText(v1.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    popupWindow.dismiss();
+                    break;
+                case "PENDING":
+                    Api.initRevokeRequest(headers, friendList.get(position).getId());
+                    Api.revokeRequest.clone().enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                            if(response.isSuccessful()) {
+                                Toast.makeText(v1.getContext(), "Revoke friend request successfully", Toast.LENGTH_SHORT).show();
+                                friendActionListener.onAction();
+                            }
+                            else {
+                                Toast.makeText(v1.getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                            Toast.makeText(v1.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    popupWindow.dismiss();
+                    break;
+                case "INCOMING":
+                    Api.initAcceptRequest(headers, friendList.get(position).getId());
+                    Api.acceptRequest.clone().enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                            if(response.isSuccessful()) {
+                                Toast.makeText(v1.getContext(), "Accept friend request successfully", Toast.LENGTH_SHORT).show();
+                                friendActionListener.onAction();
+                            }
+                            else {
+                                Toast.makeText(v1.getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                            Toast.makeText(v1.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    popupWindow.dismiss();
+                    break;
+                default:
+                    Api.initAddFriend(headers, friendList.get(position).getId());
+                    Api.addFriend.clone().enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                            if(response.isSuccessful()) {
+                                Toast.makeText(v1.getContext(), "Send request", Toast.LENGTH_SHORT).show();
+                                friendActionListener.onAction();
+                            }
+                            else {
+                                Toast.makeText(v1.getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                            Toast.makeText(v1.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    popupWindow.dismiss();
+                    break;
+            }
         });
 
 
@@ -135,7 +272,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
 
     public static class FriendViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        private final TextView friendName;
+        private final TextView friendName, relation;
         private final ImageView friendAvatar;
         private final Button moreButton;
         private ItemClickListener itemClickListener;
@@ -146,7 +283,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
             friendName = view.findViewById(R.id.friendName);
             friendAvatar = view.findViewById(R.id.avatar);
             moreButton = view.findViewById(R.id.action_button);
-
+            relation = view.findViewById(R.id.relation);
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
         }
@@ -165,5 +302,9 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
             itemClickListener.onClick(v, getAdapterPosition(), true);
             return true;
         }
+    }
+
+    public interface FriendActionListener {
+        void onAction();
     }
 }
