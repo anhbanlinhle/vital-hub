@@ -82,7 +82,7 @@
         <activity 
             android:name=".competition.CompetitionActivity"
             android:exported="true" />
-        <activity android:name=".profile.EditProfile"
+        <activity android:name=".profile.ProfileDetail"
             android:exported="true" />
         <activity android:name=".TestPage"
             android:exported="true" />

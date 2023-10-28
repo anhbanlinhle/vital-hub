@@ -1,6 +1,13 @@
 package com.example.vital_hub.client.controller;
 
-import com.example.vital_hub.client.objects.*;
+import com.example.vital_hub.client.objects.AuthResponseObject;
+import com.example.vital_hub.client.objects.CompetitionListResponse;
+import com.example.vital_hub.client.objects.CountResponse;
+import com.example.vital_hub.client.objects.FriendListResponse;
+import com.example.vital_hub.client.objects.ProfileDetailResponse;
+import com.example.vital_hub.client.objects.ProfileResponse;
+import com.example.vital_hub.client.objects.RegistRequestObject;
+import com.example.vital_hub.client.objects.ResponseObject;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
 
@@ -56,6 +63,8 @@ public interface Controller {
     // User Profile
     @GET("/user/info")
     Call<ProfileResponse> getUserProfile(@HeaderMap Map<String, String> header);
+    @GET("/user/detail")
+    Call<ProfileDetailResponse> getUserProfileDetail(@HeaderMap Map<String, String> header);
 
     // Others Profile
     @GET("/user/info")

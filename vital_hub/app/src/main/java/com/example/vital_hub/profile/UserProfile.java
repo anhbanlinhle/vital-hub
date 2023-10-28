@@ -24,6 +24,7 @@ import com.example.vital_hub.R;
 import com.example.vital_hub.TestPage;
 import com.example.vital_hub.authentication.LoginScreen;
 import com.example.vital_hub.client.controller.Api;
+import com.example.vital_hub.client.objects.CountResponse;
 import com.example.vital_hub.client.objects.ProfileResponse;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
@@ -43,23 +44,22 @@ import retrofit2.Response;
 public class UserProfile extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     Toolbar toolbar;
     ImageView setting;
-    View activity;
+    View history;
     View statistic;
     View friend;
-    Button editProfileBtn;
+    Button profileDetailButton;
     BottomNavigationView bottomNavigationView;
     SharedPreferences prefs;
     String jwt;
     Map<String, String> headers;
     ProfileResponse profileResponse;
-    Button shareButton;
     TextView name;
     TextView id;
+    TextView totalFriend;
     ImageView profileImage;
-
     Button openOthersProfileTest;
-
     private UserInfo fetchedUserProfile;
+    private CountResponse countResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,7 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         setContentView(R.layout.user_profile);
         initHeaderForRequest();
         fetchUserProfile();
+        fetchFriends();
         initRetrofitAndController(prefs.getString("server", "10.0.2.2"));
 
 
@@ -75,17 +76,17 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.profile);
 
-        editProfileBtn = findViewById(R.id.edit_profile);
+        profileDetailButton = findViewById(R.id.profile_detail_button);
         toolbar = findViewById(R.id.toolbar);
         setting = findViewById(R.id.setting);
-        activity = findViewById(R.id.activity_view);
+        history = findViewById(R.id.history_view);
         statistic = findViewById(R.id.statistic_view);
         friend = findViewById(R.id.friend_view);
-        shareButton = findViewById(R.id.share_button);
         name = findViewById(R.id.username);
         id = findViewById(R.id.user_id);
         profileImage = findViewById(R.id.profile_image);
         openOthersProfileTest = findViewById(R.id.others_profile);
+        totalFriend = findViewById(R.id.friend_counter);
 
         openOthersProfileTest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,15 +95,7 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
                 startActivity(intent);
             }
         });
-
-
-//        shareButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                fetchUserProfile();
-//            }
-//        });
-        activity.setOnClickListener(new View.OnClickListener() {
+        history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserProfile.this, TestPage.class);
@@ -125,10 +118,10 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
                 startActivity(intent);
             }
         });
-        editProfileBtn.setOnClickListener(new View.OnClickListener() {
+        profileDetailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserProfile.this, EditProfile.class);
+                Intent intent = new Intent(UserProfile.this, ProfileDetail.class);
                 startActivity(intent);
             }
         });
@@ -157,9 +150,10 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         });
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         ActionBar actionBar = getSupportActionBar();
+
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.profile) {
@@ -180,6 +174,7 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
             return false;
         }
     }
+
     private void signOut() {
         oneTapClient.signOut();
         SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
@@ -189,6 +184,7 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         startActivity(intent);
         finish();
     }
+
     private void initHeaderForRequest() {
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
         jwt = prefs.getString("jwt", null);
@@ -211,12 +207,29 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
                     Glide.with(UserProfile.this).load(fetchedUserProfile.getAvatar()).into(profileImage);
                 }
             }
+
             @Override
             public void onFailure(Call<ProfileResponse> call, Throwable t) {
                 Toast.makeText(UserProfile.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
-
+    private void fetchFriends() {
+        Api.initGetTotalFriend(headers);
+        Api.getTotalFriend.clone().enqueue(new Callback<CountResponse>() {
+            @Override
+            public void onResponse(Call<CountResponse> call, Response<CountResponse> response) {
+                if (response.isSuccessful()) {
+                    countResponse = response.body();
+                    assert countResponse != null;
+                    totalFriend.setText(String.valueOf(countResponse.getData()));
+                }
+            }
+            @Override
+            public void onFailure(Call<CountResponse> call, Throwable t) {
+                Toast.makeText(UserProfile.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 }

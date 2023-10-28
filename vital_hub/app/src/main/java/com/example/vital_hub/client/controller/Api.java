@@ -4,11 +4,13 @@ import com.example.vital_hub.client.objects.AuthResponseObject;
 import com.example.vital_hub.client.objects.CompetitionListResponse;
 import com.example.vital_hub.client.objects.CountResponse;
 import com.example.vital_hub.client.objects.FriendListResponse;
+import com.example.vital_hub.client.objects.ProfileDetailResponse;
 import com.example.vital_hub.client.objects.ProfileResponse;
 import com.example.vital_hub.client.objects.RegistRequestObject;
 import com.example.vital_hub.client.objects.ResponseObject;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
+import com.example.vital_hub.profile.UserDetail;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -24,14 +26,13 @@ public class Api {
     static Gson gson = new GsonBuilder()
             .setLenient()
             .create();
-//    static Retrofit retrofit = new Retrofit.Builder()
+    //    static Retrofit retrofit = new Retrofit.Builder()
 //            .baseUrl("http://10.0.2.2:8080/")
 //            .addConverterFactory(GsonConverterFactory.create(gson))
 //            .build();
 //    static Controller controller = retrofit.create(Controller.class);
     static Retrofit retrofit;
     static Controller controller;
-
     public static Call<ResponseObject> getSingle;
     public static Call<List<ResponseObject>> getMultiple;
     public static Call<ResponseObject> postRequest;
@@ -43,10 +44,8 @@ public class Api {
     //Friend
     public static Call<CountResponse> getTotalFriend;
     public static Call<FriendListResponse> getFriendList;
-
     //Competition
     public static Call<CompetitionListResponse> getCompetitionList;
-
     //Exercise
     public static Call<List<SingleExercise>> singleExerciseList;
 
@@ -58,6 +57,8 @@ public class Api {
 
     //User profile
     public static Call<ProfileResponse> getUserProfile;
+    public static Call<ProfileDetailResponse> getUserProfileDetail;
+    public static Call<UserDetail> getUserExtraDetail;
     //Others profile
     public static Call<ProfileResponse> getOthersProfile;
 
@@ -69,7 +70,6 @@ public class Api {
                 .build();
         controller = retrofit.create(Controller.class);
     }
-
 
 
     //Init
@@ -135,6 +135,14 @@ public class Api {
     public static void initGetUserProfile(Map<String, String> headers) {
         getUserProfile = controller.getUserProfile(headers);
     }
+
+    public static void initGetUserProfileDetail(Map<String, String> headers) {
+        getUserProfileDetail = controller.getUserProfileDetail(headers);
+    }
+//    public static void initGetUserExtraDetail(Map<String, String> headers) {
+//        getUserExtraDetail = controller.getUserExtraDetail(headers);
+//    }
+
     //Others profile
     public static void initGetOthersProfile(Map<String, String> headers, Long id) {
         getOthersProfile = controller.getOthersProfile(headers, id);
