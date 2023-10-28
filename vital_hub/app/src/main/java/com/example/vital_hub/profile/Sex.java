@@ -1,7 +1,6 @@
 package com.example.vital_hub.profile;
 
 public enum Sex {
-
     MALE("Male"),
     FEMALE("Female");
     private String name;

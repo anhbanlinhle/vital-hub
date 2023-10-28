@@ -17,6 +17,12 @@ public class DetailedProfile {
         this.description = description;
     }
 
+    public DetailedProfile(Double currentHeight, Double currentWeight, String description) {
+        this.currentHeight = currentHeight;
+        this.currentWeight = currentWeight;
+        this.description = description;
+    }
+
     public Long getId() {
         return id;
     }

@@ -19,6 +19,15 @@ public class UserDetail {
         this.dob = dob;
         this.userDetail = userDetail;
     }
+
+    public UserDetail(String name, String gmail, String phoneNo, String dob, DetailedProfile userDetail) {
+        this.name = name;
+        this.gmail = gmail;
+        this.phoneNo = phoneNo;
+        this.dob = dob;
+        this.userDetail = userDetail;
+    }
+
     public Long getId() {
         return id;
     }

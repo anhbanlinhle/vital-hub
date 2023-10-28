@@ -1,11 +1,14 @@
 package com.example.vital_hub.profile;
 
+import static com.example.vital_hub.client.controller.Api.initPutUpdateProfileDetail;
 import static com.example.vital_hub.client.controller.Api.initRetrofitAndController;
+import static com.example.vital_hub.client.controller.Api.updateUserProfile;
 
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -102,7 +105,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                fetchPut();
+                fetchPut();
                 finish();
             }
         });
@@ -178,14 +181,19 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         headers.put("Authorization", "Bearer " + jwt);
     }
 
-//    private void initBodyForRequest() {
-//        object = new UserDetail(
-//
-//                userName.getText().toString(),
-//                birthDate.getText().toString(),
-//               phoneNumber.getText().toString());
-//
-//    }
+    private void initBodyForRequest() {
+        object = new UserDetail(
+                userName.getText().toString(),
+                gmail.getText().toString(),
+                phoneNumber.getText().toString(),
+                birthDate.getText().toString(),
+                new DetailedProfile(
+                        Double.valueOf(height.getText().toString()),
+                        Double.valueOf(weight.getText().toString()),
+                        description.getText().toString()));
+
+
+    }
     private void updateLabel() {
         String myFormat = "dd/MM/yyyy";
         SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
@@ -206,24 +214,24 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         // TODO Auto-generated method stub
     }
 
-//    private void fetchPut() {
-//        initBodyForRequest();
-//        initPutUpdateProfileDetail(headers, object);
-//        updateUserProfile.clone().enqueue(new Callback<UserDetail>() {
-//            @Override
-//            public void onResponse(Call<UserDetail> call, Response<UserDetail> response) {
-//                if (!response.isSuccessful()) {
-//                    Log.d("Fail", "Fail");
-//                    return;
-//                }
-//                Log.d("Fail", "Fail");
-//            }
-//            @Override
-//            public void onFailure(Call<UserDetail> call, Throwable t) {
-//
-//            }
-//        });
-//    }
+    private void fetchPut() {
+        initBodyForRequest();
+        initPutUpdateProfileDetail(headers, object);
+        updateUserProfile.clone().enqueue(new Callback<UserDetail>() {
+            @Override
+            public void onResponse(Call<UserDetail> call, Response<UserDetail> response) {
+                if (!response.isSuccessful()) {
+                    Log.d("Fail", "Fail");
+                    return;
+                }
+                Log.d("Fail", "Fail");
+            }
+            @Override
+            public void onFailure(Call<UserDetail> call, Throwable t) {
+
+            }
+        });
+    }
     private void fetchUserProfileDetail() {
         Api.initGetUserProfileDetail(headers);
         Api.getUserProfileDetail.clone().enqueue(new Callback<ProfileDetailResponse>() {
