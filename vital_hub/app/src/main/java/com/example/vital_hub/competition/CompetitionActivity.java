@@ -42,12 +42,12 @@ import com.example.vital_hub.helper.*;
 
 public class CompetitionActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     BottomNavigationView bottomNavigationView;
-    private Boolean isJoined = false, prevIsJoined = false;
+    private Boolean isJoined = false, prevIsJoined = false, isCreated = false, prevIsCreated = false;
     private int limit = 10;
     private int offset = 0;
     private RecyclerView competitionList;
     private CompetitionListAdapter competitionListAdapter;
-    private Button suggestButton, isJoinedButton;
+    private Button suggestButton, isJoinedButton, isCreatedButton;
     private ImageButton addButton;
     private EditText searchCompetition;
     private CompetitionListResponse competitionListResponse;
@@ -76,6 +76,7 @@ public class CompetitionActivity extends AppCompatActivity implements Navigation
         // Button
         suggestButton = findViewById(R.id.suggest);
         isJoinedButton = findViewById(R.id.joined);
+        isCreatedButton = findViewById(R.id.created);
         suggestButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#A9A9A9")));
         suggestButton.setTextColor(Color.parseColor("#000000"));
 
@@ -90,11 +91,17 @@ public class CompetitionActivity extends AppCompatActivity implements Navigation
             isJoinedButton.setBackgroundTintList(colorStateList);
             isJoinedButton.setTextColor(Color.parseColor("#FFFFFF"));
 
+            isCreatedButton.setBackgroundTintList(colorStateList);
+            isCreatedButton.setTextColor(Color.parseColor("#FFFFFF"));
+
             ColorStateList colorStateList2 = ColorStateList.valueOf(Color.parseColor("#A9A9A9"));
             suggestButton.setBackgroundTintList(colorStateList2);
             suggestButton.setTextColor(Color.parseColor("#000000"));
             prevIsJoined = isJoined;
             isJoined = false;
+
+            prevIsCreated = isCreated;
+            isCreated = false;
             reloadData();
         });
 
@@ -111,8 +118,38 @@ public class CompetitionActivity extends AppCompatActivity implements Navigation
             ColorStateList colorStateList2 = ColorStateList.valueOf(Color.parseColor("#1DB964"));
             suggestButton.setBackgroundTintList(colorStateList2);
             suggestButton.setTextColor(Color.parseColor("#FFFFFF"));
+
+            isCreatedButton.setBackgroundTintList(colorStateList2);
+            isCreatedButton.setTextColor(Color.parseColor("#FFFFFF"));
+
+            prevIsCreated = isCreated;
+            isCreated = false;
             prevIsJoined = isJoined;
             isJoined = true;
+            reloadData();
+        });
+
+        isCreatedButton.setOnClickListener(v -> {
+            KeyboardHelper.hideKeyboard(this);
+            if (searchCompetition.getText().toString().length() > 0) {
+                searchCompetition.setText("");
+            }
+            searchCompetition.clearFocus();
+            ColorStateList colorStateList = ColorStateList.valueOf(Color.parseColor("#A9A9A9"));
+            isCreatedButton.setBackgroundTintList(colorStateList);
+            isCreatedButton.setTextColor(Color.parseColor("#000000"));
+
+            ColorStateList colorStateList2 = ColorStateList.valueOf(Color.parseColor("#1DB964"));
+            suggestButton.setBackgroundTintList(colorStateList2);
+            suggestButton.setTextColor(Color.parseColor("#FFFFFF"));
+
+            isJoinedButton.setBackgroundTintList(colorStateList2);
+            isJoinedButton.setTextColor(Color.parseColor("#FFFFFF"));
+
+            prevIsJoined = isJoined;
+            isJoined = false;
+            prevIsCreated = isCreated;
+            isCreated = true;
             reloadData();
         });
 
@@ -127,7 +164,10 @@ public class CompetitionActivity extends AppCompatActivity implements Navigation
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 competitions.clear();
-                fetchCompetitionList(isJoined, s.toString(), limit, offset);
+                if (isCreated) {
+                    fetchOwnCompetitionList(s.toString(), limit, offset);
+                }
+                else fetchCompetitionList(isJoined, s.toString(), limit, offset);
             }
 
             @Override
@@ -146,8 +186,11 @@ public class CompetitionActivity extends AppCompatActivity implements Navigation
         competitions = new ArrayList<>();
         competitionList = findViewById(R.id.competition_list);
         competitionList.setHasFixedSize(true);
-        fetchCompetitionList(isJoined, null, limit, offset);
-        competitionListAdapter = new CompetitionListAdapter(competitions, isJoined);
+        if (isCreated) {
+            fetchOwnCompetitionList(null, limit, offset);
+        }
+        else fetchCompetitionList(isJoined, null, limit, offset);
+        competitionListAdapter = new CompetitionListAdapter(competitions, isJoined, isCreated);
         competitionList.setAdapter(competitionListAdapter);
         layoutManager = new LinearLayoutManager(this);
         competitionList.setLayoutManager(layoutManager);
@@ -158,7 +201,10 @@ public class CompetitionActivity extends AppCompatActivity implements Navigation
                     @Override
                     public void onLoadMore() {
                         offset += limit;
-                        fetchCompetitionList(isJoined, searchCompetition.getText().toString(), limit, offset);
+                        if (isCreated) {
+                            fetchOwnCompetitionList(searchCompetition.getText().toString(), limit, offset);
+                        }
+                        else fetchCompetitionList(isJoined, searchCompetition.getText().toString(), limit, offset);
                     }
                 }
         );
@@ -183,7 +229,30 @@ public class CompetitionActivity extends AppCompatActivity implements Navigation
                     competitionListResponse = response.body();
                     assert competitionListResponse != null;
                     competitions.addAll(Arrays.asList(competitionListResponse.getData()));
-                    competitionListAdapter = new CompetitionListAdapter(competitions, isJoined);
+                    competitionListAdapter = new CompetitionListAdapter(competitions, isJoined, isCreated);
+                    competitionList.setAdapter(competitionListAdapter);
+                } else {
+                    Log.d("Error", "Error: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<CompetitionListResponse> call, @NonNull Throwable t) {
+                System.out.println("Error: " + t.getMessage());
+            }
+        });
+    }
+
+    private void fetchOwnCompetitionList(String name, Integer limit, Integer offset) {
+        Api.initGetOwnCompetitionList(headers, name, limit, offset);
+        Api.getOwnCompetitionList.enqueue(new Callback<CompetitionListResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<CompetitionListResponse> call, @NonNull Response<CompetitionListResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    competitionListResponse = response.body();
+                    assert competitionListResponse != null;
+                    competitions.addAll(Arrays.asList(competitionListResponse.getData()));
+                    competitionListAdapter = new CompetitionListAdapter(competitions, isJoined, isCreated);
                     competitionList.setAdapter(competitionListAdapter);
                 } else {
                     Log.d("Error", "Error: " + response.code());
@@ -220,7 +289,11 @@ public class CompetitionActivity extends AppCompatActivity implements Navigation
 
     private void reloadData() {
         offset = 0;
-        if (isJoined != prevIsJoined) {
+        if (isCreated) {
+            competitions.clear();
+            fetchOwnCompetitionList(null, limit, offset);
+        }
+        else {
             competitions.clear();
             fetchCompetitionList(isJoined, null, limit, offset);
         }

@@ -35,8 +35,10 @@ import retrofit2.Response;
 
 import com.example.vital_hub.helper.*;
 
+import static com.example.vital_hub.client.controller.Api.initRetrofitAndController;
 
 public class FriendList extends AppCompatActivity implements FriendListAdapter.FriendActionListener {
+
 
     private final int limit = 10;
     private int offset = 0;
@@ -57,6 +59,9 @@ public class FriendList extends AppCompatActivity implements FriendListAdapter.F
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
+
+        //Init server (test)
+        initRetrofitAndController("10.0.2.2");
 
         // Helper
         KeyboardHelper.setupKeyboardHiding(this);

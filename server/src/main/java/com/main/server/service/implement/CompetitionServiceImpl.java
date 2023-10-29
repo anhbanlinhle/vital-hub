@@ -33,4 +33,9 @@ public class CompetitionServiceImpl implements CompetitionService {
                     .build());
         }
     }
+
+    @Override
+    public List<CompetitionListDto> getOwnCompetitionList(Long id, String name, Integer limit, Integer offset) {
+        return competitionRepository.getOwnCompetitionList(id, name, limit, offset);
+    }
 }

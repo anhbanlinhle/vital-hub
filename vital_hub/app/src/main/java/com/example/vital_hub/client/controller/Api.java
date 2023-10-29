@@ -54,6 +54,7 @@ public class Api {
 
     //Competition
     public static Call<CompetitionListResponse> getCompetitionList;
+    public static Call<CompetitionListResponse> getOwnCompetitionList;
 
     //Exercise
     public static Call<List<SingleExercise>> singleExerciseList;
@@ -138,6 +139,10 @@ public class Api {
     //Competition
     public static void initGetCompetitionList(Map<String, String> headers, Boolean isJoined, String name, Integer limit, Integer offset) {
         getCompetitionList = controller.getCompetitionList(headers, isJoined, name, limit, offset);
+    }
+
+    public static void initGetOwnCompetitionList(Map<String, String> headers, String name, Integer limit, Integer offset) {
+        getOwnCompetitionList = controller.getOwnCompetitionList(headers, name, limit, offset);
     }
 
     public static void initPostRegist(Map<String, String> headers, RegistRequestObject body) {

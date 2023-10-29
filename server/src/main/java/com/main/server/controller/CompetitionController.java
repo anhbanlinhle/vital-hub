@@ -43,6 +43,23 @@ public class CompetitionController {
                 .build());
     }
 
+    @GetMapping("/own-list")
+    public ResponseEntity<BaseResponse> getOwnCompetitionList(HttpServletRequest request, @RequestParam @Nullable String name, @RequestParam @Nullable Integer limit, @RequestParam @Nullable Integer offset) {
+        Long currentUserId = tokenParser.getCurrentUserId(request.getHeader("Authorization"));
+        if (limit == null) {
+            limit = 10;
+        }
+        if (offset == null) {
+            offset = 0;
+        }
+        List<CompetitionListDto> competitionList = competitionService.getOwnCompetitionList(currentUserId, name, limit, offset);
+        return ResponseEntity.ok().body(BaseResponse.builder()
+                .message("success")
+                .success(true)
+                .data(competitionList)
+                .build());
+    }
+
     @PostMapping("/join_or_leave")
     public ResponseEntity<BaseResponse> joinOrLeaveCompetition(HttpServletRequest request, @RequestParam Long compId) {
         Long currentUserId = tokenParser.getCurrentUserId(request.getHeader("Authorization"));

@@ -23,9 +23,11 @@ public class CompetitionListAdapter extends RecyclerView.Adapter<CompetitionList
 
     private final ArrayList<Competition> competitionList;
     private final boolean isJoined;
-    public CompetitionListAdapter(ArrayList<Competition> competitionList, boolean isJoined) {
+    private final boolean isCreated;
+    public CompetitionListAdapter(ArrayList<Competition> competitionList, boolean isJoined, boolean isCreated) {
         this.competitionList = competitionList;
         this.isJoined = isJoined;
+        this.isCreated = isCreated;
     }
 
     @NonNull
@@ -37,7 +39,12 @@ public class CompetitionListAdapter extends RecyclerView.Adapter<CompetitionList
 
     @Override
     public void onBindViewHolder(@NonNull CompetitionListAdapter.CompetitionViewHolder holder, int position) {
-        if (isJoined) {
+        if (isCreated) {
+            holder.joinButton.setText("Delete");
+            holder.joinButton.setBackground(holder.joinButton.getContext().getDrawable(R.drawable.rounded_corner_red));
+            holder.joinButton.setTextColor(holder.joinButton.getContext().getColor(R.color.color_red));
+        }
+        else if (isJoined) {
             holder.joinButton.setText("Leave");
             holder.joinButton.setBackground(holder.joinButton.getContext().getDrawable(R.drawable.rounded_corner_red));
             holder.joinButton.setTextColor(holder.joinButton.getContext().getColor(R.color.color_red));

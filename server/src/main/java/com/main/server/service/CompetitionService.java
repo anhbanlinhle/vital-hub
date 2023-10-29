@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface CompetitionService {
     List<CompetitionListDto> getCompetitionList(Boolean isJoined, Long id, String name, Integer limit, Integer offset);
-
+    List<CompetitionListDto> getOwnCompetitionList(Long id, String name, Integer limit, Integer offset);
     void joinOrLeaveCompetition(Long currentUserId, Long compId);
 }
