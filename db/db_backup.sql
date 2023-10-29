@@ -29,16 +29,6 @@ CREATE TABLE friend (
 );
 ALTER TABLE friend ADD CONSTRAINT fr_prk PRIMARY KEY (first_user_id, second_user_id);
 
-CREATE TABLE workout_history (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    user_id BIGINT,
-    group_id BIGINT,
-    started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    ended_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    calo float
-);
-ALTER TABLE workout_history ADD CONSTRAINT wh_fk_1 FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE;
-
 CREATE TABLE workout_mapping (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     bmi_upper_bound FLOAT,
@@ -57,24 +47,15 @@ CREATE TABLE workout_exercises (
     total_calo FLOAT
 );
 
-CREATE TABLE jogging (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    user_id BIGINT,
-    distance FLOAT,
-    started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    ended_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    calo FLOAT
-);
-ALTER TABLE jogging ADD CONSTRAINT jg_fk_1 FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE;
-
 CREATE TABLE post (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     user_id BIGINT,
-    jogging_id BIGINT,
+    exercise_id BIGINT,
     title text,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    is_deleted BOOLEAN DEFAULT FALSE
+    is_deleted BOOLEAN DEFAULT FALSE,
+    image text
 );
 ALTER TABLE post ADD CONSTRAINT p_fk_1 FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE;
 
@@ -97,8 +78,12 @@ CREATE TABLE competition (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     ended_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    is_deleted BOOLEAN DEFAULT FALSE
+    is_deleted BOOLEAN DEFAULT FALSE,
+    type ENUM('RUNNING', 'BICYCLING', 'PUSHUP'),
+    duration TIME,
+    background text
 );
+ALTER TABLE competition ADD CONSTRAINT compe_fk_1 FOREIGN KEY (host_id) REFERENCES user (id) ON DELETE SET NULL;
 
 CREATE TABLE participants (
     participant_id BIGINT,
@@ -106,13 +91,49 @@ CREATE TABLE participants (
     PRIMARY KEY (participant_id, comp_id)
 );
 
-CREATE TABLE competition_history (
+CREATE TABLE exercise (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    competition_id BIGINT,
     started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     ended_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    winner_id BIGINT
+    calo FLOAT,
+    user_id BIGINT,
+    type ENUM('RUNNING', 'BICYCLING', 'GYM', 'PUSHUP')
 );
+ALTER TABLE exercise ADD CONSTRAINT ex_fk_1 FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE;
+
+CREATE TABLE bicycling (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    exercise_id BIGINT,
+    distance FLOAT
+);
+ALTER TABLE bicycling ADD CONSTRAINT bic_fk_1 FOREIGN KEY (exercise_id) REFERENCES exercise (id) ON DELETE CASCADE;
+
+CREATE TABLE running (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    exercise_id BIGINT,
+    step INT
+);
+ALTER TABLE running ADD CONSTRAINT run_fk_1 FOREIGN KEY (exercise_id) REFERENCES exercise (id) ON DELETE CASCADE;
+
+CREATE TABLE push_up (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    exercise_id BIGINT,
+    rep INT
+);
+ALTER TABLE bicycling ADD CONSTRAINT pu_fk_1 FOREIGN KEY (exercise_id) REFERENCES exercise (id) ON DELETE CASCADE;
+
+CREATE TABLE gym (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    exercise_id BIGINT,
+    group_id BIGINT
+);
+ALTER TABLE bicycling ADD CONSTRAINT gym_fk_1 FOREIGN KEY (exercise_id) REFERENCES exercise (id) ON DELETE CASCADE;
+
+CREATE TABLE compe_ex (
+    exercise_id BIGINT,
+    compe_id BIGINT
+);
+ALTER TABLE compe_ex ADD CONSTRAINT compe_ex_prk PRIMARY KEY (exercise_id, compe_id);
 
 INSERT INTO workout_exercises (group_id, name, description, sets, reps_per_set, total_calo)
 VALUES (1, 'Push Ups' , 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 4, 10, 60);
@@ -212,3 +233,59 @@ INSERT INTO workout_mapping (bmi_upper_bound, bmi_lower_bound, body_status, sugg
 VALUES (30, 25, 'FAT', 1);
 INSERT INTO workout_mapping (bmi_upper_bound, bmi_lower_bound, body_status, suggest_group_id)
 VALUES (1000, 30, 'OBESITY', 3);
+
+INSERT INTO user (id, gmail, name, sex, phone_no, avatar, dob)
+VALUES (1, 'test@gmail.com', 'test', 'MALE', '12312422', null, '2003-12-28');
+
+INSERT INTO user_detail (user_id, current_height, current_weight, exercise_days_per_week, description)
+VALUES (1, 100, 100, 5, 'test description');
+
+INSERT INTO user (id, gmail, name, sex, phone_no, avatar, dob)
+VALUES (2, 'test2@gmail.com', 'test2', 'MALE', '12312422', null, '2003-12-28');
+
+INSERT INTO user_detail (user_id, current_height, current_weight, exercise_days_per_week, description)
+VALUES (2, 100, 100, 5, 'test2 description');
+
+INSERT INTO post (id ,user_id, exercise_id, title, created_at, updated_at, is_deleted, image)
+VALUES (1, 1, 1, 'lorem ipsum', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE, 'https://c02.purpledshub.com/uploads/sites/48/2023/02/why-sky-blue-2db86ae.jpg');
+
+INSERT INTO comment (user_id, post_id, content, created_at, updated_at, is_deleted)
+VALUES (1, 1, 'dep trai 1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE);
+
+INSERT INTO comment (user_id, post_id, content, created_at, updated_at, is_deleted)
+VALUES (2, 1, 'dep trai 2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE);
+
+INSERT INTO comment (user_id, post_id, content, created_at, updated_at, is_deleted)
+VALUES (1, 1, 'dep trai 3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE);
+
+INSERT INTO comment (user_id, post_id, content, created_at, updated_at, is_deleted)
+VALUES (2, 1, 'dep trai 4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE);
+
+INSERT INTO exercise (id, started_at, ended_at, calo, user_id, type)
+VALUES (1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 300, 1, 'RUNNING');
+
+INSERT INTO running (exercise_id, step)
+VALUES (1, 5000);
+
+INSERT INTO exercise (id, started_at, ended_at, calo, user_id, type)
+VALUES (2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 300, 1, 'BICYCLING');
+
+INSERT INTO bicycling (exercise_id, distance)
+VALUES (2, 500.1234);
+
+INSERT INTO exercise (id, started_at, ended_at, calo, user_id, type)
+VALUES (3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 300, 1, 'PUSHUP');
+
+INSERT INTO push_up (exercise_id, rep)
+VALUES (3, 500);
+
+INSERT INTO exercise (id, started_at, ended_at, calo, user_id, type)
+VALUES (4, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 300, 1, 'GYM');
+
+INSERT INTO gym (exercise_id, group_id)
+VALUES (4, 4);
+
+INSERT INTO competition (id, host_id, title, created_at, started_at, ended_at, is_deleted, type, duration, background)
+VALUES (1, 2, 'lorem ipsum', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE, 'RUNNING', null, 'https://c02.purpledshub.com/uploads/sites/48/2023/02/why-sky-blue-2db86ae.jpg');
+
+INSERT INTO compe_ex (exercise_id, compe_id) VALUES (1, 1);
