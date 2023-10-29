@@ -42,6 +42,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#1DB964"
@@ -58,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:cardCornerRadius="15dp">
+
             <VideoView
                 android:id="@+id/video_view"
                 android:layout_width="360dp"
@@ -68,7 +70,7 @@
                 app:layout_constraintHorizontal_bias="0.49"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.065"/>
+                app:layout_constraintVertical_bias="0.065" />
         </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>
 
@@ -84,6 +86,25 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_pushup"
         app:layout_constraintVertical_bias="0.661" />
 
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:backgroundTint="#1DB964"
+        android:fontFamily="@font/mont_semi_bold"
+        app:fabCustomSize="96dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_pushup"
+        app:layout_constraintVertical_bias="0.983"
+        app:maxImageSize="72dp"
+        app:srcCompat="@drawable/round_done_outline_24"
+        app:tint="#FEFFFE" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/chooseVideo"
         android:layout_width="wrap_content"
@@ -91,16 +112,15 @@
         android:layout_margin="4dp"
         android:backgroundTint="#1DB964"
         android:fontFamily="@font/mont_semi_bold"
-        app:maxImageSize="35dp"
-        app:srcCompat="@drawable/baseline_video_file_24"
-        app:tint="#FEFFFE"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.06"
+        app:layout_constraintHorizontal_bias="0.98"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.94"/>
-
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_pushup"
+        app:layout_constraintVertical_bias="0.883"
+        app:maxImageSize="35dp"
+        app:srcCompat="@drawable/baseline_video_file_24"
+        app:tint="#FEFFFE" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/uploadVideo"
@@ -109,16 +129,15 @@
         android:layout_margin="4dp"
         android:backgroundTint="#1DB964"
         android:fontFamily="@font/mont_semi_bold"
-        app:maxImageSize="35dp"
-        app:srcCompat="@drawable/baseline_auto_fix_high_24"
-        app:tint="#FEFFFE"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintBottom_toTopOf="@+id/chooseVideo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.94"
+        app:layout_constraintHorizontal_bias="0.98"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.94" />
-
+        app:layout_constraintVertical_bias="0.974"
+        app:maxImageSize="35dp"
+        app:srcCompat="@drawable/outline_video_settings_24"
+        app:tint="#FEFFFE" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
