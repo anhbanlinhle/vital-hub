@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Intent;
@@ -33,22 +35,30 @@ import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.exercises.ChooseExerciseActivity;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
+import com.example.vital_hub.home_page.HomePagePost;
+import com.example.vital_hub.home_page.HpRecyclerAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PushupVideoScan extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+    private RecyclerView resultRecycler;
+    private ArrayList<Integer> arrayList;
+    PushupAdapter recyclerAdapter;
+
     private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION = 0;
     private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 1;
     private static final int REQUEST_CODE_SELECT_VIDEO = 2;
     VideoView videoView;
     FloatingActionButton chooseVideo, uploadVideo;
-    TextView result;
-    TextView back;
+//    TextView result;
+    TextView back, help;
     BottomNavigationView bottomNavigationView;
     SharedPreferences prefs;
     @Override
@@ -56,11 +66,19 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pushup_video_scan);
 
+        arrayList = new ArrayList<>();
+        resultRecycler = findViewById(R.id.resultRecycle);
+
+        recyclerAdapter = new PushupAdapter(arrayList);
+        resultRecycler.setAdapter(recyclerAdapter);
+        resultRecycler.setLayoutManager(new LinearLayoutManager(this));
+
         videoView = findViewById(R.id.video_view);
-        result = findViewById(R.id.result);
         chooseVideo = findViewById(R.id.chooseVideo);
         uploadVideo = findViewById(R.id.uploadVideo);
+
         back = findViewById(R.id.back_to_home_from_pushup);
+        help = findViewById(R.id.help);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
@@ -77,6 +95,12 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(PushupVideoScan.this, ExerciseGeneralActivity.class));
+            }
+        });
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PushupVideoScan.this, "ok", Toast.LENGTH_SHORT).show();
             }
         });
         chooseVideo.setOnClickListener(new View.OnClickListener() {
@@ -164,7 +188,9 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
             Toast.makeText(PushupVideoScan.this, "No video selected", Toast.LENGTH_SHORT).show();
             return;
         }
-        result.setText("Processing... Please wait!");
+        arrayList.clear();
+        arrayList.add(null);
+        recyclerAdapter.notifyItemRangeChanged(0, 1);
 
         String videoPath = getVideoPathFromUri(videoUri);
         initPushupCall(videoPath);
@@ -175,14 +201,17 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
                 if (response.isSuccessful()) {
                     PushUpResponse body = response.body();
                     if (body != null) {
-                        result.setText(body.getCount());
+                        arrayList.remove(0);
+                        arrayList.add(body.getCount());
+                        recyclerAdapter.notifyItemRangeChanged(0, 1);
+//                        result.setText(String.valueOf(body.getCount()));
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<PushUpResponse> call, Throwable t) {
-                result.setText(t.getMessage());
+//                result.setText(t.getMessage());
             }
         });
     }
