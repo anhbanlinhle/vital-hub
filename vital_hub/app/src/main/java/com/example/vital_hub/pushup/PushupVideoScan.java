@@ -18,6 +18,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
@@ -26,19 +27,29 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.vital_hub.R;
+import com.example.vital_hub.UserProfile;
 import com.example.vital_hub.client.fastapi.objects.PushUpResponse;
+import com.example.vital_hub.competition.CompetitionActivity;
+import com.example.vital_hub.exercises.ChooseExerciseActivity;
+import com.example.vital_hub.exercises.ExerciseGeneralActivity;
+import com.example.vital_hub.home_page.HomePageActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PushupVideoScan extends AppCompatActivity {
+public class PushupVideoScan extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION = 0;
     private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 1;
     private static final int REQUEST_CODE_SELECT_VIDEO = 2;
     VideoView videoView;
-    Button video, back, upload;
+    FloatingActionButton chooseVideo, uploadVideo;
     TextView result;
+    TextView back;
+    BottomNavigationView bottomNavigationView;
     SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +57,14 @@ public class PushupVideoScan extends AppCompatActivity {
         setContentView(R.layout.pushup_video_scan);
 
         videoView = findViewById(R.id.video_view);
-        video = findViewById(R.id.choose);
-        upload = findViewById(R.id.upload);
-        back = findViewById(R.id.back);
         result = findViewById(R.id.result);
+        chooseVideo = findViewById(R.id.chooseVideo);
+        uploadVideo = findViewById(R.id.uploadVideo);
+        back = findViewById(R.id.back_to_home_from_pushup);
+
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(this);
+        bottomNavigationView.setSelectedItemId(R.id.exercise);
 
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
         initFastapi(prefs.getString("server", "10.0.2.2"));
@@ -58,24 +73,23 @@ public class PushupVideoScan extends AppCompatActivity {
 
         configVideoView();
 
-        video.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PushupVideoScan.this, ExerciseGeneralActivity.class));
+            }
+        });
+        chooseVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectVideo();
             }
         });
 
-        upload.setOnClickListener(new View.OnClickListener() {
+        uploadVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 processVideo();
-            }
-        });
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goBack();
             }
         });
     }
@@ -145,12 +159,13 @@ public class PushupVideoScan extends AppCompatActivity {
     }
 
     void processVideo() {
-        result.setText("Processing... Please wait!");
         Uri videoUri = videoView.getTag() != null ? (Uri) videoView.getTag() : null;
         if (videoUri == null) {
             Toast.makeText(PushupVideoScan.this, "No video selected", Toast.LENGTH_SHORT).show();
             return;
         }
+        result.setText("Processing... Please wait!");
+
         String videoPath = getVideoPathFromUri(videoUri);
         initPushupCall(videoPath);
 
@@ -160,7 +175,7 @@ public class PushupVideoScan extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     PushUpResponse body = response.body();
                     if (body != null) {
-                        result.setText("Count: " + body.getCount());
+                        result.setText(body.getCount());
                     }
                 }
             }
@@ -170,10 +185,6 @@ public class PushupVideoScan extends AppCompatActivity {
                 result.setText(t.getMessage());
             }
         });
-    }
-
-    void goBack() {
-        finish();
     }
 
     public String getVideoPathFromUri(Uri uri) {
@@ -186,5 +197,26 @@ public class PushupVideoScan extends AppCompatActivity {
             return filePath;
         }
         return null;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.profile) {
+            startActivity(new Intent(getApplicationContext(), UserProfile.class));
+            overridePendingTransition(0, 0);
+            return true;
+        } else if (item.getItemId() == R.id.home) {
+            startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
+            overridePendingTransition(0, 0);
+            return true;
+        } else if (item.getItemId() == R.id.exercise) {
+            return true;
+        } else if (item.getItemId() == R.id.competition) {
+            startActivity(new Intent(getApplicationContext(), CompetitionActivity.class));
+            overridePendingTransition(0, 0);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
