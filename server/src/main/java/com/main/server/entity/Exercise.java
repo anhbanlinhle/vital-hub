@@ -3,21 +3,20 @@ package com.main.server.entity;
 import com.main.server.utils.enums.ExerciseType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Time;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "competition")
-public class Competition implements Serializable {
+@Builder
+@Table(name = "exercise")
+public class Exercise implements Serializable {
 
     private static final long serialVersionUID = -197553281792804396L;
 
@@ -26,30 +25,18 @@ public class Competition implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "host_id")
-    private Long hostId;
-
-    @Column(name = "title")
-    private String title;
-
-    @Column(name = "is_deleted")
-    private Boolean isDeleted = false;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
     @Column(name = "started_at")
     private LocalDateTime startedAt;
 
     @Column(name = "ended_at")
     private LocalDateTime endedAt;
 
+    @Column(name = "calo")
+    private Float calo;
+
+    @Column(name = "user_id")
+    private Long userId;
+
     @Column(name = "type")
     private ExerciseType type;
-
-    @Column(name = "duration")
-    private LocalTime duration;
-
-    @Column(name = "background")
-    private String background;
 }

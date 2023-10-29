@@ -38,4 +38,7 @@ public class Post implements Serializable {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Column(name = "image")
+    private String image;
 }
