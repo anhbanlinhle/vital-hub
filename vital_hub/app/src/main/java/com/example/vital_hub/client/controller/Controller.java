@@ -81,8 +81,8 @@ public interface Controller {
     Call<ProfileResponse> getUserProfile(@HeaderMap Map<String, String> header);
     @GET("/user/detail")
     Call<ProfileDetailResponse> getUserProfileDetail(@HeaderMap Map<String, String> header);
-    @PUT("/user/detail")
-    Call<UserDetail> updateProfileDetail(@HeaderMap Map<String, String> headers, @Body UserDetail object);
+    @PUT("/user/save-detail")
+    Call<UserDetail> updateProfileDetail(@HeaderMap Map<String, String> headers, @Body UserDetail body);
 
 
     // Others Profile

@@ -214,6 +214,24 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         });
     }
 
+//    private void fetchUserProfileDetail() {
+//        Api.initGetUserProfileDetail(headers);
+//        Api.getUserProfileDetail.clone().enqueue(new Callback<ProfileDetailResponse>() {
+//            @Override
+//            public void onResponse(Call<ProfileDetailResponse> call, Response<ProfileDetailResponse> response) {
+//                if (response.isSuccessful()) {
+//
+//                    Glide.with(ProfileDetail.this).load(fetchedUserProfileDetail.getAvatar()).into(profileImage);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ProfileDetailResponse> call, Throwable t) {
+//                Toast.makeText(ProfileDetail.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+
     private void fetchFriends() {
         Api.initGetTotalFriend(headers);
         Api.getTotalFriend.clone().enqueue(new Callback<CountResponse>() {

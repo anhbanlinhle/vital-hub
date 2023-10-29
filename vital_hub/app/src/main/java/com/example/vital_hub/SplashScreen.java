@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.example.vital_hub.profile.UserProfile;
+import com.example.vital_hub.authentication.LoginScreen;
 
 public class SplashScreen extends Activity {
     Handler handler;
@@ -23,7 +23,7 @@ public class SplashScreen extends Activity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashScreen.this, UserProfile.class);
+                Intent intent = new Intent(SplashScreen.this, LoginScreen.class);
                 startActivity(intent);
                 finish();
             }

@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.controller.Api;
 import com.example.vital_hub.client.objects.ProfileDetailResponse;
+import com.example.vital_hub.helper.KeyboardHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -40,7 +40,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileDetail extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-
     ImageView profileImage;
     Calendar calendar;
     TextView cancel;
@@ -52,7 +51,6 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
     EditText weight;
     TextView enableEdit;
     EditText description;
-    Button saveButton;
     String[] gender = {"Female", "Male"};
     Spinner chooseGender;
     ColorStateList colorStateList;
@@ -61,12 +59,18 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
     Map<String, String> headers;
     ProfileDetailResponse profileDetailResponse;
     private UserDetail fetchedUserProfileDetail;
-    private UserDetail object;
+    private UserDetail newInfo;
+
+    EditText exercisePerDay;
+
+
 
     @Override
     protected void onCreate(Bundle SavedInstanceState) {
+
         super.onCreate(SavedInstanceState);
         setContentView(R.layout.profile_detail);
+        KeyboardHelper.setupKeyboardHiding(this);
         initHeaderForRequest();
         fetchUserProfileDetail();
         initRetrofitAndController(prefs.getString("server", "10.0.2.2"));
@@ -84,7 +88,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         profileImage = findViewById(R.id.profile_image);
         chooseGender.setOnItemSelectedListener(this);
         enableEdit = findViewById(R.id.edit);
-        saveButton = findViewById(R.id.save_button);
+        exercisePerDay = findViewById(R.id.edit_exercise_per_day);
 
         colorStateList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.color_black));
 
@@ -96,24 +100,90 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         phoneNumber.setEnabled(false);
         height.setEnabled(false);
         weight.setEnabled(false);
-
+        exercisePerDay.setEnabled(false);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, gender);
 
         chooseGender.setAdapter(adapter);
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
+
+
+        description.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                fetchPut();
-                finish();
+            public void onFocusChange(View view, boolean isFocused) {
+                if (!isFocused) {
+                    KeyboardHelper.hideKeyboard(view);
+                }
+            }
+        });
+
+        userName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean isFocused) {
+                if (!isFocused) {
+                    KeyboardHelper.hideKeyboard(view);
+                }
+            }
+        });
+
+        birthDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean isFocused) {
+                if (!isFocused) {
+                    KeyboardHelper.hideKeyboard(view);
+                }
+            }
+        });
+
+        gmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean isFocused) {
+                if (!isFocused) {
+                    KeyboardHelper.hideKeyboard(view);
+                }
+            }
+        });
+
+        phoneNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean isFocused) {
+                if (!isFocused) {
+                    KeyboardHelper.hideKeyboard(view);
+                }
+            }
+        });
+
+        height.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean isFocused) {
+                if (!isFocused) {
+                    KeyboardHelper.hideKeyboard(view);
+                }
+            }
+        });
+
+        weight.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean isFocused) {
+                if (!isFocused) {
+                    KeyboardHelper.hideKeyboard(view);
+                }
+            }
+        });
+
+        exercisePerDay.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean isFocused) {
+                if (!isFocused) {
+                    KeyboardHelper.hideKeyboard(view);
+                }
             }
         });
 
         enableEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                enableEdit.setText("Editting", TextView.BufferType.NORMAL);
+                enableEdit.setText("Save", TextView.BufferType.NORMAL);
 
                 description.setEnabled(true);
                 description.requestFocus();
@@ -124,8 +194,8 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
                 birthDate.setEnabled(true);
                 birthDate.requestFocus();
 
-                chooseGender.setEnabled(true);
-                chooseGender.requestFocus();
+//                chooseGender.setEnabled(true);
+//                chooseGender.requestFocus();
 
                 gmail.setEnabled(true);
                 gmail.requestFocus();
@@ -138,6 +208,9 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
 
                 weight.setEnabled(true);
                 weight.requestFocus();
+
+                exercisePerDay.setEnabled(true);
+                exercisePerDay.requestFocus();
             }
         });
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -182,17 +255,21 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
     }
 
     private void initBodyForRequest() {
-        object = new UserDetail(
+        newInfo = new UserDetail(
+                fetchedUserProfileDetail.getId(),
                 userName.getText().toString(),
                 gmail.getText().toString(),
+                fetchedUserProfileDetail.getSex(),
                 phoneNumber.getText().toString(),
+                fetchedUserProfileDetail.getAvatar(),
                 birthDate.getText().toString(),
                 new DetailedProfile(
+                        fetchedUserProfileDetail.getUserDetail().getId(),
+                        fetchedUserProfileDetail.getUserDetail().getUserId(),
                         Double.valueOf(height.getText().toString()),
                         Double.valueOf(weight.getText().toString()),
+                        0,
                         description.getText().toString()));
-
-
     }
     private void updateLabel() {
         String myFormat = "dd/MM/yyyy";
@@ -214,21 +291,21 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         // TODO Auto-generated method stub
     }
 
-    private void fetchPut() {
+    private void fetchUpdateProfileDetail() {
         initBodyForRequest();
-        initPutUpdateProfileDetail(headers, object);
+        initPutUpdateProfileDetail(headers, newInfo);
         updateUserProfile.clone().enqueue(new Callback<UserDetail>() {
             @Override
             public void onResponse(Call<UserDetail> call, Response<UserDetail> response) {
                 if (!response.isSuccessful()) {
-                    Log.d("Fail", "Fail");
+                    Log.d("Fail", "Error" + response);
                     return;
                 }
-                Log.d("Fail", "Fail");
+                Log.d("Fail", "Error" + response);
             }
             @Override
             public void onFailure(Call<UserDetail> call, Throwable t) {
-
+                Log.d("Fail", t.getMessage());
             }
         });
     }
@@ -249,6 +326,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
                     height.setText(String.valueOf(fetchedUserProfileDetail.getUserDetail().getCurrentHeight()));
                     weight.setText(String.valueOf(fetchedUserProfileDetail.getUserDetail().getCurrentWeight()));
                     chooseGender.setSelection(fetchedUserProfileDetail.getSex().getPosition());
+                    exercisePerDay.setText(String.valueOf(fetchedUserProfileDetail.getUserDetail().getExerciseDaysPerWeek()));
                     Glide.with(ProfileDetail.this).load(fetchedUserProfileDetail.getAvatar()).into(profileImage);
                 }
             }
