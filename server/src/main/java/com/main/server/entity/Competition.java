@@ -1,12 +1,16 @@
 package com.main.server.entity;
 
+import com.main.server.utils.enums.ExerciseType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
@@ -40,6 +44,12 @@ public class Competition implements Serializable {
     @Column(name = "ended_at")
     private LocalDateTime endedAt;
 
-    @Column(name = "status")
-    private Boolean status;
+    @Column(name = "type")
+    private ExerciseType type;
+
+    @Column(name = "duration")
+    private LocalTime duration;
+
+    @Column(name = "background")
+    private String background;
 }
