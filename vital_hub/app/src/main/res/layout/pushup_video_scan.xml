@@ -83,9 +83,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_pushup"
-        app:layout_constraintVertical_bias="0.661" />
-
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintVertical_bias="0.172" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/save"
@@ -102,7 +101,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_pushup"
         app:layout_constraintVertical_bias="0.983"
         app:maxImageSize="72dp"
-        app:srcCompat="@drawable/round_done_outline_24"
+        app:srcCompat="@drawable/baseline_save_alt_24"
         app:tint="#FEFFFE" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -112,13 +111,14 @@
         android:layout_margin="4dp"
         android:backgroundTint="#1DB964"
         android:fontFamily="@font/mont_semi_bold"
+        app:fabCustomSize="48dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintHorizontal_bias="0.938"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_pushup"
-        app:layout_constraintVertical_bias="0.883"
-        app:maxImageSize="35dp"
+        app:layout_constraintVertical_bias="0.854"
+        app:maxImageSize="36dp"
         app:srcCompat="@drawable/baseline_video_file_24"
         app:tint="#FEFFFE" />
 
@@ -129,14 +129,15 @@
         android:layout_margin="4dp"
         android:backgroundTint="#1DB964"
         android:fontFamily="@font/mont_semi_bold"
+        app:fabCustomSize="48dp"
         app:layout_constraintBottom_toTopOf="@+id/chooseVideo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintHorizontal_bias="0.938"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.974"
-        app:maxImageSize="35dp"
-        app:srcCompat="@drawable/outline_video_settings_24"
+        app:layout_constraintVertical_bias="0.971"
+        app:maxImageSize="36dp"
+        app:srcCompat="@drawable/round_done_outline_24"
         app:tint="#FEFFFE" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
