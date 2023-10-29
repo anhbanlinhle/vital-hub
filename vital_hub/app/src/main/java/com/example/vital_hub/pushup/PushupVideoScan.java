@@ -58,7 +58,7 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
     VideoView videoView;
     FloatingActionButton chooseVideo, uploadVideo;
 //    TextView result;
-    TextView back;
+    TextView back, help;
     BottomNavigationView bottomNavigationView;
     SharedPreferences prefs;
     @Override
@@ -74,10 +74,11 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
         resultRecycler.setLayoutManager(new LinearLayoutManager(this));
 
         videoView = findViewById(R.id.video_view);
-//        result = findViewById(R.id.status);
         chooseVideo = findViewById(R.id.chooseVideo);
         uploadVideo = findViewById(R.id.uploadVideo);
+
         back = findViewById(R.id.back_to_home_from_pushup);
+        help = findViewById(R.id.help);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
@@ -94,6 +95,12 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(PushupVideoScan.this, ExerciseGeneralActivity.class));
+            }
+        });
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PushupVideoScan.this, "ok", Toast.LENGTH_SHORT).show();
             }
         });
         chooseVideo.setOnClickListener(new View.OnClickListener() {

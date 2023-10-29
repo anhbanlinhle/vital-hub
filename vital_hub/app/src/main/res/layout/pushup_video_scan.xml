@@ -31,6 +31,14 @@
             android:layout_gravity="center"
             android:gravity="center_vertical"
             app:drawableEndCompat="@drawable/baseline_accessibility_new_24_white" />
+
+        <TextView
+            android:id="@+id/help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="16dp"
+            app:drawableEndCompat="@drawable/outline_question_mark_24"/>
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.cardview.widget.CardView
