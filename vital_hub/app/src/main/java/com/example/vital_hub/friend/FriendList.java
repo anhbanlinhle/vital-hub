@@ -3,7 +3,7 @@ package com.example.vital_hub.friend;
 
 import com.example.vital_hub.client.spring.objects.CountResponse;
 import com.example.vital_hub.client.spring.objects.FriendListResponse;
-import com.example.vital_hub.model.Friend;
+import com.example.vital_hub.friend.Friend;
 import com.example.vital_hub.client.spring.controller.Api;
 
 import android.content.Intent;
@@ -38,7 +38,7 @@ import retrofit2.Response;
 
 import com.example.vital_hub.helper.*;
 
-import static com.example.vital_hub.client.controller.Api.initRetrofitAndController;
+import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAndController;
 
 public class FriendList extends AppCompatActivity implements FriendListAdapter.FriendActionListener {
 
