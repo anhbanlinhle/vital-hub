@@ -39,37 +39,21 @@ public class CompetitionListAdapter extends RecyclerView.Adapter<CompetitionList
 
     @Override
     public void onBindViewHolder(@NonNull CompetitionListAdapter.CompetitionViewHolder holder, int position) {
-        if (isCreated) {
-            holder.joinButton.setText("Delete");
-            holder.joinButton.setBackground(holder.joinButton.getContext().getDrawable(R.drawable.rounded_corner_red));
-            holder.joinButton.setTextColor(holder.joinButton.getContext().getColor(R.color.color_red));
-        }
-        else if (isJoined) {
-            holder.joinButton.setText("Leave");
-            holder.joinButton.setBackground(holder.joinButton.getContext().getDrawable(R.drawable.rounded_corner_red));
-            holder.joinButton.setTextColor(holder.joinButton.getContext().getColor(R.color.color_red));
-        } else {
-            holder.joinButton.setText("Join");
-            holder.joinButton.setBackground(holder.joinButton.getContext().getDrawable(R.drawable.rounded_corner));
-            holder.joinButton.setTextColor(holder.joinButton.getContext().getColor(R.color.color_green));
-        }
+
         Glide.with(holder.background.getContext()).load(competitionList.get(position).getBackground()).into(holder.background);
         Glide.with(holder.hostAvatar.getContext()).load(competitionList.get(position).getHostAvatar()).into(holder.hostAvatar);
         holder.title.setText(competitionList.get(position).getTitle());
         holder.hostName.setText(competitionList.get(position).getHostName());
         holder.participantCount.setText(competitionList.get(position).getParticipantCount().toString());
-        if (competitionList.get(position).getRemainDay() >= 0) {
-            holder.status.setText(competitionList.get(position).getRemainDay() + " days left");
-        } else {
+        holder.category.setText(competitionList.get(position).getType());
+        if (!competitionList.get(position).getIsOngoing()) {
             holder.status.setText("Ended");
+        } else {
+            holder.status.setText(competitionList.get(position).getRemainDay() + " days left");
         }
         // If isJoined = true, set text = Leave, else set text = Join
 
-        holder.joinButton.setOnClickListener(v -> {
 
-
-            // Call API to join or leave competition
-        });
 
         holder.setItemClickListener((view, position1, isLongClick) -> {
             if (isLongClick){
@@ -99,7 +83,7 @@ public class CompetitionListAdapter extends RecyclerView.Adapter<CompetitionList
         private final TextView hostName;
         private final TextView participantCount;
         private final TextView status;
-        private final Button joinButton;
+        private final TextView category;
         private ItemClickListener itemClickListener;
 
         public CompetitionViewHolder(@NonNull View itemView) {
@@ -110,7 +94,7 @@ public class CompetitionListAdapter extends RecyclerView.Adapter<CompetitionList
             hostName = itemView.findViewById(R.id.hostName);
             participantCount = itemView.findViewById(R.id.total_mem);
             status = itemView.findViewById(R.id.status);
-            joinButton = itemView.findViewById(R.id.joinButton);
+            category = itemView.findViewById(R.id.compe_type_text);
 
             itemView.setOnClickListener(this);
         }

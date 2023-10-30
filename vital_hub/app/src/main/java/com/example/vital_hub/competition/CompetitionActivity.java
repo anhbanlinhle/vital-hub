@@ -289,11 +289,11 @@ public class CompetitionActivity extends AppCompatActivity implements Navigation
 
     private void reloadData() {
         offset = 0;
-        if (isCreated) {
+        if (isCreated && !prevIsCreated) {
             competitions.clear();
             fetchOwnCompetitionList(null, limit, offset);
         }
-        else {
+        else if (isJoined != prevIsJoined || isCreated != prevIsCreated) {
             competitions.clear();
             fetchCompetitionList(isJoined, null, limit, offset);
         }
