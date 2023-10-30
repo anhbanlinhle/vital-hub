@@ -8,6 +8,7 @@ import com.example.vital_hub.client.spring.objects.RegistRequestObject;
 import com.example.vital_hub.client.spring.objects.ResponseObject;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
+import com.example.vital_hub.profile.UserDetail;
 
 import java.util.List;
 import java.util.Map;
@@ -73,6 +74,19 @@ public interface Controller {
     // /auth/**
     @POST("/auth/create-user-first-sign")
     Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);
+
+    // User Profile
+    @GET("/user/info")
+    Call<ProfileResponse> getUserProfile(@HeaderMap Map<String, String> header);
+    @GET("/user/detail")
+    Call<ProfileDetailResponse> getUserProfileDetail(@HeaderMap Map<String, String> header);
+    @PUT("/user/save-detail")
+    Call<UserDetail> updateProfileDetail(@HeaderMap Map<String, String> headers, @Body UserDetail body);
+
+
+    // Others Profile
+    @GET("/user/info")
+    Call<ProfileResponse> getOthersProfile(@HeaderMap Map<String, String> header, @Query("id") Long id);
 
     // /workout/**
     @GET("/workout/exercise-groups")

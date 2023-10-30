@@ -1,10 +1,7 @@
 package com.example.vital_hub.friend;
 
 
-import com.example.vital_hub.client.spring.objects.CountResponse;
-import com.example.vital_hub.client.spring.objects.FriendListResponse;
-import com.example.vital_hub.friend.Friend;
-import com.example.vital_hub.client.spring.controller.Api;
+import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAndController;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,28 +14,26 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.vital_hub.client.spring.objects.*;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vital_hub.R;
+import com.example.vital_hub.client.spring.controller.Api;
+import com.example.vital_hub.client.spring.objects.CountResponse;
+import com.example.vital_hub.client.spring.objects.FriendListResponse;
+import com.example.vital_hub.helper.EndlessScrollListener;
+import com.example.vital_hub.helper.KeyboardHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import com.example.vital_hub.helper.*;
-
-import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAndController;
 
 public class FriendList extends AppCompatActivity implements FriendListAdapter.FriendActionListener {
 

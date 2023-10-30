@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.R;
-import com.example.vital_hub.UserProfile;
+import com.example.vital_hub.profile.UserProfile;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

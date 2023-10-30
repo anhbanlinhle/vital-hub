@@ -58,7 +58,10 @@
             android:name=".authentication.LoginScreen"
             android:exported="true" />
         <activity
-            android:name=".UserProfile"
+            android:name=".profile.UserProfile"
+            android:exported="true"
+            android:label="false"  />
+        <activity android:name=".profile.OthersProfile"
             android:exported="true"
             android:label="false" />
         <activity
@@ -72,16 +75,21 @@
             android:exported="true" />
         <activity
             android:name=".exercises.ExerciseGeneralActivity"
-            android:exported="true" />
+            android:exported="true"  />
         <activity
             android:name=".authentication.FirstRegistInfo"
             android:exported="true" />
-        <activity
+        <activity 
             android:name=".competition.CompetitionActivity"
             android:windowSoftInputMode="adjustPan"
             android:exported="true" />
 
-        <!-- Friend -->
+       
+        <activity android:name=".profile.ProfileDetail"
+            android:exported="true" />
+        <activity android:name=".TestPage"
+            android:exported="true" />
+        
         <activity
             android:name=".friend.FriendList"
             android:windowSoftInputMode="adjustPan"
