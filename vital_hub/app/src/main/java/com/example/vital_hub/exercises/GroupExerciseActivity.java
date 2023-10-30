@@ -11,10 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vital_hub.R;
-import com.example.vital_hub.client.controller.Api;
-import com.example.vital_hub.exercises.adapter.GroupExerciseAdapter;
+import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.exercises.adapter.SingleExerciseAdapter;
-import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.example.vital_hub.utils.HeaderInitUtil;
 

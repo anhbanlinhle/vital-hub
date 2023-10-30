@@ -1,11 +1,12 @@
-package com.example.vital_hub.client.objects;
+package com.example.vital_hub.client.spring.objects;
 
-public class CountResponse {
+import com.example.vital_hub.model.Friend;
+public class FriendListResponse {
     private String message;
     private Boolean success;
-    private Integer data;
+    private Friend[] data;
 
-    public CountResponse(String message, Boolean success, Integer data) {
+    public FriendListResponse(String message, Boolean success, Friend[] data) {
         this.message = message;
         this.success = success;
         this.data = data;
@@ -19,7 +20,7 @@ public class CountResponse {
         return success;
     }
 
-    public Integer getData() {
+    public Friend[] getData() {
         return data;
     }
 }

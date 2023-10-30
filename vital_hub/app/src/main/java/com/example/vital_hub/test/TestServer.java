@@ -1,6 +1,6 @@
 package com.example.vital_hub.test;
 
-import static com.example.vital_hub.client.controller.Api.initRetrofitAndController;
+import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAndController;
 import static com.example.vital_hub.client.fastapi.controller.VideoApi.initFastapi;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
