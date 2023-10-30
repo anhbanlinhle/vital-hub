@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,11 +31,8 @@ import com.example.vital_hub.R;
 import com.example.vital_hub.UserProfile;
 import com.example.vital_hub.client.fastapi.objects.PushUpResponse;
 import com.example.vital_hub.competition.CompetitionActivity;
-import com.example.vital_hub.exercises.ChooseExerciseActivity;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
-import com.example.vital_hub.home_page.HomePagePost;
-import com.example.vital_hub.home_page.HpRecyclerAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
@@ -56,8 +52,7 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
     private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 1;
     private static final int REQUEST_CODE_SELECT_VIDEO = 2;
     VideoView videoView;
-    FloatingActionButton chooseVideo, uploadVideo;
-//    TextView result;
+    FloatingActionButton chooseVideo, uploadVideo, save;
     TextView back, help;
     BottomNavigationView bottomNavigationView;
     SharedPreferences prefs;
@@ -76,6 +71,7 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
         videoView = findViewById(R.id.video_view);
         chooseVideo = findViewById(R.id.chooseVideo);
         uploadVideo = findViewById(R.id.uploadVideo);
+        save = findViewById(R.id.save);
 
         back = findViewById(R.id.back_to_home_from_pushup);
         help = findViewById(R.id.help);
