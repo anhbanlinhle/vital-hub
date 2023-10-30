@@ -1,6 +1,6 @@
 package com.example.vital_hub.client.spring.controller;
 
-import com.example.vital_hub.client.objects.*;
+import com.example.vital_hub.client.spring.objects.*;
 import com.example.vital_hub.client.spring.objects.AuthResponseObject;
 import com.example.vital_hub.client.spring.objects.CountResponse;
 import com.example.vital_hub.client.spring.objects.FriendListResponse;
