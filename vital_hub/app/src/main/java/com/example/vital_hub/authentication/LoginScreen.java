@@ -66,7 +66,7 @@ public class LoginScreen extends AppCompatActivity {
         String name = prefs.getString("name", null);
 
         if (name != null) {
-            Intent intent = new Intent(this, TestMain.class);
+            Intent intent = new Intent(this, HomePageActivity.class);
             intent.putExtra("email", email);
             intent.putExtra("name", name);
             startActivity(intent);
