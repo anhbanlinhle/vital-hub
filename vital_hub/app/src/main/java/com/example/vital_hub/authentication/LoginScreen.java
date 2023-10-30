@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import com.example.vital_hub.R;
 import com.example.vital_hub.authentication.FirstRegistInfo;
-import com.example.vital_hub.client.objects.AuthResponseObject;
+import com.example.vital_hub.client.spring.objects.AuthResponseObject;
 import com.example.vital_hub.client.spring.objects.AuthResponseObject;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.test.TestMain;

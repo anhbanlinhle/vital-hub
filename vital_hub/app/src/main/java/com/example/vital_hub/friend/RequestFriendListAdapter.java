@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
-import com.example.vital_hub.client.controller.Api;
+import com.example.vital_hub.client.spring.controller.Api;
 
 import java.util.ArrayList;
 import java.util.Map;

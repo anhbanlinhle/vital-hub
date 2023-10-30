@@ -23,7 +23,7 @@ import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.R;
 import com.example.vital_hub.UserProfile;
 import com.example.vital_hub.home_page.HomePageActivity;
-import com.example.vital_hub.client.controller.Api;
+import com.example.vital_hub.client.spring.controller.Api;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -32,7 +32,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.example.vital_hub.client.objects.CompetitionListResponse;
+import com.example.vital_hub.client.spring.objects.CompetitionListResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;

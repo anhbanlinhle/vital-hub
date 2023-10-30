@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.example.vital_hub.client.controller.Api;
+import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.helper.KeyboardHelper;
 
 import retrofit2.Call;
