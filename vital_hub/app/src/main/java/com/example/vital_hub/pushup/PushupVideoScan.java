@@ -4,14 +4,6 @@ import static com.example.vital_hub.client.fastapi.controller.VideoApi.initFasta
 import static com.example.vital_hub.client.fastapi.controller.VideoApi.initPushupCall;
 import static com.example.vital_hub.client.fastapi.controller.VideoApi.pushupCall;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,12 +19,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.vital_hub.R;
-import com.example.vital_hub.UserProfile;
 import com.example.vital_hub.client.fastapi.objects.PushUpResponse;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
+import com.example.vital_hub.profile.UserProfile;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;

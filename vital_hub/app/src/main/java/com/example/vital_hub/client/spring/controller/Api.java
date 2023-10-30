@@ -10,6 +10,7 @@ import com.example.vital_hub.client.spring.objects.RegistRequestObject;
 import com.example.vital_hub.client.spring.objects.ResponseObject;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
+import com.example.vital_hub.profile.UserDetail;
 import com.example.vital_hub.home_page.HomePagePost;
 import com.example.vital_hub.post_comment.Comment;
 import com.google.gson.Gson;
@@ -66,6 +67,13 @@ public class Api {
     public static Call<List<SingleExercise>> exercisesInGroup;
 
     public static Call<SingleExercise> singleExercise;
+
+    //User profile
+    public static Call<ProfileResponse> getUserProfile;
+    public static Call<ProfileDetailResponse> getUserProfileDetail;
+    public static Call<UserDetail> updateUserProfile;
+    //Others profile
+    public static Call<ProfileResponse> getOthersProfile;
 
     public static void initRetrofitAndController(String server) {
         String url = "http://" + server + ":8080/";
@@ -175,6 +183,23 @@ public class Api {
         singleExercise = controller.getSingleExerciseById(headers, id);
     }
 
+    //User profile
+    public static void initGetUserProfile(Map<String, String> headers) {
+        getUserProfile = controller.getUserProfile(headers);
+    }
+
+    public static void initGetUserProfileDetail(Map<String, String> headers) {
+        getUserProfileDetail = controller.getUserProfileDetail(headers);
+    }
+
+    public static void initPutUpdateProfileDetail(Map<String, String> headers, UserDetail body) {
+        updateUserProfile = controller.updateProfileDetail(headers, body);
+    }
+
+    //Others profile
+    public static void initGetOthersProfile(Map<String, String> headers, Long id) {
+        getOthersProfile = controller.getOthersProfile(headers, id);
+    }
     // post and comment
     public static void initGetPostResponse(Map<String, String> headers, int pageNum) {
         getPostResponse = controller.getPostResponse(headers, pageNum, 10);
