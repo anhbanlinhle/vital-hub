@@ -43,7 +43,19 @@ public class Api {
     //Friend
     public static Call<CountResponse> getTotalFriend;
     public static Call<FriendListResponse> getFriendList;
+    public static Call<FriendListResponse> getFriendRequestList;
+    public static Call<FriendListResponse> getSearchList;
+    public static Call<Void> addFriend;
+    public static Call<Void> acceptRequest;
+    public static Call<Void> denyRequest;
+    public static Call<Void> revokeRequest;
+    public static Call<Void> deleteFriend;
 
+    //Competition
+    public static Call<CompetitionListResponse> getCompetitionList;
+    public static Call<CompetitionListResponse> getOwnCompetitionList;
+
+    //Exercise
     public static Call<List<SingleExercise>> singleExerciseList;
 
     public static Call<List<GroupExercise>> groupExerciseList;
@@ -94,10 +106,49 @@ public class Api {
     public static void initGetFriendList(Map<String, String> headers, String name, Integer limit, Integer offset) {
         getFriendList = controller.getFriendList(headers, name, limit, offset);
     }
+
+    public static void initGetFriendRequestList(Map<String, String> headers, Integer limit, Integer offset) {
+        getFriendRequestList = controller.getFriendRequestList(headers, limit, offset);
+    }
+
+    public static void initGetSearchList(Map<String, String> headers, String name, Integer limit, Integer offset) {
+        getSearchList = controller.getSearchList(headers, name, limit, offset);
+    }
+
+    public static void initAddFriend(Map<String, String> headers, Long id) {
+        addFriend = controller.addFriend(headers, id);
+    }
+
+    public static void initAcceptRequest(Map<String, String> headers, Long id) {
+        acceptRequest = controller.acceptRequest(headers, id);
+    }
+
+    public static void initDenyRequest(Map<String, String> headers, Long id) {
+        denyRequest = controller.denyRequest(headers, id);
+    }
+
+    public static void initRevokeRequest(Map<String, String> headers, Long id) {
+        revokeRequest = controller.revokeRequest(headers, id);
+    }
+
+    public static void initDeleteFriend(Map<String, String> headers, Long id) {
+        deleteFriend = controller.deleteFriend(headers, id);
+    }
+
+    //Competition
+    public static void initGetCompetitionList(Map<String, String> headers, Boolean isJoined, String name, Integer limit, Integer offset) {
+        getCompetitionList = controller.getCompetitionList(headers, isJoined, name, limit, offset);
+    }
+
+    public static void initGetOwnCompetitionList(Map<String, String> headers, String name, Integer limit, Integer offset) {
+        getOwnCompetitionList = controller.getOwnCompetitionList(headers, name, limit, offset);
+    }
+
     public static void initPostRegist(Map<String, String> headers, RegistRequestObject body) {
         postRegist = controller.postRegistInfo(headers, body);
     }
 
+    //Exercise
     public static void getListSingleExerciseByPage(Map<String, String> headers, Integer page, Integer pageSize, String order, Boolean desc) {
         singleExerciseList = controller.getSingleExercisePartial(headers, page, pageSize, order, desc);
     }
@@ -113,4 +164,5 @@ public class Api {
     public static void getSingleExerciseById(Map<String, String> headers, Long id) {
         singleExercise = controller.getSingleExerciseById(headers, id);
     }
+
 }

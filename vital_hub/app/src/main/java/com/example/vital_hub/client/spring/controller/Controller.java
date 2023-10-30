@@ -14,6 +14,7 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
@@ -48,10 +49,32 @@ public interface Controller {
     Call<CountResponse> getTotalFriends(@HeaderMap Map<String, String> headers);
     @GET("/friend/list")
     Call<FriendListResponse> getFriendList(@HeaderMap Map<String, String> headers, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
+    @GET("/friend/request-list")
+    Call<FriendListResponse> getFriendRequestList(@HeaderMap Map<String, String> headers, @Query("limit") Integer limit, @Query("offset") Integer offset);
+    @GET("/user/search")
+    Call<FriendListResponse> getSearchList(@HeaderMap Map<String, String> headers, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
+    @POST("/friend/add")
+    Call<Void> addFriend(@HeaderMap Map<String, String> headers, @Query("id") Long id);
+    @PUT("/friend/accept")
+    Call<Void> acceptRequest(@HeaderMap Map<String, String> headers, @Query("id") Long id);
+    @DELETE("/friend/deny")
+    Call<Void> denyRequest(@HeaderMap Map<String, String> headers, @Query("id") Long id);
+    @DELETE("/friend/revoke")
+    Call<Void> revokeRequest(@HeaderMap Map<String, String> headers, @Query("id") Long id);
+    @DELETE("/friend/delete")
+    Call<Void> deleteFriend(@HeaderMap Map<String, String> headers, @Query("id") Long id);
 
+    // /competition/**
+
+    @GET("/competition/list")
+    Call<CompetitionListResponse> getCompetitionList(@HeaderMap Map<String, String> headers,@Query("isJoined") Boolean isJoined, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
+    @GET("/competition/own-list")
+    Call<CompetitionListResponse> getOwnCompetitionList(@HeaderMap Map<String, String> headers, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
+    // /auth/**
     @POST("/auth/create-user-first-sign")
     Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);
 
+    // /workout/**
     @GET("/workout/exercise-groups")
     Call<List<GroupExercise>> getGroupExerciseAll(@HeaderMap Map<String, String> header, @Query("suggest") Boolean suggest);
 
@@ -63,4 +86,5 @@ public interface Controller {
 
     @GET("/workout/group/{id}")
     Call<List<SingleExercise>> getGroupExerciseById(@HeaderMap Map<String, String> header, @Path("id") Long id);
+
 }
