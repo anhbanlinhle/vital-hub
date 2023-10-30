@@ -1,13 +1,13 @@
-package com.example.vital_hub.client.objects;
+package com.example.vital_hub.client.spring.objects;
 
-import com.example.vital_hub.profile.UserDetail;
+import com.example.vital_hub.profile.UserInfo;
 
-public class ProfileDetailResponse {
+public class ProfileResponse {
     private String message;
     private Boolean success;
-    private UserDetail data;
+    private UserInfo data;
 
-    public ProfileDetailResponse(String message, Boolean success, UserDetail data) {
+    public ProfileResponse(String message, Boolean success, UserInfo data) {
         this.message = message;
         this.success = success;
         this.data = data;
@@ -21,8 +21,7 @@ public class ProfileDetailResponse {
         return success;
     }
 
-    public UserDetail getData() {
+    public UserInfo getData() {
         return data;
     }
-
 }

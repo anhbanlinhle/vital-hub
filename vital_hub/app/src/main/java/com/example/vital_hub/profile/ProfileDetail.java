@@ -1,8 +1,8 @@
 package com.example.vital_hub.profile;
 
-import static com.example.vital_hub.client.controller.Api.initPutUpdateProfileDetail;
-import static com.example.vital_hub.client.controller.Api.initRetrofitAndController;
-import static com.example.vital_hub.client.controller.Api.updateUserProfile;
+import static com.example.vital_hub.client.spring.controller.Api.initPutUpdateProfileDetail;
+import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAndController;
+import static com.example.vital_hub.client.spring.controller.Api.updateUserProfile;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -26,8 +26,8 @@ import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
-import com.example.vital_hub.client.controller.Api;
-import com.example.vital_hub.client.objects.ProfileDetailResponse;
+import com.example.vital_hub.client.spring.controller.Api;
+import com.example.vital_hub.client.spring.objects.ProfileDetailResponse;
 import com.example.vital_hub.helper.KeyboardHelper;
 
 import java.text.SimpleDateFormat;

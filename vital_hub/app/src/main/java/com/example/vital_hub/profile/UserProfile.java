@@ -1,7 +1,7 @@
 package com.example.vital_hub.profile;
 
 import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
-import static com.example.vital_hub.client.controller.Api.initRetrofitAndController;
+import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAndController;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,10 +23,10 @@ import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
 import com.example.vital_hub.TestPage;
 import com.example.vital_hub.authentication.LoginScreen;
-import com.example.vital_hub.client.controller.Api;
-import com.example.vital_hub.client.objects.CountResponse;
-import com.example.vital_hub.client.objects.ProfileDetailResponse;
-import com.example.vital_hub.client.objects.ProfileResponse;
+import com.example.vital_hub.client.spring.controller.Api;
+import com.example.vital_hub.client.spring.objects.CountResponse;
+import com.example.vital_hub.client.spring.objects.ProfileDetailResponse;
+import com.example.vital_hub.client.spring.objects.ProfileResponse;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
