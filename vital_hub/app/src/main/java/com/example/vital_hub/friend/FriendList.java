@@ -1,8 +1,10 @@
 package com.example.vital_hub.friend;
 
 
-import com.example.vital_hub.model.Friend;
-import com.example.vital_hub.client.controller.Api;
+import com.example.vital_hub.client.spring.objects.CountResponse;
+import com.example.vital_hub.client.spring.objects.FriendListResponse;
+import com.example.vital_hub.friend.Friend;
+import com.example.vital_hub.client.spring.controller.Api;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,9 +15,11 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.vital_hub.client.objects.*;
+import com.example.vital_hub.client.spring.objects.*;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,8 +27,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.vital_hub.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,10 +38,12 @@ import retrofit2.Response;
 
 import com.example.vital_hub.helper.*;
 
+import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAndController;
 
-public class FriendList extends AppCompatActivity {
+public class FriendList extends AppCompatActivity implements FriendListAdapter.FriendActionListener {
 
-    private int limit = 10;
+
+    private final int limit = 10;
     private int offset = 0;
     private RecyclerView friendList;
     private Button returnButton, findButton;
@@ -48,12 +56,15 @@ public class FriendList extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     SharedPreferences prefs;
     String jwt;
-    Map<String, String> headers;
+    static Map<String, String> headers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
+
+        //Init server (test)
+        initRetrofitAndController("10.0.2.2");
 
         // Helper
         KeyboardHelper.setupKeyboardHiding(this);
@@ -93,6 +104,7 @@ public class FriendList extends AppCompatActivity {
         // Get list friend
         fetchFriendList(null, limit, offset);
         friendListAdapter = new FriendListAdapter(fetchedFriendList);
+        friendListAdapter.setFriendActionListener(this);
 
         friendList.setAdapter(friendListAdapter);
         friendList.setLayoutManager(layoutManager);
@@ -147,10 +159,17 @@ public class FriendList extends AppCompatActivity {
 
         // TODO: find friend
         findButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, FindUser.class);
+            Intent intent = new Intent(this, AddFriendActivity.class);
             intent.putExtra("friendList", fetchedFriendList);
             startActivity(intent);
         });
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        fetchedFriendList.clear();
+        fetchFriendList(null, limit, offset);
     }
 
     private void initHeaderForRequest() {
@@ -161,24 +180,63 @@ public class FriendList extends AppCompatActivity {
     }
 
     private void fetchFriendList(String name, Integer limit, Integer offset) {
-        Api.initGetFriendList(headers, name, limit, offset);
-        Api.getFriendList.enqueue(new Callback<FriendListResponse>() {
-                @Override
-                public void onResponse(Call<FriendListResponse> call, Response<FriendListResponse> response) {
-                    if (response.isSuccessful()) {
-                        friendListResponse = response.body();
-                        for (Friend friend : friendListResponse.getData()) {
-                            fetchedFriendList.add(friend);
-                        }
-                        friendListAdapter.notifyDataSetChanged();
-                    }
-                }
+        fetchedFriendList.clear();
+        if(name == null || name.isEmpty()) {
 
-                @Override
-                public void onFailure(Call<FriendListResponse> call, Throwable t) {
-                    Log.e("Error", t.getMessage());
-                }
-            }
-        );
+            Api.initGetFriendList(headers, name, limit, offset);
+
+            Api.getFriendList.clone().enqueue(new Callback<FriendListResponse>() {
+                                                  @Override
+                                                  public void onResponse(@NonNull Call<FriendListResponse> call, @NonNull Response<FriendListResponse> response) {
+                                                      if (response.isSuccessful()) {
+                                                          friendListResponse = response.body();
+                                                          assert friendListResponse != null;
+                                                          fetchedFriendList.addAll(Arrays.asList(friendListResponse.getData()));
+                                                          friendListAdapter.notifyDataSetChanged();
+                                                      }
+                                                      else {
+                                                          Toast.makeText(FriendList.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                                                      }
+                                                  }
+
+                                                  @Override
+                                                  public void onFailure(@NonNull Call<FriendListResponse> call, @NonNull Throwable t) {
+                                                      Toast.makeText(FriendList.this, "Failed to fetch friend list", Toast.LENGTH_SHORT).show();
+                                                  }
+                                              }
+            );
+        }
+        else {
+            Api.initGetSearchList(headers, name, limit, offset);
+            Api.getSearchList.clone().enqueue(new Callback<FriendListResponse>() {
+                                                  @Override
+                                                  public void onResponse(@NonNull Call<FriendListResponse> call, @NonNull Response<FriendListResponse> response) {
+                                                      if (response.isSuccessful()) {
+                                                          friendListResponse = response.body();
+                                                          assert friendListResponse != null;
+                                                          fetchedFriendList.addAll(Arrays.asList(friendListResponse.getData()));
+                                                          friendListAdapter.notifyDataSetChanged();
+                                                      }
+                                                      else {
+                                                          Toast.makeText(FriendList.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                                                      }
+                                                  }
+
+                                                  @Override
+                                                  public void onFailure(@NonNull Call<FriendListResponse> call, @NonNull Throwable t) {
+                                                      Toast.makeText(FriendList.this, "Failed to fetch friend list", Toast.LENGTH_SHORT).show();
+                                                  }
+                                              }
+            );
+        }
+
+
+    }
+
+    @Override
+    public void onAction() {
+        fetchedFriendList.clear();
+        fetchFriendList(searchFriend.getText().toString(), 10, 0);
+        friendList.setAdapter(friendListAdapter);
     }
 }

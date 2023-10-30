@@ -22,20 +22,36 @@
     </androidx.cardview.widget.CardView>
 
 
-    <TextView
-        android:id="@+id/friendName"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Friend Name"
-        android:fontFamily="@font/mont_semi_bold"
         android:layout_gravity="center"
-        android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/friendName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Friend Name"
+            android:fontFamily="@font/mont_semi_bold"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/relation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Relation"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/grey"
+            />
 
-    <Button
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/action_button"
         android:layout_width="32dp"
         android:layout_height="32dp"

@@ -29,8 +29,8 @@ public class Post implements Serializable {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "jogging_id")
-    private Long joggingId;
+    @Column(name = "exercise_id")
+    private Long exerciseId;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
@@ -40,4 +40,7 @@ public class Post implements Serializable {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Column(name = "image")
+    private String image;
 }

@@ -30,6 +30,9 @@
             android:name=".test.TestServer"
             android:exported="false" />
         <activity
+            android:name=".competition.AddCompeActivity"
+            android:exported="true" />
+        <activity
             android:name=".exercises.GroupExerciseActivity"
             android:exported="false" />
         <activity
@@ -75,14 +78,16 @@
             android:exported="true" />
         <activity
             android:name=".competition.CompetitionActivity"
-            android:exported="true" /> <!-- Friend -->
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true" />
+
+        <!-- Friend -->
         <activity
             android:name=".friend.FriendList"
-            android:exported="true" /> <!-- <activity -->
-        <!-- android:name=".friend.FriendProfile" -->
-        <!-- android:exported="true" /> -->
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true" />
         <activity
-            android:name=".friend.FindUser"
+            android:name=".friend.AddFriendActivity"
             android:exported="true" />
     </application>
 
