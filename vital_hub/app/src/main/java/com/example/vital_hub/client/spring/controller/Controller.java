@@ -1,5 +1,6 @@
 package com.example.vital_hub.client.spring.controller;
 
+import com.example.vital_hub.client.objects.CommentPost;
 import com.example.vital_hub.client.spring.objects.*;
 import com.example.vital_hub.client.spring.objects.AuthResponseObject;
 import com.example.vital_hub.client.spring.objects.CountResponse;
@@ -8,6 +9,8 @@ import com.example.vital_hub.client.spring.objects.RegistRequestObject;
 import com.example.vital_hub.client.spring.objects.ResponseObject;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
+import com.example.vital_hub.home_page.HomePagePost;
+import com.example.vital_hub.post_comment.Comment;
 import com.example.vital_hub.profile.UserDetail;
 
 import java.util.List;
@@ -101,4 +104,16 @@ public interface Controller {
     @GET("/workout/group/{id}")
     Call<List<SingleExercise>> getGroupExerciseById(@HeaderMap Map<String, String> header, @Path("id") Long id);
 
+    //post & comment
+    @GET("/post/all")
+    Call<List<HomePagePost>> getPostResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize);
+
+    @GET("/post")
+    Call<HomePagePost> getSinglePost(@HeaderMap Map<String, String> header, @Query("postId") Long postId);
+
+    @GET("/comment/by-post")
+    Call<List<Comment>> getCommentResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize, @Query("postId") Long postId);
+
+    @POST("/comment/add-comment")
+    Call<Void> postComment(@HeaderMap Map<String, String> header, @Body CommentPost body);
 }

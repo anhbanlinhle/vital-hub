@@ -39,7 +39,8 @@
             android:layout_weight="1"
             android:background="@null"
             android:src="@drawable/noti_icon"
-            app:tint="@color/color_white" />
+            app:tint="@color/color_white"
+            android:id="@+id/logout_button"/>
 
         <ImageButton
             android:layout_width="40dp"
@@ -52,25 +53,21 @@
 
     </LinearLayout>
 
-
-
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/home_page_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0">
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        android:scrollbars="vertical" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/home_page_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical" />
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
-            android:layout_height="63dp"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -79,9 +76,9 @@
             app:layout_constraintVertical_bias="1"
             app:itemIconTint="@color/color_green"
             app:menu="@menu/bottom_nav_menu"
+
             app:itemBackground="@android:color/transparent"
             app:itemActiveIndicatorStyle="@null"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </LinearLayout>
 
 </LinearLayout>

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
 import com.example.vital_hub.home_page.HomePagePost;
 import com.example.vital_hub.home_page.HpRecyclerAdapter;
@@ -52,16 +53,20 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
         if (holder.itemType == VIEW_TYPE_COMMENT) {
             Comment cmt = arrayList.get(position);
 
-            holder.profileIcon.setImageResource(cmt.getProfileIcon());
-            holder.profileName.setText(cmt.getProfileName());
-            holder.comment.setText(cmt.getComment());
+            holder.avatar.setImageResource(cmt.getProfileIcon());
+            holder.username.setText(cmt.getProfileName());
+            holder.comment.setText(cmt.getContent());
         } else if (holder.itemType == VIEW_TYPE_POST) {
             HomePagePost post = arrayList.get(position).getPost();
 
-            holder.profileIcon.setImageResource(post.getProfileIcon());
-            holder.profileName.setText(post.getTitle());
-            holder.postImage.setImageResource(post.getPostImage());
-            holder.comment.setText(post.getMessage());
+
+            holder.isOwned = post.getOwned();
+            holder.postId = post.getPostId();
+            holder.userId = post.getUserId();
+            holder.username.setText(post.getUsername());
+            holder.comment.setText(post.getTitle());
+            Glide.with(holder.avatar.getContext()).load(post.getAvatar()).into(holder.avatar);
+            Glide.with(holder.postImage.getContext()).load(post.getAvatar()).into(holder.postImage);
         }
     }
 
@@ -78,9 +83,12 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        Boolean isOwned;
+        Long postId;
+        Long userId;
 
-        ImageView profileIcon;
-        TextView profileName;
+        ImageView avatar;
+        TextView username;
         TextView comment;
 
         ImageView postImage;
@@ -91,15 +99,15 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
 
             super(itemView);
             if (viewType == VIEW_TYPE_COMMENT) {
-                profileIcon = itemView.findViewById(R.id.profile_image);
-                profileName = itemView.findViewById(R.id.profile_name);
+                avatar = itemView.findViewById(R.id.profile_image);
+                username = itemView.findViewById(R.id.profile_name);
                 comment = itemView.findViewById(R.id.comment_text);
                 itemType = VIEW_TYPE_COMMENT;
             } else if (viewType == VIEW_TYPE_LOADING) {
                 itemType = VIEW_TYPE_LOADING;
             } else {
-                profileIcon = itemView.findViewById(R.id.post_profile_image);
-                profileName = itemView.findViewById(R.id.post_profile_name);
+                avatar = itemView.findViewById(R.id.post_profile_image);
+                username = itemView.findViewById(R.id.post_profile_name);
                 comment = itemView.findViewById(R.id.message);
                 postImage = itemView.findViewById(R.id.post_image);
                 itemType = VIEW_TYPE_POST;
