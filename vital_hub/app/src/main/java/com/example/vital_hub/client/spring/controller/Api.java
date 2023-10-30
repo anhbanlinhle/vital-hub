@@ -1,13 +1,12 @@
-package com.example.vital_hub.client.controller;
+package com.example.vital_hub.client.spring.controller;
 
-import android.content.Context;
-import static android.content.Context.MODE_PRIVATE;
-import  android.content.ContextWrapper;
+import com.example.vital_hub.client.spring.objects.*;
 
-import android.content.SharedPreferences;
-
-import com.example.vital_hub.client.objects.*;
-
+import com.example.vital_hub.client.spring.objects.AuthResponseObject;
+import com.example.vital_hub.client.spring.objects.CountResponse;
+import com.example.vital_hub.client.spring.objects.FriendListResponse;
+import com.example.vital_hub.client.spring.objects.RegistRequestObject;
+import com.example.vital_hub.client.spring.objects.ResponseObject;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.google.gson.Gson;

@@ -1,6 +1,11 @@
-package com.example.vital_hub.client.controller;
+package com.example.vital_hub.client.spring.controller;
 
-import com.example.vital_hub.client.objects.*;
+import com.example.vital_hub.client.spring.objects.*;
+import com.example.vital_hub.client.spring.objects.AuthResponseObject;
+import com.example.vital_hub.client.spring.objects.CountResponse;
+import com.example.vital_hub.client.spring.objects.FriendListResponse;
+import com.example.vital_hub.client.spring.objects.RegistRequestObject;
+import com.example.vital_hub.client.spring.objects.ResponseObject;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
 

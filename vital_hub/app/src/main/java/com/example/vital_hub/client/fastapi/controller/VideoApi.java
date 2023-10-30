@@ -1,10 +1,5 @@
 package com.example.vital_hub.client.fastapi.controller;
 
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.MediaStore;
-
-import com.example.vital_hub.client.controller.Controller;
 import com.example.vital_hub.client.fastapi.objects.PushUpResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

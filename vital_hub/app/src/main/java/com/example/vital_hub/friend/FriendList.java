@@ -1,7 +1,10 @@
 package com.example.vital_hub.friend;
 
 
-import com.example.vital_hub.client.controller.Api;
+import com.example.vital_hub.client.spring.objects.CountResponse;
+import com.example.vital_hub.client.spring.objects.FriendListResponse;
+import com.example.vital_hub.model.Friend;
+import com.example.vital_hub.client.spring.controller.Api;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,7 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.vital_hub.client.objects.*;
+import com.example.vital_hub.client.spring.objects.*;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -77,6 +80,8 @@ public class FriendList extends AppCompatActivity implements FriendListAdapter.F
         fetchedFriendList = new ArrayList<>();
         initHeaderForRequest();
 
+        // Set jwt for request
+        Api.initJwt(headers);
 
         // Get total friend
         Api.initGetTotalFriend(headers);

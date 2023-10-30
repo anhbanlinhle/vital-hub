@@ -1,20 +1,20 @@
 package com.example.vital_hub.test;
 
-import static com.example.vital_hub.client.controller.Api.getHeader;
-import static com.example.vital_hub.client.controller.Api.initGetHeader;
-import static com.example.vital_hub.client.controller.Api.initGetMultiple;
-import static com.example.vital_hub.client.controller.Api.initGetSingle;
-import static com.example.vital_hub.client.controller.Api.initPost;
-import static com.example.vital_hub.client.controller.Api.initPut;
-import static com.example.vital_hub.client.controller.Api.postRequest;
-import static com.example.vital_hub.client.controller.Api.putRequest;
+import static com.example.vital_hub.client.spring.controller.Api.getHeader;
+import static com.example.vital_hub.client.spring.controller.Api.initGetHeader;
+import static com.example.vital_hub.client.spring.controller.Api.initGetMultiple;
+import static com.example.vital_hub.client.spring.controller.Api.initGetSingle;
+import static com.example.vital_hub.client.spring.controller.Api.initPost;
+import static com.example.vital_hub.client.spring.controller.Api.initPut;
+import static com.example.vital_hub.client.spring.controller.Api.postRequest;
+import static com.example.vital_hub.client.spring.controller.Api.putRequest;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.vital_hub.R;
-import com.example.vital_hub.client.controller.Api;
-import com.example.vital_hub.client.objects.ResponseObject;
+import com.example.vital_hub.client.spring.controller.Api;
+import com.example.vital_hub.client.spring.objects.ResponseObject;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
