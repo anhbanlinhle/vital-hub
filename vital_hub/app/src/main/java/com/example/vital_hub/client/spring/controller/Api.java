@@ -1,5 +1,6 @@
 package com.example.vital_hub.client.spring.controller;
 
+import com.example.vital_hub.client.objects.CommentPost;
 import com.example.vital_hub.client.spring.objects.*;
 
 import com.example.vital_hub.client.spring.objects.AuthResponseObject;
@@ -10,6 +11,8 @@ import com.example.vital_hub.client.spring.objects.ResponseObject;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.example.vital_hub.profile.UserDetail;
+import com.example.vital_hub.home_page.HomePagePost;
+import com.example.vital_hub.post_comment.Comment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -80,6 +83,13 @@ public class Api {
                 .build();
         controller = retrofit.create(Controller.class);
     }
+
+
+    //post & comment
+    public static Call<List<HomePagePost>> getPostResponse;
+    public static Call<List<Comment>> getCommentResponse;
+    public static Call<Void> postComment;
+    public static Call<HomePagePost> getSinglePost;
 
     //Init
     public static void initGetSingle(Map<String, String> headers) {
@@ -190,4 +200,21 @@ public class Api {
     public static void initGetOthersProfile(Map<String, String> headers, Long id) {
         getOthersProfile = controller.getOthersProfile(headers, id);
     }
+    // post and comment
+    public static void initGetPostResponse(Map<String, String> headers, int pageNum) {
+        getPostResponse = controller.getPostResponse(headers, pageNum, 10);
+    }
+
+    public static void initGetSinglePost(Map<String, String> headers, Long postId) {
+        getSinglePost = controller.getSinglePost(headers, postId);
+    }
+
+    public static void initGetCommentResponse(Map<String, String> headers, int pageNum, Long postId) {
+        getCommentResponse = controller.getCommentResponse(headers, pageNum, 10, postId);
+    }
+
+    public static void initPostComment(Map<String, String> headers, CommentPost body) {
+        postComment = controller.postComment(headers, body);
+    }
+
 }
