@@ -1,0 +1,20 @@
+<!-- res/drawable/item_selector.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Trạng thái khi được nhấn -->
+    <item android:state_pressed="true">
+        <shape>
+            <!-- Định nghĩa hình dạng của nút khi được nhấn -->
+            <solid android:color="@color/grey" /> <!-- Màu nền khi được nhấn -->
+            <corners android:radius="8dp" /> <!-- Góc bo tròn -->
+        </shape>
+    </item>
+
+    <!-- Trạng thái mặc định -->
+    <item>
+        <shape>
+            <!-- Định nghĩa hình dạng của nút khi trạng thái bình thường -->
+            <solid android:color="@color/white" /> <!-- Màu nền bình thường -->
+            <corners android:radius="8dp" /> <!-- Góc bo tròn -->
+        </shape>
+    </item>
+</selector>

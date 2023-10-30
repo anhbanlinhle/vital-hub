@@ -1,5 +1,6 @@
 package com.example.vital_hub.client.spring.controller;
 
+import com.example.vital_hub.client.objects.CommentPost;
 import com.example.vital_hub.client.spring.objects.*;
 import com.example.vital_hub.client.spring.objects.AuthResponseObject;
 import com.example.vital_hub.client.spring.objects.CountResponse;
@@ -8,12 +9,16 @@ import com.example.vital_hub.client.spring.objects.RegistRequestObject;
 import com.example.vital_hub.client.spring.objects.ResponseObject;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
+import com.example.vital_hub.home_page.HomePagePost;
+import com.example.vital_hub.post_comment.Comment;
+import com.example.vital_hub.profile.UserDetail;
 
 import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
@@ -48,10 +53,45 @@ public interface Controller {
     Call<CountResponse> getTotalFriends(@HeaderMap Map<String, String> headers);
     @GET("/friend/list")
     Call<FriendListResponse> getFriendList(@HeaderMap Map<String, String> headers, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
+    @GET("/friend/request-list")
+    Call<FriendListResponse> getFriendRequestList(@HeaderMap Map<String, String> headers, @Query("limit") Integer limit, @Query("offset") Integer offset);
+    @GET("/user/search")
+    Call<FriendListResponse> getSearchList(@HeaderMap Map<String, String> headers, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
+    @POST("/friend/add")
+    Call<Void> addFriend(@HeaderMap Map<String, String> headers, @Query("id") Long id);
+    @PUT("/friend/accept")
+    Call<Void> acceptRequest(@HeaderMap Map<String, String> headers, @Query("id") Long id);
+    @DELETE("/friend/deny")
+    Call<Void> denyRequest(@HeaderMap Map<String, String> headers, @Query("id") Long id);
+    @DELETE("/friend/revoke")
+    Call<Void> revokeRequest(@HeaderMap Map<String, String> headers, @Query("id") Long id);
+    @DELETE("/friend/delete")
+    Call<Void> deleteFriend(@HeaderMap Map<String, String> headers, @Query("id") Long id);
 
+    // /competition/**
+
+    @GET("/competition/list")
+    Call<CompetitionListResponse> getCompetitionList(@HeaderMap Map<String, String> headers,@Query("isJoined") Boolean isJoined, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
+    @GET("/competition/own-list")
+    Call<CompetitionListResponse> getOwnCompetitionList(@HeaderMap Map<String, String> headers, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
+    // /auth/**
     @POST("/auth/create-user-first-sign")
     Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);
 
+    // User Profile
+    @GET("/user/info")
+    Call<ProfileResponse> getUserProfile(@HeaderMap Map<String, String> header);
+    @GET("/user/detail")
+    Call<ProfileDetailResponse> getUserProfileDetail(@HeaderMap Map<String, String> header);
+    @PUT("/user/save-detail")
+    Call<UserDetail> updateProfileDetail(@HeaderMap Map<String, String> headers, @Body UserDetail body);
+
+
+    // Others Profile
+    @GET("/user/info")
+    Call<ProfileResponse> getOthersProfile(@HeaderMap Map<String, String> header, @Query("id") Long id);
+
+    // /workout/**
     @GET("/workout/exercise-groups")
     Call<List<GroupExercise>> getGroupExerciseAll(@HeaderMap Map<String, String> header, @Query("suggest") Boolean suggest);
 
@@ -63,4 +103,17 @@ public interface Controller {
 
     @GET("/workout/group/{id}")
     Call<List<SingleExercise>> getGroupExerciseById(@HeaderMap Map<String, String> header, @Path("id") Long id);
+
+    //post & comment
+    @GET("/post/all")
+    Call<List<HomePagePost>> getPostResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize);
+
+    @GET("/post")
+    Call<HomePagePost> getSinglePost(@HeaderMap Map<String, String> header, @Query("postId") Long postId);
+
+    @GET("/comment/by-post")
+    Call<List<Comment>> getCommentResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize, @Query("postId") Long postId);
+
+    @POST("/comment/add-comment")
+    Call<Void> postComment(@HeaderMap Map<String, String> header, @Body CommentPost body);
 }
