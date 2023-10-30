@@ -1,7 +1,7 @@
 package com.example.vital_hub.authentication;
 
-import static com.example.vital_hub.client.controller.Api.initPostRegist;
-import static com.example.vital_hub.client.controller.Api.postRegist;
+import static com.example.vital_hub.client.spring.controller.Api.initPostRegist;
+import static com.example.vital_hub.client.spring.controller.Api.postRegist;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.example.vital_hub.test.TestMain;
 import com.example.vital_hub.R;
-import com.example.vital_hub.client.objects.RegistRequestObject;
+import com.example.vital_hub.client.spring.objects.RegistRequestObject;
 import com.example.vital_hub.utils.StringUtil;
 
 import java.text.SimpleDateFormat;

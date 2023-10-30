@@ -92,6 +92,7 @@
         
         <activity
             android:name=".friend.FriendList"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true" />
         <activity
             android:name=".friend.AddFriendActivity"

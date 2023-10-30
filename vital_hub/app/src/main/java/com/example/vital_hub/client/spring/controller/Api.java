@@ -1,13 +1,12 @@
-package com.example.vital_hub.client.controller;
+package com.example.vital_hub.client.spring.controller;
 
-import com.example.vital_hub.client.objects.AuthResponseObject;
-import com.example.vital_hub.client.objects.CompetitionListResponse;
-import com.example.vital_hub.client.objects.CountResponse;
-import com.example.vital_hub.client.objects.FriendListResponse;
-import com.example.vital_hub.client.objects.ProfileDetailResponse;
-import com.example.vital_hub.client.objects.ProfileResponse;
-import com.example.vital_hub.client.objects.RegistRequestObject;
-import com.example.vital_hub.client.objects.ResponseObject;
+import com.example.vital_hub.client.spring.objects.*;
+
+import com.example.vital_hub.client.spring.objects.AuthResponseObject;
+import com.example.vital_hub.client.spring.objects.CountResponse;
+import com.example.vital_hub.client.spring.objects.FriendListResponse;
+import com.example.vital_hub.client.spring.objects.RegistRequestObject;
+import com.example.vital_hub.client.spring.objects.ResponseObject;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.example.vital_hub.profile.UserDetail;
@@ -26,13 +25,14 @@ public class Api {
     static Gson gson = new GsonBuilder()
             .setLenient()
             .create();
-    //    static Retrofit retrofit = new Retrofit.Builder()
+//    static Retrofit retrofit = new Retrofit.Builder()
 //            .baseUrl("http://10.0.2.2:8080/")
 //            .addConverterFactory(GsonConverterFactory.create(gson))
 //            .build();
 //    static Controller controller = retrofit.create(Controller.class);
     static Retrofit retrofit;
     static Controller controller;
+
     public static Call<ResponseObject> getSingle;
     public static Call<List<ResponseObject>> getMultiple;
     public static Call<ResponseObject> postRequest;
@@ -54,6 +54,8 @@ public class Api {
 
     //Competition
     public static Call<CompetitionListResponse> getCompetitionList;
+    public static Call<CompetitionListResponse> getOwnCompetitionList;
+
     //Exercise
     public static Call<List<SingleExercise>> singleExerciseList;
 
@@ -78,7 +80,6 @@ public class Api {
                 .build();
         controller = retrofit.create(Controller.class);
     }
-
 
     //Init
     public static void initGetSingle(Map<String, String> headers) {
@@ -145,6 +146,10 @@ public class Api {
     //Competition
     public static void initGetCompetitionList(Map<String, String> headers, Boolean isJoined, String name, Integer limit, Integer offset) {
         getCompetitionList = controller.getCompetitionList(headers, isJoined, name, limit, offset);
+    }
+
+    public static void initGetOwnCompetitionList(Map<String, String> headers, String name, Integer limit, Integer offset) {
+        getOwnCompetitionList = controller.getOwnCompetitionList(headers, name, limit, offset);
     }
 
     public static void initPostRegist(Map<String, String> headers, RegistRequestObject body) {

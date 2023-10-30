@@ -10,6 +10,10 @@ public interface CompetitionListDto {
 
     Long getRemainDay();
 
+    Integer getIsOngoing();
+
+    Integer getType();
+
     Long getHostId();
 
     String getHostName();

@@ -1,4 +1,4 @@
-package com.example.vital_hub.client.objects;
+package com.example.vital_hub.client.spring.objects;
 
 import java.sql.Date;
 import java.time.LocalDate;

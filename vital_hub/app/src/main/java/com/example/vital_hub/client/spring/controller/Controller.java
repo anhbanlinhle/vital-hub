@@ -1,13 +1,11 @@
-package com.example.vital_hub.client.controller;
+package com.example.vital_hub.client.spring.controller;
 
-import com.example.vital_hub.client.objects.AuthResponseObject;
-import com.example.vital_hub.client.objects.CompetitionListResponse;
-import com.example.vital_hub.client.objects.CountResponse;
-import com.example.vital_hub.client.objects.FriendListResponse;
-import com.example.vital_hub.client.objects.ProfileDetailResponse;
-import com.example.vital_hub.client.objects.ProfileResponse;
-import com.example.vital_hub.client.objects.RegistRequestObject;
-import com.example.vital_hub.client.objects.ResponseObject;
+import com.example.vital_hub.client.spring.objects.*;
+import com.example.vital_hub.client.spring.objects.AuthResponseObject;
+import com.example.vital_hub.client.spring.objects.CountResponse;
+import com.example.vital_hub.client.spring.objects.FriendListResponse;
+import com.example.vital_hub.client.spring.objects.RegistRequestObject;
+import com.example.vital_hub.client.spring.objects.ResponseObject;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.example.vital_hub.profile.UserDetail;
@@ -71,7 +69,8 @@ public interface Controller {
 
     @GET("/competition/list")
     Call<CompetitionListResponse> getCompetitionList(@HeaderMap Map<String, String> headers,@Query("isJoined") Boolean isJoined, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
-
+    @GET("/competition/own-list")
+    Call<CompetitionListResponse> getOwnCompetitionList(@HeaderMap Map<String, String> headers, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
     // /auth/**
     @POST("/auth/create-user-first-sign")
     Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);
@@ -88,7 +87,7 @@ public interface Controller {
     // Others Profile
     @GET("/user/info")
     Call<ProfileResponse> getOthersProfile(@HeaderMap Map<String, String> header, @Query("id") Long id);
-    
+
     // /workout/**
     @GET("/workout/exercise-groups")
     Call<List<GroupExercise>> getGroupExerciseAll(@HeaderMap Map<String, String> header, @Query("suggest") Boolean suggest);

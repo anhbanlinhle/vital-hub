@@ -1,6 +1,11 @@
 package com.example.vital_hub.friend;
 
 
+import com.example.vital_hub.client.spring.objects.CountResponse;
+import com.example.vital_hub.client.spring.objects.FriendListResponse;
+import com.example.vital_hub.friend.Friend;
+import com.example.vital_hub.client.spring.controller.Api;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.vital_hub.client.spring.objects.*;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,13 +35,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import com.example.vital_hub.helper.*;
+
+import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAndController;
 
 public class FriendList extends AppCompatActivity implements FriendListAdapter.FriendActionListener {
+
 
     private final int limit = 10;
     private int offset = 0;
@@ -56,6 +68,9 @@ public class FriendList extends AppCompatActivity implements FriendListAdapter.F
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
 
+        //Init server (test)
+        initRetrofitAndController("10.0.2.2");
+
         // Helper
         KeyboardHelper.setupKeyboardHiding(this);
 
@@ -70,23 +85,25 @@ public class FriendList extends AppCompatActivity implements FriendListAdapter.F
         fetchedFriendList = new ArrayList<>();
         initHeaderForRequest();
 
+        // Set jwt for request
+        Api.initJwt(headers);
 
         // Get total friend
         Api.initGetTotalFriend(headers);
         Api.getTotalFriend.clone().enqueue(new Callback<CountResponse>() {
-                                               @Override
-                                               public void onResponse(Call<CountResponse> call, Response<CountResponse> response) {
-                                                   if (response.isSuccessful()) {
-                                                       countResponse = response.body();
-                                                       totalFriend.setText("Total friend: " + countResponse.getData());
-                                                   }
-                                               }
+               @Override
+               public void onResponse(Call<CountResponse> call, Response<CountResponse> response) {
+                   if (response.isSuccessful()) {
+                       countResponse = response.body();
+                       totalFriend.setText("Total friend: " + countResponse.getData());
+                   }
+               }
 
-                                               @Override
-                                               public void onFailure(Call<CountResponse> call, Throwable t) {
-                                                   Log.e("Error", t.getMessage());
-                                               }
-                                           }
+               @Override
+               public void onFailure(Call<CountResponse> call, Throwable t) {
+                   Log.e("Error", t.getMessage());
+               }
+           }
         );
 
         // Get list friend
@@ -169,7 +186,7 @@ public class FriendList extends AppCompatActivity implements FriendListAdapter.F
 
     private void fetchFriendList(String name, Integer limit, Integer offset) {
         fetchedFriendList.clear();
-        if (name == null || name.isEmpty()) {
+        if(name == null || name.isEmpty()) {
 
             Api.initGetFriendList(headers, name, limit, offset);
 
@@ -181,7 +198,8 @@ public class FriendList extends AppCompatActivity implements FriendListAdapter.F
                                                           assert friendListResponse != null;
                                                           fetchedFriendList.addAll(Arrays.asList(friendListResponse.getData()));
                                                           friendListAdapter.notifyDataSetChanged();
-                                                      } else {
+                                                      }
+                                                      else {
                                                           Toast.makeText(FriendList.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                                                       }
                                                   }
@@ -192,7 +210,8 @@ public class FriendList extends AppCompatActivity implements FriendListAdapter.F
                                                   }
                                               }
             );
-        } else {
+        }
+        else {
             Api.initGetSearchList(headers, name, limit, offset);
             Api.getSearchList.clone().enqueue(new Callback<FriendListResponse>() {
                                                   @Override
@@ -202,7 +221,8 @@ public class FriendList extends AppCompatActivity implements FriendListAdapter.F
                                                           assert friendListResponse != null;
                                                           fetchedFriendList.addAll(Arrays.asList(friendListResponse.getData()));
                                                           friendListAdapter.notifyDataSetChanged();
-                                                      } else {
+                                                      }
+                                                      else {
                                                           Toast.makeText(FriendList.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                                                       }
                                                   }

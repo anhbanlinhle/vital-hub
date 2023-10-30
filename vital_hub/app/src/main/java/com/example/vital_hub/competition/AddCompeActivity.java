@@ -3,6 +3,7 @@ package com.example.vital_hub.competition;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -41,7 +42,7 @@ public class AddCompeActivity extends AppCompatActivity {
     private String compeType;
 
     private Button addImgBtn;
-
+    private AppCompatButton addButton;
     private ImageView imageView;
 
     private final int addImgCode = 1;
@@ -64,6 +65,7 @@ public class AddCompeActivity extends AppCompatActivity {
         endAt = findViewById(R.id.compe_end);
         addImgBtn = findViewById(R.id.add_compe_img_btn);
         imageView = findViewById(R.id.compe_img_holder);
+        addButton = findViewById(R.id.add);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             buttonBinding();

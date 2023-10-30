@@ -1,13 +1,12 @@
-package com.example.vital_hub.client.objects;
+package com.example.vital_hub.client.spring.objects;
 
-import com.example.vital_hub.competition.Competition;
-
-public class CompetitionListResponse {
+import com.example.vital_hub.friend.Friend;
+public class FriendListResponse {
     private final String message;
     private final Boolean success;
-    private final Competition[] data;
+    private final Friend[] data;
 
-    public CompetitionListResponse(String message, Boolean success, Competition[] data) {
+    public FriendListResponse(String message, Boolean success, Friend[] data) {
         this.message = message;
         this.success = success;
         this.data = data;
@@ -21,7 +20,7 @@ public class CompetitionListResponse {
         return success;
     }
 
-    public Competition[] getData() {
+    public Friend[] getData() {
         return data;
     }
 }

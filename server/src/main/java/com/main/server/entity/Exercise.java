@@ -1,8 +1,11 @@
 package com.main.server.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.main.server.utils.enums.ExerciseType;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -11,8 +14,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "jogging")
-public class Jogging implements Serializable {
+@Builder
+@Table(name = "exercise")
+public class Exercise implements Serializable {
 
     private static final long serialVersionUID = -197553281792804396L;
 
@@ -20,12 +24,6 @@ public class Jogging implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    @Column(name = "user_id")
-    private Long userId;
-
-    @Column(name = "distance")
-    private Float distance;
 
     @Column(name = "started_at")
     private LocalDateTime startedAt;
@@ -36,9 +34,9 @@ public class Jogging implements Serializable {
     @Column(name = "calo")
     private Float calo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private User user;
+    @Column(name = "user_id")
+    private Long userId;
+
+    @Column(name = "type")
+    private ExerciseType type;
 }
