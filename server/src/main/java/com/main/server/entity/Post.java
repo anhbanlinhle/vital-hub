@@ -27,8 +27,8 @@ public class Post implements Serializable {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "jogging_id")
-    private Long joggingId;
+    @Column(name = "exercise_id")
+    private Long exerciseId;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
@@ -39,15 +39,6 @@ public class Post implements Serializable {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "jogging_id", insertable = false, updatable = false)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Jogging jogging;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private User user;
+    @Column(name = "image")
+    private String image;
 }
