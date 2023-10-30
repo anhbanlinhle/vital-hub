@@ -12,7 +12,6 @@
         android:layout_height="50dp"
         android:background="?attr/colorPrimary"
         android:backgroundTint="@color/white"
-        android:elevation="15dp"
         android:theme="?attr/actionBarTheme"
         app:contentInsetEnd="16dp"
         app:contentInsetStart="16dp"
@@ -43,7 +42,7 @@
         android:layout_height="210dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_borderless_corner"
-        android:elevation="15dp"
+        android:elevation="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
@@ -61,16 +60,14 @@
             android:id="@+id/profile_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
             android:clickable="true"
             android:src="@drawable/vitalhub"
             app:civ_border_color="#454a52"
             app:civ_border_width="3dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.07"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.15" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/username"
@@ -80,57 +77,55 @@
             android:includeFontPadding="false"
             android:text="Username"
             android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.047"
             app:layout_constraintStart_toEndOf="@+id/profile_image"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.161" />
+            app:layout_constraintTop_toTopOf="@+id/profile_image" />
 
-        <TextView
-            android:id="@+id/user_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/mont_semi_bold"
-            android:text="user_id"
-            android:textColor="@color/black"
-            android:textSize="10sp"
-            app:layout_constraintStart_toEndOf="@+id/profile_image"
-            app:layout_constraintTop_toBottomOf="@+id/username" />
 
         <TextView
             android:id="@+id/total_friend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:fontFamily="@font/mont_semi_bold"
             android:text="Friends"
-            android:textColor="@color/color_green"
             android:textSize="17sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.07"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.75" />
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="@id/username"
+            app:layout_constraintTop_toBottomOf="@id/username"/>
 
         <TextView
             android:id="@+id/friend_counter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:fontFamily="@font/mont_semi_bold"
             android:text="0"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@+id/total_friend"
-            app:layout_constraintTop_toBottomOf="@+id/total_friend" />
+            android:textSize="17sp"
+            app:layout_constraintStart_toEndOf="@+id/total_friend"
+            app:layout_constraintTop_toTopOf="@id/total_friend"/>
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="25dp"
+            android:fontFamily="@font/mont_semi_bold"
+            android:includeFontPadding="false"
+            android:text="Description"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/profile_detail_button"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/rounded_corner"
             android:paddingVertical="0dp"
             android:text="Detail"
@@ -138,11 +133,7 @@
             android:textSize="15sp"
             app:backgroundTint="@null"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.95"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.9" />
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -151,12 +142,13 @@
         android:layout_height="80dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_borderless_corner"
-        android:elevation="15dp"
+        android:elevation="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profile_view">
 
         <View
+            android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -167,34 +159,34 @@
             android:id="@+id/history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="179dp"
             android:fontFamily="@font/mont_semi_bold"
             android:text="History"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.2"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/history_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/history_icon"
             android:layout_width="45dp"
             android:layout_height="45dp"
+            android:layout_marginStart="25dp"
             android:src="@drawable/graph_icon"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/history"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/color_green" />
 
         <ImageView
             android:id="@+id/history_next_icon"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
             android:src="@drawable/next_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.98"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -205,7 +197,7 @@
         android:layout_height="80dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_borderless_corner"
-        android:elevation="15dp"
+        android:elevation="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/history_view">
@@ -221,34 +213,33 @@
             android:id="@+id/statistic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
             android:fontFamily="@font/mont_semi_bold"
             android:text="Statistics"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.2"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/statistic_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/statistic_icon"
             android:layout_width="45dp"
             android:layout_height="45dp"
+            android:layout_marginStart="25dp"
             android:src="@drawable/statistic_icon"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/statistic"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/color_green" />
 
         <ImageView
             android:id="@+id/statistic_next_icon"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
             android:src="@drawable/next_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.98"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -258,7 +249,7 @@
         android:layout_height="80dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_borderless_corner"
-        android:elevation="15dp"
+        android:elevation="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/statistic_view">
@@ -274,22 +265,22 @@
             android:id="@+id/friend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
             android:fontFamily="@font/mont_semi_bold"
             android:text="Friends"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.2"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/friend_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/friend_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="25dp"
             android:src="@drawable/friend_icon"
+            android:tint="@color/color_green"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/friend"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -297,11 +288,10 @@
             android:id="@+id/friend_next_icon"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
             android:src="@drawable/next_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.98"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

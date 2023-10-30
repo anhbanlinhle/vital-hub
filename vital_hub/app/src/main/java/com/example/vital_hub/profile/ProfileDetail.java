@@ -5,6 +5,7 @@ import static com.example.vital_hub.client.controller.Api.initRetrofitAndControl
 import static com.example.vital_hub.client.controller.Api.updateUserProfile;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -50,6 +51,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
     EditText height;
     EditText weight;
     TextView enableEdit;
+    TextView save;
     EditText description;
     String[] gender = {"Female", "Male"};
     Spinner chooseGender;
@@ -62,7 +64,6 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
     private UserDetail newInfo;
 
     EditText exercisePerDay;
-
 
 
     @Override
@@ -88,6 +89,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         profileImage = findViewById(R.id.profile_image);
         chooseGender.setOnItemSelectedListener(this);
         enableEdit = findViewById(R.id.edit);
+        save = findViewById(R.id.save);
         exercisePerDay = findViewById(R.id.edit_exercise_per_day);
 
         colorStateList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.color_black));
@@ -102,10 +104,11 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         weight.setEnabled(false);
         exercisePerDay.setEnabled(false);
 
+
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, gender);
 
         chooseGender.setAdapter(adapter);
-
 
 
         description.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -180,10 +183,19 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
             }
         });
 
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fetchUpdateProfileDetail();
+            }
+        });
         enableEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                enableEdit.setText("Save", TextView.BufferType.NORMAL);
+                enableEdit.setClickable(false);
+                enableEdit.setFocusable(false);
+                enableEdit.setVisibility(View.INVISIBLE);
+                save.setVisibility(View.VISIBLE);
 
                 description.setEnabled(true);
                 description.requestFocus();
@@ -193,9 +205,6 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
 
                 birthDate.setEnabled(true);
                 birthDate.requestFocus();
-
-//                chooseGender.setEnabled(true);
-//                chooseGender.requestFocus();
 
                 gmail.setEnabled(true);
                 gmail.requestFocus();
@@ -211,6 +220,19 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
 
                 exercisePerDay.setEnabled(true);
                 exercisePerDay.requestFocus();
+
+                if (enableEdit.getText() == "Save") {
+                    fetchUpdateProfileDetail();
+                }
+
+
+//                if (TextUtils.isEmpty(userName.getText())) {
+//                    userName.setError("Username is required!");
+//                } else {
+//                    fetchUpdateProfileDetail();
+//                }
+
+
             }
         });
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -233,7 +255,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
 
@@ -268,11 +290,12 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
                         fetchedUserProfileDetail.getUserDetail().getUserId(),
                         Double.valueOf(height.getText().toString()),
                         Double.valueOf(weight.getText().toString()),
-                        0,
+                        Integer.valueOf(exercisePerDay.getText().toString()),
                         description.getText().toString()));
     }
+
     private void updateLabel() {
-        String myFormat = "dd/MM/yyyy";
+        String myFormat = "yyyy-MM-dd";
         SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
         birthDate.setText(dateFormat.format(calendar.getTime()));
     }
@@ -284,7 +307,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         String item = parent.getItemAtPosition(position).toString();
 
         // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_SHORT).show();
     }
 
     public void onNothingSelected(AdapterView<?> arg0) {
@@ -303,12 +326,14 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
                 }
                 Log.d("Fail", "Error" + response);
             }
+
             @Override
             public void onFailure(Call<UserDetail> call, Throwable t) {
                 Log.d("Fail", t.getMessage());
             }
         });
     }
+
     private void fetchUserProfileDetail() {
         Api.initGetUserProfileDetail(headers);
         Api.getUserProfileDetail.clone().enqueue(new Callback<ProfileDetailResponse>() {
@@ -336,5 +361,11 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
                 Toast.makeText(ProfileDetail.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, UserProfile.class);
+        startActivity(intent);
     }
 }

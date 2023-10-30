@@ -25,6 +25,7 @@ import com.example.vital_hub.TestPage;
 import com.example.vital_hub.authentication.LoginScreen;
 import com.example.vital_hub.client.controller.Api;
 import com.example.vital_hub.client.objects.CountResponse;
+import com.example.vital_hub.client.objects.ProfileDetailResponse;
 import com.example.vital_hub.client.objects.ProfileResponse;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
@@ -52,20 +53,22 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
     String jwt;
     Map<String, String> headers;
     ProfileResponse profileResponse;
+    ProfileDetailResponse profileDetailResponse;
     TextView name;
-    TextView id;
+    TextView description;
     TextView totalFriend;
     ImageView profileImage;
     Button openOthersProfileTest;
     private UserInfo fetchedUserProfile;
     private CountResponse countResponse;
+    private UserDetail fetchedUserProfileDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_profile);
         initHeaderForRequest();
-        fetchUserProfile();
+        fetchUserProfileDetail();
         fetchFriends();
         initRetrofitAndController(prefs.getString("server", "10.0.2.2"));
 
@@ -82,10 +85,10 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         statistic = findViewById(R.id.statistic_view);
         friend = findViewById(R.id.friend_view);
         name = findViewById(R.id.username);
-        id = findViewById(R.id.user_id);
         profileImage = findViewById(R.id.profile_image);
         openOthersProfileTest = findViewById(R.id.others_profile);
         totalFriend = findViewById(R.id.friend_counter);
+        description = findViewById(R.id.description);
 
         openOthersProfileTest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,46 +194,27 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         headers.put("Authorization", "Bearer " + jwt);
     }
 
-
-    private void fetchUserProfile() {
-        Api.initGetUserProfile(headers);
-        Api.getUserProfile.clone().enqueue(new Callback<ProfileResponse>() {
+    private void fetchUserProfileDetail() {
+        Api.initGetUserProfileDetail(headers);
+        Api.getUserProfileDetail.clone().enqueue(new Callback<ProfileDetailResponse>() {
             @Override
-            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
+            public void onResponse(Call<ProfileDetailResponse> call, Response<ProfileDetailResponse> response) {
                 if (response.isSuccessful()) {
-                    profileResponse = response.body();
-                    assert profileResponse != null;
-                    fetchedUserProfile = profileResponse.getData();
-                    name.setText(fetchedUserProfile.getName());
-                    id.setText(String.valueOf(fetchedUserProfile.getId()));
-                    Glide.with(UserProfile.this).load(fetchedUserProfile.getAvatar()).into(profileImage);
+                    profileDetailResponse = response.body();
+                    assert profileDetailResponse != null;
+                    fetchedUserProfileDetail = profileDetailResponse.getData();
+                    name.setText(fetchedUserProfileDetail.getName());
+                    description.setText(fetchedUserProfileDetail.getUserDetail().getDescription());
+                    Glide.with(UserProfile.this).load(fetchedUserProfileDetail.getAvatar()).into(profileImage);
                 }
             }
 
             @Override
-            public void onFailure(Call<ProfileResponse> call, Throwable t) {
+            public void onFailure(Call<ProfileDetailResponse> call, Throwable t) {
                 Toast.makeText(UserProfile.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-//    private void fetchUserProfileDetail() {
-//        Api.initGetUserProfileDetail(headers);
-//        Api.getUserProfileDetail.clone().enqueue(new Callback<ProfileDetailResponse>() {
-//            @Override
-//            public void onResponse(Call<ProfileDetailResponse> call, Response<ProfileDetailResponse> response) {
-//                if (response.isSuccessful()) {
-//
-//                    Glide.with(ProfileDetail.this).load(fetchedUserProfileDetail.getAvatar()).into(profileImage);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ProfileDetailResponse> call, Throwable t) {
-//                Toast.makeText(ProfileDetail.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
 
     private void fetchFriends() {
         Api.initGetTotalFriend(headers);
