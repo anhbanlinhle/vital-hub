@@ -2,7 +2,7 @@ package com.example.vital_hub.home_page;
 
 
 import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
-import static com.example.vital_hub.client.controller.Api.initGetPostResponse;
+import static com.example.vital_hub.client.spring.controller.Api.initGetPostResponse;
 
 import com.example.vital_hub.authentication.LoginScreen;
 
@@ -22,13 +22,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.vital_hub.client.controller.Api;
+import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.R;
 import com.example.vital_hub.UserProfile;
 import com.example.vital_hub.exercises.ChooseExerciseActivity;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
-import com.example.vital_hub.model.Friend;
+import com.example.vital_hub.friend.Friend;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 

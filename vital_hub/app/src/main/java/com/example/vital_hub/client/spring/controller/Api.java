@@ -1,5 +1,6 @@
 package com.example.vital_hub.client.spring.controller;
 
+import com.example.vital_hub.client.objects.CommentPost;
 import com.example.vital_hub.client.spring.objects.*;
 
 import com.example.vital_hub.client.spring.objects.AuthResponseObject;

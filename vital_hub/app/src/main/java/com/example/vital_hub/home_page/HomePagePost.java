@@ -22,6 +22,9 @@ public class HomePagePost {
         this.title = title;
     }
 
+    public HomePagePost(String avatar) {
+    }
+
     public String getAvatar() {
         return avatar;
     }

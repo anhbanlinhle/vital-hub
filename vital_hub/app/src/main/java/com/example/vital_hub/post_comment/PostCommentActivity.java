@@ -1,8 +1,8 @@
 package com.example.vital_hub.post_comment;
 
-import static com.example.vital_hub.client.controller.Api.initPostComment;
-import static com.example.vital_hub.client.controller.Api.postComment;
-import static com.example.vital_hub.client.controller.Api.postRegist;
+import static com.example.vital_hub.client.spring.controller.Api.initPostComment;
+import static com.example.vital_hub.client.spring.controller.Api.postComment;
+import static com.example.vital_hub.client.spring.controller.Api.postRegist;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vital_hub.R;
 import com.example.vital_hub.authentication.FirstRegistInfo;
-import com.example.vital_hub.client.controller.Api;
+import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.client.objects.CommentPost;
 import com.example.vital_hub.home_page.HomePagePost;
 import com.example.vital_hub.test.TestMain;
@@ -69,7 +69,7 @@ public class PostCommentActivity extends AppCompatActivity {
 
         cmtRecycler = findViewById(R.id.comment_recycler);
 
-        arrayList.add(new Comment(new HomePagePost("https://scontent.fhan20-1.fna.fbcdn.net/v/t31.18172-8/29351723_822613291279059_3602777089680633850_o.jpg?_nc_cat=100&ccb=1-7&_nc_sid=be3454&_nc_ohc=pX5F5UNtm7gAX8SME-o&_nc_ht=scontent.fhan20-1.fna&oh=00_AfBQ6WFeXKesvGBFrURwGIi0spue9nMxasu9K2wF3eHumg&oe=656009BD");
+        arrayList.add(new Comment(new HomePagePost("https://scontent.fhan20-1.fna.fbcdn.net/v/t31.18172-8/29351723_822613291279059_3602777089680633850_o.jpg?_nc_cat=100&ccb=1-7&_nc_sid=be3454&_nc_ohc=pX5F5UNtm7gAX8SME-o&_nc_ht=scontent.fhan20-1.fna&oh=00_AfBQ6WFeXKesvGBFrURwGIi0spue9nMxasu9K2wF3eHumg&oe=656009BD")));
 
         populateData();
 
