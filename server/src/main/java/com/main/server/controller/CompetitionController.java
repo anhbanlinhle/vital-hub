@@ -69,4 +69,9 @@ public class CompetitionController {
                 .success(true)
                 .build());
     }
+
+    @GetMapping("/detail")
+    public ResponseEntity<?> getDetailCompetition(@RequestParam(name = "id") Long id) {
+        return ResponseEntity.ok().body(competitionService.getDetailCompetition(id));
+    }
 }

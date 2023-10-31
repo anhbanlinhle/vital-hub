@@ -5,7 +5,11 @@ import com.main.server.entity.Participants;
 import com.main.server.repository.CompetitionRepository;
 import com.main.server.repository.ParticipantsRepository;
 import com.main.server.service.CompetitionService;
+import com.main.server.utils.dto.CompetitionAllDetailDto;
+import com.main.server.utils.dto.CompetitionDetailDto;
 import com.main.server.utils.dto.CompetitionListDto;
+import com.main.server.utils.dto.CompetitionRankingDto;
+import com.main.server.utils.enums.ExerciseType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +36,24 @@ public class CompetitionServiceImpl implements CompetitionService {
                     .participantId(currentUserId)
                     .build());
         }
+    }
+
+    @Override
+    public CompetitionAllDetailDto getDetailCompetition(Long id) {
+        Competition competition = competitionRepository.findByIdAndIsDeletedFalse(id);
+        if (competition == null) {
+            throw new RuntimeException("Cannot find competition");
+        }
+        List<CompetitionRankingDto> rank;
+        if (competition.getType().equals(ExerciseType.BICYCLING)) {
+            rank = competitionRepository.getCompetitionBicyclingRanking(id);
+        } else if (competition.getType().equals(ExerciseType.RUNNING)) {
+            rank = competitionRepository.getCompetitionRunningRanking(id);
+        } else {
+            rank = competitionRepository.getCompetitionPushUpRanking(id);
+        }
+        CompetitionDetailDto competitionDetailDto = competitionRepository.getCompetitionDetail(id);
+        return new CompetitionAllDetailDto(rank, competitionDetailDto);
     }
 
     @Override

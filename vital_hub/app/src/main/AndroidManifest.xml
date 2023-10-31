@@ -20,7 +20,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".CompetitionDetailActivity"
+            android:name=".competition.CompetitionDetailActivity"
             android:exported="true" />
         <activity
             android:name=".pushup.PushupVideoScan"
