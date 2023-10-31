@@ -20,6 +20,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".competition.EditCompetitionActivity"
+            android:exported="false" />
+        <activity
             android:name=".competition.CompetitionDetailActivity"
             android:exported="true" />
         <activity
@@ -62,8 +65,9 @@
         <activity
             android:name=".profile.UserProfile"
             android:exported="true"
-            android:label="false"  />
-        <activity android:name=".profile.OthersProfile"
+            android:label="false" />
+        <activity
+            android:name=".profile.OthersProfile"
             android:exported="true"
             android:label="false" />
         <activity
@@ -77,25 +81,24 @@
             android:exported="true" />
         <activity
             android:name=".exercises.ExerciseGeneralActivity"
-            android:exported="true"  />
+            android:exported="true" />
         <activity
             android:name=".authentication.FirstRegistInfo"
             android:exported="true" />
-        <activity 
+        <activity
             android:name=".competition.CompetitionActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".profile.ProfileDetail"
             android:exported="true" />
-
-       
-        <activity android:name=".profile.ProfileDetail"
+        <activity
+            android:name=".TestPage"
             android:exported="true" />
-        <activity android:name=".TestPage"
-            android:exported="true" />
-        
         <activity
             android:name=".friend.FriendList"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".friend.AddFriendActivity"
             android:exported="true" />

@@ -5,6 +5,7 @@ import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAnd
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -93,7 +94,14 @@ public class CompetitionDetailActivity extends AppCompatActivity {
 
     private void buttonBinding() {
         editBtn.setOnClickListener(v -> {
-            Toast.makeText(this, "edit", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(CompetitionDetailActivity.this, EditCompetitionActivity.class);
+            intent.putExtra("id", competitionAllDetail.getDetail().getId());
+            intent.putExtra("title", compeTitle.getText());
+            String[] times = time.getText().toString().split(" - ");
+            intent.putExtra("startedAt", times[0]);
+            intent.putExtra("endedAt", times[1]);
+            intent.putExtra("duration", competitionAllDetail.getDetail().getDuration());
+            startActivity(intent);
         });
 
         deleteBtn.setOnClickListener(v -> {

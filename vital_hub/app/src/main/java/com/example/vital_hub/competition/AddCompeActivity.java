@@ -144,7 +144,7 @@ public class AddCompeActivity extends AppCompatActivity {
                         calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
                         calendar.set(Calendar.MINUTE,minute);
 
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.US);
 
                         dateTime.setText(simpleDateFormat.format(calendar.getTime()));
                     }
