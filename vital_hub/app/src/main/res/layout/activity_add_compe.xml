@@ -163,15 +163,15 @@
             android:layout_height="200dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/dashed_border_rounded_top"
-            android:textSize="64sp"
-            android:fontFamily="@font/sf_thin"
-            android:textColor="@color/custom_green"
-            app:backgroundTint="@null"
-            android:scaleType="centerCrop"
-            android:outlineProvider="background"
             android:clipToOutline="true"
             android:contentDescription="Competition background"
-        />
+            android:fontFamily="@font/sf_thin"
+            android:outlineProvider="background"
+            android:scaleType="centerCrop"
+            android:textColor="@color/custom_green"
+            android:textSize="64sp"
+            app:backgroundTint="@null" />
+
         <Button
             android:id="@+id/add_compe_img_btn"
             android:layout_width="match_parent"

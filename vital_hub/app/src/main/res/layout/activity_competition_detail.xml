@@ -58,7 +58,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="bottom"
                     android:orientation="horizontal"
-                    android:paddingVertical="6dp">
+                    android:layout_marginBottom="24dp"
+                >
 
                     <TextView
                         android:id="@+id/detail_compe_title"
@@ -88,9 +89,14 @@
                 <ImageView
                     android:id="@+id/compe_background"
                     android:layout_width="match_parent"
-                    android:layout_height="187dp"
+                    android:layout_height="225dp"
                     android:layout_marginBottom="16dp"
-                    android:src="@drawable/gym" />
+                    android:background="@drawable/rounded_20_white"
+                    android:clipToOutline="true"
+                    android:contentDescription="Competition background"
+                    android:outlineProvider="background"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/fitness_stat" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -172,11 +178,19 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_red"
+                    android:layout_marginVertical="32dp"
+                    android:layout_marginHorizontal="32dp"
+                />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginVertical="16dp"
+                    android:layout_marginBottom="16dp"
                     >
                     <ImageView
                         android:layout_width="wrap_content"
@@ -218,7 +232,7 @@
                                 android:id="@+id/avatar_2nd"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/baseline_leaderboard_72_green"
+                                android:src="@drawable/baseline_person_72_green"
                             />
                         </androidx.cardview.widget.CardView>
 
@@ -259,7 +273,7 @@
                                 android:id="@+id/avatar_1st"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/baseline_leaderboard_72_green"
+                                android:src="@drawable/baseline_person_72_green"
                                 />
                         </androidx.cardview.widget.CardView>
 
@@ -298,7 +312,7 @@
                                 android:id="@+id/avatar_3rd"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/baseline_leaderboard_72_green"
+                                android:src="@drawable/baseline_person_72_green"
                                 />
                         </androidx.cardview.widget.CardView>
 

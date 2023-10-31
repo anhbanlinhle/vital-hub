@@ -1,5 +1,6 @@
 package com.main.server.controller;
 
+import com.main.server.entity.Competition;
 import com.main.server.middleware.TokenParser;
 import com.main.server.repository.CompetitionRepository;
 import com.main.server.response.BaseResponse;
@@ -71,7 +72,20 @@ public class CompetitionController {
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<?> getDetailCompetition(@RequestParam(name = "id") Long id) {
-        return ResponseEntity.ok().body(competitionService.getDetailCompetition(id));
+    public ResponseEntity<?> getDetailCompetition(@RequestParam(name = "id") Long id,
+                                                  @RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok().body(competitionService.getDetailCompetition(id, tokenParser.getCurrentUserId(token)));
+    }
+
+    @PutMapping("/delete")
+    public ResponseEntity<?> deleteCompetition(@RequestParam(name = "id") Long id) {
+        competitionService.deleteCompetition(id);
+        return ResponseEntity.ok().body(null);
+    }
+
+    @PutMapping("/edit")
+    public ResponseEntity<?> editCompetition(@RequestBody Competition competition) {
+        competitionService.editCompetition(competition);
+        return ResponseEntity.ok().body(null);
     }
 }

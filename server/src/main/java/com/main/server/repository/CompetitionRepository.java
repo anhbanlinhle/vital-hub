@@ -30,7 +30,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
                         LEFT JOIN participants p ON c.id = p.comp_id
                         LEFT JOIN user u ON c.host_id = u.id
                         WHERE ((c.id IN (SELECT comp_id FROM participants WHERE participant_id = :id)) = :isJoined)
-                        AND IF(:name IS NOT NULL, c.title LIKE CONCAT('%', :name, '%'), 1)
+                        AND IF(:name IS NOT NULL, c.title LIKE CONCAT('%', :name, '%'), 1) AND c.is_deleted = FALSE AND
                         GROUP BY c.id, c.title, c.background, c.ended_at, u.id, u.name, u.avatar
                         ORDER BY remainDay DESC
                         LIMIT :limit OFFSET :offset
@@ -55,7 +55,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
                         FROM competition c
                         LEFT JOIN participants p ON c.id = p.comp_id
                         LEFT JOIN user u ON c.host_id = u.id
-                        WHERE c.host_id = :id
+                        WHERE c.host_id = :id AND c.is_deleted = FALSE AND
                         AND IF(:name IS NOT NULL, c.title LIKE CONCAT('%', :name, '%'), 1)
                         GROUP BY c.id, c.title, c.background, c.ended_at, u.id, u.name, u.avatar
                         ORDER BY remainDay DESC
@@ -67,7 +67,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
     Competition findByIdAndIsDeletedFalse(Long id);
 
     @Query("SELECT COUNT(p.participantId) AS participants, c.id AS id, u.name AS host, CONCAT(c.startedAt, ' - ', c.endedAt) AS time ," +
-            "c.title AS title, c.type AS type, c.background AS background, c.duration AS duration " +
+            "c.title AS title, c.type AS type, c.background AS background, CONCAT(c.duration, '') AS duration, c.hostId AS hostId " +
             "FROM Participants p LEFT JOIN Competition c ON p.compId = c.id JOIN User u ON c.hostId = u.id " +
             "WHERE c.id = :id GROUP BY p.compId")
     CompetitionDetailDto getCompetitionDetail(Long id);

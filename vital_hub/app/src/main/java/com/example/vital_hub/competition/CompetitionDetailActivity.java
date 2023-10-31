@@ -1,8 +1,13 @@
 package com.example.vital_hub.competition;
 
-import androidx.appcompat.app.AppCompatActivity;
+import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAndController;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,6 +15,16 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
+import com.example.vital_hub.client.spring.controller.Api;
+import com.example.vital_hub.competition.data.CompetitionAllDetail;
+import com.example.vital_hub.exercises.adapter.GroupExerciseAdapter;
+import com.example.vital_hub.utils.HeaderInitUtil;
+
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CompetitionDetailActivity extends AppCompatActivity {
 
@@ -33,6 +48,13 @@ public class CompetitionDetailActivity extends AppCompatActivity {
     private ImageButton editBtn;
     private ImageButton deleteBtn;
 
+    SharedPreferences prefs;
+
+    private Map<String, String> header;
+
+    private CompetitionAllDetail competitionAllDetail;
+
+    private Boolean isOwned;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +64,8 @@ public class CompetitionDetailActivity extends AppCompatActivity {
     }
 
     private void variableDeclaration() {
+        prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        initRetrofitAndController(prefs.getString("server", "10.0.2.2"));
         compeTitle = findViewById(R.id.detail_compe_title);
         compeType = findViewById(R.id.detail_compe_type);
         compeBackground = findViewById(R.id.compe_background);
@@ -60,21 +84,74 @@ public class CompetitionDetailActivity extends AppCompatActivity {
         score3 = findViewById(R.id.score_3rd);
         editBtn = findViewById(R.id.compe_btn_edit);
         deleteBtn = findViewById(R.id.compe_btn_delete);
+        header = HeaderInitUtil.headerWithToken(this);
 
         buttonBinding();
 
-        Glide.with(CompetitionDetailActivity.this).load("https://lh3.googleusercontent.com/a/ACg8ocLY7LrsvJy9YlvROkNVsHsBFfRrjxgkwv26Q-cuyy7YFes=s360-c-no").into(avatar1);
-        Glide.with(CompetitionDetailActivity.this).load("https://lh3.googleusercontent.com/a/ACg8ocLY7LrsvJy9YlvROkNVsHsBFfRrjxgkwv26Q-cuyy7YFes=s360-c-no").into(avatar2);
-        Glide.with(CompetitionDetailActivity.this).load("https://lh3.googleusercontent.com/a/ACg8ocLY7LrsvJy9YlvROkNVsHsBFfRrjxgkwv26Q-cuyy7YFes=s360-c-no").into(avatar3);
-
+        fetchData();
     }
 
     private void buttonBinding() {
         editBtn.setOnClickListener(v -> {
+            Toast.makeText(this, "edit", Toast.LENGTH_SHORT).show();
         });
 
         deleteBtn.setOnClickListener(v -> {
-
+            Toast.makeText(this, "delete", Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void fetchData() {
+        Api.initGetCompetitionAllDetail(header, 1L);
+        Api.competitionAllDetail.clone().enqueue(new Callback<CompetitionAllDetail>() {
+            @Override
+            public void onResponse(Call<CompetitionAllDetail> call, Response<CompetitionAllDetail> response) {
+                if (response.isSuccessful()) {
+                    competitionAllDetail = response.body();
+                    if (competitionAllDetail != null) {
+                        bindData(competitionAllDetail);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CompetitionAllDetail> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void bindData(CompetitionAllDetail competitionAllDetail) {
+        duration.setText(competitionAllDetail.getDetail().getDuration());
+        host.setText(competitionAllDetail.getDetail().getHost());
+        participant.setText(competitionAllDetail.getDetail().getParticipants() + " participants");
+        time.setText(competitionAllDetail.getDetail().getTime());
+        compeTitle.setText(competitionAllDetail.getDetail().getTitle());
+        compeType.setText(competitionAllDetail.getDetail().getType());
+        if (competitionAllDetail.getDetail().getBackground() != null) {
+            Glide.with(CompetitionDetailActivity.this).load(competitionAllDetail.getDetail().getBackground()).into(compeBackground);
+        }
+
+        name1.setText(competitionAllDetail.getRank().get(0).getName());
+        name2.setText(competitionAllDetail.getRank().get(1).getName());
+        name3.setText(competitionAllDetail.getRank().get(2).getName());
+        score1.setText(competitionAllDetail.getRank().get(0).getScore());
+        score2.setText(competitionAllDetail.getRank().get(1).getScore());
+        score3.setText(competitionAllDetail.getRank().get(2).getScore());
+        if (competitionAllDetail.getRank().get(0).getAvatar() != null) {
+            Glide.with(CompetitionDetailActivity.this).load(competitionAllDetail.getRank().get(0).getAvatar()).into(avatar1);
+        }
+        if (competitionAllDetail.getRank().get(1).getAvatar() != null) {
+            Glide.with(CompetitionDetailActivity.this).load(competitionAllDetail.getRank().get(1).getAvatar()).into(avatar2);
+        }
+        if (competitionAllDetail.getRank().get(2).getAvatar() != null) {
+            Glide.with(CompetitionDetailActivity.this).load(competitionAllDetail.getRank().get(2).getAvatar()).into(avatar3);
+        }
+
+        isOwned = competitionAllDetail.getIsOwned();
+
+//        if (!isOwned) {
+//            editBtn.setVisibility(View.GONE);
+//        }
     }
 }

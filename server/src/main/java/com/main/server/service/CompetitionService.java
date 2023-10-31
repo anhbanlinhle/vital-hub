@@ -11,5 +11,9 @@ public interface CompetitionService {
     List<CompetitionListDto> getOwnCompetitionList(Long id, String name, Integer limit, Integer offset);
     void joinOrLeaveCompetition(Long currentUserId, Long compId);
 
-    CompetitionAllDetailDto getDetailCompetition(Long id);
+    CompetitionAllDetailDto getDetailCompetition(Long id, Long userId);
+
+    void deleteCompetition(Long id);
+
+    void editCompetition(Competition competition);
 }

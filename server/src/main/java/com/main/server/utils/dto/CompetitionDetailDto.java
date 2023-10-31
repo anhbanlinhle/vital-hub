@@ -1,8 +1,9 @@
 package com.main.server.utils.dto;
 
 public interface CompetitionDetailDto {
-    String getId();
+    Long getId();
     String getHost();
+    Long getHostId();
     String getTime();
     String getDuration();
     String getParticipants();

@@ -39,7 +39,7 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
-    public CompetitionAllDetailDto getDetailCompetition(Long id) {
+    public CompetitionAllDetailDto getDetailCompetition(Long id, Long userId) {
         Competition competition = competitionRepository.findByIdAndIsDeletedFalse(id);
         if (competition == null) {
             throw new RuntimeException("Cannot find competition");
@@ -53,7 +53,35 @@ public class CompetitionServiceImpl implements CompetitionService {
             rank = competitionRepository.getCompetitionPushUpRanking(id);
         }
         CompetitionDetailDto competitionDetailDto = competitionRepository.getCompetitionDetail(id);
-        return new CompetitionAllDetailDto(rank, competitionDetailDto);
+        return new CompetitionAllDetailDto(rank, competitionDetailDto, userId.equals(competitionDetailDto.getHostId()));
+    }
+
+    @Override
+    public void deleteCompetition(Long id) {
+        Competition competition = competitionRepository.findByIdAndIsDeletedFalse(id);
+        if (competition == null) {
+            throw new RuntimeException("Cannot find competition");
+        }
+        competition.setIsDeleted(true);
+        competitionRepository.save(competition);
+    }
+
+    @Override
+    public void editCompetition(Competition competition) {
+        Competition existingCompetition = competitionRepository.findByIdAndIsDeletedFalse(competition.getId());
+        if (existingCompetition == null) {
+            throw new RuntimeException("Cannot find competition");
+        }
+        if (competition.getDuration() != null) {
+            existingCompetition.setDuration(competition.getDuration());
+        }
+        if (competition.getStartedAt() != null) {
+            existingCompetition.setStartedAt(competition.getStartedAt());
+        }
+        if (competition.getEndedAt() != null) {
+            existingCompetition.setEndedAt(competition.getEndedAt());
+        }
+        competitionRepository.save(existingCompetition);
     }
 
     @Override
