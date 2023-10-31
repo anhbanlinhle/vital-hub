@@ -1,7 +1,7 @@
 package com.example.vital_hub.authentication;
 
-import static com.example.vital_hub.client.controller.Api.getJwt;
-import static com.example.vital_hub.client.controller.Api.initJwt;
+import static com.example.vital_hub.client.spring.controller.Api.getJwt;
+import static com.example.vital_hub.client.spring.controller.Api.initJwt;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -23,7 +23,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vital_hub.R;
-import com.example.vital_hub.client.objects.AuthResponseObject;
+import com.example.vital_hub.authentication.FirstRegistInfo;
+import com.example.vital_hub.client.spring.objects.AuthResponseObject;
+import com.example.vital_hub.client.spring.objects.AuthResponseObject;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.test.TestMain;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
@@ -66,7 +68,7 @@ public class LoginScreen extends AppCompatActivity {
         String name = prefs.getString("name", null);
 
         if (name != null) {
-            Intent intent = new Intent(this, TestMain.class);
+            Intent intent = new Intent(this, HomePageActivity.class);
             intent.putExtra("email", email);
             intent.putExtra("name", name);
             startActivity(intent);

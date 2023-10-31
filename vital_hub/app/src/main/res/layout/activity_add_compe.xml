@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".competition.AddCompeActivity"
+    android:background="@color/white"
+>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingHorizontal="20dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/mont_semi_bold"
+                android:text="Competition"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/add"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/baseline_add_box_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mont_semi_bold"
+            android:text="Start your journey"
+            android:textSize="36sp"
+            android:layout_marginTop="16dp"
+            app:drawableRightCompat="@drawable/baseline_rocket_launch_24_red"
+            android:drawablePadding="6dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mont_semi_bold"
+            android:text="Choose an activity you're seeking"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:gravity="bottom"
+            >
+            <ImageButton
+                android:id="@+id/btn_run"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_directions_run_24"
+                android:padding="12dp"
+                android:background="@drawable/full_rounded_corner_green_border"
+                android:contentDescription="Running"
+                />
+
+            <ImageButton
+                android:id="@+id/btn_bicycle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_directions_bike_24_green"
+                android:padding="12dp"
+                android:background="@drawable/full_rounded_corner_green_border"
+                android:layout_marginStart="16dp"
+                android:contentDescription="Bicycling"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                >
+                <TextView
+                    android:id="@+id/compe_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/mont_semi_bold"
+                    android:textSize="24sp"
+                    android:textColor="@color/custom_green"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/compe_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_rounded"
+            android:padding="20dp"
+            android:layout_marginTop="16dp"
+            android:hint="Title"
+            android:textSize="20sp"
+            android:drawableStart="@drawable/baseline_title_24_green"
+            android:drawablePadding="10dp"
+            />
+
+        <EditText
+            android:id="@+id/compe_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_rounded"
+            android:padding="20dp"
+            android:layout_marginTop="16dp"
+            android:hint="Start at"
+            android:textSize="20sp"
+            android:drawableStart="@drawable/baseline_calendar_today_24"
+            android:drawablePadding="10dp"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+        />
+
+        <EditText
+            android:id="@+id/compe_end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_rounded"
+            android:padding="20dp"
+            android:layout_marginTop="16dp"
+            android:hint="End at"
+            android:textSize="20sp"
+            android:drawableStart="@drawable/baseline_calendar_today_24"
+            android:drawablePadding="10dp"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+        />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select an image to describe your competition"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"/>
+
+        <ImageView
+            android:id="@+id/compe_img_holder"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/dashed_border_rounded_top"
+            android:textSize="64sp"
+            android:fontFamily="@font/sf_thin"
+            android:textColor="@color/custom_green"
+            app:backgroundTint="@null"
+            android:scaleType="centerCrop"
+            android:outlineProvider="background"
+            android:clipToOutline="true"
+            android:contentDescription="Competition background"
+        />
+        <Button
+            android:id="@+id/add_compe_img_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sf_medium"
+            android:text="+"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:background="@drawable/rounded_bot_24"
+            app:backgroundTint="@null"
+        />
+    </LinearLayout>
+</ScrollView>

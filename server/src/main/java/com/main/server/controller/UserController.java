@@ -2,11 +2,15 @@ package com.main.server.controller;
 
 import com.main.server.entity.User;
 import com.main.server.middleware.CamelCaseMiddleware;
+import com.main.server.middleware.TokenParser;
 import com.main.server.request.CheckObjRequest;
+import com.main.server.request.UserDetailRequest;
 import com.main.server.request.UserInfoRequest;
 import com.main.server.response.BaseResponse;
 import com.main.server.service.UserService;
 import com.main.server.utils.enums.Sex;
+import jakarta.annotation.Nullable;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,8 @@ public class UserController {
 
     @Autowired
     private final UserService userService;
+    @Autowired
+    private final TokenParser tokenParser;
 
     @GetMapping("/test/single-user")
     public ResponseEntity<?> test1() {
@@ -100,6 +106,91 @@ public class UserController {
                     .message("success")
                     .success(true)
                     .data(data)
+                    .build());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(BaseResponse.builder()
+                    .message(e.getMessage())
+                    .success(false)
+                    .data(null)
+                    .build());
+        }
+    }
+
+    @GetMapping("/detail")
+    public ResponseEntity<BaseResponse> getUserDetail(@RequestHeader("Authorization") String token, @Nullable @RequestParam Long id) {
+        try {
+            if (id == null) {
+                id = tokenParser.getCurrentUserId(token);
+            }
+
+            return ResponseEntity.ok().body(BaseResponse.builder()
+                    .message("Get user detail success")
+                    .success(true)
+                    .data(userService.getUserDetailById(id))
+                    .build());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(BaseResponse.builder()
+                    .message(e.getMessage())
+                    .success(false)
+                    .data(null)
+                    .build());
+        }
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<BaseResponse> getUserInfo(@RequestHeader("Authorization") String token, @Nullable @RequestParam Long id) {
+        try {
+            Long self_id = tokenParser.getCurrentUserId(token);
+            if (id == null) {
+                id = tokenParser.getCurrentUserId(token);
+            }
+            return ResponseEntity.ok().body(BaseResponse.builder()
+                    .message("Get user info success")
+                    .success(true)
+                    .data(userService.getUserDtoById(self_id, id))
+                    .build());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(BaseResponse.builder()
+                    .message(e.getMessage())
+                    .success(false)
+                    .data(null)
+                    .build());
+        }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<BaseResponse> searchUser(@RequestHeader("Authorization") String token, @Nullable @RequestParam String name, @Nullable @RequestParam Integer limit, @Nullable @RequestParam Integer offset) {
+        try {
+            Long self_id = tokenParser.getCurrentUserId(token);
+            if (limit == null) {
+                limit = 10;
+            }
+            if (offset == null) {
+                offset = 0;
+            }
+            return ResponseEntity.ok().body(BaseResponse.builder()
+                    .message("Get user info success")
+                    .success(true)
+                    .data(userService.findUser(self_id, name, limit, offset))
+                    .build());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(BaseResponse.builder()
+                    .message(e.getMessage())
+                    .success(false)
+                    .data(null)
+                    .build());
+        }
+    }
+
+    @PutMapping("/save-detail")
+public ResponseEntity<BaseResponse> saveUserDetail(@RequestHeader("Authorization") String token, @RequestBody UserDetailRequest request) {
+        try {
+            Long self_id = tokenParser.getCurrentUserId(token);
+            userService.saveUserDetail(self_id, request);
+            return ResponseEntity.ok().body(BaseResponse.builder()
+                    .message("Save user detail success")
+                    .success(true)
+                    .data(request)
                     .build());
         } catch (Exception e) {
             return ResponseEntity.status(500).body(BaseResponse.builder()

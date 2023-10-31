@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="52dp"
+    android:layout_height="64dp"
     android:orientation="horizontal"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -21,14 +21,24 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/action"
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_gravity="center"
-        android:text="Action"
+        android:text="Matched Name"
+        android:layout_weight="1"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:fontFamily="@font/sf_medium"
         />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/add_friend_button"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_margin="16dp"
+        android:layout_gravity="center"
+        android:background="@mipmap/ic_add_svg_foreground" />
+
 </LinearLayout>

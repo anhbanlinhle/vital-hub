@@ -32,6 +32,9 @@
             android:name=".test.TestServer"
             android:exported="false" />
         <activity
+            android:name=".competition.AddCompeActivity"
+            android:exported="true" />
+        <activity
             android:name=".exercises.GroupExerciseActivity"
             android:exported="false" />
         <activity
@@ -57,7 +60,10 @@
             android:name=".authentication.LoginScreen"
             android:exported="true" />
         <activity
-            android:name=".UserProfile"
+            android:name=".profile.UserProfile"
+            android:exported="true"
+            android:label="false"  />
+        <activity android:name=".profile.OthersProfile"
             android:exported="true"
             android:label="false" />
         <activity
@@ -71,20 +77,27 @@
             android:exported="true" />
         <activity
             android:name=".exercises.ExerciseGeneralActivity"
-            android:exported="true" />
+            android:exported="true"  />
         <activity
             android:name=".authentication.FirstRegistInfo"
             android:exported="true" />
-        <activity
+        <activity 
             android:name=".competition.CompetitionActivity"
-            android:exported="true" /> <!-- Friend -->
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true" />
+
+       
+        <activity android:name=".profile.ProfileDetail"
+            android:exported="true" />
+        <activity android:name=".TestPage"
+            android:exported="true" />
+        
         <activity
             android:name=".friend.FriendList"
-            android:exported="true" /> <!-- <activity -->
-        <!-- android:name=".friend.FriendProfile" -->
-        <!-- android:exported="true" /> -->
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true" />
         <activity
-            android:name=".friend.FindUser"
+            android:name=".friend.AddFriendActivity"
             android:exported="true" />
     </application>
 

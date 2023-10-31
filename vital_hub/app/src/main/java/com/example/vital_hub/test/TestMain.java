@@ -1,12 +1,9 @@
 package com.example.vital_hub.test;
 
 import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
-import static com.example.vital_hub.client.controller.Api.initRetrofitAndController;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,14 +12,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.WindowCompat;
 
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.authentication.LoginScreen;
 import com.example.vital_hub.R;
-import com.example.vital_hub.UserProfile;
+import com.example.vital_hub.profile.UserProfile;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.pushup.PushupVideoScan;

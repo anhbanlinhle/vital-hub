@@ -1,6 +1,6 @@
 package com.example.vital_hub;
 
-import static com.example.vital_hub.client.controller.Api.initRetrofitAndController;
+import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAndController;
 
 import android.app.Activity;
 import android.content.Intent;

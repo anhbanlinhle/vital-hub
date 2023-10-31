@@ -9,10 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.vital_hub.R;
-import com.example.vital_hub.UserProfile;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.pushup.PushupVideoScan;
+import com.example.vital_hub.profile.UserProfile;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
