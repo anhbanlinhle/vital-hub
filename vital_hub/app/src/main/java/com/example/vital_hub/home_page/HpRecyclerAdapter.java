@@ -57,7 +57,7 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
             holder.title.setText(post.getUsername());
             holder.message.setText(post.getTitle());
             Glide.with(holder.profileImage.getContext()).load(post.getAvatar()).into(holder.profileImage);
-            Glide.with(holder.postImage.getContext()).load(post.getAvatar()).into(holder.postImage);
+            Glide.with(holder.postImage.getContext()).load(post.getImage()).into(holder.postImage);
         }
     }
 
