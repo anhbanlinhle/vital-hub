@@ -8,11 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -50,7 +47,7 @@ public class Competition implements Serializable {
     private ExerciseType type;
 
     @Column(name = "duration")
-    private LocalTime duration;
+    private Time duration;
 
     @Column(name = "background")
     private String background;

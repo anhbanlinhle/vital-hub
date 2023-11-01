@@ -49,9 +49,11 @@ public class Competition {
 
     public String getType() {
         switch (type){
-            case 2:
+            case 0:
+                return "Running";
+            case 1:
                 return "Bicycling";
-            case 3:
+            case 2:
                 return "PushUp";
             default:
                 return "Running";

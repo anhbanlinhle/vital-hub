@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -82,7 +83,8 @@ public class CompetitionController {
         ExerciseType type = addCompettitionRequest.getType();
         LocalDateTime startDate = addCompettitionRequest.getStartedAt();
         LocalDateTime endDate = addCompettitionRequest.getEndedAt();
-        competitionService.addCompetition(currentUserId, title, background, type, startDate, endDate);
+        Time duration = addCompettitionRequest.getDuration();
+        competitionService.addCompetition(currentUserId, title, background, type, startDate, endDate, duration);
         return ResponseEntity.ok().body(BaseResponse.builder()
                 .message("Add competition successfully")
                 .success(true)

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -38,13 +39,15 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
-    public void addCompetition(Long currentUserId, String title, String background, ExerciseType type, LocalDateTime startDate, LocalDateTime endDate) {
+    public void addCompetition(Long currentUserId, String title, String background, ExerciseType type, LocalDateTime startDate, LocalDateTime endDate, Time duration) {
         competitionRepository.save(Competition.builder()
                 .title(title)
                 .background(background)
                 .type(type)
+                .createdAt(LocalDateTime.now())
                 .startedAt(startDate)
                 .endedAt(endDate)
+                .duration(duration)
                 .hostId(currentUserId)
                 .build());
     }
