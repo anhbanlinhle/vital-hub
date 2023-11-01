@@ -8,7 +8,7 @@ public class HomePagePost {
     private Long userId;
     private String username;
     private String title;
-    private Long joggingId;
+    private Long exerciseId;
     private Boolean isDeleted = false;
     private String createdAt;
     private String updatedAt;
@@ -23,6 +23,14 @@ public class HomePagePost {
     }
 
     public HomePagePost(String avatar) {
+    }
+
+    public Long getExerciseId() {
+        return exerciseId;
+    }
+
+    public void setExerciseId(Long exerciseId) {
+        this.exerciseId = exerciseId;
     }
 
     public String getAvatar() {
@@ -71,14 +79,6 @@ public class HomePagePost {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Long getJoggingId() {
-        return joggingId;
-    }
-
-    public void setJoggingId(Long joggingId) {
-        this.joggingId = joggingId;
     }
 
     public Boolean getDeleted() {

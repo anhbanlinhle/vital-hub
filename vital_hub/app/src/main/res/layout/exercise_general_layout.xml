@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="10dp"
+            android:gravity="center"
         >
 
             <ImageButton

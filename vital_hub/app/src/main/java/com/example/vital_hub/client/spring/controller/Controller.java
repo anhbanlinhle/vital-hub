@@ -116,4 +116,13 @@ public interface Controller {
 
     @POST("/comment/add-comment")
     Call<Void> postComment(@HeaderMap Map<String, String> header, @Body CommentPost body);
+
+    @POST("/post/add-post")
+    Call<Void> addPost(@HeaderMap Map<String, String> header, @Body HomePagePost body);
+
+    @PUT("post/remove")
+    Call<Void> deletePost(@HeaderMap Map<String, String> header, @Query("postId") Long postId);
+
+    @PUT("comment/remove")
+    Call<Void> deleteComment(@HeaderMap Map<String, String> header, @Query("postId") Long commentId);
 }
