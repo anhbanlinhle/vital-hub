@@ -4,21 +4,32 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.vital_hub.R;
+import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.competition.data.CompetitionEdit;
+import com.example.vital_hub.utils.HeaderInitUtil;
 
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EditCompetitionActivity extends AppCompatActivity {
 
@@ -31,6 +42,8 @@ public class EditCompetitionActivity extends AppCompatActivity {
     private EditText duration;
 
     private Button saveBtn;
+
+    private Map<String, String> header;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +59,7 @@ public class EditCompetitionActivity extends AppCompatActivity {
         endAt = findViewById(R.id.compe_edit_end);
         duration = findViewById(R.id.compe_edit_duration);
         saveBtn = findViewById(R.id.compe_edit_save_btn);
+        header = HeaderInitUtil.headerWithToken(this);
 
         title.setText(getIntent().getStringExtra("title"));
         duration.setText(getIntent().getStringExtra("duration"));
@@ -75,6 +89,28 @@ public class EditCompetitionActivity extends AppCompatActivity {
             competitionEdit.setTitle(title.getText().toString());
             competitionEdit.setEndedAt(endAt.getText().toString());
             competitionEdit.setStartedAt(startAt.getText().toString());
+
+            callEditApi(competitionEdit);
+        });
+    }
+
+    private void callEditApi(CompetitionEdit competitionEdit) {
+        Api.initEditCompetition(header, competitionEdit);
+
+        Api.editCompetition.clone().enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(EditCompetitionActivity.this, "Edit competition successfully", Toast.LENGTH_SHORT).show();
+                    waitStartActivity(CompetitionDetailActivity.class);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(EditCompetitionActivity.this, "Fail to edit competition", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
@@ -93,7 +129,7 @@ public class EditCompetitionActivity extends AppCompatActivity {
                         calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
                         calendar.set(Calendar.MINUTE,minute);
 
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
                         dateTime.setText(simpleDateFormat.format(calendar.getTime()));
                     }
@@ -117,10 +153,20 @@ public class EditCompetitionActivity extends AppCompatActivity {
                         c.set(Calendar.HOUR_OF_DAY,hourOfDay);
                         c.set(Calendar.MINUTE,minute);
 
-                        String selectedDuration = hourOfDay + ":" + minute;
+                        String selectedDuration = (hourOfDay < 10 ? ("0" + hourOfDay) : hourOfDay) + ":" + (minute < 10 ? ("0" + minute) : minute);
                         duration.setText(selectedDuration);
                     }
                 }, hour, minute, true);
         timePickerDialog.show();
+    }
+
+    private void waitStartActivity(Class<?> cls) {
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(EditCompetitionActivity.this, cls));
+            }
+        }, 2000);
     }
 }

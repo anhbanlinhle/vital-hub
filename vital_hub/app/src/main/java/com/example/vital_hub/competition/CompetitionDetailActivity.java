@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -105,7 +107,7 @@ public class CompetitionDetailActivity extends AppCompatActivity {
         });
 
         deleteBtn.setOnClickListener(v -> {
-            Toast.makeText(this, "delete", Toast.LENGTH_SHORT).show();
+            callDeleteApi(competitionAllDetail.getDetail().getId());
         });
     }
 
@@ -158,8 +160,40 @@ public class CompetitionDetailActivity extends AppCompatActivity {
 
         isOwned = competitionAllDetail.getIsOwned();
 
-//        if (!isOwned) {
-//            editBtn.setVisibility(View.GONE);
-//        }
+        if (!isOwned) {
+            editBtn.setVisibility(View.GONE);
+            deleteBtn.setVisibility(View.GONE);
+        } else {
+            editBtn.setVisibility(View.VISIBLE);
+            deleteBtn.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void callDeleteApi(Long id) {
+        Api.initDeleteCompetition(header, id);
+        Api.deleteCompetition.clone().enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(CompetitionDetailActivity.this, "Delete competition successfully", Toast.LENGTH_SHORT).show();
+                    waitStartActivity(CompetitionActivity.class);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(CompetitionDetailActivity.this, "Cannot delete this competition", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void waitStartActivity(Class<?> cls) {
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(CompetitionDetailActivity.this, cls));
+            }
+        }, 2000);
     }
 }

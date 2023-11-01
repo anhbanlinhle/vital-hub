@@ -9,6 +9,7 @@ import com.example.vital_hub.client.spring.objects.FriendListResponse;
 import com.example.vital_hub.client.spring.objects.RegistRequestObject;
 import com.example.vital_hub.client.spring.objects.ResponseObject;
 import com.example.vital_hub.competition.data.CompetitionAllDetail;
+import com.example.vital_hub.competition.data.CompetitionEdit;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.example.vital_hub.profile.UserDetail;
@@ -61,6 +62,10 @@ public class Api {
     public static Call<CompetitionListResponse> getOwnCompetitionList;
 
     public static Call<CompetitionAllDetail> competitionAllDetail;
+
+    public static Call<Void> editCompetition;
+
+    public static Call<Void> deleteCompetition;
 
     //Exercise
     public static Call<List<SingleExercise>> singleExerciseList;
@@ -167,6 +172,14 @@ public class Api {
 
     public static void initGetCompetitionAllDetail(Map<String, String> header, Long id) {
         competitionAllDetail = controller.getCompetitionAllDetail(header, id);
+    }
+
+    public static void initEditCompetition(Map<String, String> header, CompetitionEdit competitionEdit) {
+        editCompetition = controller.editCompetition(header, competitionEdit);
+    }
+
+    public static void initDeleteCompetition(Map<String, String> header, Long id) {
+        deleteCompetition = controller.deleteCompetition(header, id);
     }
 
     public static void initPostRegist(Map<String, String> headers, RegistRequestObject body) {

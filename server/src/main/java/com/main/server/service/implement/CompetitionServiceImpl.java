@@ -72,7 +72,7 @@ public class CompetitionServiceImpl implements CompetitionService {
         if (existingCompetition == null) {
             throw new RuntimeException("Cannot find competition");
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         if (competition.getDuration() != null) {
             existingCompetition.setDuration(LocalTime.parse(competition.getDuration()));
         }
