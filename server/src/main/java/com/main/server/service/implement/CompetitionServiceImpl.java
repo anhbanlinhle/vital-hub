@@ -6,9 +6,12 @@ import com.main.server.repository.CompetitionRepository;
 import com.main.server.repository.ParticipantsRepository;
 import com.main.server.service.CompetitionService;
 import com.main.server.utils.dto.CompetitionListDto;
+import com.main.server.utils.enums.ExerciseType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -32,6 +35,18 @@ public class CompetitionServiceImpl implements CompetitionService {
                     .participantId(currentUserId)
                     .build());
         }
+    }
+
+    @Override
+    public void addCompetition(Long currentUserId, String title, String background, ExerciseType type, LocalDateTime startDate, LocalDateTime endDate) {
+        competitionRepository.save(Competition.builder()
+                .title(title)
+                .background(background)
+                .type(type)
+                .startedAt(startDate)
+                .endedAt(endDate)
+                .hostId(currentUserId)
+                .build());
     }
 
     @Override

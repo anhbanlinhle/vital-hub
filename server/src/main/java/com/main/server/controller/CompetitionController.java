@@ -2,10 +2,12 @@ package com.main.server.controller;
 
 import com.main.server.middleware.TokenParser;
 import com.main.server.repository.CompetitionRepository;
+import com.main.server.request.AddCompettitionRequest;
 import com.main.server.response.BaseResponse;
 import com.main.server.service.CompetitionService;
 import com.main.server.service.FriendService;
 import com.main.server.utils.dto.CompetitionListDto;
+import com.main.server.utils.enums.ExerciseType;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -13,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -67,6 +71,22 @@ public class CompetitionController {
         return ResponseEntity.ok().body(BaseResponse.builder()
                 .message("success")
                 .success(true)
+                .build());
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<BaseResponse> addCompetition(HttpServletRequest request, @RequestBody AddCompettitionRequest addCompettitionRequest) {
+        Long currentUserId = tokenParser.getCurrentUserId(request.getHeader("Authorization"));
+        String title = addCompettitionRequest.getTitle();
+        String background = addCompettitionRequest.getBackground();
+        ExerciseType type = addCompettitionRequest.getType();
+        LocalDateTime startDate = addCompettitionRequest.getStartedAt();
+        LocalDateTime endDate = addCompettitionRequest.getEndedAt();
+        competitionService.addCompetition(currentUserId, title, background, type, startDate, endDate);
+        return ResponseEntity.ok().body(BaseResponse.builder()
+                .message("Add competition successfully")
+                .success(true)
+                .data(addCompettitionRequest)
                 .build());
     }
 }
