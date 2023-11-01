@@ -22,8 +22,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<PostDto> allPostOrderByCreatedTime(Integer page, Integer pageSize, List<Long> friendList, Long currentUserId);
 
     @Query("SELECT p.userId AS userId, p.id AS postId, u.name AS username, p.title AS title, p.createdAt AS createdAt, u.avatar AS avatar, p.image AS image FROM Post p JOIN User u " +
-            "ON p.userId = u.id WHERE p.isDeleted = FALSE")
-    Optional<PostDto> getPostWithUserByCid(Long id);
+            "ON p.userId = u.id WHERE p.isDeleted = FALSE AND p.id = :id")
+    Optional<PostDto> getPostWithUserByPid(Long id);
 
     Optional<Post> findByIdAndIsDeletedFalse(Long id);
 }

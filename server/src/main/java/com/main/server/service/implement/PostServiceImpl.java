@@ -33,7 +33,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto postById(Long id) {
-        PostDto post = postRepository.getPostWithUserByCid(id).orElse(null);
+        PostDto post = postRepository.getPostWithUserByPid(id).orElse(null);
         return post;
     }
 
