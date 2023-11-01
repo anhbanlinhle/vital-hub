@@ -77,7 +77,7 @@
         <ImageView
             android:id="@+id/post_image"
             android:layout_width="386dp"
-            android:layout_height="389dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_launcher_round" />
