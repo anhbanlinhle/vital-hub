@@ -3,6 +3,7 @@ package com.main.server.service;
 import com.main.server.entity.Competition;
 import com.main.server.utils.dto.CompetitionAllDetailDto;
 import com.main.server.utils.dto.CompetitionListDto;
+import com.main.server.utils.dto.CompetitionModifyDto;
 
 import java.util.List;
 
@@ -15,5 +16,5 @@ public interface CompetitionService {
 
     void deleteCompetition(Long id);
 
-    void editCompetition(Competition competition);
+    void editCompetition(CompetitionModifyDto competition);
 }

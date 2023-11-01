@@ -6,11 +6,13 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
 import com.example.vital_hub.R;
+import com.example.vital_hub.competition.data.CompetitionEdit;
 
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -28,6 +30,8 @@ public class EditCompetitionActivity extends AppCompatActivity {
 
     private EditText duration;
 
+    private Button saveBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +45,7 @@ public class EditCompetitionActivity extends AppCompatActivity {
         startAt = findViewById(R.id.compe_edit_start);
         endAt = findViewById(R.id.compe_edit_end);
         duration = findViewById(R.id.compe_edit_duration);
+        saveBtn = findViewById(R.id.compe_edit_save_btn);
 
         title.setText(getIntent().getStringExtra("title"));
         duration.setText(getIntent().getStringExtra("duration"));
@@ -57,6 +62,19 @@ public class EditCompetitionActivity extends AppCompatActivity {
 
         duration.setOnClickListener(v -> {
             showTimeDialog(duration);
+        });
+
+        buttonBinding();
+    }
+
+    private void buttonBinding() {
+        this.saveBtn.setOnClickListener(v -> {
+            CompetitionEdit competitionEdit = new CompetitionEdit();
+            competitionEdit.setId(getIntent().getLongExtra("id", -1));
+            competitionEdit.setDuration(duration.getText().toString());
+            competitionEdit.setTitle(title.getText().toString());
+            competitionEdit.setEndedAt(endAt.getText().toString());
+            competitionEdit.setStartedAt(startAt.getText().toString());
         });
     }
 

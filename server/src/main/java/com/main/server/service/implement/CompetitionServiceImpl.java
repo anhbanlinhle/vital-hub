@@ -5,14 +5,14 @@ import com.main.server.entity.Participants;
 import com.main.server.repository.CompetitionRepository;
 import com.main.server.repository.ParticipantsRepository;
 import com.main.server.service.CompetitionService;
-import com.main.server.utils.dto.CompetitionAllDetailDto;
-import com.main.server.utils.dto.CompetitionDetailDto;
-import com.main.server.utils.dto.CompetitionListDto;
-import com.main.server.utils.dto.CompetitionRankingDto;
+import com.main.server.utils.dto.*;
 import com.main.server.utils.enums.ExerciseType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -67,20 +67,25 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
-    public void editCompetition(Competition competition) {
+    public void editCompetition(CompetitionModifyDto competition) {
         Competition existingCompetition = competitionRepository.findByIdAndIsDeletedFalse(competition.getId());
         if (existingCompetition == null) {
             throw new RuntimeException("Cannot find competition");
         }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         if (competition.getDuration() != null) {
-            existingCompetition.setDuration(competition.getDuration());
+            existingCompetition.setDuration(LocalTime.parse(competition.getDuration()));
         }
         if (competition.getStartedAt() != null) {
-            existingCompetition.setStartedAt(competition.getStartedAt());
+            existingCompetition.setStartedAt(LocalDateTime.parse(competition.getStartedAt(), formatter));
         }
         if (competition.getEndedAt() != null) {
-            existingCompetition.setEndedAt(competition.getEndedAt());
+            existingCompetition.setEndedAt(LocalDateTime.parse(competition.getEndedAt(), formatter));
         }
+        if (competition.getTitle() != null) {
+            existingCompetition.setTitle(competition.getTitle());
+        }
+
         competitionRepository.save(existingCompetition);
     }
 

@@ -7,6 +7,7 @@ import com.main.server.response.BaseResponse;
 import com.main.server.service.CompetitionService;
 import com.main.server.service.FriendService;
 import com.main.server.utils.dto.CompetitionListDto;
+import com.main.server.utils.dto.CompetitionModifyDto;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -84,7 +85,7 @@ public class CompetitionController {
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<?> editCompetition(@RequestBody Competition competition) {
+    public ResponseEntity<?> editCompetition(@RequestBody CompetitionModifyDto competition) {
         competitionService.editCompetition(competition);
         return ResponseEntity.ok().body(null);
     }
