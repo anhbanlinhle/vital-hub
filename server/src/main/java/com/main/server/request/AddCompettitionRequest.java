@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Time;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @Builder
@@ -15,9 +16,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AddCompettitionRequest {
     private String title;
-    private ExerciseType type;
     private String background;
-    private LocalDateTime startedAt;
-    private LocalDateTime endedAt;
-    private Time duration;
+    private String type;
+    private String startedAt;
+    private String endedAt;
+    private String duration;
 }

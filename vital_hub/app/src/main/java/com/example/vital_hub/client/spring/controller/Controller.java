@@ -7,6 +7,9 @@ import com.example.vital_hub.client.spring.objects.CountResponse;
 import com.example.vital_hub.client.spring.objects.FriendListResponse;
 import com.example.vital_hub.client.spring.objects.RegistRequestObject;
 import com.example.vital_hub.client.spring.objects.ResponseObject;
+import com.example.vital_hub.competition.data.CompetitionAllDetail;
+import com.example.vital_hub.competition.data.CompetitionEdit;
+import com.example.vital_hub.competition.data.CompetitionAdd;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.example.vital_hub.home_page.HomePagePost;
@@ -74,6 +77,16 @@ public interface Controller {
     Call<CompetitionListResponse> getCompetitionList(@HeaderMap Map<String, String> headers,@Query("isJoined") Boolean isJoined, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
     @GET("/competition/own-list")
     Call<CompetitionListResponse> getOwnCompetitionList(@HeaderMap Map<String, String> headers, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
+    @POST("/competition/add")
+    Call<Void> addCompetition(@HeaderMap Map<String, String> headers, @Body CompetitionAdd competition);
+    @GET("/competition/detail")
+    Call<CompetitionAllDetail> getCompetitionAllDetail(@HeaderMap Map<String, String> headers, @Query("id") Long id);
+
+    @PUT("/competition/edit")
+    Call<Void> editCompetition (@HeaderMap Map<String, String> headers, @Body CompetitionEdit competitionEdit);
+
+    @PUT("/competition/delete")
+    Call<Void> deleteCompetition (@HeaderMap Map<String, String> headers, @Query("id") Long id);
     // /auth/**
     @POST("/auth/create-user-first-sign")
     Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);

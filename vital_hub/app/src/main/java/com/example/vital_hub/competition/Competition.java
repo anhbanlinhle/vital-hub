@@ -8,13 +8,13 @@ public class Competition {
     private final String background;
     private final Long remainDay;
     private final Integer isOngoing;
-    private final Integer type;
+    private final String type;
     private final Long hostId;
     private final String hostName;
     private final String hostAvatar;
     private final Integer participantCount;
 
-    public Competition(Long id, String title, String background, Long remainDay, Integer isOngoing, Integer type, Long hostId, String hostName, String hostAvatar, Integer participantCount, Integer status) {
+    public Competition(Long id, String title, String background, Long remainDay, Integer isOngoing, String type, Long hostId, String hostName, String hostAvatar, Integer participantCount, Integer status) {
         this.id = id;
         this.title = title;
         this.background = background;
@@ -49,12 +49,11 @@ public class Competition {
 
     public String getType() {
         switch (type){
-            case 0:
-                return "Running";
-            case 1:
-                return "Bicycling";
-            case 2:
-                return "PushUp";
+
+            case "CYCLING":
+                return "Cycling";
+            case "PUSHUP":
+                return "Pushup";
             default:
                 return "Running";
         }
