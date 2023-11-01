@@ -14,7 +14,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "p.title AS title, u.avatar AS avatar, IF(:currentUserId = p.user_id, TRUE, FALSE) AS isOwnedInt FROM post p JOIN user u ON p.user_id = u.id " +
             "WHERE p.is_deleted = FALSE AND p.user_id IN :friendList) " +
             "UNION " +
-            "(SELECT p.user_id AS userId, p.id AS postId, u.name AS username, p.created_at AS createdAt, " +
+            "(SELECT p.user_id AS userId, p.id AS postId, u.name AS username, p.created_at AS createdAt, p.image AS image, " +
             "p.title AS title, u.avatar AS avatar, IF(:currentUserId = p.user_id, TRUE, FALSE) AS isOwnedInt FROM post p JOIN user u ON p.user_id = u.id " +
             "WHERE p.is_deleted = FALSE AND p.user_id NOT IN :friendList) " +
             "ORDER BY createdAt " +
