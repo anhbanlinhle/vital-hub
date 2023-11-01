@@ -11,6 +11,7 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -41,6 +42,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileDetail extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    ViewGroup toolBar;
     ImageView profileImage;
     Calendar calendar;
     TextView cancel;
@@ -189,6 +191,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
                 fetchUpdateProfileDetail();
             }
         });
+
         enableEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -220,10 +223,6 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
 
                 exercisePerDay.setEnabled(true);
                 exercisePerDay.requestFocus();
-
-                if (enableEdit.getText() == "Save") {
-                    fetchUpdateProfileDetail();
-                }
 
 
 //                if (TextUtils.isEmpty(userName.getText())) {
