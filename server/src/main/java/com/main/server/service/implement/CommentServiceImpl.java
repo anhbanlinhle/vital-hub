@@ -22,8 +22,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDto> commentsInPost(Long postId, Integer page, Integer pageSize, Long currentUserId) {
-        Page<CommentDto> comments = commentRepository.commentsInPost(PageRequest.of(page, pageSize), postId, currentUserId);
-        return comments.getContent();
+        List<CommentDto> comments = commentRepository.commentsInPost(postId, currentUserId, pageSize, pageSize * page);
+        return comments;
     }
 
     @Override
