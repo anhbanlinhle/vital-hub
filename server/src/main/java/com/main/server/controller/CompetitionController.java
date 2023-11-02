@@ -3,10 +3,13 @@ package com.main.server.controller;
 import com.main.server.entity.Competition;
 import com.main.server.middleware.TokenParser;
 import com.main.server.repository.CompetitionRepository;
+import com.main.server.request.AddCompettitionRequest;
 import com.main.server.response.BaseResponse;
 import com.main.server.service.CompetitionService;
 import com.main.server.service.FriendService;
 import com.main.server.utils.dto.CompetitionListDto;
+import com.main.server.utils.enums.ExerciseType;
+import com.main.server.utils.dto.CompetitionModifyDto;
 import com.main.server.utils.dto.CompetitionModifyDto;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,6 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -69,6 +76,17 @@ public class CompetitionController {
         return ResponseEntity.ok().body(BaseResponse.builder()
                 .message("success")
                 .success(true)
+                .build());
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<BaseResponse> addCompetition(HttpServletRequest request, @RequestBody AddCompettitionRequest addCompettitionRequest) {
+        Long currentUserId = tokenParser.getCurrentUserId(request.getHeader("Authorization"));
+        competitionService.addCompetition(currentUserId, addCompettitionRequest);
+        return ResponseEntity.ok().body(BaseResponse.builder()
+                .message("Add competition successfully")
+                .success(true)
+                .data(addCompettitionRequest)
                 .build());
     }
 

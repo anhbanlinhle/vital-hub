@@ -4,12 +4,18 @@ import com.main.server.entity.Competition;
 import com.main.server.entity.Participants;
 import com.main.server.repository.CompetitionRepository;
 import com.main.server.repository.ParticipantsRepository;
+import com.main.server.request.AddCompettitionRequest;
 import com.main.server.service.CompetitionService;
+import com.main.server.utils.dto.CompetitionListDto;
+import com.main.server.utils.enums.ExerciseType;
 import com.main.server.utils.dto.*;
 import com.main.server.utils.enums.ExerciseType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDateTime;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -36,6 +42,33 @@ public class CompetitionServiceImpl implements CompetitionService {
                     .participantId(currentUserId)
                     .build());
         }
+    }
+
+    @Override
+    public void addCompetition(Long currentUserId, AddCompettitionRequest request) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        String title = request.getTitle();
+        String background = request.getBackground();
+        ExerciseType type = ExerciseType.valueOf(request.getType().toUpperCase());
+        LocalDateTime startDate = LocalDateTime.parse(request.getStartedAt(), formatter);
+        LocalDateTime endDate = LocalDateTime.parse(request.getEndedAt(), formatter);
+        LocalTime duration = LocalTime.parse(request.getDuration());
+
+        competitionRepository.save(Competition.builder()
+                .title(title)
+                .background(background)
+                .type(type)
+                .createdAt(LocalDateTime.now())
+                .startedAt(startDate)
+                .endedAt(endDate)
+                .duration(duration)
+                .hostId(currentUserId)
+                .isDeleted(false)
+                .build());
+        participantsRepository.save(Participants.builder()
+                .compId(competitionRepository.findFirstByHostIdOrderByCreatedAtDesc(currentUserId).getId())
+                .participantId(currentUserId)
+                .build());
     }
 
     @Override

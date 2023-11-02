@@ -1,10 +1,16 @@
 package com.main.server.service;
 
 import com.main.server.entity.Competition;
+import com.main.server.request.AddCompettitionRequest;
 import com.main.server.utils.dto.CompetitionAllDetailDto;
 import com.main.server.utils.dto.CompetitionListDto;
 import com.main.server.utils.dto.CompetitionModifyDto;
+import com.main.server.utils.enums.ExerciseType;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 public interface CompetitionService {
@@ -17,4 +23,6 @@ public interface CompetitionService {
     void deleteCompetition(Long id);
 
     void editCompetition(CompetitionModifyDto competition);
+    void addCompetition(Long currentUserId, AddCompettitionRequest request);
+
 }

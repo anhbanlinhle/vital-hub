@@ -30,7 +30,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
                         LEFT JOIN participants p ON c.id = p.comp_id
                         LEFT JOIN user u ON c.host_id = u.id
                         WHERE ((c.id IN (SELECT comp_id FROM participants WHERE participant_id = :id)) = :isJoined)
-                        AND IF(:name IS NOT NULL, c.title LIKE CONCAT('%', :name, '%'), 1) AND c.is_deleted = FALSE AND
+                        AND IF(:name IS NOT NULL, c.title LIKE CONCAT('%', :name, '%'), 1) AND c.is_deleted = FALSE
                         GROUP BY c.id, c.title, c.background, c.ended_at, u.id, u.name, u.avatar
                         ORDER BY remainDay DESC
                         LIMIT :limit OFFSET :offset
@@ -55,7 +55,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
                         FROM competition c
                         LEFT JOIN participants p ON c.id = p.comp_id
                         LEFT JOIN user u ON c.host_id = u.id
-                        WHERE c.host_id = :id AND c.is_deleted = FALSE AND
+                        WHERE c.host_id = :id AND c.is_deleted = FALSE
                         AND IF(:name IS NOT NULL, c.title LIKE CONCAT('%', :name, '%'), 1)
                         GROUP BY c.id, c.title, c.background, c.ended_at, u.id, u.name, u.avatar
                         ORDER BY remainDay DESC
@@ -89,4 +89,8 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
             "WHERE ce.compe_id = :id ORDER BY r.step DESC LIMIT 3",
             nativeQuery = true)
     List<CompetitionRankingDto> getCompetitionPushUpRanking(Long id);
+
+    @Query(value = "SELECT * FROM competition WHERE host_id = :currentUserId ORDER BY created_at DESC LIMIT 1",
+            nativeQuery = true)
+    CompetitionListDto findFirstByHostIdOrderByCreatedAtDesc(Long currentUserId);
 }
