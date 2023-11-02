@@ -118,6 +118,9 @@ public class CompetitionServiceImpl implements CompetitionService {
         if (competition.getTitle() != null) {
             existingCompetition.setTitle(competition.getTitle());
         }
+        if (competition.getBackground() != null) {
+            existingCompetition.setBackground(competition.getBackground());
+        }
 
         competitionRepository.save(existingCompetition);
     }
