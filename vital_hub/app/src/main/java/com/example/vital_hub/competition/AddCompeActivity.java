@@ -20,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -42,6 +43,7 @@ import com.example.vital_hub.helper.*;
 import com.example.vital_hub.helper.ImgToUrl.ImageUploadTask;
 
 public class AddCompeActivity extends AppCompatActivity {
+    private ScrollView scrollView;
     private ImageUploadTask imageUploadTask;
     private ImageButton btnRun;
 
@@ -58,7 +60,7 @@ public class AddCompeActivity extends AppCompatActivity {
     private String compeType;
 
     private Button addImgBtn;
-    private AppCompatButton addButton;
+    private AppCompatButton addButton, backButton;
     private ImageView imageView;
     SharedPreferences prefs;
     String jwt;
@@ -71,13 +73,11 @@ public class AddCompeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_compe);
 
-        initDeclaration();
-        initHeaderForRequest();
-
         //Helper
         KeyboardHelper.setupKeyboardHiding(this);
 
-
+        initDeclaration();
+        initHeaderForRequest();
 
 
         addButton.setOnClickListener(v -> {
@@ -94,10 +94,14 @@ public class AddCompeActivity extends AppCompatActivity {
             }
         });
 
+        backButton.setOnClickListener(v -> {
+            finish();
+        });
+
     }
 
     private void initDeclaration() {
-
+        scrollView = findViewById(R.id.scroll_view);
         compeType = "";
         compeTypeView = findViewById(R.id.compe_type);
         btnRun = findViewById(R.id.btn_run);
@@ -110,7 +114,7 @@ public class AddCompeActivity extends AppCompatActivity {
         addImgBtn = findViewById(R.id.add_compe_img_btn);
         imageView = findViewById(R.id.compe_img_holder);
         addButton = findViewById(R.id.add);
-
+        backButton = findViewById(R.id.back);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             buttonBinding();
         }
@@ -160,7 +164,7 @@ public class AddCompeActivity extends AppCompatActivity {
                 if (!compeType.equals(btnPushUp.getContentDescription().toString())) {
                     compeType = btnPushUp.getContentDescription().toString();
                     compeTypeView.setText(compeType);
-                    btnPushUp.setImageResource(R.drawable.baseline_accessibility_new_24_white);
+                    btnPushUp.setImageResource(R.drawable.baseline_accessibility_new_24_type_white);
                     btnPushUp.setBackgroundResource(R.drawable.full_rounded_corner_green_bg);
 
                     btnRun.setBackgroundResource(R.drawable.full_rounded_corner_green_border);
@@ -251,26 +255,34 @@ public class AddCompeActivity extends AppCompatActivity {
     private Boolean validateInput() {
         if (compeType.equals("")) {
             compeTypeView.setError("Please select competition type");
+            scrollView.smoothScrollTo(0, compeTypeView.getTop());
             return false;
         }
         if (title.getText().toString().equals("")) {
             title.setError("Please enter title");
-            return false;
-        }
-        if (startAt.getText().toString().equals("")) {
-            startAt.setError("Please select start time");
-            return false;
-        }
-        if (endAt.getText().toString().equals("")) {
-            endAt.setError("Please select end time");
+            title.setFocusable(true);
+            title.setFocusableInTouchMode(true);
+            title.requestFocus();
             return false;
         }
         if (duration.getText().toString().equals("")) {
             duration.setError("Please select duration");
+            scrollView.smoothScrollTo(0, duration.getTop());
+            return false;
+        }
+        if (startAt.getText().toString().equals("")) {
+            startAt.setError("Please select start time");
+            scrollView.smoothScrollTo(0, startAt.getTop());
+            return false;
+        }
+        if (endAt.getText().toString().equals("")) {
+            endAt.setError("Please select end time");
+            scrollView.smoothScrollTo(0, endAt.getTop());
             return false;
         }
         if (imageView.getDrawable() == null) {
-            addImgBtn.setError("Please select image");
+            Toast.makeText(this, "Please select image", Toast.LENGTH_SHORT).show();
+            scrollView.smoothScrollTo(0, imageView.getTop());
             return false;
         }
         return true;
