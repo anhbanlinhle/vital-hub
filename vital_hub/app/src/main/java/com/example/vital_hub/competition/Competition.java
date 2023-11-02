@@ -50,8 +50,8 @@ public class Competition {
     public String getType() {
         switch (type){
 
-            case "CYCLING":
-                return "Cycling";
+            case "BICYCLING":
+                return "Bicycling";
             case "PUSHUP":
                 return "Pushup";
             default:
