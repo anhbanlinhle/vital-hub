@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e6e6e6">
+    android:background="@color/white">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -39,10 +39,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/profile_view"
         android:layout_width="380dp"
-        android:layout_height="210dp"
+        android:layout_height="280dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_borderless_corner"
-        android:elevation="3dp"
+        android:elevation="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
@@ -58,8 +58,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginStart="25dp"
             android:layout_marginTop="25dp"
             android:clickable="true"
@@ -78,8 +78,8 @@
             android:text="Username"
             android:textColor="@color/black"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.047"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
             app:layout_constraintStart_toEndOf="@+id/profile_image"
             app:layout_constraintTop_toTopOf="@+id/profile_image" />
 
@@ -109,16 +109,16 @@
         <TextView
             android:id="@+id/description"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="100dp"
             android:layout_marginEnd="25dp"
             android:fontFamily="@font/mont_semi_bold"
             android:includeFontPadding="false"
             android:text="Description"
             android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/profile_image" />
 
         <Button
             android:id="@+id/profile_detail_button"
@@ -142,7 +142,7 @@
         android:layout_height="80dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_borderless_corner"
-        android:elevation="3dp"
+        android:elevation="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profile_view">
@@ -197,7 +197,7 @@
         android:layout_height="80dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_borderless_corner"
-        android:elevation="3dp"
+        android:elevation="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/history_view">
@@ -249,7 +249,7 @@
         android:layout_height="80dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_borderless_corner"
-        android:elevation="3dp"
+        android:elevation="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/statistic_view">
@@ -279,7 +279,7 @@
             android:layout_height="45dp"
             android:layout_marginStart="25dp"
             android:src="@drawable/friend_icon"
-            android:tint="@color/color_green"
+            app:tint="@color/color_green"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

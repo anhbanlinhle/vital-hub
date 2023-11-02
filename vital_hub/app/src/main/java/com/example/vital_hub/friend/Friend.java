@@ -23,7 +23,7 @@ public class Friend implements Serializable {
     public String getStatus() {
         switch (status) {
             case "FRIEND":
-                return "Friended";
+                return "Friend";
             case "PENDING":
                 return "Pending Request";
             case "INCOMING":
