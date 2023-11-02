@@ -6,102 +6,135 @@
     android:layout_height="match_parent"
     tools:context=".competition.EditCompetitionActivity"
     android:orientation="vertical"
-    android:paddingHorizontal="16dp"
     android:background="@color/white"
 >
-
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_gravity="center_horizontal"
+        android:paddingVertical="16dp"
+        android:fontFamily="@font/mont_semi_bold"
+        android:text="Competition"
+        android:textSize="20sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:paddingVertical="16dp"
-            android:fontFamily="@font/mont_semi_bold"
-            android:text="Competition"
-            android:textSize="20sp" />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+        >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change what you want"
+                android:textSize="20sp"
+                android:drawableEnd="@drawable/baseline_auto_fix_high_32_red"
+                android:drawablePadding="12dp"
+            />
 
-    <EditText
-        android:id="@+id/compe_edit_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edit_text_rounded"
-        android:padding="20dp"
-        android:layout_marginTop="16dp"
-        android:hint="Title"
-        android:textSize="20sp"
-        android:drawableStart="@drawable/baseline_title_24_green"
-        android:drawablePadding="10dp"
-    />
+            <EditText
+                android:id="@+id/compe_edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableStart="@drawable/baseline_title_24_green"
+                android:drawablePadding="10dp"
+                android:hint="Title"
+                android:padding="20dp"
+                android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/compe_edit_duration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edit_text_rounded"
-        android:padding="20dp"
-        android:layout_marginTop="16dp"
-        android:hint="Start at"
-        android:textSize="20sp"
-        android:drawableStart="@drawable/baseline_access_time_24_green"
-        android:drawablePadding="10dp"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        />
+            <EditText
+                android:id="@+id/compe_edit_duration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edit_text_rounded"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:drawableStart="@drawable/baseline_access_time_24_green"
+                android:drawablePadding="10dp"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="Start at"
+                android:padding="20dp"
+                android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/compe_edit_start"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edit_text_rounded"
-        android:padding="20dp"
-        android:layout_marginTop="16dp"
-        android:hint="Start at"
-        android:textSize="20sp"
-        android:drawableStart="@drawable/baseline_calendar_today_24"
-        android:drawablePadding="10dp"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        />
+            <EditText
+                android:id="@+id/compe_edit_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edit_text_rounded"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:drawableStart="@drawable/baseline_calendar_today_24"
+                android:drawablePadding="10dp"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="Start at"
+                android:padding="20dp"
+                android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/compe_edit_end"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edit_text_rounded"
-        android:padding="20dp"
-        android:layout_marginTop="16dp"
-        android:hint="End at"
-        android:textSize="20sp"
-        android:drawableStart="@drawable/baseline_calendar_today_24"
-        android:drawablePadding="10dp"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-    />
+            <EditText
+                android:id="@+id/compe_edit_end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edit_text_rounded"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:drawableStart="@drawable/baseline_calendar_today_24"
+                android:drawablePadding="10dp"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="End at"
+                android:padding="20dp"
+                android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/compe_edit_save_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:backgroundTint="@null"
-        android:background="@drawable/full_rounded_corner_green_bg"
-        android:paddingVertical="8dp"
-        android:text="Save"
-        android:textSize="24sp"
-    />
+            <ImageView
+                android:id="@+id/compe_img_holder"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/dashed_border_rounded_top"
+                android:clipToOutline="true"
+                android:contentDescription="Competition background"
+                android:fontFamily="@font/sf_thin"
+                android:outlineProvider="background"
+                android:scaleType="centerCrop"
+                android:textColor="@color/custom_green"
+                android:textSize="64sp"
+                app:backgroundTint="@null" />
+
+            <Button
+                android:id="@+id/add_compe_img_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_bot_24"
+                android:fontFamily="@font/sf_medium"
+                android:text="+"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                app:backgroundTint="@null" />
+
+            <Button
+                android:id="@+id/compe_edit_save_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/full_rounded_corner_green_bg"
+                android:paddingVertical="8dp"
+                android:text="Save"
+                android:textSize="24sp"
+                app:backgroundTint="@null"
+                android:layout_marginBottom="32dp"
+            />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
