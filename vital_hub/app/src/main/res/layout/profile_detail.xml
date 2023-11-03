@@ -47,15 +47,6 @@
             android:textColor="@color/color_green"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="Save"
-            android:textColor="@color/color_green"
-            android:textSize="16sp" />
-
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -85,7 +76,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="16dp"
                 android:clickable="true"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 android:src="@drawable/vitalhub"
                 app:civ_border_color="#454a52"
                 app:civ_border_width="3dp"
@@ -103,7 +94,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/rounded_borderless_corner"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/profile_image"
                 app:layout_constraintTop_toTopOf="parent">
@@ -153,7 +144,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_borderless_corner"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/description_view">
@@ -199,7 +190,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_borderless_corner"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/username_view">
@@ -246,7 +237,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_borderless_corner"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/birthdate_view">
@@ -295,7 +286,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_borderless_corner"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/gender_view">
@@ -341,7 +332,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_borderless_corner"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/email_view">
@@ -387,7 +378,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_borderless_corner"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/phone_number_view">
@@ -433,7 +424,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_borderless_corner"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/height_view">
@@ -480,7 +471,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_borderless_corner"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/weight_view">

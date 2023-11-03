@@ -47,6 +47,7 @@ public class Competition implements Serializable {
     private LocalDateTime endedAt;
 
     @Column(name = "type")
+    @Enumerated(EnumType.STRING)
     private ExerciseType type;
 
     @Column(name = "duration")

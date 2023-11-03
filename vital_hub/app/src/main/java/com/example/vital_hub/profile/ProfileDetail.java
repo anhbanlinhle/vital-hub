@@ -9,14 +9,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +48,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileDetail extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    ViewGroup toolBar;
     ImageView profileImage;
     Calendar calendar;
     TextView cancel;
@@ -62,9 +70,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
     ProfileDetailResponse profileDetailResponse;
     private UserDetail fetchedUserProfileDetail;
     private UserDetail newInfo;
-
     EditText exercisePerDay;
-
 
     @Override
     protected void onCreate(Bundle SavedInstanceState) {
@@ -89,8 +95,13 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         profileImage = findViewById(R.id.profile_image);
         chooseGender.setOnItemSelectedListener(this);
         enableEdit = findViewById(R.id.edit);
-        save = findViewById(R.id.save);
         exercisePerDay = findViewById(R.id.edit_exercise_per_day);
+
+        toolBar = (ViewGroup) enableEdit.getParent();
+
+        ViewGroup.LayoutParams params = enableEdit.getLayoutParams();
+
+
 
         colorStateList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.color_black));
 
@@ -98,7 +109,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         userName.setEnabled(false);
         birthDate.setEnabled(false);
         chooseGender.setEnabled(false);
-        gmail.setEnabled(false);
+//        gmail.setEnabled(false);
         phoneNumber.setEnabled(false);
         height.setEnabled(false);
         weight.setEnabled(false);
@@ -183,12 +194,29 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
             }
         });
 
+        //Set up new save TextView
+        save = new TextView(this);
+        save.setId(R.id.save);
+        save.setText("Save");
+        save.setTextSize(16);
+        save.setTextColor(ContextCompat.getColor(this, R.color.color_green));
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fetchUpdateProfileDetail();
+                if (TextUtils.isEmpty(userName.getText())) {
+                    userName.setError("Username is required!");
+                } else if (TextUtils.isEmpty(birthDate.getText())) {
+                    birthDate.setError("Birthdate is required!");
+                } else if (TextUtils.isEmpty(phoneNumber.getText())) {
+                    phoneNumber.setError("Phone number is required!");
+                } else {
+                        fetchUpdateProfileDetail();
+                        savePopUp(view);
+                }
             }
         });
+
+
         enableEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -206,9 +234,6 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
                 birthDate.setEnabled(true);
                 birthDate.requestFocus();
 
-                gmail.setEnabled(true);
-                gmail.requestFocus();
-
                 phoneNumber.setEnabled(true);
                 phoneNumber.requestFocus();
 
@@ -221,17 +246,8 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
                 exercisePerDay.setEnabled(true);
                 exercisePerDay.requestFocus();
 
-                if (enableEdit.getText() == "Save") {
-                    fetchUpdateProfileDetail();
-                }
-
-
-//                if (TextUtils.isEmpty(userName.getText())) {
-//                    userName.setError("Username is required!");
-//                } else {
-//                    fetchUpdateProfileDetail();
-//                }
-
+                toolBar.removeView(enableEdit);
+                toolBar.addView(save, params);
 
             }
         });
@@ -367,5 +383,31 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         super.onBackPressed();
         Intent intent = new Intent(this, UserProfile.class);
         startActivity(intent);
+    }
+
+    public void savePopUp(View view) {
+
+        // inflate the layout of the popup window
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.save_popup, null);
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        // show the popup window
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        // dismiss the popup window when touched
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+                return true;
+            }
+        });
     }
 }
