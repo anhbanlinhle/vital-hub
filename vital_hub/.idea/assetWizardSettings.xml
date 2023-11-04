@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/person/baseline_person_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/arrow_back/baseline_arrow_back_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -29,7 +29,7 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="1db964" />
-                            <entry key="outputName" value="baseline_person_72_green" />
+                            <entry key="outputName" value="baseline_arrow_back_45_green" />
                             <entry key="sourceFile" value="D:\hk1_3\mobile\prj_vh\vital_hub\vital_hub" />
                           </map>
                         </option>

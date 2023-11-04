@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -48,6 +50,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileDetail extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    PopupWindow popupWindow;
+    View dimOverlay;
     ViewGroup toolBar;
     ImageView profileImage;
     Calendar calendar;
@@ -74,7 +78,6 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
 
     @Override
     protected void onCreate(Bundle SavedInstanceState) {
-
         super.onCreate(SavedInstanceState);
         setContentView(R.layout.profile_detail);
         KeyboardHelper.setupKeyboardHiding(this);
@@ -105,11 +108,12 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
 
         colorStateList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.color_black));
 
+        profileImage.setEnabled(false);
         description.setEnabled(false);
         userName.setEnabled(false);
         birthDate.setEnabled(false);
         chooseGender.setEnabled(false);
-//        gmail.setEnabled(false);
+        gmail.setEnabled(false);
         phoneNumber.setEnabled(false);
         height.setEnabled(false);
         weight.setEnabled(false);
@@ -209,10 +213,51 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
                     birthDate.setError("Birthdate is required!");
                 } else if (TextUtils.isEmpty(phoneNumber.getText())) {
                     phoneNumber.setError("Phone number is required!");
+                } else if (TextUtils.isEmpty(exercisePerDay.getText())) {
+                    exercisePerDay.setText("0");
+                    fetchUpdateProfileDetail();
+                } else if (TextUtils.isEmpty(height.getText()) && TextUtils.isEmpty(weight.getText()) && TextUtils.isEmpty(exercisePerDay.getText())) {
+                    height.setText("0");
+                    weight.setText("0");
+                    exercisePerDay.setText("0");
+                    fetchUpdateProfileDetail();
+                } else if (TextUtils.isEmpty(height.getText()) && TextUtils.isEmpty(exercisePerDay.getText())) {
+                    height.setText("0");
+                    exercisePerDay.setText("0");
+                    fetchUpdateProfileDetail();
+                } else if (TextUtils.isEmpty(weight.getText()) && TextUtils.isEmpty(exercisePerDay.getText())) {
+                    weight.setText("0");
+                    exercisePerDay.setText("0");
+                    fetchUpdateProfileDetail();
+                } else if (TextUtils.isEmpty(height.getText()) && TextUtils.isEmpty(weight.getText())) {
+                    height.setText("0");
+                    weight.setText("0");
+                    fetchUpdateProfileDetail();
+                } else if (TextUtils.isEmpty(height.getText())) {
+                    height.setText("0");
+                    fetchUpdateProfileDetail();
+                } else if (TextUtils.isEmpty(weight.getText())) {
+                    weight.setText("0");
+                    fetchUpdateProfileDetail();
                 } else {
-                        fetchUpdateProfileDetail();
-                        savePopUp(view);
+                    fetchUpdateProfileDetail();
                 }
+
+                toolBar.addView(enableEdit);
+
+                toolBar.removeView(save);
+
+                profileImage.setEnabled(false);
+                description.setEnabled(false);
+                userName.setEnabled(false);
+                birthDate.setEnabled(false);
+                chooseGender.setEnabled(false);
+                gmail.setEnabled(false);
+                phoneNumber.setEnabled(false);
+                height.setEnabled(false);
+                weight.setEnabled(false);
+                exercisePerDay.setEnabled(false);
+
             }
         });
 
@@ -220,10 +265,12 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         enableEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                enableEdit.setClickable(false);
-                enableEdit.setFocusable(false);
-                enableEdit.setVisibility(View.INVISIBLE);
+                toolBar.removeView(enableEdit);
+                toolBar.addView(save, params);
                 save.setVisibility(View.VISIBLE);
+
+                profileImage.setEnabled(true);
+                profileImage.requestFocus();
 
                 description.setEnabled(true);
                 description.requestFocus();
@@ -245,9 +292,6 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
 
                 exercisePerDay.setEnabled(true);
                 exercisePerDay.requestFocus();
-
-                toolBar.removeView(enableEdit);
-                toolBar.addView(save, params);
 
             }
         });
@@ -318,12 +362,8 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
         // On selecting a spinner item
         String item = parent.getItemAtPosition(position).toString();
-
-        // Showing selected spinner item
-//        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_SHORT).show();
     }
 
     public void onNothingSelected(AdapterView<?> arg0) {
@@ -336,11 +376,9 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         updateUserProfile.clone().enqueue(new Callback<UserDetail>() {
             @Override
             public void onResponse(Call<UserDetail> call, Response<UserDetail> response) {
-                if (!response.isSuccessful()) {
-                    Log.d("Fail", "Error" + response);
-                    return;
+                if (response.isSuccessful()) {
+                    savePopUp(ProfileDetail.this.getWindow().getDecorView().getRootView());
                 }
-                Log.d("Fail", "Error" + response);
             }
 
             @Override
@@ -363,11 +401,27 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
                     birthDate.setText(fetchedUserProfileDetail.getDob());
                     gmail.setText(fetchedUserProfileDetail.getGmail());
                     phoneNumber.setText(fetchedUserProfileDetail.getPhoneNo());
-                    description.setText(fetchedUserProfileDetail.getUserDetail().getDescription());
-                    height.setText(String.valueOf(fetchedUserProfileDetail.getUserDetail().getCurrentHeight()));
-                    weight.setText(String.valueOf(fetchedUserProfileDetail.getUserDetail().getCurrentWeight()));
+                    if (fetchedUserProfileDetail.getUserDetail().getDescription() != null) {
+                        description.setText(fetchedUserProfileDetail.getUserDetail().getDescription());
+                    } else {
+                        description.setText("");
+                    }
+                    if (fetchedUserProfileDetail.getUserDetail().getCurrentHeight() != null) {
+                        height.setText(String.valueOf(fetchedUserProfileDetail.getUserDetail().getCurrentHeight()));
+                    } else {
+                        height.setText("");
+                    }
+                    if (fetchedUserProfileDetail.getUserDetail().getCurrentWeight() != null) {
+                        weight.setText(String.valueOf(fetchedUserProfileDetail.getUserDetail().getCurrentWeight()));
+                    } else {
+                        weight.setText("");
+                    }
                     chooseGender.setSelection(fetchedUserProfileDetail.getSex().getPosition());
-                    exercisePerDay.setText(String.valueOf(fetchedUserProfileDetail.getUserDetail().getExerciseDaysPerWeek()));
+                    if (fetchedUserProfileDetail.getUserDetail().getExerciseDaysPerWeek() != null) {
+                        exercisePerDay.setText(String.valueOf(fetchedUserProfileDetail.getUserDetail().getExerciseDaysPerWeek()));
+                    } else {
+                        exercisePerDay.setText("");
+                    }
                     Glide.with(ProfileDetail.this).load(fetchedUserProfileDetail.getAvatar()).into(profileImage);
                 }
             }
@@ -386,22 +440,34 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
     }
 
     public void savePopUp(View view) {
-
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.save_popup, null);
 
-        // create the popup window
+        // Create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
-        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+        this.popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+
+        // Initialize dim overlay
+        dimOverlay = getLayoutInflater().inflate(R.layout.dim_overlay,null);
+
+        // Add the overlay to the root layout of your activity
+        ViewGroup rootView = findViewById(android.R.id.content);
+        rootView.addView(dimOverlay);
+        dimOverlay.setVisibility(View.GONE);
 
         // show the popup window
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        dimOverlay.setVisibility(View.VISIBLE);
 
-        // dismiss the popup window when touched
+        // Dismiss the popup window when touched
+        popupWindow.setOnDismissListener(() -> {
+                    dimOverlay.setVisibility(View.GONE);
+                });
         popupView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -409,5 +475,17 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
                 return true;
             }
         });
+
+        autoClosePopup(2000);
+    }
+
+    private void autoClosePopup(int millisecond) {
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                popupWindow.dismiss();
+            }
+        }, millisecond);
     }
 }

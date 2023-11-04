@@ -91,6 +91,7 @@
             android:fontFamily="@font/mont_semi_bold"
             android:text="Friends"
             android:textSize="17sp"
+            android:textColor="@color/black"
             android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="@id/username"
             app:layout_constraintTop_toBottomOf="@id/username"/>
@@ -102,6 +103,7 @@
             android:layout_marginStart="4dp"
             android:fontFamily="@font/mont_semi_bold"
             android:text="0"
+            android:textColor="@color/black"
             android:textSize="17sp"
             app:layout_constraintStart_toEndOf="@+id/total_friend"
             app:layout_constraintTop_toTopOf="@id/total_friend"/>
@@ -164,6 +166,7 @@
             android:fontFamily="@font/mont_semi_bold"
             android:text="History"
             android:textSize="15sp"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/history_icon"
             app:layout_constraintTop_toTopOf="parent" />
@@ -217,6 +220,7 @@
             android:fontFamily="@font/mont_semi_bold"
             android:text="Statistics"
             android:textSize="15sp"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/statistic_icon"
             app:layout_constraintTop_toTopOf="parent" />
@@ -269,6 +273,7 @@
             android:fontFamily="@font/mont_semi_bold"
             android:text="Friends"
             android:textSize="15sp"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/friend_icon"
             app:layout_constraintTop_toTopOf="parent" />
