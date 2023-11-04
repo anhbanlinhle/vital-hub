@@ -29,6 +29,7 @@ import com.example.vital_hub.client.spring.objects.ProfileDetailResponse;
 import com.example.vital_hub.client.spring.objects.ProfileResponse;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
+import com.example.vital_hub.friend.FriendList;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.test.TestMain;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -90,6 +91,7 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         totalFriend = findViewById(R.id.friend_counter);
         description = findViewById(R.id.description);
 
+        openOthersProfileTest.setVisibility(View.GONE);
         openOthersProfileTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,7 +118,7 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserProfile.this, TestPage.class);
+                Intent intent = new Intent(UserProfile.this, FriendList.class);
                 startActivity(intent);
             }
         });
