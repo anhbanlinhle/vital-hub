@@ -38,5 +38,6 @@ public class Exercise implements Serializable {
     private Long userId;
 
     @Column(name = "type")
+    @Enumerated(EnumType.STRING)
     private ExerciseType type;
 }
