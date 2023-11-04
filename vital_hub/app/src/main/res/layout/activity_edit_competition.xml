@@ -124,6 +124,15 @@
                 android:textSize="30sp"
                 app:backgroundTint="@null" />
 
+            <ProgressBar
+                android:id="@+id/handling_api"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:visibility="gone"
+            />
+
             <Button
                 android:id="@+id/compe_edit_save_btn"
                 android:layout_width="match_parent"

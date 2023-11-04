@@ -13,10 +13,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -54,6 +56,8 @@ public class EditCompetitionActivity extends AppCompatActivity {
 
     private Button saveBtn;
 
+    private ProgressBar progressBar;
+
     private Long competitionId;
 
     private String backgroundSrc;
@@ -79,6 +83,7 @@ public class EditCompetitionActivity extends AppCompatActivity {
         saveBtn = findViewById(R.id.compe_edit_save_btn);
         background = findViewById(R.id.compe_img_holder);
         chooseBackgroundBtn = findViewById(R.id.add_compe_img_btn);
+        progressBar = findViewById(R.id.handling_api);
         header = HeaderInitUtil.headerWithToken(this);
 
         competitionId = getIntent().getLongExtra("id", -1);
@@ -148,6 +153,7 @@ public class EditCompetitionActivity extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(EditCompetitionActivity.this, "Edit competition successfully", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                     waitStartActivity(CompetitionDetailActivity.class);
 
                 }
@@ -211,12 +217,13 @@ public class EditCompetitionActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(EditCompetitionActivity.this, cls));
+                startActivity(new Intent(EditCompetitionActivity.this, cls).putExtra("competitionId", competitionId));
             }
         }, 2000);
     }
 
     private void uploadImage(CompetitionEdit competitionEdit) {
+        progressBar.setVisibility(View.VISIBLE);
         imageUploadTask = new ImageUploadTask(background, new ImageUploadTask.ImageUploadCallback() {
             @Override
             public void onImageUploaded(String imageUrl) {

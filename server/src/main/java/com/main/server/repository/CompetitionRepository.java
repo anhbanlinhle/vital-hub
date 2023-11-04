@@ -79,7 +79,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
     List<CompetitionRankingDto> getCompetitionRunningRanking(Long id);
 
     @Query(value = "SELECT u.name AS name, u.avatar AS avatar, CONCAT(r.distance, ' meters') AS score " +
-            "FROM compe_ex ce JOIN exercise e on ce.exercise_id = e.id JOIN bycicling r on e.id = r.exercise_id JOIN user u on e.user_id = u.id " +
+            "FROM compe_ex ce JOIN exercise e on ce.exercise_id = e.id JOIN bicycling r on e.id = r.exercise_id JOIN user u on e.user_id = u.id " +
             "WHERE ce.compe_id = :id ORDER BY r.step DESC LIMIT 3",
             nativeQuery = true)
     List<CompetitionRankingDto> getCompetitionBicyclingRanking(Long id);
