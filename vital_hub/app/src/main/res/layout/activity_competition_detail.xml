@@ -18,24 +18,30 @@
         android:translationZ="1dp"
         >
 
-        <LinearLayout
-            android:id="@+id/linearLayout4"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_choose_ex"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:background="@color/white"
+            android:theme="?attr/actionBarTheme" >
+
+            <TextView
+                android:id="@+id/back_to_ex_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:drawableStartCompat="@drawable/baseline_arrow_back_45_green"
+            />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center"
                 android:paddingVertical="16dp"
                 android:fontFamily="@font/mont_semi_bold"
                 android:text="Competition"
-                android:textSize="20sp" />
-        </LinearLayout>
+                android:textSize="20sp"
+                android:gravity="center_vertical"/>
+        </androidx.appcompat.widget.Toolbar>
 
         <ScrollView
             android:id="@+id/scrollView2"

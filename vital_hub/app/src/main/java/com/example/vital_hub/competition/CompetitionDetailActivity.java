@@ -3,7 +3,6 @@ package com.example.vital_hub.competition;
 import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAndController;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.competition.data.CompetitionAllDetail;
-import com.example.vital_hub.exercises.adapter.GroupExerciseAdapter;
 import com.example.vital_hub.utils.HeaderInitUtil;
 
 import java.util.Map;
@@ -48,6 +46,8 @@ public class CompetitionDetailActivity extends AppCompatActivity {
     private TextView score2;
     private TextView score3;
 
+    private TextView backToExList;
+
     private ImageButton editBtn;
     private ImageButton deleteBtn;
 
@@ -58,6 +58,8 @@ public class CompetitionDetailActivity extends AppCompatActivity {
     private CompetitionAllDetail competitionAllDetail;
 
     private Boolean isOwned;
+
+    private Long competitionId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +89,12 @@ public class CompetitionDetailActivity extends AppCompatActivity {
         score3 = findViewById(R.id.score_3rd);
         editBtn = findViewById(R.id.compe_btn_edit);
         deleteBtn = findViewById(R.id.compe_btn_delete);
+        backToExList = findViewById(R.id.back_to_ex_list);
         header = HeaderInitUtil.headerWithToken(this);
+        competitionId = getIntent().getLongExtra("competitionId", -1);
+        if (competitionId == -1) {
+            throw new RuntimeException("Invalid competition");
+        }
 
         buttonBinding();
 
@@ -100,6 +107,7 @@ public class CompetitionDetailActivity extends AppCompatActivity {
             intent.putExtra("id", competitionAllDetail.getDetail().getId());
             intent.putExtra("title", compeTitle.getText());
             String[] times = time.getText().toString().split(" - ");
+            intent.putExtra("background", competitionAllDetail.getDetail().getBackground());
             intent.putExtra("startedAt", times[0]);
             intent.putExtra("endedAt", times[1]);
             intent.putExtra("duration", competitionAllDetail.getDetail().getDuration());
@@ -109,10 +117,14 @@ public class CompetitionDetailActivity extends AppCompatActivity {
         deleteBtn.setOnClickListener(v -> {
             callDeleteApi(competitionAllDetail.getDetail().getId());
         });
+
+        backToExList.setOnClickListener(v -> {
+            startActivity(new Intent(CompetitionDetailActivity.this, CompetitionActivity.class));
+        });
     }
 
     private void fetchData() {
-        Api.initGetCompetitionAllDetail(header, 1L);
+        Api.initGetCompetitionAllDetail(header, competitionId);
         Api.competitionAllDetail.clone().enqueue(new Callback<CompetitionAllDetail>() {
             @Override
             public void onResponse(Call<CompetitionAllDetail> call, Response<CompetitionAllDetail> response) {
@@ -161,10 +173,10 @@ public class CompetitionDetailActivity extends AppCompatActivity {
         isOwned = competitionAllDetail.getIsOwned();
 
         if (!isOwned) {
-            editBtn.setVisibility(View.GONE);
+//            editBtn.setVisibility(View.GONE);
             deleteBtn.setVisibility(View.GONE);
         } else {
-            editBtn.setVisibility(View.VISIBLE);
+//            editBtn.setVisibility(View.VISIBLE);
             deleteBtn.setVisibility(View.VISIBLE);
         }
     }
