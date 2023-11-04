@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -48,6 +50,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileDetail extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    PopupWindow popupWindow;
     View dimOverlay;
     ViewGroup toolBar;
     ImageView profileImage;
@@ -213,44 +216,47 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
                 } else if (TextUtils.isEmpty(exercisePerDay.getText())) {
                     exercisePerDay.setText("0");
                     fetchUpdateProfileDetail();
-                    savePopUp(view);
                 } else if (TextUtils.isEmpty(height.getText()) && TextUtils.isEmpty(weight.getText()) && TextUtils.isEmpty(exercisePerDay.getText())) {
                     height.setText("0");
                     weight.setText("0");
                     exercisePerDay.setText("0");
                     fetchUpdateProfileDetail();
-                    savePopUp(view);
                 } else if (TextUtils.isEmpty(height.getText()) && TextUtils.isEmpty(exercisePerDay.getText())) {
                     height.setText("0");
                     exercisePerDay.setText("0");
                     fetchUpdateProfileDetail();
-                    savePopUp(view);
                 } else if (TextUtils.isEmpty(weight.getText()) && TextUtils.isEmpty(exercisePerDay.getText())) {
                     weight.setText("0");
                     exercisePerDay.setText("0");
                     fetchUpdateProfileDetail();
-                    savePopUp(view);
                 } else if (TextUtils.isEmpty(height.getText()) && TextUtils.isEmpty(weight.getText())) {
                     height.setText("0");
                     weight.setText("0");
                     fetchUpdateProfileDetail();
-                    savePopUp(view);
                 } else if (TextUtils.isEmpty(height.getText())) {
                     height.setText("0");
                     fetchUpdateProfileDetail();
-                    savePopUp(view);
                 } else if (TextUtils.isEmpty(weight.getText())) {
                     weight.setText("0");
                     fetchUpdateProfileDetail();
-                    savePopUp(view);
                 } else {
                     fetchUpdateProfileDetail();
-                    savePopUp(view);
                 }
 
                 toolBar.addView(enableEdit);
 
                 toolBar.removeView(save);
+
+                profileImage.setEnabled(false);
+                description.setEnabled(false);
+                userName.setEnabled(false);
+                birthDate.setEnabled(false);
+                chooseGender.setEnabled(false);
+                gmail.setEnabled(false);
+                phoneNumber.setEnabled(false);
+                height.setEnabled(false);
+                weight.setEnabled(false);
+                exercisePerDay.setEnabled(false);
 
             }
         });
@@ -286,8 +292,6 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
 
                 exercisePerDay.setEnabled(true);
                 exercisePerDay.requestFocus();
-
-
 
             }
         });
@@ -372,11 +376,9 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         updateUserProfile.clone().enqueue(new Callback<UserDetail>() {
             @Override
             public void onResponse(Call<UserDetail> call, Response<UserDetail> response) {
-                if (!response.isSuccessful()) {
-                    Log.d("Fail", "Error" + response);
-                    return;
+                if (response.isSuccessful()) {
+                    savePopUp(ProfileDetail.this.getWindow().getDecorView().getRootView());
                 }
-                Log.d("Fail", "Error" + response);
             }
 
             @Override
@@ -447,7 +449,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
-        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+        this.popupWindow = new PopupWindow(popupView, width, height, focusable);
 
 
         // Initialize dim overlay
@@ -473,5 +475,17 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
                 return true;
             }
         });
+
+        autoClosePopup(2000);
+    }
+
+    private void autoClosePopup(int millisecond) {
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                popupWindow.dismiss();
+            }
+        }, millisecond);
     }
 }
