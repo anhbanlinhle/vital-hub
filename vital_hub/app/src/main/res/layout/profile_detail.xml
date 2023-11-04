@@ -47,15 +47,6 @@
             android:textColor="@color/color_green"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="Save"
-            android:textColor="@color/color_green"
-            android:textSize="16sp" />
-
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -85,7 +76,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="16dp"
                 android:clickable="true"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 android:src="@drawable/vitalhub"
                 app:civ_border_color="#454a52"
                 app:civ_border_width="3dp"
@@ -103,7 +94,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/rounded_borderless_corner"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/profile_image"
                 app:layout_constraintTop_toTopOf="parent">
@@ -126,23 +117,24 @@
                     android:fontFamily="@font/mont_semi_bold"
                     android:text="Description"
                     android:textSize="17sp"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.1" />
 
                 <EditText
+                    android:maxLength="70"
                     android:id="@+id/edit_description"
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
+                    android:layout_marginTop="35dp"
                     android:textSize="15sp"
                     android:background="@null"
-                    android:hint="About..."
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:hint="Your description"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.4" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -153,7 +145,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_borderless_corner"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/description_view">
@@ -175,11 +167,13 @@
                     android:fontFamily="@font/mont_semi_bold"
                     android:text="Username"
                     android:textSize="17sp"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
+                    android:maxLength="20"
                     android:id="@+id/edit_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -199,7 +193,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_borderless_corner"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/username_view">
@@ -220,6 +214,7 @@
                     android:fontFamily="@font/mont_semi_bold"
                     android:text="Birthdate"
                     android:textSize="17sp"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/birthdate_view"
                     app:layout_constraintStart_toStartOf="@id/birthdate_view"
                     app:layout_constraintTop_toTopOf="@id/birthdate_view" />
@@ -246,7 +241,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_borderless_corner"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/birthdate_view">
@@ -267,6 +262,7 @@
                     android:fontFamily="@font/mont_semi_bold"
                     android:text="Gender"
                     android:textSize="17sp"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/gender_view"
                     app:layout_constraintStart_toStartOf="@id/gender_view"
                     app:layout_constraintTop_toTopOf="@id/gender_view" />
@@ -278,7 +274,7 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="4dp"
                     android:background="@android:color/transparent"
                     android:gravity="center"
                     android:spinnerMode="dropdown"
@@ -295,7 +291,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_borderless_corner"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/gender_view">
@@ -316,6 +312,7 @@
                     android:fontFamily="@font/mont_semi_bold"
                     android:text="Email"
                     android:textSize="17sp"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/email_view"
                     app:layout_constraintStart_toStartOf="@id/email_view"
                     app:layout_constraintTop_toTopOf="@id/email_view" />
@@ -341,7 +338,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_borderless_corner"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/email_view">
@@ -362,12 +359,15 @@
                     android:fontFamily="@font/mont_semi_bold"
                     android:text="Phone"
                     android:textSize="17sp"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/phone_number_view"
                     app:layout_constraintStart_toStartOf="@id/phone_number_view"
                     app:layout_constraintTop_toTopOf="@id/phone_number_view" />
 
                 <EditText
+                    android:maxLength="15"
                     android:id="@+id/edit_phonenum"
+                    android:inputType="phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
@@ -387,7 +387,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_borderless_corner"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/phone_number_view">
@@ -408,12 +408,15 @@
                     android:fontFamily="@font/mont_semi_bold"
                     android:text="Height"
                     android:textSize="17sp"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
+                    android:maxLength="6"
                     android:id="@+id/edit_height"
+                    android:inputType="numberDecimal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
@@ -433,7 +436,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_borderless_corner"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/height_view">
@@ -454,13 +457,16 @@
                     android:fontFamily="@font/mont_semi_bold"
                     android:text="Weight"
                     android:textSize="17sp"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="0.1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
+                    android:maxLength="4"
                     android:id="@+id/edit_weight"
+                    android:inputType="numberDecimal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
@@ -480,7 +486,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_borderless_corner"
-                android:elevation="15dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/weight_view">
@@ -501,12 +507,14 @@
                     android:fontFamily="@font/mont_semi_bold"
                     android:text="Exercise per day"
                     android:textSize="17sp"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
                     android:id="@+id/edit_exercise_per_day"
+                    android:inputType="number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
