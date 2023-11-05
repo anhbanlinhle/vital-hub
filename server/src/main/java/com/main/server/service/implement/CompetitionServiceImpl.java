@@ -12,6 +12,7 @@ import com.main.server.utils.dto.*;
 import com.main.server.utils.enums.ExerciseType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -33,14 +34,15 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
-    public void joinOrLeaveCompetition(Long currentUserId, Long compId) {
-        if (participantsRepository.existsByCompIdAndParticipantId(compId, currentUserId)) {
-            participantsRepository.deleteByCompIdAndParticipantId(compId, currentUserId);
-        } else {
+    @Transactional
+    public void joinOrLeaveCompetition(Long currentUserId, Long compId, Boolean joining) {
+        if (joining) {
             participantsRepository.save(Participants.builder()
                     .compId(compId)
                     .participantId(currentUserId)
                     .build());
+        } else {
+            participantsRepository.deleteByCompIdAndParticipantId(compId, currentUserId);
         }
     }
 
@@ -72,6 +74,18 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
+    public List<EnrolledCompetitionDto> getEnrolledCompetition(Long userId, Integer page, Integer pageSize) {
+        List<EnrolledCompetitionDto> enrolledCompetitions = competitionRepository.getEnrolledCompetition(userId, pageSize, page*pageSize);
+        for (int i = 0; i < enrolledCompetitions.size(); i++) {
+            if (enrolledCompetitions.get(i).getCompetitionId() == null) {
+                enrolledCompetitions.remove(i);
+                i--;
+            }
+        }
+        return enrolledCompetitions;
+    }
+
+    @Override
     public CompetitionAllDetailDto getDetailCompetition(Long id, Long userId) {
         Competition competition = competitionRepository.findByIdAndIsDeletedFalse(id);
         if (competition == null) {
@@ -86,7 +100,11 @@ public class CompetitionServiceImpl implements CompetitionService {
             rank = competitionRepository.getCompetitionPushUpRanking(id);
         }
         CompetitionDetailDto competitionDetailDto = competitionRepository.getCompetitionDetail(id);
-        return new CompetitionAllDetailDto(rank, competitionDetailDto, userId.equals(competitionDetailDto.getHostId()));
+        Boolean isEnrolled = participantsRepository.existsByCompIdAndParticipantId(id ,userId);
+        return new CompetitionAllDetailDto(rank,
+                competitionDetailDto,
+                userId.equals(competitionDetailDto.getHostId()),
+                isEnrolled);
     }
 
     @Override

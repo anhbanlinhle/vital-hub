@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,6 +52,8 @@ public class CompetitionDetailActivity extends AppCompatActivity {
     private ImageButton editBtn;
     private ImageButton deleteBtn;
 
+    private Button joinLeaveBtn;
+
     SharedPreferences prefs;
 
     private Map<String, String> header;
@@ -58,6 +61,8 @@ public class CompetitionDetailActivity extends AppCompatActivity {
     private CompetitionAllDetail competitionAllDetail;
 
     private Boolean isOwned;
+
+    private Boolean isEnrolled;
 
     private Long competitionId;
 
@@ -89,14 +94,13 @@ public class CompetitionDetailActivity extends AppCompatActivity {
         score3 = findViewById(R.id.score_3rd);
         editBtn = findViewById(R.id.compe_btn_edit);
         deleteBtn = findViewById(R.id.compe_btn_delete);
+        joinLeaveBtn = findViewById(R.id.join_leave_btn);
         backToExList = findViewById(R.id.back_to_ex_list);
         header = HeaderInitUtil.headerWithToken(this);
         competitionId = getIntent().getLongExtra("competitionId", -1);
         if (competitionId == -1) {
             throw new RuntimeException("Invalid competition");
         }
-
-        buttonBinding();
 
         fetchData();
     }
@@ -121,6 +125,10 @@ public class CompetitionDetailActivity extends AppCompatActivity {
         backToExList.setOnClickListener(v -> {
             startActivity(new Intent(CompetitionDetailActivity.this, CompetitionActivity.class));
         });
+
+        joinLeaveBtn.setOnClickListener(v -> {
+            callJoinLeaveApi();
+        });
     }
 
     private void fetchData() {
@@ -132,6 +140,7 @@ public class CompetitionDetailActivity extends AppCompatActivity {
                     competitionAllDetail = response.body();
                     if (competitionAllDetail != null) {
                         bindData(competitionAllDetail);
+                        buttonBinding();
                     }
                 }
             }
@@ -170,15 +179,18 @@ public class CompetitionDetailActivity extends AppCompatActivity {
             Glide.with(CompetitionDetailActivity.this).load(competitionAllDetail.getRank().get(2).getAvatar()).into(avatar3);
         }
 
+        isEnrolled = competitionAllDetail.getIsEnrolled();
         isOwned = competitionAllDetail.getIsOwned();
 
         if (!isOwned) {
-//            editBtn.setVisibility(View.GONE);
+            editBtn.setVisibility(View.GONE);
             deleteBtn.setVisibility(View.GONE);
         } else {
-//            editBtn.setVisibility(View.VISIBLE);
+            editBtn.setVisibility(View.VISIBLE);
             deleteBtn.setVisibility(View.VISIBLE);
         }
+
+        handleJoinLeaveBtnState();
     }
 
     private void callDeleteApi(Long id) {
@@ -199,6 +211,30 @@ public class CompetitionDetailActivity extends AppCompatActivity {
         });
     }
 
+    private void callJoinLeaveApi() {
+        Api.initParticipateInCompetition(header, competitionAllDetail.getDetail().getId(), !isEnrolled);
+
+        Api.participateInCompetition.clone().enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    isEnrolled = !isEnrolled;
+                    handleJoinLeaveBtnState();
+                    Toast.makeText(CompetitionDetailActivity.this,
+                            isEnrolled ? "Enroll competition successfully" : "Leave competition successfully",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(CompetitionDetailActivity.this,
+                        "An error occurred",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void waitStartActivity(Class<?> cls) {
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
@@ -207,5 +243,15 @@ public class CompetitionDetailActivity extends AppCompatActivity {
                 startActivity(new Intent(CompetitionDetailActivity.this, cls));
             }
         }, 2000);
+    }
+
+    private void handleJoinLeaveBtnState() {
+        if (isEnrolled) {
+            joinLeaveBtn.setBackgroundResource(R.drawable.rounded_btn_red_8);
+            joinLeaveBtn.setText("Leave");
+        } else {
+            joinLeaveBtn.setBackgroundResource(R.drawable.rounded_btn_green_8);
+            joinLeaveBtn.setText("Enroll");
+        }
     }
 }
