@@ -1,6 +1,6 @@
 package com.example.vital_hub.client.spring.controller;
 
-import com.example.vital_hub.client.objects.CommentPost;
+import com.example.vital_hub.client.spring.objects.CommentPost;
 import com.example.vital_hub.client.spring.objects.*;
 import com.example.vital_hub.client.spring.objects.AuthResponseObject;
 import com.example.vital_hub.client.spring.objects.CountResponse;
@@ -109,7 +109,7 @@ public interface Controller {
     Call<List<HomePagePost>> getPostResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize);
 
     @GET("/post")
-    Call<HomePagePost> getSinglePost(@HeaderMap Map<String, String> header, @Query("postId") Long postId);
+    Call<HomePagePost> getSinglePost(@HeaderMap Map<String, String> header, @Query("id") Long postId);
 
     @GET("/comment/by-post")
     Call<List<Comment>> getCommentResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize, @Query("postId") Long postId);
@@ -120,9 +120,12 @@ public interface Controller {
     @POST("/post/add-post")
     Call<Void> addPost(@HeaderMap Map<String, String> header, @Body HomePagePost body);
 
-    @PUT("post/remove")
-    Call<Void> deletePost(@HeaderMap Map<String, String> header, @Query("postId") Long postId);
+    @PUT("/post/remove")
+    Call<Void> deletePost(@HeaderMap Map<String, String> header, @Query("id") Long postId);
 
-    @PUT("comment/remove")
-    Call<Void> deleteComment(@HeaderMap Map<String, String> header, @Query("postId") Long commentId);
+    @PUT("/comment/remove")
+    Call<Void> deleteComment(@HeaderMap Map<String, String> header, @Query("id") Long commentId);
+
+    @GET("/exercise")
+    Call<List<ExerciseResponse>> getExerciseList(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize);
 }

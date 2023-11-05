@@ -79,8 +79,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
         hpRecycler.setAdapter(recyclerAdapter);
         hpRecycler.setLayoutManager(new LinearLayoutManager(this));
 
-        populateData(0);
-
+        getMoreData();
         //NavBar
 
 
@@ -95,14 +94,6 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
                         getMoreData();
                     }
                 }
-            }
-        });
-
-        logout_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("click", "fetch");
-                fetchPost(0);
             }
         });
 
@@ -137,6 +128,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
     }
 
     private void getMoreData() {
+        arrayList.add(null);
         // ADD DATA FROM DB
         arrayList.remove(arrayList.size() - 1);
         fetchPost(pageNum);
@@ -154,10 +146,6 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
         finish();
     }
 
-    private void populateData(int currentSize) {
-        fetchPost(pageNum);
-        pageNum++;
-    }
 
     private void initHeaderForRequest() {
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
@@ -177,7 +165,6 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
                         arrayList.add(post);
                     }
                     recyclerAdapter.notifyItemRangeChanged(arrayList.size() - postResponse.size(), postResponse.size());
-                    arrayList.add(null);
                 }
             }
 

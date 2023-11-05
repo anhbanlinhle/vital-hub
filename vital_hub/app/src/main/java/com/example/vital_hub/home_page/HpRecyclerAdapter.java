@@ -1,9 +1,13 @@
 package com.example.vital_hub.home_page;
 
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +22,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
+import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.post_comment.PostCommentActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.example.vital_hub.client.spring.controller.Api.initDeletePost;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.ViewHolder> {
 
@@ -83,11 +96,25 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
         LottieAnimationView lottieHeart;
         ImageButton comment_button;
         boolean switchOn = false;
+        ImageButton kebab_button;
 
         int itemType;
 
-        public ViewHolder(@NonNull View itemView, int viewType) {
+        SharedPreferences prefs;
+        String jwt;
+        Map<String, String> headers;
 
+        Call<Void> deletePost;
+
+        private void initHeaderForRequest(View itemView) {
+            prefs = itemView.getContext().getSharedPreferences("UserData", MODE_PRIVATE);
+            jwt = prefs.getString("jwt", null);
+            headers = new HashMap<>();
+            headers.put("Authorization", "Bearer " + jwt);
+        }
+
+
+        public ViewHolder(@NonNull View itemView, int viewType) {
             super(itemView);
             if (viewType == VIEW_TYPE_ITEM) {
                 profileImage = itemView.findViewById(R.id.post_profile_image);
@@ -97,6 +124,8 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
                 lottieHeart = itemView.findViewById(R.id.like_button);
                 itemType = VIEW_TYPE_ITEM;
                 comment_button = itemView.findViewById(R.id.cmt_button);
+                kebab_button = itemView.findViewById(R.id.kebab_button);
+
 
                 lottieHeart.setProgress(0.0f);
 
@@ -122,6 +151,34 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
                         Intent intent = new Intent(view.getContext(), PostCommentActivity.class);
                         intent.putExtra("postId", postId);
                         view.getContext().startActivity(intent);
+                    }
+                });
+
+
+                kebab_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (isOwned) {
+                            initHeaderForRequest(itemView);
+                            initDeletePost(headers, postId);
+                            Api.deletePost.clone().enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    if (!response.isSuccessful()) {
+                                        Log.d("Fail", "Error" + response);
+                                        return;
+                                    }
+                                    Log.d("Fail", "Error" + response);
+                                }
+
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+                                    Log.d("Fail", t.getMessage());
+                                }
+                            });
+                        } else {
+
+                        }
                     }
                 });
             } else {

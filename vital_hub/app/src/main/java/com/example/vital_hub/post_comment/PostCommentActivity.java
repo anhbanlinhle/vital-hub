@@ -2,13 +2,11 @@ package com.example.vital_hub.post_comment;
 
 import static com.example.vital_hub.client.spring.controller.Api.initPostComment;
 import static com.example.vital_hub.client.spring.controller.Api.postComment;
-import static com.example.vital_hub.client.spring.controller.Api.postRegist;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -20,12 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vital_hub.R;
-import com.example.vital_hub.authentication.FirstRegistInfo;
 import com.example.vital_hub.client.spring.controller.Api;
-import com.example.vital_hub.client.objects.CommentPost;
+import com.example.vital_hub.client.spring.objects.CommentPost;
 import com.example.vital_hub.home_page.HomePagePost;
-import com.example.vital_hub.test.TestMain;
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
@@ -52,6 +48,7 @@ public class PostCommentActivity extends AppCompatActivity {
     String jwt;
     Map<String, String> headers;
     public static List<Comment> commentResponse;
+    private HomePagePost singlePost;
     private int pageNum = 0;
 
     @Override
@@ -59,6 +56,7 @@ public class PostCommentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_comment_layout);
         postId = this.getIntent().getLongExtra("postId", -1);
+
         initHeaderForRequest();
         back_button = findViewById(R.id.back_button);
         back_button.setOnClickListener(view -> finish());
@@ -69,9 +67,7 @@ public class PostCommentActivity extends AppCompatActivity {
 
         cmtRecycler = findViewById(R.id.comment_recycler);
 
-        arrayList.add(new Comment(new HomePagePost("https://scontent.fhan20-1.fna.fbcdn.net/v/t31.18172-8/29351723_822613291279059_3602777089680633850_o.jpg?_nc_cat=100&ccb=1-7&_nc_sid=be3454&_nc_ohc=pX5F5UNtm7gAX8SME-o&_nc_ht=scontent.fhan20-1.fna&oh=00_AfBQ6WFeXKesvGBFrURwGIi0spue9nMxasu9K2wF3eHumg&oe=656009BD")));
-
-        populateData();
+        fetchSinglePost(postId);
 
         recyclerAdapter = new CommentRecyclerAdapter(arrayList);
         cmtRecycler.setAdapter(recyclerAdapter);
@@ -103,9 +99,9 @@ public class PostCommentActivity extends AppCompatActivity {
                             Toast.makeText(PostCommentActivity.this, "Error occured. Code: " + response.code(), Toast.LENGTH_LONG).show();
                             return;
                         }
-                        Comment comment = new Comment(R.drawable.ic_launcher_background, "Profile Name" , comment_input.getEditText().getText().toString().trim());
-                        arrayList.add(1, comment);
-                        recyclerAdapter.notifyItemRangeChanged(arrayList.size()-1, 1);
+//                        Comment comment = new Comment(R.drawable.ic_launcher_background, "Profile Name" , comment_input.getEditText().getText().toString().trim());
+//                        arrayList.add(1, comment);
+//                        recyclerAdapter.notifyItemRangeChanged(arrayList.size()-1, 1);
                         comment_input.getEditText().getText().clear();
                     }
 
@@ -118,12 +114,19 @@ public class PostCommentActivity extends AppCompatActivity {
         });
     }
 
-    private void populateData() {
-        fetchComment(pageNum, postId);
-        pageNum++;
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        super.onContextItemSelected(item);
+        switch (item.getItemId()) {
+            case 101:
+                recyclerAdapter.deleteComment(item.getGroupId());
+                return true;
+        }
+        return false;
     }
 
     private void getMoreData() {
+        arrayList.add(null);
         // ADD DATA FROM DB
         arrayList.remove(arrayList.size() - 1);
         fetchComment(pageNum, postId);
@@ -138,6 +141,27 @@ public class PostCommentActivity extends AppCompatActivity {
         headers.put("Authorization", "Bearer " + jwt);
     }
 
+
+    private void fetchSinglePost(Long postId) {
+        Api.initGetSinglePost(headers, postId);
+        Api.getSinglePost.clone().enqueue(new Callback<HomePagePost>() {
+            @Override
+            public void onResponse(Call<HomePagePost> call, Response<HomePagePost> response) {
+                if (response.isSuccessful()) {
+                    singlePost = response.body();
+                    arrayList.add(new Comment(singlePost));
+                }
+                recyclerAdapter.notifyItemRangeChanged(0, 1);
+                getMoreData();
+            }
+
+            @Override
+            public void onFailure(Call<HomePagePost> call, Throwable t) {
+                Log.e("Error", t.getMessage());
+            }
+        });
+    }
+
     private void fetchComment(int pageNum, Long postId) {
         Api.initGetCommentResponse(headers, pageNum, postId);
         Api.getCommentResponse.clone().enqueue(new Callback<List<Comment>>() {
@@ -150,7 +174,6 @@ public class PostCommentActivity extends AppCompatActivity {
                         arrayList.add(comment);
                     }
                     recyclerAdapter.notifyItemRangeChanged(arrayList.size() - commentResponse.size(), commentResponse.size());
-                    arrayList.add(null);
                 }
             }
 
