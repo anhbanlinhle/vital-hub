@@ -98,7 +98,11 @@ public class CompetitionServiceImpl implements CompetitionService {
             rank = competitionRepository.getCompetitionPushUpRanking(id);
         }
         CompetitionDetailDto competitionDetailDto = competitionRepository.getCompetitionDetail(id);
-        return new CompetitionAllDetailDto(rank, competitionDetailDto, userId.equals(competitionDetailDto.getHostId()));
+        Boolean isEnrolled = participantsRepository.existsByCompIdAndParticipantId(id ,userId);
+        return new CompetitionAllDetailDto(rank,
+                competitionDetailDto,
+                userId.equals(competitionDetailDto.getHostId()),
+                isEnrolled);
     }
 
     @Override

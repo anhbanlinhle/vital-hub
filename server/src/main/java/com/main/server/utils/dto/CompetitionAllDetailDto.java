@@ -13,4 +13,5 @@ public class CompetitionAllDetailDto {
     private List<CompetitionRankingDto> rank;
     private CompetitionDetailDto detail;
     private Boolean isOwned;
+    private Boolean isEnrolled;
 }
