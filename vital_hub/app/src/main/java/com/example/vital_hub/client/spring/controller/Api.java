@@ -68,6 +68,8 @@ public class Api {
 
     public static Call<Void> deleteCompetition;
 
+    public static Call<Void> participateInCompetition;
+
     //Exercise
     public static Call<List<SingleExercise>> singleExerciseList;
 
@@ -185,6 +187,10 @@ public class Api {
 
     public static void initDeleteCompetition(Map<String, String> header, Long id) {
         deleteCompetition = controller.deleteCompetition(header, id);
+    }
+
+    public static void initParticipateInCompetition(Map<String, String> header, Long compId, Boolean joining) {
+        participateInCompetition = controller.participateInCompetition(header, compId, joining);
     }
 
     public static void initPostRegist(Map<String, String> headers, RegistRequestObject body) {

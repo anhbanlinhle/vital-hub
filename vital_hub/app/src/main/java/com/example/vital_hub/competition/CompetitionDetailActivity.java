@@ -173,10 +173,10 @@ public class CompetitionDetailActivity extends AppCompatActivity {
         isOwned = competitionAllDetail.getIsOwned();
 
         if (!isOwned) {
-//            editBtn.setVisibility(View.GONE);
+            editBtn.setVisibility(View.GONE);
             deleteBtn.setVisibility(View.GONE);
         } else {
-//            editBtn.setVisibility(View.VISIBLE);
+            editBtn.setVisibility(View.VISIBLE);
             deleteBtn.setVisibility(View.VISIBLE);
         }
     }

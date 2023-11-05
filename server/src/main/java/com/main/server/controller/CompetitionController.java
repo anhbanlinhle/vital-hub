@@ -69,14 +69,13 @@ public class CompetitionController {
                 .build());
     }
 
-    @PostMapping("/join_or_leave")
-    public ResponseEntity<BaseResponse> joinOrLeaveCompetition(HttpServletRequest request, @RequestParam Long compId) {
+    @PostMapping("/join-or-leave")
+    public ResponseEntity<BaseResponse> joinOrLeaveCompetition(HttpServletRequest request,
+                                                               @RequestParam(name = "id") Long compId,
+                                                               @RequestParam(name = "joining") Boolean joining) {
         Long currentUserId = tokenParser.getCurrentUserId(request.getHeader("Authorization"));
-        competitionService.joinOrLeaveCompetition(currentUserId, compId);
-        return ResponseEntity.ok().body(BaseResponse.builder()
-                .message("success")
-                .success(true)
-                .build());
+        competitionService.joinOrLeaveCompetition(currentUserId, compId, joining);
+        return ResponseEntity.ok().body(null);
     }
 
     @PostMapping("/add")

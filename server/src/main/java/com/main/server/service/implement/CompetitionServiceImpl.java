@@ -33,14 +33,14 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
-    public void joinOrLeaveCompetition(Long currentUserId, Long compId) {
-        if (participantsRepository.existsByCompIdAndParticipantId(compId, currentUserId)) {
-            participantsRepository.deleteByCompIdAndParticipantId(compId, currentUserId);
-        } else {
+    public void joinOrLeaveCompetition(Long currentUserId, Long compId, Boolean joining) {
+        if (joining) {
             participantsRepository.save(Participants.builder()
                     .compId(compId)
                     .participantId(currentUserId)
                     .build());
+        } else {
+            participantsRepository.deleteByCompIdAndParticipantId(compId, currentUserId);
         }
     }
 
