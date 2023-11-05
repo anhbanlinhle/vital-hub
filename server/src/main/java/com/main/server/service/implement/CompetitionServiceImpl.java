@@ -72,6 +72,18 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
+    public List<EnrolledCompetitionDto> getEnrolledCompetition(Long userId, Integer page, Integer pageSize) {
+        List<EnrolledCompetitionDto> enrolledCompetitions = competitionRepository.getEnrolledCompetition(userId, pageSize, page*pageSize);
+        for (int i = 0; i < enrolledCompetitions.size(); i++) {
+            if (enrolledCompetitions.get(i).getCompetitionId() == null) {
+                enrolledCompetitions.remove(i);
+                i--;
+            }
+        }
+        return enrolledCompetitions;
+    }
+
+    @Override
     public CompetitionAllDetailDto getDetailCompetition(Long id, Long userId) {
         Competition competition = competitionRepository.findByIdAndIsDeletedFalse(id);
         if (competition == null) {

@@ -5,6 +5,7 @@ import com.main.server.request.AddCompettitionRequest;
 import com.main.server.utils.dto.CompetitionAllDetailDto;
 import com.main.server.utils.dto.CompetitionListDto;
 import com.main.server.utils.dto.CompetitionModifyDto;
+import com.main.server.utils.dto.EnrolledCompetitionDto;
 import com.main.server.utils.enums.ExerciseType;
 
 import java.sql.Date;
@@ -25,4 +26,5 @@ public interface CompetitionService {
     void editCompetition(CompetitionModifyDto competition);
     void addCompetition(Long currentUserId, AddCompettitionRequest request);
 
+    List<EnrolledCompetitionDto> getEnrolledCompetition(Long userId, Integer page, Integer pageSize);
 }

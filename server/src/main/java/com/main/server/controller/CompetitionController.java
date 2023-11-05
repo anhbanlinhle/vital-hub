@@ -107,4 +107,11 @@ public class CompetitionController {
         competitionService.editCompetition(competition);
         return ResponseEntity.ok().body(null);
     }
+
+    @GetMapping("/enrolled")
+    public ResponseEntity<?> getEnrolledCompetitions(@RequestParam Integer page,
+                                                     @RequestParam Integer pageSize,
+                                                     @RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok().body(competitionService.getEnrolledCompetition(tokenParser.getCurrentUserId(token), page, pageSize));
+    }
 }
