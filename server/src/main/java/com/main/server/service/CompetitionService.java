@@ -5,6 +5,7 @@ import com.main.server.request.AddCompettitionRequest;
 import com.main.server.utils.dto.CompetitionAllDetailDto;
 import com.main.server.utils.dto.CompetitionListDto;
 import com.main.server.utils.dto.CompetitionModifyDto;
+import com.main.server.utils.dto.EnrolledCompetitionDto;
 import com.main.server.utils.enums.ExerciseType;
 
 import java.sql.Date;
@@ -16,7 +17,7 @@ import java.util.List;
 public interface CompetitionService {
     List<CompetitionListDto> getCompetitionList(Boolean isJoined, Long id, String name, Integer limit, Integer offset);
     List<CompetitionListDto> getOwnCompetitionList(Long id, String name, Integer limit, Integer offset);
-    void joinOrLeaveCompetition(Long currentUserId, Long compId);
+    void joinOrLeaveCompetition(Long currentUserId, Long compId, Boolean joining);
 
     CompetitionAllDetailDto getDetailCompetition(Long id, Long userId);
 
@@ -25,4 +26,5 @@ public interface CompetitionService {
     void editCompetition(CompetitionModifyDto competition);
     void addCompetition(Long currentUserId, AddCompettitionRequest request);
 
+    List<EnrolledCompetitionDto> getEnrolledCompetition(Long userId, Integer page, Integer pageSize);
 }

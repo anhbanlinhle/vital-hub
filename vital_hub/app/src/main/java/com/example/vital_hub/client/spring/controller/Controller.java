@@ -87,6 +87,11 @@ public interface Controller {
 
     @PUT("/competition/delete")
     Call<Void> deleteCompetition (@HeaderMap Map<String, String> headers, @Query("id") Long id);
+
+    @POST("/competition/join-or-leave")
+    Call<Void> participateInCompetition (@HeaderMap Map<String, String> headers,
+                                         @Query("id") Long id,
+                                         @Query("joining") Boolean joining);
     // /auth/**
     @POST("/auth/create-user-first-sign")
     Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);
