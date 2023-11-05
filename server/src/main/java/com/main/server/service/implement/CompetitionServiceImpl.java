@@ -12,6 +12,7 @@ import com.main.server.utils.dto.*;
 import com.main.server.utils.enums.ExerciseType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -33,6 +34,7 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
+    @Transactional
     public void joinOrLeaveCompetition(Long currentUserId, Long compId, Boolean joining) {
         if (joining) {
             participantsRepository.save(Participants.builder()
