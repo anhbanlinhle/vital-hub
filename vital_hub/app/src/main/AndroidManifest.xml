@@ -77,6 +77,9 @@
             android:name=".home_page.HomePageActivity"
             android:exported="true" />
         <activity
+            android:name=".home_page.AddPostActivity"
+            android:exported="true" />
+        <activity
             android:name=".post_comment.PostCommentActivity"
             android:exported="true" />
         <activity

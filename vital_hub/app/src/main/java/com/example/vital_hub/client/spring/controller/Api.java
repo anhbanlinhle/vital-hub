@@ -1,6 +1,6 @@
 package com.example.vital_hub.client.spring.controller;
 
-import com.example.vital_hub.client.objects.CommentPost;
+import com.example.vital_hub.client.spring.objects.CommentPost;
 import com.example.vital_hub.client.spring.objects.*;
 
 import com.example.vital_hub.client.spring.objects.AuthResponseObject;
@@ -101,6 +101,11 @@ public class Api {
     public static Call<List<Comment>> getCommentResponse;
     public static Call<Void> postComment;
     public static Call<HomePagePost> getSinglePost;
+    public static Call<Void> deletePost;
+    public static Call<Void> deleteComment;
+
+    public static Call<Void> addPost;
+    public static Call<List<ExerciseResponse>> getExerciseList;
 
     //Init
     public static void initGetSingle(Map<String, String> headers) {
@@ -248,4 +253,19 @@ public class Api {
         postComment = controller.postComment(headers, body);
     }
 
+    public static void initDeletePost(Map<String, String> headers, Long postId) {
+        deletePost = controller.deletePost(headers, postId);
+    }
+
+    public static void initDeleteComment(Map<String, String> headers, Long commentId) {
+        deleteComment  = controller.deleteComment(headers, commentId);
+    }
+
+    public static void initAddPost(Map<String, String> headers, HomePagePost body) {
+        addPost = controller.addPost(headers, body);
+    }
+
+    public static void initGetExerciseList(Map<String, String> headers, int pageNum) {
+        getExerciseList = controller.getExerciseList(headers, pageNum, 10);
+    }
 }
