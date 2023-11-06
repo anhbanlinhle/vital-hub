@@ -15,15 +15,17 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.R;
-import com.example.vital_hub.profile.UserProfile;
-import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.client.spring.controller.Api;
+import com.example.vital_hub.client.spring.objects.CompetitionListResponse;
+import com.example.vital_hub.exercises.ExerciseGeneralActivity;
+import com.example.vital_hub.helper.EndlessScrollListener;
+import com.example.vital_hub.helper.KeyboardHelper;
+import com.example.vital_hub.home_page.HomePageActivity;
+import com.example.vital_hub.profile.UserProfile;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -32,13 +34,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.example.vital_hub.client.spring.objects.CompetitionListResponse;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import com.example.vital_hub.helper.*;
 
 public class CompetitionActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     BottomNavigationView bottomNavigationView;
@@ -62,7 +60,7 @@ public class CompetitionActivity extends AppCompatActivity implements Navigation
         super.onCreate(savedInstanceState);
         setContentView(R.layout.competition_layout);
 
-        //NavBar
+        // NavBar
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.competition);

@@ -29,6 +29,7 @@ import com.example.vital_hub.client.spring.objects.ProfileResponse;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.friend.FriendList;
+import com.example.vital_hub.history.HistoryActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.test.TestMain;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -100,7 +101,7 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserProfile.this, TestPage.class);
+                Intent intent = new Intent(UserProfile.this, HistoryActivity.class);
                 startActivity(intent);
             }
         });

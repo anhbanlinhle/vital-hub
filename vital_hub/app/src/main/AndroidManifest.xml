@@ -64,6 +64,8 @@
         <activity android:name=".profile.OthersProfile"
             android:exported="true"
             android:label="false" />
+        <activity android:name=".history.HistoryActivity"
+            android:exported="true" />
         <activity
             android:name=".test.TestMain"
             android:exported="true" />
