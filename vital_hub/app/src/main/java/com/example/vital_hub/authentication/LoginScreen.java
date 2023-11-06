@@ -28,6 +28,7 @@ import com.example.vital_hub.client.spring.objects.AuthResponseObject;
 import com.example.vital_hub.client.spring.objects.AuthResponseObject;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.test.TestMain;
+import com.example.vital_hub.test.TestServer;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.BeginSignInResult;
 import com.google.android.gms.auth.api.identity.Identity;
@@ -200,5 +201,7 @@ public class LoginScreen extends AppCompatActivity {
 
     protected void dev() {
         Toast.makeText(this, "Developer mode", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(LoginScreen.this, TestMain.class);
+        startActivity(intent);
     }
 }
