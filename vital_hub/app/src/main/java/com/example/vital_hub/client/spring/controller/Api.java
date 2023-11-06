@@ -1,18 +1,19 @@
 package com.example.vital_hub.client.spring.controller;
 
 import com.example.vital_hub.client.objects.CommentPost;
-import com.example.vital_hub.client.spring.objects.*;
-
 import com.example.vital_hub.client.spring.objects.AuthResponseObject;
+import com.example.vital_hub.client.spring.objects.CompetitionListResponse;
 import com.example.vital_hub.client.spring.objects.CountResponse;
 import com.example.vital_hub.client.spring.objects.FriendListResponse;
+import com.example.vital_hub.client.spring.objects.ProfileDetailResponse;
+import com.example.vital_hub.client.spring.objects.ProfileResponse;
 import com.example.vital_hub.client.spring.objects.RegistRequestObject;
 import com.example.vital_hub.client.spring.objects.ResponseObject;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
-import com.example.vital_hub.profile.UserDetail;
 import com.example.vital_hub.home_page.HomePagePost;
 import com.example.vital_hub.post_comment.Comment;
+import com.example.vital_hub.profile.UserDetail;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -73,7 +74,8 @@ public class Api {
     public static Call<ProfileDetailResponse> getUserProfileDetail;
     public static Call<UserDetail> updateUserProfile;
     //Others profile
-    public static Call<ProfileResponse> getOthersProfile;
+    public static Call<ProfileDetailResponse> getOthersProfileDetail;
+
 
     public static void initRetrofitAndController(String server) {
         String url = "http://" + server + ":8080/";
@@ -197,8 +199,11 @@ public class Api {
     }
 
     //Others profile
-    public static void initGetOthersProfile(Map<String, String> headers, Long id) {
-        getOthersProfile = controller.getOthersProfile(headers, id);
+//    public static void initGetOthersProfileId(Map<String, String> headers, Long id) {
+//        getOthersProfileId = controller.getOthersProfileId(headers, id);
+//    }
+    public static void initGetOthersProfileDetail(Map<String, String> headers, Long id) {
+        getOthersProfileDetail = controller.getOthersProfileDetail(headers, id);
     }
     // post and comment
     public static void initGetPostResponse(Map<String, String> headers, int pageNum) {

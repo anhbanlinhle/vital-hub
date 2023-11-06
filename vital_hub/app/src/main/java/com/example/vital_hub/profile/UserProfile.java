@@ -1,7 +1,6 @@
 package com.example.vital_hub.profile;
 
 import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
-import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAndController;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -71,7 +70,6 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         initHeaderForRequest();
         fetchUserProfileDetail();
         fetchFriends();
-        initRetrofitAndController(prefs.getString("server", "10.0.2.2"));
 
 
         //NavBar

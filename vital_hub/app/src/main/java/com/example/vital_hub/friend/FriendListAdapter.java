@@ -17,17 +17,17 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.example.vital_hub.R;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.Map;
-
+import com.bumptech.glide.Glide;
+import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.helper.KeyboardHelper;
+import com.example.vital_hub.profile.OthersProfile;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -145,7 +145,8 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
         // View profile
         viewProfile.setOnClickListener(v1 -> {
             // TODO: View profile
-            Toast.makeText(v1.getContext(), "View profile of user: " + friendList.get(position).getId(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(v1.getContext(), OthersProfile.class);
+            v1.getContext().startActivity(intent);
             popupWindow.dismiss();
         });
 
