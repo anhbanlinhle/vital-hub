@@ -85,7 +85,7 @@ public class TestMain extends AppCompatActivity {
         function.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TestMain.this, PushupVideoScan.class);
+                Intent intent = new Intent(TestMain.this, TestMap.class);
                 startActivity(intent);
             }
         });
@@ -116,7 +116,7 @@ public class TestMain extends AppCompatActivity {
         oneTapClient.signOut();
         SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
         editor.clear();
-        editor.commit();
+        editor.apply();
         Intent intent = new Intent(TestMain.this, LoginScreen.class);
         startActivity(intent);
         finish();
