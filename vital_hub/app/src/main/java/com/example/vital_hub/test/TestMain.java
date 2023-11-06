@@ -36,6 +36,7 @@ public class TestMain extends AppCompatActivity {
     Button restart;
     Button changeIp;
     Button video;
+    Button back;
     SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class TestMain extends AppCompatActivity {
         restart = findViewById(R.id.restart);
         changeIp = findViewById(R.id.changeIp);
         video = findViewById(R.id.video);
+        back = findViewById(R.id.back);
 
         email.setText(prefs.getString("email", "null"));
         displayName.setText(prefs.getString("name", "null"));
@@ -91,6 +93,12 @@ public class TestMain extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 signOut();
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

@@ -49,8 +49,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -58,60 +57,82 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.415">
 
-        <Button
-            android:id="@+id/fetch"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="4dp"
-            android:background="@drawable/gradient_background"
-            android:fontFamily="@font/mont_semi_bold"
-            android:text="FETCH"
-            android:textSize="20dp"
-            app:backgroundTint="@null" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/fetch"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:background="@drawable/gradient_background"
+                android:fontFamily="@font/mont_semi_bold"
+                android:text="FETCH"
+                android:textSize="20dp"
+                app:backgroundTint="@null" />
 
-        <Button
-            android:id="@+id/changeIp"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="4dp"
-            android:background="@drawable/gradient_background"
-            android:fontFamily="@font/mont_semi_bold"
-            android:text="SERVER"
-            android:textSize="20dp"
-            app:backgroundTint="@null" />
+            <Button
+                android:id="@+id/changeIp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:background="@drawable/gradient_background"
+                android:fontFamily="@font/mont_semi_bold"
+                android:text="SERVER"
+                android:textSize="20dp"
+                app:backgroundTint="@null" />
 
-        <Button
-            android:id="@+id/video"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="4dp"
-            android:background="@drawable/gradient_background"
-            android:fontFamily="@font/mont_semi_bold"
-            android:text="VIDEO"
-            android:textSize="20dp"
-            app:backgroundTint="@null" />
+            <Button
+                android:id="@+id/video"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:background="@drawable/gradient_background"
+                android:fontFamily="@font/mont_semi_bold"
+                android:text="VIDEO"
+                android:textSize="20dp"
+                app:backgroundTint="@null" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/restart"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="4dp"
-            android:background="@drawable/gradient_background"
-            android:fontFamily="@font/mont_semi_bold"
-            android:text="RESTART"
-            android:textSize="20dp"
-            app:backgroundTint="@null" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/restart"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:background="@drawable/gradient_background"
+                android:fontFamily="@font/mont_semi_bold"
+                android:text="RESTART"
+                android:textSize="20dp"
+                app:backgroundTint="@null" />
 
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="4dp"
-            android:background="@drawable/gradient_background"
-            android:fontFamily="@font/mont_semi_bold"
-            android:text="LOGOUT"
-            android:textSize="20dp"
-            app:backgroundTint="@null" />
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:background="@drawable/gradient_background"
+                android:fontFamily="@font/mont_semi_bold"
+                android:text="LOGOUT"
+                android:textSize="20dp"
+                app:backgroundTint="@null" />
+            <Button
+                android:id="@+id/back"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:background="@drawable/gradient_background"
+                android:fontFamily="@font/mont_semi_bold"
+                android:text="BACK"
+                android:textSize="20dp"
+                app:backgroundTint="@null" />
+        </LinearLayout>
 
     </LinearLayout>
 
