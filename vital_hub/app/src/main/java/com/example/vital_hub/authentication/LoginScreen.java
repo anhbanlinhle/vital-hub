@@ -52,11 +52,13 @@ public class LoginScreen extends AppCompatActivity {
     private static final String TAG = "Error";
     private static final int REQ_ONE_TAP = 2;  // Can be any integer unique to the Activity.
     private boolean showOneTapUI = true;
+    TextView dev;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
         loginBtn = findViewById(R.id.btnLogin);
+        dev = findViewById(R.id.dev);
         TextView term = findViewById(R.id.about);
 
         term.setMovementMethod(LinkMovementMethod.getInstance());
@@ -83,6 +85,13 @@ public class LoginScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 trySigningIn();
+            }
+        });
+
+        dev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dev();
             }
         });
     }
@@ -187,6 +196,9 @@ public class LoginScreen extends AppCompatActivity {
                 Log.e("LoginError", t.getMessage());
             }
         });
+    }
 
+    protected void dev() {
+        Toast.makeText(this, "Developer mode", Toast.LENGTH_LONG).show();
     }
 }
