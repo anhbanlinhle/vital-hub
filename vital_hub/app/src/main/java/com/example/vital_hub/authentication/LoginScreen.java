@@ -200,7 +200,6 @@ public class LoginScreen extends AppCompatActivity {
     }
 
     protected void dev() {
-        Toast.makeText(this, "Developer mode", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(LoginScreen.this, TestMain.class);
         startActivity(intent);
     }
