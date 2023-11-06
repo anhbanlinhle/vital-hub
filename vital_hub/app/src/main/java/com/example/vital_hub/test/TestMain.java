@@ -35,7 +35,7 @@ public class TestMain extends AppCompatActivity {
     Button fetch;
     Button restart;
     Button changeIp;
-    Button video;
+    Button function;
     Button back;
     SharedPreferences prefs;
     @Override
@@ -54,7 +54,7 @@ public class TestMain extends AppCompatActivity {
         fetch = findViewById(R.id.fetch);
         restart = findViewById(R.id.restart);
         changeIp = findViewById(R.id.changeIp);
-        video = findViewById(R.id.video);
+        function = findViewById(R.id.function);
         back = findViewById(R.id.back);
 
         email.setText(prefs.getString("email", "null"));
@@ -82,7 +82,7 @@ public class TestMain extends AppCompatActivity {
                 ProcessPhoenix.triggerRebirth(getApplicationContext());
             }
         });
-        video.setOnClickListener(new View.OnClickListener() {
+        function.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TestMain.this, PushupVideoScan.class);
