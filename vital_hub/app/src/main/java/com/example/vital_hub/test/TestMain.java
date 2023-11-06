@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,28 +27,25 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.jakewharton.processphoenix.ProcessPhoenix;
 
 
-public class TestMain extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+public class TestMain extends AppCompatActivity {
     TextView email;
     TextView displayName;
     TextView server;
     Button logoutBtn;
-
-    BottomNavigationView bottomNavigationView;
     Button fetch;
     Button restart;
     Button changeIp;
-    Button video;
+    Button function;
+    Button back;
     SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_main);
+        Toast.makeText(this, "Developer mode", Toast.LENGTH_LONG).show();
 
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
-
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(this);
 
         email = findViewById(R.id.email);
         displayName = findViewById(R.id.displayName);
@@ -56,7 +54,8 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
         fetch = findViewById(R.id.fetch);
         restart = findViewById(R.id.restart);
         changeIp = findViewById(R.id.changeIp);
-        video = findViewById(R.id.video);
+        function = findViewById(R.id.function);
+        back = findViewById(R.id.back);
 
         email.setText(prefs.getString("email", "null"));
         displayName.setText(prefs.getString("name", "null"));
@@ -83,7 +82,7 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
                 ProcessPhoenix.triggerRebirth(getApplicationContext());
             }
         });
-        video.setOnClickListener(new View.OnClickListener() {
+        function.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TestMain.this, PushupVideoScan.class);
@@ -96,11 +95,18 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
                 signOut();
             }
         });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Toast.makeText(this, "Developer mode", Toast.LENGTH_LONG).show();
         email.setText(prefs.getString("email", "null"));
         displayName.setText(prefs.getString("name", "null"));
         server.setText(prefs.getString("server", "default"));
@@ -114,29 +120,6 @@ public class TestMain extends AppCompatActivity implements NavigationBarView.OnI
         Intent intent = new Intent(TestMain.this, LoginScreen.class);
         startActivity(intent);
         finish();
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.profile) {
-            startActivity(new Intent(getApplicationContext(), UserProfile.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else if (item.getItemId() == R.id.home) {
-            startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else if (item.getItemId() == R.id.exercise) {
-            startActivity(new Intent(getApplicationContext(), ExerciseGeneralActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else if (item.getItemId() == R.id.competition) {
-            startActivity(new Intent(getApplicationContext(), CompetitionActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else {
-            return false;
-        }
     }
 
 }
