@@ -108,21 +108,21 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map));
-        // Add a marker in Sydney and move the camera
+
         LatLng home = new LatLng(21, 106);
         mMap.setBuildingsEnabled(true);
         mMap.addMarker(new MarkerOptions()
                 .position(home)
                 .title("Home sweet home"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(home));
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(home)
                 .zoom(20)
                 .tilt(45)
                 .build();
-
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(home));
     }
 
     @Override
