@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
 
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -20,6 +19,15 @@
         android:theme="@style/Theme.Vital_hub"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".test.TestMap"
+            android:exported="false" />
+        <activity
+            android:name=".competition.EditCompetitionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".competition.CompetitionDetailActivity"
+            android:exported="true" />
         <activity
             android:name=".pushup.PushupVideoScan"
             android:exported="false" />
@@ -60,8 +68,9 @@
         <activity
             android:name=".profile.UserProfile"
             android:exported="true"
-            android:label="false"  />
-        <activity android:name=".profile.OthersProfile"
+            android:label="false" />
+        <activity
+            android:name=".profile.OthersProfile"
             android:exported="true"
             android:label="false" />
         <activity
@@ -71,29 +80,31 @@
             android:name=".home_page.HomePageActivity"
             android:exported="true" />
         <activity
+            android:name=".home_page.AddPostActivity"
+            android:exported="true" />
+        <activity
             android:name=".post_comment.PostCommentActivity"
             android:exported="true" />
         <activity
             android:name=".exercises.ExerciseGeneralActivity"
-            android:exported="true"  />
+            android:exported="true" />
         <activity
             android:name=".authentication.FirstRegistInfo"
             android:exported="true" />
-        <activity 
+        <activity
             android:name=".competition.CompetitionActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".profile.ProfileDetail"
             android:exported="true" />
-
-       
-        <activity android:name=".profile.ProfileDetail"
+        <activity
+            android:name=".TestPage"
             android:exported="true" />
-        <activity android:name=".TestPage"
-            android:exported="true" />
-        
         <activity
             android:name=".friend.FriendList"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".friend.AddFriendActivity"
             android:exported="true" />

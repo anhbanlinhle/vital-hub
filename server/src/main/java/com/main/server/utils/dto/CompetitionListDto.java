@@ -12,7 +12,7 @@ public interface CompetitionListDto {
 
     Integer getIsOngoing();
 
-    Integer getType();
+    String getType();
 
     Long getHostId();
 

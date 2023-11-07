@@ -4,6 +4,7 @@ package com.example.vital_hub.home_page;
 import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
 import static com.example.vital_hub.client.spring.controller.Api.initGetPostResponse;
 
+import com.example.vital_hub.SplashScreen;
 import com.example.vital_hub.authentication.LoginScreen;
 
 import android.content.Intent;
@@ -25,11 +26,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.R;
+import com.example.vital_hub.post_comment.PostCommentActivity;
 import com.example.vital_hub.profile.UserProfile;
 import com.example.vital_hub.exercises.ChooseExerciseActivity;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.friend.Friend;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
@@ -55,6 +58,8 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
     public static List<HomePagePost> postResponse;
     int pageNum = 0;
 
+    FloatingActionButton addPostButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +70,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
         hpRecycler = findViewById(R.id.home_page_recycler);
 
         logout_button = findViewById(R.id.logout_button);
+        addPostButton = findViewById(R.id.add_post_button);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home);
@@ -73,8 +79,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
         hpRecycler.setAdapter(recyclerAdapter);
         hpRecycler.setLayoutManager(new LinearLayoutManager(this));
 
-        populateData(0);
-
+        getMoreData();
         //NavBar
 
 
@@ -92,11 +97,11 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
             }
         });
 
-        logout_button.setOnClickListener(new View.OnClickListener() {
+        addPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Log.d("click", "fetch");
-                fetchPost(0);
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePageActivity.this, AddPostActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -123,6 +128,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
     }
 
     private void getMoreData() {
+        arrayList.add(null);
         // ADD DATA FROM DB
         arrayList.remove(arrayList.size() - 1);
         fetchPost(pageNum);
@@ -140,10 +146,6 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
         finish();
     }
 
-    private void populateData(int currentSize) {
-        fetchPost(pageNum);
-        pageNum++;
-    }
 
     private void initHeaderForRequest() {
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
@@ -160,11 +162,9 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
                 if (response.isSuccessful()) {
                     postResponse = response.body();
                     for(HomePagePost post : postResponse) {
-                        post.setTitle(String.valueOf(post.getPostId()));
                         arrayList.add(post);
                     }
                     recyclerAdapter.notifyItemRangeChanged(arrayList.size() - postResponse.size(), postResponse.size());
-                    arrayList.add(null);
                 }
             }
 
