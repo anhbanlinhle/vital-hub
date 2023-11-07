@@ -1,6 +1,7 @@
 package com.example.vital_hub.friend;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
@@ -64,11 +65,9 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
                 showPopupWindow(view, position1, friendList.get(position1).getRawStatus());
             } else {
                 KeyboardHelper.hideKeyboard(view);
-                Toast.makeText(
-                                view.getContext(),
-                                "Click: " + friendList.get(position1).getName(),
-                                Toast.LENGTH_SHORT)
-                        .show();
+                Intent intent = new Intent(view.getContext(),OthersProfile.class);
+                intent.putExtra("id", friendList.get(position).getId()+"");
+                view.getContext().startActivity(intent);
             }
 
         });

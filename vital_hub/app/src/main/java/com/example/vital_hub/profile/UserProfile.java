@@ -204,7 +204,11 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
                     assert profileDetailResponse != null;
                     fetchedUserProfileDetail = profileDetailResponse.getData();
                     name.setText(fetchedUserProfileDetail.getName());
-                    description.setText(fetchedUserProfileDetail.getUserDetail().getDescription());
+                    if (fetchedUserProfileDetail.getUserDetail().getDescription() == null) {
+                        description.setText("");
+                    } else {
+                        description.setText(fetchedUserProfileDetail.getUserDetail().getDescription());
+                    }
                     Glide.with(UserProfile.this).load(fetchedUserProfileDetail.getAvatar()).into(profileImage);
                 }
             }

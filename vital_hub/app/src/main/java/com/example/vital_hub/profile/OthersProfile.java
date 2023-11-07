@@ -30,7 +30,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OthersProfile extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
-
     ImageView backButton;
     ImageView profileImage;
 
@@ -45,14 +44,13 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
     private UserDetail fetchedOthersProfileId;
 
     TextView name;
-    Long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.others_profile);
         initHeaderForRequest();
-        fetchOthersProfileDetail(fetchOthersProfileId());
+        fetchOthersProfileDetail(Long.parseLong(getIntent().getStringExtra("id")));
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
@@ -112,7 +110,11 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
                     assert profileDetailResponse != null;
                     fetchedOthersProfileDetail = profileDetailResponse.getData();
                     name.setText(fetchedOthersProfileDetail.getName());
-                    description.setText(fetchedOthersProfileDetail.getUserDetail().getDescription());
+                    if (fetchedOthersProfileDetail.getUserDetail().getDescription() == null) {
+                        description.setText("");
+                    } else {
+                        description.setText(fetchedOthersProfileDetail.getUserDetail().getDescription());
+                    }
                     Glide.with(OthersProfile.this).load(fetchedOthersProfileDetail.getAvatar()).into(profileImage);
                 }
             }
@@ -122,23 +124,5 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
                 Toast.makeText(OthersProfile.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-    private long fetchOthersProfileId() {
-        Api.initGetOthersProfileDetail(headers, id);
-        Api.getOthersProfileDetail.clone().enqueue(new Callback<ProfileDetailResponse>() {
-            @Override
-            public void onResponse(Call<ProfileDetailResponse> call, Response<ProfileDetailResponse> response) {
-                if (response.isSuccessful()) {
-                    profileDetailResponse = response.body();
-                    fetchedOthersProfileId = profileDetailResponse.getData();
-                    fetchedOthersProfileId.getId();
-                }
-            }
-            @Override
-            public void onFailure(Call<ProfileDetailResponse> call, Throwable t) {
-                Toast.makeText(OthersProfile.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        return 0;
     }
 }
