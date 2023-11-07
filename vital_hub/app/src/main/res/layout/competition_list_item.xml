@@ -97,7 +97,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/sf_medium"
-            android:text="Lượt tham gia"
+            android:text="Participants"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -106,11 +106,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/sf_medium"
+            android:layout_marginStart="16dp"
             android:text="1000"
             android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="@+id/totalText"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/totalText"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/totalText" />
 
         <TextView
@@ -119,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/sf_medium"
-            android:text="Tình trạng"
+            android:text="Status"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -132,26 +131,31 @@
             android:text="Còn 2 ngày"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="@+id/statusText"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/statusText"
             app:layout_constraintTop_toBottomOf="@+id/statusText" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/joinButton"
-            style="@style/Widget.Material3.CardView.Outlined"
+        <TextView
+            android:id="@+id/compe_type"
             android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sf_medium"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/rounded_corner"
-            android:fontFamily="@font/sf_semi_bold"
-            android:outlineAmbientShadowColor="@color/color_grey"
-            android:text="Tham gia"
-            android:textColor="#1DB964"
-            android:textSize="14dp"
+            android:layout_marginTop="8dp"
+            android:text="Category"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/compe_type_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sf_medium"
+            android:text="Running"
+            android:textColor="@color/black"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/compe_type" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
