@@ -34,19 +34,21 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="fill_parent"
-        android:layout_height="402dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="20dp"
-        android:elevation="12dp"
-        app:cardCornerRadius="16dp"
+    <com.bosphere.fadingedgelayout.FadingEdgeLayout
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        app:fel_edge="top|left|bottom|right"
+        app:fel_size_top="0dp"
+        app:fel_size_bottom="32dp"
+        app:fel_size_left="0dp"
+        app:fel_size_right="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginHorizontal="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_pushup"
         app:layout_constraintVertical_bias="0.0">
-
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -54,8 +56,8 @@
             android:layout_height="wrap_content"
             tools:context=".test.TestMap"
             tools:layout_editor_absoluteX="60dp" />
+    </com.bosphere.fadingedgelayout.FadingEdgeLayout>
 
-    </androidx.cardview.widget.CardView>
 
 
 

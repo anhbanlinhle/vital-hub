@@ -33,6 +33,7 @@ android {
 }
 
 dependencies {
+    implementation("com.github.bosphere.android-fadingedgelayout:fadingedgelayout:1.0.0")
     implementation("com.jakewharton:process-phoenix:2.0.0")
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("de.hdodenhof:circleimageview:3.1.0")
