@@ -144,7 +144,8 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
         // View profile
         viewProfile.setOnClickListener(v1 -> {
             // TODO: View profile
-            Intent intent = new Intent(v1.getContext(), OthersProfile.class);
+            Intent intent = new Intent(v1.getContext(),OthersProfile.class);
+            intent.putExtra("id", friendList.get(position).getId()+"");
             v1.getContext().startActivity(intent);
             popupWindow.dismiss();
         });

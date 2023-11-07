@@ -101,13 +101,14 @@ public interface Controller {
     Call<ProfileResponse> getUserProfile(@HeaderMap Map<String, String> header);
     @GET("/user/detail")
     Call<ProfileDetailResponse> getUserProfileDetail(@HeaderMap Map<String, String> header);
-
     @PUT("/user/save-detail")
     Call<UserDetail> updateProfileDetail(@HeaderMap Map<String, String> headers, @Body UserDetail body);
 
     // Others Profile
     @GET("/user/detail")
     Call<ProfileDetailResponse> getOthersProfileDetail(@HeaderMap Map<String, String> header, @Query("id") Long id);
+    @GET("/user/info")
+    Call<ProfileResponse> getOthersProfile(@HeaderMap Map<String, String> header, @Query("id") Long id);
 
     // /workout/**
     @GET("/workout/exercise-groups")

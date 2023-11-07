@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.client.spring.objects.ProfileDetailResponse;
+import com.example.vital_hub.client.spring.objects.ProfileResponse;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
@@ -32,24 +34,25 @@ import retrofit2.Response;
 public class OthersProfile extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     ImageView backButton;
     ImageView profileImage;
-
     TextView description;
     BottomNavigationView bottomNavigationView;
-
     SharedPreferences prefs;
     String jwt;
     Map<String, String> headers;
     ProfileDetailResponse profileDetailResponse;
+    ProfileResponse profileResponse;
     private UserDetail fetchedOthersProfileDetail;
-    private UserDetail fetchedOthersProfileId;
-
+    private UserInfo fetchedOthersProfile;
+    String status;
     TextView name;
+    Button functionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.others_profile);
         initHeaderForRequest();
+        fetchOthersProfile(Long.parseLong(getIntent().getStringExtra("id")));
         fetchOthersProfileDetail(Long.parseLong(getIntent().getStringExtra("id")));
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -60,6 +63,7 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
         profileImage = findViewById(R.id.profile_image);
         backButton = findViewById(R.id.back_button);
         description = findViewById(R.id.description);
+        functionButton = findViewById(R.id.function_button);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,10 +71,10 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
                 finish();
             }
         });
-    }
 
-    public void openOthersProfile() {
-        startActivity(new Intent(this, OthersProfile.class));
+
+
+
     }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -118,11 +122,41 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
                     Glide.with(OthersProfile.this).load(fetchedOthersProfileDetail.getAvatar()).into(profileImage);
                 }
             }
-
             @Override
             public void onFailure(Call<ProfileDetailResponse> call, Throwable t) {
                 Toast.makeText(OthersProfile.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+    private void fetchOthersProfile(long id) {
+        Api.initGetOthersProfile(headers, id);
+        Api.getOthersProfile.clone().enqueue(new Callback<ProfileResponse>() {
+            @Override
+            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
+                if (response.isSuccessful()) {
+                    profileResponse = response.body();
+                    assert profileResponse != null;
+                    fetchedOthersProfile = profileResponse.getData();
+                    switch (fetchedOthersProfile.getStatus()) {
+                        case "FRIEND":
+                            functionButton.setText("Unfriend");
+                            break;
+                        case "PENDING":
+                            functionButton.setText("Sent");
+                        case "INCOMING":
+                            functionButton.setText("Respond");
+                        default:
+                            functionButton.setText("Add friend");
+                            break;
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ProfileResponse> call, Throwable t) {
+                Toast.makeText(OthersProfile.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

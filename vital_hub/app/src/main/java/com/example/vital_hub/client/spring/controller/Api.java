@@ -88,6 +88,7 @@ public class Api {
     public static Call<UserDetail> updateUserProfile;
     //Others profile
     public static Call<ProfileDetailResponse> getOthersProfileDetail;
+    public static Call<ProfileResponse> getOthersProfile;
 
 
     public static void initRetrofitAndController(String server) {
@@ -237,9 +238,9 @@ public class Api {
     }
 
     //Others profile
-//    public static void initGetOthersProfileId(Map<String, String> headers, Long id) {
-//        getOthersProfileId = controller.getOthersProfileId(headers, id);
-//    }
+    public static void initGetOthersProfile(Map<String, String> headers, Long id) {
+        getOthersProfile = controller.getOthersProfile(headers, id);
+    }
     public static void initGetOthersProfileDetail(Map<String, String> headers, Long id) {
         getOthersProfileDetail = controller.getOthersProfileDetail(headers, id);
     }
