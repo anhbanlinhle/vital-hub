@@ -4,10 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentContainerView;
 
+import android.Manifest;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +23,8 @@ import com.example.vital_hub.R;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.profile.UserProfile;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,6 +33,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -39,10 +46,15 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
     FragmentContainerView map;
     ViewGroup.LayoutParams mapLayoutParams;
     ConstraintLayout screen;
+    FusedLocationProviderClient fusedLocationClient;
+    double latitude, longitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_map);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
@@ -60,13 +72,20 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
         mapLayoutParams.height = 600;
         mapContainer.setLayoutParams(mapLayoutParams);
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // request permission
+            String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+            ActivityCompat.requestPermissions(TestMap.this, permissions, 1);
+            return;
+        }
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-
+        updateLocation();
         expandCollapseMap();
-
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +99,56 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
                 expandCollapseMap();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateLocation();
+    }
+
+    protected void updateLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // request permission
+            String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+            ActivityCompat.requestPermissions(TestMap.this, permissions, 1);
+            return;
+        }
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+                        }
+                        else {
+                            latitude = 20.997578735609597;
+                            longitude = 105.80936462688419;
+                        }
+                    }
+                });
+
+        updateMapCamera();
+    }
+
+    protected void updateMapCamera() {
+        if (mMap == null) {
+            return;
+        }
+        LatLng home = new LatLng(latitude, longitude);
+        mMap.setBuildingsEnabled(true);
+        mMap.addMarker(new MarkerOptions()
+                .position(home)
+                .title("Your location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(home));
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(home)
+                .zoom(20)
+                .tilt(45)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     protected void expandCollapseMap() {
@@ -109,20 +178,8 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
         mMap = googleMap;
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map));
 
-        LatLng home = new LatLng(21, 106);
-        mMap.setBuildingsEnabled(true);
-        mMap.addMarker(new MarkerOptions()
-                .position(home)
-                .title("Home sweet home"));
-
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(home)
-                .zoom(20)
-                .tilt(45)
-                .build();
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(home));
+        updateLocation();
+        updateMapCamera();
     }
 
     @Override
