@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center_vertical"
-            app:drawableEndCompat="@drawable/baseline_accessibility_new_24_white" />
+            app:drawableEndCompat="@drawable/baseline_directions_bike_24" />
 
     </androidx.appcompat.widget.Toolbar>
 
