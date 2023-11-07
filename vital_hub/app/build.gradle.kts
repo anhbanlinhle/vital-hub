@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -32,10 +33,12 @@ android {
 }
 
 dependencies {
+    implementation("com.github.bosphere.android-fadingedgelayout:fadingedgelayout:1.0.0")
     implementation("com.jakewharton:process-phoenix:2.0.0")
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
