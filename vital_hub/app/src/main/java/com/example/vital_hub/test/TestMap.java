@@ -23,6 +23,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -114,6 +115,14 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
                 .position(home)
                 .title("Home sweet home"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(home));
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(home)
+                .zoom(20)
+                .tilt(45)
+                .build();
+
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     @Override
