@@ -53,32 +53,18 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_map);
+        findViewComponents();
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.exercise);
-
-        toolbar = findViewById(R.id.toolbar_bicycle);
-
-        back = findViewById(R.id.back_to_home_from_biycle);
-        logo = findViewById(R.id.logo);
-        mapContainer = findViewById(R.id.map_container);
-        map = findViewById(R.id.map);
-        screen = findViewById(R.id.screen);
 
         mapLayoutParams = mapContainer.getLayoutParams();
         mapLayoutParams.height = 600;
         mapContainer.setLayoutParams(mapLayoutParams);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // request permission
-            String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-            ActivityCompat.requestPermissions(TestMap.this, permissions, 1);
-            return;
-        }
+        checkLocationPermission();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -86,19 +72,7 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
         mapFragment.getMapAsync(this);
         updateLocation();
         expandCollapseMap();
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        logo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                expandCollapseMap();
-            }
-        });
+        bindViewComponents();
     }
 
     @Override
@@ -107,14 +81,33 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
         updateLocation();
     }
 
+    protected void findViewComponents() {
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        toolbar = findViewById(R.id.toolbar_bicycle);
+        back = findViewById(R.id.back_to_home_from_biycle);
+        logo = findViewById(R.id.logo);
+        mapContainer = findViewById(R.id.map_container);
+        map = findViewById(R.id.map);
+        screen = findViewById(R.id.screen);
+    }
+
+    protected void bindViewComponents() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expandCollapseMap();
+            }
+        });
+    }
+
     protected void updateLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // request permission
-            String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-            ActivityCompat.requestPermissions(TestMap.this, permissions, 1);
-            return;
-        }
+        checkLocationPermission();
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
@@ -124,12 +117,11 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
                             longitude = location.getLongitude();
                         }
                         else {
-                            latitude = 20.997578735609597;
-                            longitude = 105.80936462688419;
+                            latitude = 0;
+                            longitude = 0;
                         }
                     }
                 });
-
         updateMapCamera();
     }
 
@@ -173,13 +165,23 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
         anim.start();
     }
 
+    protected void checkLocationPermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // request permission
+            String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+            ActivityCompat.requestPermissions(TestMap.this, permissions, 1);
+            return;
+        }
+        return;
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map));
 
         updateLocation();
-        updateMapCamera();
     }
 
     @Override
