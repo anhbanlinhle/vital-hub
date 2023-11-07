@@ -26,6 +26,7 @@
             app:drawableStartCompat="@drawable/baseline_keyboard_double_arrow_left" />
 
         <TextView
+            android:id="@+id/logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -35,6 +36,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <com.bosphere.fadingedgelayout.FadingEdgeLayout
+        android:id="@+id/map_container"
         android:layout_width="match_parent"
         android:layout_height="280dp"
         app:fel_edge="top|left|bottom|right"

@@ -2,13 +2,16 @@ package com.example.vital_hub.test;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentContainerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bosphere.fadingedgelayout.FadingEdgeLayout;
 import com.example.vital_hub.R;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
@@ -25,8 +28,10 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class TestMap extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, OnMapReadyCallback {
     BottomNavigationView bottomNavigationView;
-    TextView back;
+    TextView back, logo;
     private GoogleMap mMap;
+    FadingEdgeLayout mapContainer;
+    FragmentContainerView map;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +42,9 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
         bottomNavigationView.setSelectedItemId(R.id.exercise);
 
         back = findViewById(R.id.back_to_home_from_pushup);
+        logo = findViewById(R.id.logo);
+        mapContainer = findViewById(R.id.map_container);
+        map = findViewById(R.id.map);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -46,6 +54,15 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewGroup.LayoutParams params = mapContainer.getLayoutParams();
+                params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                mapContainer.setLayoutParams(params);
             }
         });
     }
