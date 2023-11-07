@@ -2,8 +2,11 @@ package com.example.vital_hub.test;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentContainerView;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -28,10 +31,13 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class TestMap extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, OnMapReadyCallback {
     BottomNavigationView bottomNavigationView;
+    Toolbar toolbar;
     TextView back, logo;
     private GoogleMap mMap;
     FadingEdgeLayout mapContainer;
     FragmentContainerView map;
+    ViewGroup.LayoutParams mapLayoutParams;
+    ConstraintLayout screen;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,14 +47,24 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.exercise);
 
-        back = findViewById(R.id.back_to_home_from_pushup);
+        toolbar = findViewById(R.id.toolbar_bicycle);
+
+        back = findViewById(R.id.back_to_home_from_biycle);
         logo = findViewById(R.id.logo);
         mapContainer = findViewById(R.id.map_container);
         map = findViewById(R.id.map);
+        screen = findViewById(R.id.screen);
+
+        mapLayoutParams = mapContainer.getLayoutParams();
+        mapLayoutParams.height = 600;
+        mapContainer.setLayoutParams(mapLayoutParams);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
+
+        expandCollapseMap();
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,11 +76,31 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewGroup.LayoutParams params = mapContainer.getLayoutParams();
-                params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                mapContainer.setLayoutParams(params);
+                expandCollapseMap();
             }
         });
+    }
+
+    protected void expandCollapseMap() {
+        int expectedFullHeight = 0;
+        if (mapContainer.getMeasuredHeight() == 600) {
+            expectedFullHeight = screen.getMeasuredHeight() - toolbar.getMeasuredHeight() - bottomNavigationView.getMeasuredHeight() + 150;
+        }
+        else {
+            expectedFullHeight = 600;
+        }
+        ValueAnimator anim = ValueAnimator.ofInt(mapContainer.getMeasuredHeight(), +expectedFullHeight);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = mapContainer.getLayoutParams();
+                layoutParams.height = val;
+                mapContainer.setLayoutParams(layoutParams);
+            }
+        });
+        anim.setDuration(1000);
+        anim.start();
     }
 
     @Override
@@ -73,6 +109,7 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map));
         // Add a marker in Sydney and move the camera
         LatLng home = new LatLng(21, 106);
+        mMap.setBuildingsEnabled(true);
         mMap.addMarker(new MarkerOptions()
                 .position(home)
                 .title("Home sweet home"));
