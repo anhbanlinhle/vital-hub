@@ -10,15 +10,41 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    @Query(value = "(SELECT p.user_id AS userId, p.id AS postId, u.name AS username, p.created_at AS createdAt, p.image AS image, " +
-            "p.title AS title, u.avatar AS avatar, IF(:currentUserId = p.user_id, TRUE, FALSE) AS isOwnedInt FROM post p JOIN user u ON p.user_id = u.id " +
-            "WHERE p.is_deleted = FALSE AND p.user_id IN :friendList) " +
-            "UNION " +
-            "(SELECT p.user_id AS userId, p.id AS postId, u.name AS username, p.created_at AS createdAt, p.image AS image, " +
-            "p.title AS title, u.avatar AS avatar, IF(:currentUserId = p.user_id, TRUE, FALSE) AS isOwnedInt FROM post p JOIN user u ON p.user_id = u.id " +
-            "WHERE p.is_deleted = FALSE AND p.user_id NOT IN :friendList) " +
-            "ORDER BY createdAt " +
-            "LIMIT :pageSize OFFSET :page", nativeQuery = true)
+    @Query(value = """
+            (SELECT p.user_id AS userId, p.id AS postId, u.name AS username, p.created_at AS createdAt, p.image AS image, e.type, e.calo, CONCAT(r.step, ' steps') AS score,
+            p.title AS title, u.avatar AS avatar, IF(:currentUserId = p.user_id, TRUE, FALSE) AS isOwnedInt FROM post p JOIN exercise e on p.exercise_id = e.id JOIN running r on e.id = r.exercise_id JOIN user u ON p.user_id = u.id
+            WHERE p.is_deleted = FALSE AND p.user_id IN (:friendList))
+            UNION
+            (SELECT p.user_id AS userId, p.id AS postId, u.name AS username, p.created_at AS createdAt, p.image AS image, e.type, e.calo, CONCAT(r.step, ' steps') AS score,
+            p.title AS title, u.avatar AS avatar, IF(:currentUserId = p.user_id, TRUE, FALSE) AS isOwnedInt FROM post p JOIN exercise e on p.exercise_id = e.id JOIN running r on e.id = r.exercise_id JOIN user u ON p.user_id = u.id
+            WHERE p.is_deleted = FALSE AND p.user_id NOT IN (:friendList))
+            UNION
+            (SELECT p.user_id AS userId, p.id AS postId, u.name AS username, p.created_at AS createdAt, p.image AS image, e.type, e.calo, CONCAT(b.distance, ' meters') AS score,
+            p.title AS title, u.avatar AS avatar, IF(:currentUserId = p.user_id, TRUE, FALSE) AS isOwnedInt FROM post p JOIN exercise e on p.exercise_id = e.id JOIN bicycling b on e.id = b.exercise_id JOIN user u ON p.user_id = u.id
+            WHERE p.is_deleted = FALSE AND p.user_id IN (:friendList))
+            UNION
+            (SELECT p.user_id AS userId, p.id AS postId, u.name AS username, p.created_at AS createdAt, p.image AS image, e.type, e.calo, CONCAT(b.distance, ' meters') AS score,
+            p.title AS title, u.avatar AS avatar, IF(:currentUserId = p.user_id, TRUE, FALSE) AS isOwnedInt FROM post p JOIN exercise e on p.exercise_id = e.id JOIN bicycling b on e.id = b.exercise_id JOIN user u ON p.user_id = u.id
+            WHERE p.is_deleted = FALSE AND p.user_id NOT IN (:friendList))
+            UNION
+            (SELECT p.user_id AS userId, p.id AS postId, u.name AS username, p.created_at AS createdAt, p.image AS image, e.type, e.calo, CONCAT(pu.rep, ' reps') AS score,
+            p.title AS title, u.avatar AS avatar, IF(:currentUserId = p.user_id, TRUE, FALSE) AS isOwnedInt FROM post p JOIN exercise e on p.exercise_id = e.id JOIN push_up pu on e.id = pu.exercise_id JOIN user u ON p.user_id = u.id
+            WHERE p.is_deleted = FALSE AND p.user_id IN (:friendList))
+            UNION
+            (SELECT p.user_id AS userId, p.id AS postId, u.name AS username, p.created_at AS createdAt, p.image AS image, e.type, e.calo, CONCAT(pu.rep, ' reps') AS score,
+            p.title AS title, u.avatar AS avatar, IF(:currentUserId = p.user_id, TRUE, FALSE) AS isOwnedInt FROM post p JOIN exercise e on p.exercise_id = e.id JOIN push_up pu on e.id = pu.exercise_id JOIN user u ON p.user_id = u.id
+            WHERE p.is_deleted = FALSE AND p.user_id NOT IN (:friendList))
+            UNION
+            (SELECT p.user_id AS userId, p.id AS postId, u.name AS username, p.created_at AS createdAt, p.image AS image, e.type, e.calo, CONCAT(COUNT(we.id), ' exercises') AS score,
+            p.title AS title, u.avatar AS avatar, IF(:currentUserId = p.user_id, TRUE, FALSE) AS isOwnedInt FROM post p JOIN exercise e on p.exercise_id = e.id JOIN gym g on e.id = g.exercise_id JOIN workout_exercises we on g.group_id = we.group_id JOIN user u ON p.user_id = u.id
+            WHERE p.is_deleted = FALSE AND p.user_id IN (:friendList))
+            UNION
+            (SELECT p.user_id AS userId, p.id AS postId, u.name AS username, p.created_at AS createdAt, p.image AS image, e.type, e.calo, CONCAT(COUNT(we.id), ' exercises') AS score,
+            p.title AS title, u.avatar AS avatar, IF(:currentUserId = p.user_id, TRUE, FALSE) AS isOwnedInt FROM post p JOIN exercise e on p.exercise_id = e.id JOIN gym g on e.id = g.exercise_id JOIN workout_exercises we on g.group_id = we.group_id JOIN user u ON p.user_id = u.id
+            WHERE p.is_deleted = FALSE AND p.user_id NOT IN (:friendList))
+            ORDER BY createdAt
+            LIMIT :pageSize OFFSET :page
+            """, nativeQuery = true)
     List<PostDto> allPostOrderByCreatedTime(Integer page, Integer pageSize, List<Long> friendList, Long currentUserId);
 
     @Query("SELECT CASE WHEN p.userId = :userId THEN 1 ELSE 0 END AS isOwnedInt, p.userId AS userId, p.id AS postId, u.name AS username, p.title AS title, p.createdAt AS createdAt, u.avatar AS avatar, p.image AS image FROM Post p JOIN User u " +

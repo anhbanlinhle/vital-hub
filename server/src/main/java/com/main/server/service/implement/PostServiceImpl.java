@@ -28,6 +28,11 @@ public class PostServiceImpl implements PostService {
         List<Long> friendList = friendRepository.findFriendList(userId);
         friendList.add(userId);
         List<PostDto> posts = postRepository.allPostOrderByCreatedTime(page * pageSize, pageSize, friendList, userId);
+        for (int i = 0; i < posts.size(); i++) {
+            if (posts.get(i).getPostId() == null) {
+                posts.remove(i--);
+            }
+        }
         return posts;
     }
 

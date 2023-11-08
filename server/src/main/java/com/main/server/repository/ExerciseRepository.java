@@ -27,7 +27,6 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
             WHERE e.user_id = :userId
             GROUP BY e.id
             ORDER BY exerciseId
-            LIMIT :limit OFFSET :offset
             """
             , nativeQuery = true)
     List<ExerciseDto> getAllExerciseWithUid(Long userId, Integer limit, Integer offset);
