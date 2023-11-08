@@ -18,6 +18,6 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public List<ExerciseDto> getAllExerciseByUserId(Long userId, Integer page, Integer pageSize) {
-        return exerciseRepository.getAllExerciseWithUid(userId, pageSize, page*pageSize);
+        return exerciseRepository.getAllExerciseWithUid(userId);
     }
 }
