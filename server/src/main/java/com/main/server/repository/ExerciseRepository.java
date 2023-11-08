@@ -29,5 +29,5 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
             ORDER BY exerciseId
             """
             , nativeQuery = true)
-    List<ExerciseDto> getAllExerciseWithUid(Long userId, Integer limit, Integer offset);
+    List<ExerciseDto> getAllExerciseWithUid(Long userId);
 }
