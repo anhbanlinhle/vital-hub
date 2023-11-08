@@ -49,6 +49,7 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
     FragmentContainerView map;
     ViewGroup.LayoutParams mapLayoutParams;
     ConstraintLayout screen;
+    int expectedMapHeight;
     FusedLocationProviderClient fusedLocationClient;
     double latitude, longitude;
     TextView lat, lng;
@@ -59,55 +60,22 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_map);
-        findViewComponents();
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        findViewComponents();
+        bindViewComponents();
+        checkLocationPermission();
 
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.exercise);
-
-        mapLayoutParams = mapContainer.getLayoutParams();
-        mapLayoutParams.height = 600;
-        mapContainer.setLayoutParams(mapLayoutParams);
-
-        checkLocationPermission();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
+
         updateLocation();
+        updateMapCamera();
         expandCollapseMap();
-        bindViewComponents();
-
-        locationRequest = new LocationRequest();
-        locationRequest.setInterval(1000);
-        locationRequest.setFastestInterval(500);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-                Location result = locationResult.getLastLocation();
-
-                latitude = result.getLatitude();
-                longitude = result.getLongitude();
-                lat.setText(String.valueOf(latitude));
-                lng.setText(String.valueOf(longitude));
-                updateMapCamera();
-            }
-        };
-
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
-
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        updateLocation();
     }
 
     protected void findViewComponents() {
@@ -139,21 +107,26 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
 
     protected void updateLocation() {
         checkLocationPermission();
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                        }
-                        else {
-                            latitude = 0;
-                            longitude = 0;
-                        }
-                    }
-                });
-        updateMapCamera();
+        locationRequest = new LocationRequest()
+                .setInterval(1000)
+                .setFastestInterval(500)
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                Location result = locationResult.getLastLocation();
+                assert result != null;
+                latitude = result.getLatitude();
+                longitude = result.getLongitude();
+                lat.setText(String.valueOf(latitude));
+                lng.setText(String.valueOf(longitude));
+                updateMapCamera();
+            }
+        };
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
     }
 
     protected void updateMapCamera() {
@@ -175,14 +148,13 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
     }
 
     protected void expandCollapseMap() {
-        int expectedFullHeight = 0;
         if (mapContainer.getMeasuredHeight() == 600) {
-            expectedFullHeight = screen.getMeasuredHeight() - toolbar.getMeasuredHeight() - bottomNavigationView.getMeasuredHeight() + 150;
+            expectedMapHeight = screen.getMeasuredHeight() - toolbar.getMeasuredHeight() - bottomNavigationView.getMeasuredHeight() + 150;
         }
         else {
-            expectedFullHeight = 600;
+            expectedMapHeight = 600;
         }
-        ValueAnimator anim = ValueAnimator.ofInt(mapContainer.getMeasuredHeight(), +expectedFullHeight);
+        ValueAnimator anim = ValueAnimator.ofInt(mapContainer.getMeasuredHeight(), +expectedMapHeight);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -199,20 +171,15 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
     protected void checkLocationPermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // request permission
             String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
             ActivityCompat.requestPermissions(TestMap.this, permissions, 1);
-            return;
         }
-        return;
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map));
-
-        updateLocation();
     }
 
     @Override
