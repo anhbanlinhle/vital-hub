@@ -49,8 +49,9 @@ public class PostController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addPost(@RequestBody Post post) {
-        postService.addPost(post);
+    public ResponseEntity<?> addPost(@RequestBody Post post,
+                                     @RequestHeader(name = "Authorization") String token) {
+        postService.addPost(post, tokenParser.getCurrentUserId(token));
         return ResponseEntity.ok().body(null);
     }
 }

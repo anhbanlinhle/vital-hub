@@ -66,8 +66,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void addPost(Post post) {
+    public void addPost(Post post, Long userId) {
         post.setIsDeleted(false);
+        post.setUserId(userId);
         post.setCreatedAt(LocalDateTime.now());
         post.setUpdatedAt(LocalDateTime.now());
         postRepository.save(post);
