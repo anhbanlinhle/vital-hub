@@ -125,7 +125,7 @@ public class BicycleTracker extends AppCompatActivity
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             lat.setText("loading");
             lng.setText("loading");
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, this);
         } else {
             Toast.makeText(this, "Please turn on GPS", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
@@ -233,12 +233,12 @@ public class BicycleTracker extends AppCompatActivity
 
     @Override
     public void onProviderDisabled(@NonNull String provider) {
-
+        Toast.makeText(this, "Please turn on GPS", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onProviderEnabled(@NonNull String provider) {
-
+        Toast.makeText(this, "GPS is on", Toast.LENGTH_SHORT).show();
     }
 
     @Override

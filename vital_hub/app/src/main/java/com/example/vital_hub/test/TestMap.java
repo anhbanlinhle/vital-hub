@@ -24,6 +24,9 @@ import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.profile.UserProfile;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -48,6 +51,9 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
     ConstraintLayout screen;
     FusedLocationProviderClient fusedLocationClient;
     double latitude, longitude;
+    TextView lat, lng;
+    LocationRequest locationRequest;
+    LocationCallback locationCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +79,29 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
         updateLocation();
         expandCollapseMap();
         bindViewComponents();
+
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(1000);
+        locationRequest.setFastestInterval(500);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                Location result = locationResult.getLastLocation();
+
+                latitude = result.getLatitude();
+                longitude = result.getLongitude();
+                lat.setText(String.valueOf(latitude));
+                lng.setText(String.valueOf(longitude));
+                updateMapCamera();
+            }
+        };
+
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+
+
     }
 
     @Override
@@ -89,6 +118,8 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
         mapContainer = findViewById(R.id.map_container);
         map = findViewById(R.id.map);
         screen = findViewById(R.id.screen);
+        lat = findViewById(R.id.lat);
+        lng = findViewById(R.id.lng);
     }
 
     protected void bindViewComponents() {
