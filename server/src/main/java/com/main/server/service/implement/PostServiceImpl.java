@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -62,5 +63,13 @@ public class PostServiceImpl implements PostService {
             postRepository.save(post);
             return post;
         }
+    }
+
+    @Override
+    public void addPost(Post post) {
+        post.setIsDeleted(false);
+        post.setCreatedAt(LocalDateTime.now());
+        post.setUpdatedAt(LocalDateTime.now());
+        postRepository.save(post);
     }
 }

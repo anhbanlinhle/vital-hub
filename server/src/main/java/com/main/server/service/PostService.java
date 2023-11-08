@@ -12,4 +12,6 @@ public interface PostService {
     PostDto postById(Long id, Long userId, ExerciseType type);
 
     Post deletePost(Long id);
+
+    void addPost(Post post);
 }

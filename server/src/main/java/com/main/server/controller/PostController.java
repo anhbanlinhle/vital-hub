@@ -39,12 +39,18 @@ public class PostController {
     }
 
     @PutMapping("/remove")
-    public ResponseEntity<?> addComment(@RequestParam(name = "id") Long id) {
+    public ResponseEntity<?> removePost(@RequestParam(name = "id") Long id) {
         Post post = postService.deletePost(id);
         if (post == null) {
             return ResponseEntity.badRequest().body(null);
         } else {
             return ResponseEntity.ok().body(post);
         }
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addPost(@RequestBody Post post) {
+        postService.addPost(post);
+        return ResponseEntity.ok().body(null);
     }
 }
