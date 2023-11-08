@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.example.vital_hub.profile.UserProfile;
 import com.example.vital_hub.test.TestMap;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -67,7 +69,7 @@ public class BicycleTracker extends AppCompatActivity implements NavigationBarVi
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(BicycleTracker.this);
         expandCollapseMap();
         bindViewComponents();
         updateMapCamera();
@@ -77,6 +79,7 @@ public class BicycleTracker extends AppCompatActivity implements NavigationBarVi
     protected void onResume() {
         super.onResume();
         updateLocation();
+        updateMapCamera();
     }
 
     protected void findViewComponents() {
@@ -106,19 +109,14 @@ public class BicycleTracker extends AppCompatActivity implements NavigationBarVi
 
     protected void updateLocation() {
         checkLocationPermission();
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                        }
-                        else {
-                            latitude = 0;
-                            longitude = 0;
-                        }
-                    }
+        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+                .addOnSuccessListener(BicycleTracker.this, location -> {
+//                    if (location != null)
+                    Log.i("Long", location.getLongitude() + "");
+                    Log.i("Lat", location.getLatitude() + "");
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+
                 });
     }
 
@@ -131,16 +129,18 @@ public class BicycleTracker extends AppCompatActivity implements NavigationBarVi
         mMap.addMarker(new MarkerOptions()
                 .position(home)
                 .title("Your location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(home));
+
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(home)
                 .zoom(20)
                 .tilt(45)
                 .build();
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(home));
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     protected void expandCollapseMap() {
+        updateMapCamera();
         int expectedFullHeight = 0;
         if (mapContainer.getMeasuredHeight() == 600) {
             expectedFullHeight = screen.getMeasuredHeight() - toolbar.getMeasuredHeight() - bottomNavigationView.getMeasuredHeight() + 150;
