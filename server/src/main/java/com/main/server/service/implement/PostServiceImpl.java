@@ -5,6 +5,7 @@ import com.main.server.repository.FriendRepository;
 import com.main.server.repository.PostRepository;
 import com.main.server.service.PostService;
 import com.main.server.utils.dto.PostDto;
+import com.main.server.utils.enums.ExerciseType;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,8 +38,17 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto postById(Long id, Long userId) {
-        PostDto post = postRepository.getPostWithUserByPid(id, userId).orElse(null);
+    public PostDto postById(Long id, Long userId, ExerciseType type) {
+        PostDto post;
+        if (type == ExerciseType.BICYCLING) {
+            post = postRepository.getPostBicyclingWithUserByPid(id, userId).orElse(null);
+        } else if (type == ExerciseType.RUNNING) {
+            post = postRepository.getPostRunningWithUserByPid(id, userId).orElse(null);
+        } else if (type == ExerciseType.PUSHUP) {
+            post = postRepository.getPostPushUpWithUserByPid(id, userId).orElse(null);
+        } else {
+            post = postRepository.getPostGymWithUserByPid(id, userId).orElse(null);
+        }
         return post;
     }
 

@@ -5,6 +5,7 @@ import com.main.server.entity.Post;
 import com.main.server.middleware.TokenParser;
 import com.main.server.service.PostService;
 import com.main.server.utils.dto.PostDto;
+import com.main.server.utils.enums.ExerciseType;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,9 @@ public class PostController {
 
     @GetMapping("")
     public ResponseEntity<?> getPostById(@RequestParam(name = "id") Long id,
+                                         @RequestParam(name = "type") String type,
                                          @RequestHeader(name = "Authorization") String token) {
-        PostDto post = postService.postById(id, tokenParser.getCurrentUserId(token));
+        PostDto post = postService.postById(id, tokenParser.getCurrentUserId(token), ExerciseType.valueOf(type));
         return post != null ? ResponseEntity.ok().body(post) : ResponseEntity.badRequest().body(null);
     }
 
