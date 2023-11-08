@@ -158,12 +158,11 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
         initGetPostResponse(headers, pageNum);
         Api.getPostResponse.clone().enqueue(new Callback<List<HomePagePost>>() {
             @Override
-            public void onResponse(Call<List<HomePagePost>> call, Response<List<HomePagePost>> response) {
+            public void onResponse(@NonNull Call<List<HomePagePost>> call, @NonNull Response<List<HomePagePost>> response) {
                 if (response.isSuccessful()) {
                     postResponse = response.body();
-                    for(HomePagePost post : postResponse) {
-                        arrayList.add(post);
-                    }
+                    assert postResponse != null;
+                    arrayList.addAll(postResponse);
                     recyclerAdapter.notifyItemRangeChanged(arrayList.size() - postResponse.size(), postResponse.size());
                 }
             }

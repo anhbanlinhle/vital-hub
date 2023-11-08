@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
->
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,6 +23,13 @@
             android:textColor="@color/color_white"
             android:textSize="20sp" />
 
+        <ImageButton
+            android:id="@+id/submit_post_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ok_btn"
+            android:background="@null"
+            android:layout_marginEnd="15dp"/>
     </LinearLayout>
 
 
@@ -43,42 +49,56 @@
             android:textSize="36sp" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_post_input"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/comment_input">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Post Content"
-                android:fontFamily="@font/mont_reg" />
+                android:background="@drawable/edit_text_rounded"
+                android:fontFamily="@font/mont_alt_reg"
+                android:hint="Post Content" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-
+        <Spinner
+            android:id="@+id/ex_list_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/edit_text_rounded"
+            android:minHeight="55dp"
+            android:theme="@style/SpinnerTheme"/>
 
-            <AutoCompleteTextView
-                android:id="@+id/exercise_dropdown"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Choose an exercise"
-                android:inputType="none"/>
-        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/add_post_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dashed_border_rounded_top"
+            android:fontFamily="@font/sf_thin"
+            android:outlineProvider="background"
+            android:minHeight="200dp"
+            android:textColor="@color/custom_green"
+            android:textSize="64sp"
+            app:backgroundTint="@null"
+            app:shapeAppearanceOverlay="@style/top_corner"/>
+
+
+        <Button
+            android:id="@+id/add_post_img_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_bot_24"
+            android:fontFamily="@font/sf_medium"
+            android:text="+"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:backgroundTint="@null" />
 
 
     </LinearLayout>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
-        android:layout_width="match_parent"
-        android:layout_height="63dp"
-        android:layout_gravity="bottom"
-        app:itemActiveIndicatorStyle="@null"
-        app:itemBackground="@android:color/transparent"
-        app:itemIconTint="@color/color_green"
-        app:menu="@menu/bottom_nav_menu" />
 
 </LinearLayout>
