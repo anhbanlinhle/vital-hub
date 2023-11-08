@@ -104,8 +104,6 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
 
         ViewGroup.LayoutParams params = enableEdit.getLayoutParams();
 
-
-
         colorStateList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.color_black));
 
         profileImage.setEnabled(false);
@@ -365,7 +363,6 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         // On selecting a spinner item
         String item = parent.getItemAtPosition(position).toString();
     }
-
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
     }

@@ -46,6 +46,13 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
     String status;
     TextView name;
     Button functionButton;
+    TextView dob;
+    TextView email;
+    TextView phoneNum;
+    TextView othersGender;
+    TextView height;
+    TextView weight;
+    TextView exercisesPerDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +71,13 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
         backButton = findViewById(R.id.back_button);
         description = findViewById(R.id.description);
         functionButton = findViewById(R.id.function_button);
+        dob = findViewById(R.id.others_dob);
+        othersGender = findViewById(R.id.others_gender);
+        email = findViewById(R.id.others_email);
+        phoneNum = findViewById(R.id.others_phonenum);
+        height = findViewById(R.id.others_height);
+        weight = findViewById(R.id.others_weight);
+        exercisesPerDay = findViewById(R.id.others_exercise_per_day);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,8 +85,6 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
                 finish();
             }
         });
-
-
 
 
     }
@@ -120,6 +132,29 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
                         description.setText(fetchedOthersProfileDetail.getUserDetail().getDescription());
                     }
                     Glide.with(OthersProfile.this).load(fetchedOthersProfileDetail.getAvatar()).into(profileImage);
+                    dob.setText(fetchedOthersProfileDetail.getDob());
+                    if (fetchedOthersProfileDetail.getSex().getPosition() == 0) {
+                        othersGender.setText("Female");
+                    } else {
+                        othersGender.setText("Male");
+                    }
+                    email.setText(fetchedOthersProfileDetail.getGmail());
+                    phoneNum.setText(fetchedOthersProfileDetail.getPhoneNo());
+                    if (fetchedOthersProfileDetail.getUserDetail().getCurrentHeight() == null) {
+                        height.setText("");
+                    } else {
+                        height.setText(String.valueOf(fetchedOthersProfileDetail.getUserDetail().getCurrentHeight()));
+                    }
+                    if (fetchedOthersProfileDetail.getUserDetail().getCurrentWeight() == null) {
+                        weight.setText("");
+                    } else {
+                        weight.setText(String.valueOf(fetchedOthersProfileDetail.getUserDetail().getCurrentWeight()));
+                    }
+                    if (fetchedOthersProfileDetail.getUserDetail().getExerciseDaysPerWeek() == null) {
+                        exercisesPerDay.setText("");
+                    } else {
+                        exercisesPerDay.setText(String.valueOf(fetchedOthersProfileDetail.getUserDetail().getExerciseDaysPerWeek()));
+                    }
                 }
             }
             @Override
