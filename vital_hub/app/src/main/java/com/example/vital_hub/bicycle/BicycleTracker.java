@@ -12,12 +12,15 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bosphere.fadingedgelayout.FadingEdgeLayout;
 import com.example.vital_hub.R;
@@ -40,16 +43,21 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class BicycleTracker extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, OnMapReadyCallback {
+public class BicycleTracker extends AppCompatActivity
+        implements NavigationBarView.OnItemSelectedListener,
+        OnMapReadyCallback,
+        GPSListener{
     BottomNavigationView bottomNavigationView;
     Toolbar toolbar;
     TextView back, logo;
+    SupportMapFragment mapFragment;
     private GoogleMap mMap;
     FadingEdgeLayout mapContainer;
     FragmentContainerView map;
     ViewGroup.LayoutParams mapLayoutParams;
     ConstraintLayout screen;
     FusedLocationProviderClient fusedLocationClient;
+    TextView lat, lng;
     double latitude, longitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +74,7 @@ public class BicycleTracker extends AppCompatActivity implements NavigationBarVi
         checkLocationPermission();
         updateLocation();
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(BicycleTracker.this);
@@ -90,6 +98,9 @@ public class BicycleTracker extends AppCompatActivity implements NavigationBarVi
         mapContainer = findViewById(R.id.map_container);
         map = findViewById(R.id.map);
         screen = findViewById(R.id.screen);
+
+        lat = findViewById(R.id.lat);
+        lng = findViewById(R.id.lng);
     }
 
     protected void bindViewComponents() {
@@ -109,15 +120,16 @@ public class BicycleTracker extends AppCompatActivity implements NavigationBarVi
 
     protected void updateLocation() {
         checkLocationPermission();
-        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
-                .addOnSuccessListener(BicycleTracker.this, location -> {
-//                    if (location != null)
-                    Log.i("Long", location.getLongitude() + "");
-                    Log.i("Lat", location.getLatitude() + "");
-                        latitude = location.getLatitude();
-                        longitude = location.getLongitude();
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-                });
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            lat.setText("loading");
+            lng.setText("loading");
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        } else {
+            Toast.makeText(this, "Please turn on GPS", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+        }
     }
 
     protected void updateMapCamera() {
@@ -140,6 +152,7 @@ public class BicycleTracker extends AppCompatActivity implements NavigationBarVi
     }
 
     protected void expandCollapseMap() {
+        updateLocation();
         updateMapCamera();
         int expectedFullHeight = 0;
         if (mapContainer.getMeasuredHeight() == 600) {
@@ -206,5 +219,35 @@ public class BicycleTracker extends AppCompatActivity implements NavigationBarVi
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+
+        lat.setText(String.valueOf(latitude));
+        lng.setText(String.valueOf(longitude));
+        updateMapCamera();
+    }
+
+    @Override
+    public void onProviderDisabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onGpsStatusChanged(int event) {
+
     }
 }
