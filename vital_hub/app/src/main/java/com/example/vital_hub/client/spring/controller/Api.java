@@ -52,6 +52,7 @@ public class Api {
 
     //Friend
     public static Call<CountResponse> getTotalFriend;
+    public static Call<CountResponse> getOthersTotalFriend;
     public static Call<FriendListResponse> getFriendList;
     public static Call<FriendListResponse> getFriendRequestList;
     public static Call<FriendListResponse> getSearchList;

@@ -3,10 +3,17 @@ package com.example.vital_hub.profile;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
+import com.example.vital_hub.client.spring.objects.CountResponse;
 import com.example.vital_hub.client.spring.objects.ProfileDetailResponse;
 import com.example.vital_hub.client.spring.objects.ProfileResponse;
 import com.example.vital_hub.competition.CompetitionActivity;
@@ -32,6 +40,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OthersProfile extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+    PopupWindow popupWindow;
+    View dimOverlay;
     ImageView backButton;
     ImageView profileImage;
     TextView description;
@@ -43,8 +53,10 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
     ProfileResponse profileResponse;
     private UserDetail fetchedOthersProfileDetail;
     private UserInfo fetchedOthersProfile;
+    private CountResponse countResponse;
     String status;
     TextView name;
+    TextView totalFriend;
     Button functionButton;
     TextView dob;
     TextView email;
@@ -59,6 +71,7 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.others_profile);
         initHeaderForRequest();
+        fetchFriends(Long.parseLong(getIntent().getStringExtra("id")));
         fetchOthersProfile(Long.parseLong(getIntent().getStringExtra("id")));
         fetchOthersProfileDetail(Long.parseLong(getIntent().getStringExtra("id")));
 
@@ -78,6 +91,7 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
         height = findViewById(R.id.others_height);
         weight = findViewById(R.id.others_weight);
         exercisesPerDay = findViewById(R.id.others_exercise_per_day);
+        totalFriend = findViewById(R.id.friend_counter);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,11 +190,19 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
                     switch (fetchedOthersProfile.getStatus()) {
                         case "FRIEND":
                             functionButton.setText("Unfriend");
+                            functionButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    confirmationPopUp(view);
+                                }
+                            });
                             break;
                         case "PENDING":
                             functionButton.setText("Sent");
+                            break;
                         case "INCOMING":
                             functionButton.setText("Respond");
+                            break;
                         default:
                             functionButton.setText("Add friend");
                             break;
@@ -193,5 +215,96 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
             }
         });
     }
+    private void fetchFriends(long id) {
+        Api.initGetOthersTotalFriend(headers, id);
+        Api.getOthersTotalFriend.clone().enqueue(new Callback<CountResponse>() {
+            @Override
+            public void onResponse(Call<CountResponse> call, Response<CountResponse> response) {
+                if (response.isSuccessful()) {
+                    countResponse = response.body();
+                    assert countResponse != null;
+                    totalFriend.setText(String.valueOf(countResponse.getData()));
+                }
+            }
 
+            @Override
+            public void onFailure(Call<CountResponse> call, Throwable t) {
+                Toast.makeText(OthersProfile.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void confirmationPopUp(View view) {
+        // inflate the layout of the popup window
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.unfriend_confirmation_popup, null);
+
+        // Create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        this.popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+
+        // Initialize dim overlay
+        dimOverlay = getLayoutInflater().inflate(R.layout.dim_overlay,null);
+
+        // Add the overlay to the root layout of your activity
+        ViewGroup rootView = findViewById(android.R.id.content);
+        rootView.addView(dimOverlay);
+        dimOverlay.setVisibility(View.GONE);
+
+        // show the popup window
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        dimOverlay.setVisibility(View.VISIBLE);
+
+        // Dismiss the popup window when touched
+        popupWindow.setOnDismissListener(() -> {
+            dimOverlay.setVisibility(View.GONE);
+        });
+
+        Button cancel = popupView.findViewById(R.id.cancel_button);
+        Button confirm = popupView.findViewById(R.id.confirm_button);
+        TextView confirmText = popupView.findViewById(R.id.confirmation_text);
+
+        confirmText.setText("Are you sure you want to remove \n" + fetchedOthersProfile.getName() + " as your friend?");
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Api.initDeleteFriend(headers, fetchedOthersProfile.getId());
+                Api.deleteFriend.clone().enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                        if(response.isSuccessful()) {
+                            Toast.makeText(view.getContext(), "Remove friend successfully", Toast.LENGTH_SHORT).show();
+                            finish();
+                            startActivity(getIntent());
+                        }
+                        else {
+                            Toast.makeText(view.getContext(), "Error: " + response, Toast.LENGTH_SHORT).show();
+                            Log.d("Error", "Error: " + response);
+                        }
+                    }
+                    @Override
+                    public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                        Toast.makeText(view.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+                return true;
+            }
+        });
+    }
 }
