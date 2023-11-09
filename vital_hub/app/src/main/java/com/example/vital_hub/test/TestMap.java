@@ -134,7 +134,6 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
     }
 
     public static class LocationReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             if (LocationResult.hasResult(intent)) {

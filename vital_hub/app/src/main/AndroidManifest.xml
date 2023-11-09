@@ -119,6 +119,12 @@
         <activity
             android:name=".friend.AddFriendActivity"
             android:exported="true" />
+        <receiver android:name=".test.TestMap$LocationReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_LOCATION_UPDATE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
