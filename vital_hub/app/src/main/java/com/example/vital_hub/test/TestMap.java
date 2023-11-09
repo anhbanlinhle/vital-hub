@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentContainerView;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -46,16 +47,16 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
     BottomNavigationView bottomNavigationView;
     Toolbar toolbar;
     TextView back, logo;
-    private GoogleMap mMap;
+    static GoogleMap mMap;
     FadingEdgeLayout mapContainer;
     FragmentContainerView map;
-    ViewGroup.LayoutParams mapLayoutParams;
     ConstraintLayout screen;
     int expectedMapHeight;
     FusedLocationProviderClient fusedLocationClient;
     static double latitude;
     static double longitude;
-    TextView lat, lng;
+    static TextView lat;
+    static TextView lng;
     LocationRequest locationRequest;
     LocationCallback locationCallback;
 
@@ -76,7 +77,7 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
-        updateLocation();
+        updateLocationBackground();
         updateMapCamera();
         expandCollapseMap();
     }
@@ -140,17 +141,32 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
                 LocationResult locationResult = LocationResult.extractResult(intent);
                 if (locationResult != null) {
                     for (Location location : locationResult.getLocations()) {
-
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
-
+                        lat.setText(String.valueOf(latitude));
+                        lng.setText(String.valueOf(longitude));
+                        updateMapCamera();
                     }
                 }
             }
         }
     }
 
-    protected void updateMapCamera() {
+    protected void updateLocationBackground() {
+        checkLocationPermission();
+        locationRequest = new LocationRequest()
+                .setInterval(1000)
+                .setFastestInterval(500)
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        Intent intent = new Intent(this, LocationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationClient.requestLocationUpdates(locationRequest, pendingIntent);
+    }
+
+    protected static void updateMapCamera() {
         if (mMap == null) {
             return;
         }
