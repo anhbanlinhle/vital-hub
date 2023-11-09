@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,7 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
     static TextView lng;
     LocationRequest locationRequest;
     LocationCallback locationCallback;
-    static int count;
+    static Integer count=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,9 +145,15 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
                     for (Location location : locationResult.getLocations()) {
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
-                        lat.setText(String.valueOf(count));
-                        lng.setText(String.valueOf(count));
-                        count++;
+                        if (count == null)
+                            count = 0;
+                        else {
+                            count++;
+                            Log.i("count", String.valueOf(count));
+
+                        }
+                        lat.setText(String.valueOf(latitude));
+                        lng.setText(String.valueOf(longitude));
                         updateMapCamera();
                     }
                 }
@@ -157,8 +164,8 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
     protected void updateLocationBackground() {
         checkLocationPermission();
         locationRequest = new LocationRequest()
-                .setInterval(1000)
-                .setFastestInterval(500)
+                .setInterval(100)
+                .setFastestInterval(50)
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         Intent intent = new Intent(this, LocationReceiver.class);
