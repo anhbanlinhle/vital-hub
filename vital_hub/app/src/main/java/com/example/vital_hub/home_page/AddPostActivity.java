@@ -146,7 +146,8 @@ public class AddPostActivity extends AppCompatActivity {
                     Toast.makeText(AddPostActivity.this, "Error occured. Code: " + response.code(), Toast.LENGTH_LONG).show();
                     return;
                 }
-                // TO-DO: response successful
+                Toast.makeText(AddPostActivity.this, "Add post successfully", Toast.LENGTH_SHORT).show();
+                finish();
             }
 
             @Override

@@ -173,4 +173,12 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
             }
         });
     }
+
+    public static int homepageCheck(String string, Long id) {
+        if(id > 6 && string.equals("header")) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }

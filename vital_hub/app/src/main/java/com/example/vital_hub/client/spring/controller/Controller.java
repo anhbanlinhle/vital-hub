@@ -135,7 +135,7 @@ public interface Controller {
     @POST("/comment/add-comment")
     Call<Void> postComment(@HeaderMap Map<String, String> header, @Body CommentPost body);
 
-    @POST("/post/add-post")
+    @POST("/post/add")
     Call<Void> addPost(@HeaderMap Map<String, String> header, @Body HomePagePost body);
 
     @PUT("/post/remove")

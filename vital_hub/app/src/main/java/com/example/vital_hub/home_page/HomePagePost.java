@@ -13,8 +13,10 @@ public class HomePagePost {
     private Boolean isDeleted = false;
     private String createdAt;
     private String updatedAt;
-
     private Boolean isOwned;
+    private Float calo;
+    private String type;
+    private String score;
 
 
     public HomePagePost(String image, String username, String title) {
