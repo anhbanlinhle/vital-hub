@@ -52,6 +52,7 @@ public class Api {
 
     //Friend
     public static Call<CountResponse> getTotalFriend;
+    public static Call<CountResponse> getOthersTotalFriend;
     public static Call<FriendListResponse> getFriendList;
     public static Call<FriendListResponse> getFriendRequestList;
     public static Call<FriendListResponse> getSearchList;
@@ -140,6 +141,9 @@ public class Api {
     //Friend
     public static void initGetTotalFriend(Map<String, String> headers) {
         getTotalFriend = controller.getTotalFriends(headers);
+    }
+    public static void initGetOthersTotalFriend(Map<String, String> headers, Long id) {
+        getOthersTotalFriend = controller.getOthersTotalFriends(headers, id);
     }
 
     public static void initGetFriendList(Map<String, String> headers, String name, Integer limit, Integer offset) {

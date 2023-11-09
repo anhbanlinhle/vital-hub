@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -75,11 +76,64 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
         holder.moreButton.setOnClickListener(v -> {
             KeyboardHelper.hideKeyboard(v);
             showPopupWindow(v, position, friendList.get(position).getRawStatus());
-
-
         });
     }
 
+    public void confirmationPopUp(View view, int position) {
+        LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.unfriend_confirmation_popup, null);
+
+        // Create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+
+        Button cancel = popupView.findViewById(R.id.cancel_button);
+        Button confirm = popupView.findViewById(R.id.confirm_button);
+        TextView confirmText = popupView.findViewById(R.id.confirmation_text);
+        confirmText.setText("Are you sure you want to remove \n" + friendList.get(position).getName() + " as your friend?");
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Api.initDeleteFriend(headers, friendList.get(position).getId());
+                Api.deleteFriend.clone().enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                        if(response.isSuccessful()) {
+                            Toast.makeText(view.getContext(), "Remove friend successfully", Toast.LENGTH_SHORT).show();
+                            // Reload friend list
+                            friendActionListener.onAction();
+                            popupWindow.dismiss();
+                        } else {
+                            Toast.makeText(view.getContext(), "Error: " + response, Toast.LENGTH_SHORT).show();
+                            Log.d("Error", "Error: " + response);
+                        }
+                    }
+                    @Override
+                    public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                        Toast.makeText(view.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        dimBehind(popupWindow);
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+                return true;
+            }
+        });
+    }
     public void showPopupWindow(View v, int position, String status) {
 
         LayoutInflater inflater = (LayoutInflater) v.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -154,28 +208,8 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
         action.setOnClickListener(v1 -> {
             switch (friendList.get(position).getRawStatus()) {
                 case "FRIEND":
-                    Api.initDeleteFriend(headers, friendList.get(position).getId());
-                    Api.deleteFriend.clone().enqueue(new Callback<Void>() {
-                        @Override
-                        public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                            if(response.isSuccessful()) {
-                                Toast.makeText(v1.getContext(), "Remove friend successfully", Toast.LENGTH_SHORT).show();
-                                // Reload friend list
-                                friendActionListener.onAction();
-
-                            }
-                            else {
-                                Toast.makeText(v1.getContext(), "Error: " + response, Toast.LENGTH_SHORT).show();
-                                Log.d("Error", "Error: " + response);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                            Toast.makeText(v1.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
                     popupWindow.dismiss();
+                    confirmationPopUp(v1, position);
                     break;
                 case "PENDING":
                     Api.initRevokeRequest(headers, friendList.get(position).getId());
