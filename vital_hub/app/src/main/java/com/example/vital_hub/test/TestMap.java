@@ -59,11 +59,13 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
     static TextView lng;
     LocationRequest locationRequest;
     LocationCallback locationCallback;
+    static int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_map);
+        count = 0;
 
         findViewComponents();
         bindViewComponents();
@@ -142,8 +144,9 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
                     for (Location location : locationResult.getLocations()) {
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
-                        lat.setText(String.valueOf(latitude));
-                        lng.setText(String.valueOf(longitude));
+                        lat.setText(String.valueOf(count));
+                        lng.setText(String.valueOf(count));
+                        count++;
                         updateMapCamera();
                     }
                 }
