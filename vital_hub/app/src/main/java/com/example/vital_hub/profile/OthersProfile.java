@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ import com.example.vital_hub.client.spring.objects.ProfileDetailResponse;
 import com.example.vital_hub.client.spring.objects.ProfileResponse;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
+import com.example.vital_hub.friend.RequestFriendListAdapter;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -202,9 +204,86 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
                             break;
                         case "INCOMING":
                             functionButton.setText("Respond");
+                            functionButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    PopupMenu popupMenu = new PopupMenu(OthersProfile.this, view);
+                                    popupMenu.getMenuInflater().inflate(R.menu.respond_menu, popupMenu.getMenu());
+                                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                        @Override
+                                        public boolean onMenuItemClick(MenuItem menuItem) {
+                                            if (menuItem.getItemId() == R.id.accept) {
+                                                Api.initAcceptRequest(headers, fetchedOthersProfile.getId());
+                                                Api.acceptRequest.clone().enqueue(new Callback<Void>() {
+                                                    @Override
+                                                    public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                                                        if(response.isSuccessful()) {
+                                                            Toast.makeText(view.getContext(), "Accept friend request successfully", Toast.LENGTH_SHORT).show();
+                                                            finish();
+                                                            overridePendingTransition(0, 0);
+                                                            startActivity(getIntent());
+                                                            RequestFriendListAdapter.requestActionListener.onAction();
+                                                        } else {
+                                                            Toast.makeText(view.getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                    @Override
+                                                    public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                                                        Toast.makeText(view.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            } else if (menuItem.getItemId() == R.id.deny) {
+                                                Api.initDenyRequest(headers, fetchedOthersProfile.getId());
+                                                Api.denyRequest.clone().enqueue(new Callback<Void>() {
+                                                    @Override
+                                                    public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                                                        if(response.isSuccessful()) {
+                                                            Toast.makeText(view.getContext(), "Denied friend request", Toast.LENGTH_SHORT).show();
+                                                            finish();
+                                                            overridePendingTransition(0, 0);
+                                                            startActivity(getIntent());
+                                                        } else {
+                                                            Toast.makeText(view.getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                    @Override
+                                                    public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                                                        Toast.makeText(view.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
+                                            return true;
+                                        }
+                                    });
+                                    popupMenu.show();
+                                }
+                            });
                             break;
                         default:
                             functionButton.setText("Add friend");
+                            functionButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Api.initAddFriend(headers, fetchedOthersProfile.getId());
+                                    Api.addFriend.clone().enqueue(new Callback<Void>() {
+                                        @Override
+                                        public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                                            if(response.isSuccessful()) {
+                                                Toast.makeText(view.getContext(), "Send request", Toast.LENGTH_SHORT).show();
+                                                finish();
+                                                overridePendingTransition(0, 0);
+                                                startActivity(getIntent());
+                                            } else {
+                                                Toast.makeText(view.getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                        @Override
+                                        public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                                            Toast.makeText(view.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            });
                             break;
                     }
                 }
@@ -283,8 +362,9 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
                     @Override
                     public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                         if(response.isSuccessful()) {
-                            Toast.makeText(view.getContext(), "Remove friend successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(view.getContext(), "Removed friend", Toast.LENGTH_SHORT).show();
                             finish();
+                            overridePendingTransition(0, 0);
                             startActivity(getIntent());
                         }
                         else {

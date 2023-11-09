@@ -25,7 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RequestFriendListAdapter extends RecyclerView.Adapter<RequestFriendListAdapter.RequestFriendViewHolder>{
-    private RequestActionListener requestActionListener;
+    public static RequestActionListener requestActionListener;
     private final ArrayList<Friend> requestList;
     Map<String, String> headers = AddFriendActivity.headers;
 
