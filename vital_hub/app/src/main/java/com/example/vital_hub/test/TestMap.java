@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentContainerView;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -51,7 +53,8 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
     ConstraintLayout screen;
     int expectedMapHeight;
     FusedLocationProviderClient fusedLocationClient;
-    double latitude, longitude;
+    static double latitude;
+    static double longitude;
     TextView lat, lng;
     LocationRequest locationRequest;
     LocationCallback locationCallback;
@@ -127,6 +130,24 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+    }
+
+    public static class LocationReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (LocationResult.hasResult(intent)) {
+                LocationResult locationResult = LocationResult.extractResult(intent);
+                if (locationResult != null) {
+                    for (Location location : locationResult.getLocations()) {
+
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+
+                    }
+                }
+            }
+        }
     }
 
     protected void updateMapCamera() {
