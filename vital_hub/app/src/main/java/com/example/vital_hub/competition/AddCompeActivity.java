@@ -2,7 +2,6 @@ package com.example.vital_hub.competition;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
@@ -11,9 +10,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -115,12 +112,11 @@ public class AddCompeActivity extends AppCompatActivity {
         imageView = findViewById(R.id.compe_img_holder);
         addButton = findViewById(R.id.add);
         backButton = findViewById(R.id.back);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            buttonBinding();
-        }
+
+        buttonBinding();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+
     private void buttonBinding() {
         btnRun.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,8 +173,10 @@ public class AddCompeActivity extends AppCompatActivity {
         });
 
         addImgBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
-            startActivityForResult(intent, addImgCode);
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), addImgCode);
 
         });
 
