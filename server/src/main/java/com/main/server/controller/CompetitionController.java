@@ -8,6 +8,7 @@ import com.main.server.response.BaseResponse;
 import com.main.server.service.CompetitionService;
 import com.main.server.service.FriendService;
 import com.main.server.utils.dto.CompetitionListDto;
+import com.main.server.utils.dto.SaveExerciseAndCompetitionDto;
 import com.main.server.utils.enums.ExerciseType;
 import com.main.server.utils.dto.CompetitionModifyDto;
 import com.main.server.utils.dto.CompetitionModifyDto;
@@ -112,5 +113,11 @@ public class CompetitionController {
                                                      @RequestParam Integer pageSize,
                                                      @RequestHeader(name = "Authorization") String token) {
         return ResponseEntity.ok().body(competitionService.getEnrolledCompetition(tokenParser.getCurrentUserId(token), page, pageSize));
+    }
+
+    @PostMapping("/save-result")
+    public ResponseEntity<?> getEnrolledCompetitions(@RequestBody SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto,
+                                                     @RequestHeader(name = "Authorization") String token) {
+        return null;
     }
 }

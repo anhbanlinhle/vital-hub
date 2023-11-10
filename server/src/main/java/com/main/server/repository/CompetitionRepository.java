@@ -1,10 +1,7 @@
 package com.main.server.repository;
 
 import com.main.server.entity.Competition;
-import com.main.server.utils.dto.CompetitionDetailDto;
-import com.main.server.utils.dto.CompetitionListDto;
-import com.main.server.utils.dto.CompetitionRankingDto;
-import com.main.server.utils.dto.EnrolledCompetitionDto;
+import com.main.server.utils.dto.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -114,4 +111,28 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
             """
             , nativeQuery = true)
     List<EnrolledCompetitionDto> getEnrolledCompetition(Long userId, Integer limit, Integer offset);
+
+    @Query(value = """
+            SELECT r.step AS step, ce.exercise_id AS exerciseId FROM user u JOIN participants p ON u.id = p.participant_id
+            JOIN compe_ex ce ON p.comp_id = ce.compe_id JOIN running r on ce.exercise_id = r.exercise_id
+            WHERE p.comp_id = :competitionId AND u.id = :userId
+            """
+            , nativeQuery = true)
+    CompetitionResultDto getResultRunningForUser(Long competitionId, Long userId);
+
+    @Query(value = """
+            SELECT b.distance AS distance, ce.exercise_id AS exerciseId FROM user u JOIN participants p ON u.id = p.participant_id
+            JOIN compe_ex ce ON p.comp_id = ce.compe_id JOIN bicycling b on ce.exercise_id = b.exercise_id
+            WHERE p.comp_id = :competitionId AND u.id = :userId
+            """
+            , nativeQuery = true)
+    CompetitionResultDto getResultBicyclingForUser(Long competitionId, Long userId);
+
+    @Query(value = """
+            SELECT pu.rep AS rep, ce.exercise_id AS exerciseId FROM user u JOIN participants p ON u.id = p.participant_id
+            JOIN compe_ex ce ON p.comp_id = ce.compe_id JOIN push_up pu on ce.exercise_id = pu.exercise_id
+            WHERE p.comp_id = :competitionId AND u.id = :userId
+            """
+            , nativeQuery = true)
+    CompetitionResultDto getResultPushUpForUser(Long competitionId, Long userId);
 }
