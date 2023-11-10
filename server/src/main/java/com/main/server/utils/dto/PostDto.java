@@ -12,6 +12,8 @@ public interface PostDto {
     String getTitle();
     LocalDateTime getCreatedAt();
 
+    String getImage();
+
     @JsonIgnore
     Integer getIsOwnedInt();
 

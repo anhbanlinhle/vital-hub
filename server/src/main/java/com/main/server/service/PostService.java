@@ -8,7 +8,7 @@ import java.util.List;
 public interface PostService {
     List<PostDto> postByPage(int page, int pageSize, Long userId);
 
-    PostDto postById(Long id);
+    PostDto postById(Long id, Long userId);
 
     Post deletePost(Long id);
 }

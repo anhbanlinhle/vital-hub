@@ -5,7 +5,6 @@ import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAnd
 import static com.example.vital_hub.client.spring.controller.Api.updateUserProfile;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -103,8 +102,6 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         toolBar = (ViewGroup) enableEdit.getParent();
 
         ViewGroup.LayoutParams params = enableEdit.getLayoutParams();
-
-
 
         colorStateList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.color_black));
 
@@ -365,7 +362,6 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         // On selecting a spinner item
         String item = parent.getItemAtPosition(position).toString();
     }
-
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
     }
@@ -435,8 +431,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(this, UserProfile.class);
-        startActivity(intent);
+        finish();
     }
 
     public void savePopUp(View view) {

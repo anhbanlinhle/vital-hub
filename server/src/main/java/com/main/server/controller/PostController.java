@@ -30,8 +30,9 @@ public class PostController {
     }
 
     @GetMapping("")
-    public ResponseEntity<?> getPostById(@RequestParam(name = "id") Long id) {
-        PostDto post = postService.postById(id);
+    public ResponseEntity<?> getPostById(@RequestParam(name = "id") Long id,
+                                         @RequestHeader(name = "Authorization") String token) {
+        PostDto post = postService.postById(id, tokenParser.getCurrentUserId(token));
         return post != null ? ResponseEntity.ok().body(post) : ResponseEntity.badRequest().body(null);
     }
 

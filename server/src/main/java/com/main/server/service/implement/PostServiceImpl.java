@@ -32,8 +32,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto postById(Long id) {
-        PostDto post = postRepository.getPostWithUserByCid(id).orElse(null);
+    public PostDto postById(Long id, Long userId) {
+        PostDto post = postRepository.getPostWithUserByPid(id, userId).orElse(null);
         return post;
     }
 

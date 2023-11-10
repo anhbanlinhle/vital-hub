@@ -1,11 +1,16 @@
 package com.main.server.controller;
 
+import com.main.server.entity.Competition;
 import com.main.server.middleware.TokenParser;
 import com.main.server.repository.CompetitionRepository;
+import com.main.server.request.AddCompettitionRequest;
 import com.main.server.response.BaseResponse;
 import com.main.server.service.CompetitionService;
 import com.main.server.service.FriendService;
 import com.main.server.utils.dto.CompetitionListDto;
+import com.main.server.utils.enums.ExerciseType;
+import com.main.server.utils.dto.CompetitionModifyDto;
+import com.main.server.utils.dto.CompetitionModifyDto;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -13,6 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -60,13 +69,48 @@ public class CompetitionController {
                 .build());
     }
 
-    @PostMapping("/join_or_leave")
-    public ResponseEntity<BaseResponse> joinOrLeaveCompetition(HttpServletRequest request, @RequestParam Long compId) {
+    @PostMapping("/join-or-leave")
+    public ResponseEntity<BaseResponse> joinOrLeaveCompetition(HttpServletRequest request,
+                                                               @RequestParam(name = "id") Long compId,
+                                                               @RequestParam(name = "joining") Boolean joining) {
         Long currentUserId = tokenParser.getCurrentUserId(request.getHeader("Authorization"));
-        competitionService.joinOrLeaveCompetition(currentUserId, compId);
+        competitionService.joinOrLeaveCompetition(currentUserId, compId, joining);
+        return ResponseEntity.ok().body(null);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<BaseResponse> addCompetition(HttpServletRequest request, @RequestBody AddCompettitionRequest addCompettitionRequest) {
+        Long currentUserId = tokenParser.getCurrentUserId(request.getHeader("Authorization"));
+        competitionService.addCompetition(currentUserId, addCompettitionRequest);
         return ResponseEntity.ok().body(BaseResponse.builder()
-                .message("success")
+                .message("Add competition successfully")
                 .success(true)
+                .data(addCompettitionRequest)
                 .build());
+    }
+
+    @GetMapping("/detail")
+    public ResponseEntity<?> getDetailCompetition(@RequestParam(name = "id") Long id,
+                                                  @RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok().body(competitionService.getDetailCompetition(id, tokenParser.getCurrentUserId(token)));
+    }
+
+    @PutMapping("/delete")
+    public ResponseEntity<?> deleteCompetition(@RequestParam(name = "id") Long id) {
+        competitionService.deleteCompetition(id);
+        return ResponseEntity.ok().body(null);
+    }
+
+    @PutMapping("/edit")
+    public ResponseEntity<?> editCompetition(@RequestBody CompetitionModifyDto competition) {
+        competitionService.editCompetition(competition);
+        return ResponseEntity.ok().body(null);
+    }
+
+    @GetMapping("/enrolled")
+    public ResponseEntity<?> getEnrolledCompetitions(@RequestParam Integer page,
+                                                     @RequestParam Integer pageSize,
+                                                     @RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok().body(competitionService.getEnrolledCompetition(tokenParser.getCurrentUserId(token), page, pageSize));
     }
 }

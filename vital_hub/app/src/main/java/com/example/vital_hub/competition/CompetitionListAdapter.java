@@ -1,5 +1,6 @@
 package com.example.vital_hub.competition;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,16 +59,12 @@ public class CompetitionListAdapter extends RecyclerView.Adapter<CompetitionList
         holder.setItemClickListener((view, position1, isLongClick) -> {
             if (isLongClick){
 
-            }
-            else{
+            } else {
                 KeyboardHelper.hideKeyboard(view);
-                Toast.makeText(
-                                view.getContext(),
-                                "Click: " + competitionList.get(position1).getId(),
-                                Toast.LENGTH_SHORT)
-                        .show();
+                Intent intent = new Intent(view.getContext(), CompetitionDetailActivity.class);
+                intent.putExtra("competitionId", competitionList.get(position1).getId());
+                view.getContext().startActivity(intent);
             }
-
         });
     }
 

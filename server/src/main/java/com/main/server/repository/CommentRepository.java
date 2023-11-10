@@ -7,15 +7,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    @Query("SELECT c.id AS id, c.userId AS userId, c.content AS content, u.avatar AS avatar, " +
-            "u.name AS profileName, c.createdAt AS createdAt, c.updatedAt AS updatedAt, " +
-            "CASE WHEN (:currentUserId = c.userId) THEN TRUE ELSE FALSE END AS isOwned FROM Comment c JOIN User u ON c.userId = u.id " +
-            "WHERE c.isDeleted = FALSE AND c.postId = :postId ORDER BY c.updatedAt, c.createdAt")
-    Page<CommentDto> commentsInPost(Pageable pageable, Long postId, Long currentUserId);
+    @Query(value = """
+            SELECT c.id AS id, c.user_id AS userId, c.content AS content, u.avatar AS avatar,
+            u.name AS profileName, c.created_at AS createdAt, c.updated_at AS updatedAt,
+            IF(c.user_id = :currentUserId, 1, 0) AS isOwnedInt FROM comment c JOIN user u ON c.user_id = u.id
+            WHERE c.is_deleted = FALSE AND c.post_id = :postId ORDER BY c.updated_at, c.created_at LIMIT :limit OFFSET :offset
+            """
+            , nativeQuery = true)
+    List<CommentDto> commentsInPost(Long postId, Long currentUserId, Integer limit, Integer offset);
 
     Optional<Comment> findByIdAndIsDeletedFalse(Long id);
 }

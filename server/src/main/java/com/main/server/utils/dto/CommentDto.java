@@ -1,5 +1,7 @@
 package com.main.server.utils.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDateTime;
 
 public interface CommentDto {
@@ -10,5 +12,10 @@ public interface CommentDto {
     String getProfileName();
     LocalDateTime getCreatedAt();
     LocalDateTime getUpdatedAt();
-    Boolean getIsOwned();
+    default Boolean getIsOwned(){
+        return getIsOwnedInt() == 1;
+    }
+
+    @JsonIgnore
+    Integer getIsOwnedInt();
 }

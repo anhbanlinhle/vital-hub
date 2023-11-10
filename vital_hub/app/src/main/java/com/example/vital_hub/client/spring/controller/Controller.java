@@ -1,12 +1,15 @@
 package com.example.vital_hub.client.spring.controller;
 
-import com.example.vital_hub.client.objects.CommentPost;
+import com.example.vital_hub.client.spring.objects.CommentPost;
 import com.example.vital_hub.client.spring.objects.*;
 import com.example.vital_hub.client.spring.objects.AuthResponseObject;
 import com.example.vital_hub.client.spring.objects.CountResponse;
 import com.example.vital_hub.client.spring.objects.FriendListResponse;
 import com.example.vital_hub.client.spring.objects.RegistRequestObject;
 import com.example.vital_hub.client.spring.objects.ResponseObject;
+import com.example.vital_hub.competition.data.CompetitionAllDetail;
+import com.example.vital_hub.competition.data.CompetitionEdit;
+import com.example.vital_hub.competition.data.CompetitionAdd;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.example.vital_hub.home_page.HomePagePost;
@@ -51,6 +54,8 @@ public interface Controller {
 
     @GET("/friend/total")
     Call<CountResponse> getTotalFriends(@HeaderMap Map<String, String> headers);
+    @GET("/friend/total")
+    Call<CountResponse> getOthersTotalFriends(@HeaderMap Map<String, String> headers, @Query("id") Long id);
     @GET("/friend/list")
     Call<FriendListResponse> getFriendList(@HeaderMap Map<String, String> headers, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
     @GET("/friend/request-list")
@@ -74,6 +79,21 @@ public interface Controller {
     Call<CompetitionListResponse> getCompetitionList(@HeaderMap Map<String, String> headers,@Query("isJoined") Boolean isJoined, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
     @GET("/competition/own-list")
     Call<CompetitionListResponse> getOwnCompetitionList(@HeaderMap Map<String, String> headers, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
+    @POST("/competition/add")
+    Call<Void> addCompetition(@HeaderMap Map<String, String> headers, @Body CompetitionAdd competition);
+    @GET("/competition/detail")
+    Call<CompetitionAllDetail> getCompetitionAllDetail(@HeaderMap Map<String, String> headers, @Query("id") Long id);
+
+    @PUT("/competition/edit")
+    Call<Void> editCompetition (@HeaderMap Map<String, String> headers, @Body CompetitionEdit competitionEdit);
+
+    @PUT("/competition/delete")
+    Call<Void> deleteCompetition (@HeaderMap Map<String, String> headers, @Query("id") Long id);
+
+    @POST("/competition/join-or-leave")
+    Call<Void> participateInCompetition (@HeaderMap Map<String, String> headers,
+                                         @Query("id") Long id,
+                                         @Query("joining") Boolean joining);
     // /auth/**
     @POST("/auth/create-user-first-sign")
     Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);
@@ -83,13 +103,14 @@ public interface Controller {
     Call<ProfileResponse> getUserProfile(@HeaderMap Map<String, String> header);
     @GET("/user/detail")
     Call<ProfileDetailResponse> getUserProfileDetail(@HeaderMap Map<String, String> header);
-
     @PUT("/user/save-detail")
     Call<UserDetail> updateProfileDetail(@HeaderMap Map<String, String> headers, @Body UserDetail body);
 
     // Others Profile
     @GET("/user/detail")
     Call<ProfileDetailResponse> getOthersProfileDetail(@HeaderMap Map<String, String> header, @Query("id") Long id);
+    @GET("/user/info")
+    Call<ProfileResponse> getOthersProfile(@HeaderMap Map<String, String> header, @Query("id") Long id);
 
     // /workout/**
     @GET("/workout/exercise-groups")
@@ -109,11 +130,23 @@ public interface Controller {
     Call<List<HomePagePost>> getPostResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize);
 
     @GET("/post")
-    Call<HomePagePost> getSinglePost(@HeaderMap Map<String, String> header, @Query("postId") Long postId);
+    Call<HomePagePost> getSinglePost(@HeaderMap Map<String, String> header, @Query("id") Long postId);
 
     @GET("/comment/by-post")
     Call<List<Comment>> getCommentResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize, @Query("postId") Long postId);
 
     @POST("/comment/add-comment")
     Call<Void> postComment(@HeaderMap Map<String, String> header, @Body CommentPost body);
+
+    @POST("/post/add-post")
+    Call<Void> addPost(@HeaderMap Map<String, String> header, @Body HomePagePost body);
+
+    @PUT("/post/remove")
+    Call<Void> deletePost(@HeaderMap Map<String, String> header, @Query("id") Long postId);
+
+    @PUT("/comment/remove")
+    Call<Void> deleteComment(@HeaderMap Map<String, String> header, @Query("id") Long commentId);
+
+    @GET("/exercise")
+    Call<List<ExerciseResponse>> getExerciseList(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize);
 }

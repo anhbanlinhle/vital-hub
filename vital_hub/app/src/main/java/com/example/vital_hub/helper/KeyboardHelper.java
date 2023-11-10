@@ -10,16 +10,21 @@ import android.widget.EditText;
 public class KeyboardHelper {
 
     public static void setupKeyboardHiding(final Activity activity) {
-        View rootView = activity.findViewById(android.R.id.content);
-        rootView.setOnTouchListener(
-                new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        hideKeyboard(activity);
+        final View rootView = activity.findViewById(android.R.id.content);
+        rootView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    View view = activity.getCurrentFocus();
+                    if (view instanceof EditText) {
                         return false;
+                    } else {
+                        hideKeyboard(activity);
                     }
                 }
-        );
+                return false;
+            }
+        });
     }
 
     // Hide keyboard when user touches outside of EditText
