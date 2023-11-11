@@ -118,6 +118,7 @@ public class CompetitionController {
     @PostMapping("/save-result")
     public ResponseEntity<?> getEnrolledCompetitions(@RequestBody SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto,
                                                      @RequestHeader(name = "Authorization") String token) {
-        return null;
+        competitionService.saveResultForCompetition(saveExerciseAndCompetitionDto, tokenParser.getCurrentUserId(token));
+        return ResponseEntity.ok().body(null);
     }
 }
