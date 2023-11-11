@@ -63,6 +63,7 @@ public class Api {
     public static Call<CompetitionListResponse> getOwnCompetitionList;
     public static Call<Void> addCompetition;
     public static Call<CompetitionAllDetail> competitionAllDetail;
+    public static Call<Void> savedCompetitionResult;
 
     public static Call<Void> editCompetition;
 
@@ -72,6 +73,8 @@ public class Api {
 
     //Exercise
     public static Call<List<SingleExercise>> singleExerciseList;
+
+    public static Call<Void> savedExercise;
 
     public static Call<List<GroupExercise>> groupExerciseList;
 
@@ -198,6 +201,10 @@ public class Api {
         participateInCompetition = controller.participateInCompetition(header, compId, joining);
     }
 
+    public static void saveResultForCompetition(Map<String, String> header, SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto) {
+        savedCompetitionResult = controller.saveExerciseForCompetition(header, saveExerciseAndCompetitionDto);
+    }
+
     public static void initPostRegist(Map<String, String> headers, RegistRequestObject body) {
         postRegist = controller.postRegistInfo(headers, body);
     }
@@ -267,5 +274,9 @@ public class Api {
 
     public static void initGetExerciseList(Map<String, String> headers, int pageNum) {
         getExerciseList = controller.getExerciseList(headers, pageNum, 10);
+    }
+
+    public static void saveExercise(Map<String, String> headers, SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto) {
+        savedExercise = controller.saveExercise(headers, saveExerciseAndCompetitionDto);
     }
 }
