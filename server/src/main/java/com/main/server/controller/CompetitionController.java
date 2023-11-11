@@ -7,6 +7,7 @@ import com.main.server.request.AddCompettitionRequest;
 import com.main.server.response.BaseResponse;
 import com.main.server.service.CompetitionService;
 import com.main.server.service.FriendService;
+import com.main.server.utils.dto.CompeMiniDto;
 import com.main.server.utils.dto.CompetitionListDto;
 import com.main.server.utils.enums.ExerciseType;
 import com.main.server.utils.dto.CompetitionModifyDto;
@@ -107,4 +108,16 @@ public class CompetitionController {
         competitionService.editCompetition(competition);
         return ResponseEntity.ok().body(null);
     }
+
+    @GetMapping("/joined-running")
+    public ResponseEntity<BaseResponse> getJoinedTitleList(@RequestHeader(name = "Authorization") String token) {
+        Long currentUserId = tokenParser.getCurrentUserId(token);
+        List<CompeMiniDto> competitionList = competitionService.getJoinedTitleList(currentUserId);
+        return ResponseEntity.ok().body(BaseResponse.builder()
+                .message("success")
+                .success(true)
+                .data(competitionService.getJoinedTitleList(currentUserId))
+                .build());
+    }
+
 }

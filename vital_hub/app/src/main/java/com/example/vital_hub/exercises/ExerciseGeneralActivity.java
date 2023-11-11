@@ -15,6 +15,7 @@ import com.example.vital_hub.pushup.PushupVideoScan;
 import com.example.vital_hub.profile.UserProfile;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.example.vital_hub.running.RunningActivity;
 
 public class ExerciseGeneralActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
@@ -49,6 +50,9 @@ public class ExerciseGeneralActivity extends AppCompatActivity implements Naviga
         });
         choosePushupBtn.setOnClickListener(v -> {
             startActivity(new Intent(ExerciseGeneralActivity.this, PushupVideoScan.class));
+        });
+        chooseRunBtn.setOnClickListener(v -> {
+            startActivity(new Intent(ExerciseGeneralActivity.this, RunningActivity.class));
         });
     }
 

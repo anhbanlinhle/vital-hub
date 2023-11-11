@@ -1,159 +1,170 @@
 <!-- custom_list_item.xml -->
-<LinearLayout
+<androidx.cardview.widget.CardView
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    app:cardCornerRadius="20dp"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
-    android:layout_gravity="center"
+    android:layout_width="match_parent"
     android:layout_height="380dp"
     android:elevation="15dp"
-    android:padding="0dp"
-    android:orientation="vertical"
     android:layout_marginTop="6dp"
     android:layout_marginBottom="6dp"
-
-    android:background="@drawable/round_4_conner_item">
-
-    <ImageView
-        android:id="@+id/background"
-        android:layout_width="match_parent"
-        android:padding="0dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:scaleType="fitXY"
-        android:background="@drawable/competition_rounded_image"
-        android:outlineProvider="background"
-        android:clipToOutline="true"
-        />
-
-    <TextView
-        android:id="@+id/competitionName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Competition name"
-        android:padding="16dp"
-        android:fontFamily="@font/mont_bold"
-        android:textColor="@color/black"
-        android:textSize="16dp"
-        />
-
+    >
     <LinearLayout
+
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:paddingStart="16dp"
-        >
-        <androidx.cardview.widget.CardView
-            android:layout_width="46dp"
-            android:layout_height="46dp"
-            app:cardCornerRadius="32dp"
+        android:layout_gravity="center"
+        android:layout_height="380dp"
+        android:padding="0dp"
+        android:orientation="vertical"
+
+
+        android:background="@drawable/round_4_conner_item">
+
+        <ImageView
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:padding="0dp"
+            android:layout_height="200dp"
             android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:outlineProvider="background"
+            android:clipToOutline="true"
+            />
+
+        <TextView
+            android:id="@+id/competitionName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Competition name"
             android:padding="16dp"
-            >
-
-            <ImageView
-                android:id="@+id/avatar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
-                />
-        </androidx.cardview.widget.CardView>
-
+            android:fontFamily="@font/mont_bold"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center"
+            android:padding="8dp"
+            android:paddingStart="16dp"
             >
+            <androidx.cardview.widget.CardView
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                app:cardCornerRadius="32dp"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                >
+
+                <ImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    />
+            </androidx.cardview.widget.CardView>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                >
+
+                <TextView
+                    android:id="@+id/hostName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/mont_semi_bold"
+                    android:gravity="center"
+                    android:text="Host Name"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/hostName"
+                android:id="@+id/totalText"
                 android:layout_width="wrap_content"
-                android:layout_height="42dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/sf_medium"
+                android:text="Participants"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/total_mem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sf_medium"
+                android:layout_marginStart="16dp"
+                android:text="1000"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/totalText" />
+
+            <TextView
+                android:id="@+id/statusText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/sf_medium"
+                android:text="Status"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sf_medium"
+                android:text="Còn 2 ngày"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="@+id/statusText"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/statusText"
+                app:layout_constraintTop_toBottomOf="@+id/statusText" />
+
+            <TextView
+                android:id="@+id/compe_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sf_medium"
                 android:layout_marginEnd="16dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/mont_semi_bold"
-                android:gravity="center"
-                android:text="Host Name"
-                android:textColor="@android:color/black"
-                android:textSize="14sp" />
-        </LinearLayout>
+                android:layout_marginTop="8dp"
+                android:text="Category"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/compe_type_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sf_medium"
+                android:text="Running"
+                android:textColor="@color/black"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/compe_type" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </LinearLayout>
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/totalText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/sf_medium"
-            android:text="Lượt tham gia"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/total_mem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/sf_medium"
-            android:text="1000"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="@+id/totalText"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/totalText"
-            app:layout_constraintTop_toBottomOf="@+id/totalText" />
-
-        <TextView
-            android:id="@+id/statusText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/sf_medium"
-            android:text="Tình trạng"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/sf_medium"
-            android:text="Còn 2 ngày"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="@+id/statusText"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/statusText"
-            app:layout_constraintTop_toBottomOf="@+id/statusText" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/joinButton"
-            style="@style/Widget.Material3.CardView.Outlined"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/rounded_corner"
-            android:fontFamily="@font/sf_semi_bold"
-            android:outlineAmbientShadowColor="@color/color_grey"
-            android:text="Tham gia"
-            android:textColor="#1DB964"
-            android:textSize="14dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_white"
+        tools:context=".running.RunningActivity">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/select_competition"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_margin="16dp"
+            android:hint="Select Competition"
+            app:layout_constraintBottom_toBottomOf="@+id/return_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/return_button"
+            app:layout_constraintTop_toTopOf="@+id/return_button">
+
+            <AutoCompleteTextView
+                android:id="@+id/auto_complete_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+<!--        <TextView-->
+<!--            android:id="@+id/title"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:fontFamily="@font/mont_semi_bold"-->
+<!--            android:text="Running"-->
+<!--            android:textSize="20dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.498"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/return_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/baseline_arrow_back_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="580dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/round_4_conner_item"
+            android:elevation="5dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/select_competition">
+
+
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/running_progress"
+                app:layout_constraintVertical_bias="0.301">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    >
+
+                    <me.tankery.lib.circularseekbar.CircularSeekBar
+                        android:id="@+id/sunday_progress"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:cs_circle_color="#E8E9EB"
+                        app:cs_circle_progress_color="@color/color_green"
+                        app:cs_circle_stroke_width="5dp"
+                        app:cs_circle_style="round"
+                        app:cs_disable_pointer="true"
+                        app:cs_end_angle="40"
+                        app:cs_maintain_equal_circle="true"
+                        app:cs_progress="80"
+                        app:cs_start_angle="-220"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/sunday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/sf_semi_bold"
+                        android:text="S"
+                        android:textColor="@color/color_grey"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sunday_progress" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    >
+
+                    <me.tankery.lib.circularseekbar.CircularSeekBar
+                        android:id="@+id/monday_progress"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:cs_circle_color="#E8E9EB"
+                        app:cs_circle_progress_color="@color/color_green"
+                        app:cs_circle_stroke_width="5dp"
+                        app:cs_circle_style="round"
+                        app:cs_disable_pointer="true"
+                        app:cs_end_angle="40"
+                        app:cs_maintain_equal_circle="true"
+                        app:cs_progress="80"
+                        app:cs_start_angle="-220"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/monday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/sf_semi_bold"
+                        android:text="M"
+                        android:textColor="@color/color_grey"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/monday_progress" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    >
+
+                    <me.tankery.lib.circularseekbar.CircularSeekBar
+                        android:id="@+id/tuesday_progress"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:cs_circle_color="#E8E9EB"
+                        app:cs_circle_progress_color="@color/color_green"
+                        app:cs_circle_stroke_width="5dp"
+                        app:cs_circle_style="round"
+                        app:cs_disable_pointer="true"
+                        app:cs_end_angle="40"
+                        app:cs_maintain_equal_circle="true"
+                        app:cs_progress="80"
+                        app:cs_start_angle="-220"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tuesday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/sf_medium"
+                        android:text="T"
+                        android:textColor="@color/color_grey"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tuesday_progress" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    >
+
+                    <me.tankery.lib.circularseekbar.CircularSeekBar
+                        android:id="@+id/wednesday_progress"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:cs_circle_color="#E8E9EB"
+                        app:cs_circle_progress_color="@color/color_green"
+                        app:cs_circle_stroke_width="5dp"
+                        app:cs_circle_style="round"
+                        app:cs_disable_pointer="true"
+                        app:cs_end_angle="40"
+                        app:cs_maintain_equal_circle="true"
+                        app:cs_progress="80"
+                        app:cs_start_angle="-220"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/wednesday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/sf_medium"
+                        android:text="W"
+                        android:textColor="@color/color_grey"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/wednesday_progress" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    >
+
+                    <me.tankery.lib.circularseekbar.CircularSeekBar
+                        android:id="@+id/thursday_progress"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:cs_circle_color="#E8E9EB"
+                        app:cs_circle_progress_color="@color/color_green"
+                        app:cs_circle_stroke_width="5dp"
+                        app:cs_circle_style="round"
+                        app:cs_disable_pointer="true"
+                        app:cs_end_angle="40"
+                        app:cs_maintain_equal_circle="true"
+                        app:cs_progress="80"
+                        app:cs_start_angle="-220"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/thursday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/sf_semi_bold"
+                        android:text="T"
+                        android:textColor="@color/color_grey"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/thursday_progress" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    >
+
+                    <me.tankery.lib.circularseekbar.CircularSeekBar
+                        android:id="@+id/friday_progress"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:cs_circle_color="#E8E9EB"
+                        app:cs_circle_progress_color="@color/color_green"
+                        app:cs_circle_stroke_width="5dp"
+                        app:cs_circle_style="round"
+                        app:cs_disable_pointer="true"
+                        app:cs_end_angle="40"
+                        app:cs_maintain_equal_circle="true"
+                        app:cs_progress="80"
+                        app:cs_start_angle="-220"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/friday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/sf_semi_bold"
+                        android:text="F"
+                        android:textColor="@color/color_grey"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/friday_progress" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    >
+
+                    <me.tankery.lib.circularseekbar.CircularSeekBar
+                        android:id="@+id/saturday_progress"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:cs_circle_color="#E8E9EB"
+                        app:cs_circle_progress_color="@color/color_green"
+                        app:cs_circle_stroke_width="5dp"
+                        app:cs_circle_style="round"
+                        app:cs_disable_pointer="true"
+                        app:cs_end_angle="40"
+                        app:cs_maintain_equal_circle="true"
+                        app:cs_progress="80"
+                        app:cs_start_angle="-220"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/saturday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/sf_semi_bold"
+                        android:text="S"
+                        android:textColor="@color/color_grey"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/saturday_progress" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+
+            <me.tankery.lib.circularseekbar.CircularSeekBar
+                android:id="@+id/running_progress"
+                android:layout_width="350dp"
+                android:layout_height="350dp"
+                app:cs_circle_color="#E8E9EB"
+                app:cs_circle_progress_color="@color/color_green"
+                app:cs_circle_stroke_width="25dp"
+                app:cs_circle_style="round"
+                app:cs_disable_pointer="true"
+                app:cs_end_angle="40"
+                app:cs_maintain_equal_circle="true"
+                app:cs_progress="80"
+                app:cs_start_angle="-220"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.234" />
+
+            <TextView
+                android:id="@+id/steps_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/sf_bold"
+                android:text="0"
+                android:textColor="@color/black"
+                android:textSize="70sp"
+                app:layout_constraintBottom_toBottomOf="@+id/running_progress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/running_progress"
+                app:layout_constraintVertical_bias="0.297" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/start_stop_button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/start_round_button"
+                app:layout_constraintBottom_toBottomOf="@+id/running_progress"
+                app:layout_constraintEnd_toEndOf="@+id/running_progress"
+                app:layout_constraintStart_toStartOf="@+id/running_progress" />
+
+            <EditText
+                android:id="@+id/goal"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="@font/sf_medium"
+                android:text="/10000"
+                android:textColor="@color/grey"
+                android:textSize="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/start_stop_button"
+                app:layout_constraintEnd_toEndOf="@+id/running_progress"
+                app:layout_constraintStart_toStartOf="@+id/running_progress"
+                app:layout_constraintTop_toBottomOf="@+id/steps_count"
+                app:layout_constraintVertical_bias="1.0" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/statistics_layout"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/round_4_conner_item"
+            android:elevation="5dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/time_layout"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                >
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/baseline_clock_24"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sf_semi_bold"
+                    android:text="00:00"
+                    android:textColor="#28282B"
+                    android:textSize="30sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView"
+                    app:layout_constraintVertical_bias="0.315" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sf_semi_bold"
+                    android:text="Hrs"
+                    android:textColor="@color/color_grey"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/time"
+                    app:layout_constraintStart_toStartOf="@+id/time"
+                    app:layout_constraintTop_toBottomOf="@+id/time"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                >
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/fire_svgrepo_com"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/calories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sf_semi_bold"
+                    android:text="0"
+                    android:textColor="#28282B"
+                    android:textSize="30sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView2"
+                    app:layout_constraintVertical_bias="0.315" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sf_semi_bold"
+                    android:text="Kcal"
+                    android:textColor="@color/color_grey"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/calories"
+                    app:layout_constraintStart_toStartOf="@+id/calories"
+                    app:layout_constraintTop_toBottomOf="@+id/calories" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                >
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/distance_svgrepo_com"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sf_semi_bold"
+                    android:text="0.0"
+                    android:textColor="#28282B"
+                    android:textSize="30sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                    app:layout_constraintVertical_bias="0.315" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sf_semi_bold"
+                    android:text="Km"
+                    android:textColor="@color/color_grey"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/distance"
+                    app:layout_constraintStart_toStartOf="@+id/distance"
+                    app:layout_constraintTop_toBottomOf="@+id/distance" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

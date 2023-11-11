@@ -87,6 +87,8 @@ public interface Controller {
 
     @PUT("/competition/delete")
     Call<Void> deleteCompetition (@HeaderMap Map<String, String> headers, @Query("id") Long id);
+    @GET("/competition/joined-running")
+    Call<CompetitionMinDetailResponse> getJoinedCompetitionTitleList(@HeaderMap Map<String, String> headers);
     // /auth/**
     @POST("/auth/create-user-first-sign")
     Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);

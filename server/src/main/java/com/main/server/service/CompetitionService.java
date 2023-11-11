@@ -2,6 +2,7 @@ package com.main.server.service;
 
 import com.main.server.entity.Competition;
 import com.main.server.request.AddCompettitionRequest;
+import com.main.server.utils.dto.CompeMiniDto;
 import com.main.server.utils.dto.CompetitionAllDetailDto;
 import com.main.server.utils.dto.CompetitionListDto;
 import com.main.server.utils.dto.CompetitionModifyDto;
@@ -25,4 +26,5 @@ public interface CompetitionService {
     void editCompetition(CompetitionModifyDto competition);
     void addCompetition(Long currentUserId, AddCompettitionRequest request);
 
+    List<CompeMiniDto> getJoinedTitleList(Long currentUserId);
 }

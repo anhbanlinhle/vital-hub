@@ -11,6 +11,7 @@ import com.example.vital_hub.client.spring.objects.ResponseObject;
 import com.example.vital_hub.competition.data.CompetitionAllDetail;
 import com.example.vital_hub.competition.data.CompetitionEdit;
 import com.example.vital_hub.competition.data.CompetitionAdd;
+import com.example.vital_hub.competition.data.CompetitionMinDetail;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.example.vital_hub.profile.UserDetail;
@@ -67,6 +68,7 @@ public class Api {
     public static Call<Void> editCompetition;
 
     public static Call<Void> deleteCompetition;
+    public static Call<CompetitionMinDetailResponse> getCompetitionTitleList;
 
     //Exercise
     public static Call<List<SingleExercise>> singleExerciseList;
@@ -242,4 +244,7 @@ public class Api {
         postComment = controller.postComment(headers, body);
     }
 
+    public static void initGetCompetitionTitleList(Map<String, String> headers) {
+        getCompetitionTitleList = controller.getJoinedCompetitionTitleList(headers);
+    }
 }

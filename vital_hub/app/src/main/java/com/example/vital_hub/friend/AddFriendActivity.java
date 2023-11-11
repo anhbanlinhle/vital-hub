@@ -87,6 +87,13 @@ public class AddFriendActivity extends AppCompatActivity implements RequestFrien
         );
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchedRequestList.clear();
+        fetchRequestList(limit, offset);
+    }
+
     private void initHeaderForRequest() {
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
         jwt = prefs.getString("jwt", null);

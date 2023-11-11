@@ -1,6 +1,7 @@
 package com.main.server.repository;
 
 import com.main.server.entity.Competition;
+import com.main.server.utils.dto.CompeMiniDto;
 import com.main.server.utils.dto.CompetitionDetailDto;
 import com.main.server.utils.dto.CompetitionListDto;
 import com.main.server.utils.dto.CompetitionRankingDto;
@@ -93,4 +94,8 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
     @Query(value = "SELECT * FROM competition WHERE host_id = :currentUserId ORDER BY created_at DESC LIMIT 1",
             nativeQuery = true)
     CompetitionListDto findFirstByHostIdOrderByCreatedAtDesc(Long currentUserId);
+
+    @Query(value = "SELECT id, title FROM competition c JOIN participants p ON c.id = p.comp_id WHERE type = 'RUNNING' AND p.participant_id = :currentUserId",
+            nativeQuery = true)
+    List<CompeMiniDto> getJoinedTitleList(Long currentUserId);
 }
