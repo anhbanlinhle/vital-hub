@@ -120,4 +120,14 @@ public class CompetitionController {
                 .build());
     }
 
+    @GetMapping("/get-duration")
+    public ResponseEntity<BaseResponse> getDuration(@RequestParam(name = "id") Long id) {
+        LocalTime duration = competitionService.getDuration(id);
+        return ResponseEntity.ok().body(BaseResponse.builder()
+                .message("success")
+                .success(true)
+                .data(duration)
+                .build());
+    }
+
 }

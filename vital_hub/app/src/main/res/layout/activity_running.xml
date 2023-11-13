@@ -28,6 +28,7 @@
                 android:id="@+id/auto_complete_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -487,9 +488,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/sf_semi_bold"
-                    android:text="00:00"
+                    android:text="01:00:00"
                     android:textColor="#28282B"
-                    android:textSize="30sp"
+                    android:textSize="27dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -545,7 +546,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/sf_semi_bold"
-                    android:text="Kcal"
+                    android:text="Cal"
                     android:textColor="@color/color_grey"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -577,7 +578,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/sf_semi_bold"
-                    android:text="0.0"
+                    android:text="0.00"
                     android:textColor="#28282B"
                     android:textSize="30sp"
                     app:layout_constraintBottom_toBottomOf="parent"

@@ -14,15 +14,14 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,12 +33,16 @@ import androidx.core.content.ContextCompat;
 
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
+import com.example.vital_hub.client.spring.objects.CompetitionDurationResponse;
 import com.example.vital_hub.client.spring.objects.CompetitionMinDetailResponse;
 import com.example.vital_hub.competition.data.CompetitionMinDetail;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,11 +57,13 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
     List<String> items = new ArrayList<>(Collections.singletonList("None"));
     private SensorManager sensorManager;
     private Boolean isCompeting = false, isRunningCompetition = false;
-    private TextView stepCountTextView, timerTextView;
+    private TextView stepCountTextView, timerTextView, distanceTextView, calTextView;
     int stepCount = 0, compeStepCount = 0;
     int stepGoal = 1000;
     int progress = 0;
     int previousCount = 0;
+    String duration;
+    Long currentCompetitionId;
     private Sensor stepCounterSensor, stepDetectorSensor;
     private AppCompatButton startOrStopButton, backButton;
     private CircularSeekBar circularSeekBar;
@@ -70,6 +75,7 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
     List<CompetitionMinDetail> competitionMinDetails;
     LinearLayout statistics_layout;
     EditText goalTextView;
+    private CountDownTimer competitionTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,11 +129,13 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
             if (isRunningCompetition) {
                 isRunningCompetition = false;
                 startOrStopButton.setBackground(getDrawable(R.drawable.start_round_button));
-
+                competitionTimer.cancel();
+                timerTextView.setText(duration);
             } else {
                 isRunningCompetition = true;
                 previousCount = stepCount;
                 startOrStopButton.setBackground(getDrawable(R.drawable.stop_round_button));
+                handleWhenCompeting();
             }
         });
 
@@ -154,23 +162,17 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
             stepCount = (int) event.values[0];
             if (!isCompeting) {
                 stepCountTextView.setText(String.valueOf(stepCount));
-                if (stepCount > stepGoal) {
-                    progress = 100;
-                } else {
-                    progress = (int) ((stepCount * 100) / stepGoal);
-                }
-                circularSeekBar.setProgress(progress);
+                updateCalAndDistance(stepCount);
             }
             else if (isRunningCompetition){
                 compeStepCount = stepCount - previousCount;
                 stepCountTextView.setText(String.valueOf(compeStepCount));
-                if (compeStepCount > stepGoal) {
-                    progress = 100;
-                } else {
-                    progress = (int) ((compeStepCount * 100) / stepGoal);
-                }
                 circularSeekBar.setProgress(progress);
+                updateCalAndDistance(compeStepCount);
+            } else {
+                updateCalAndDistance(compeStepCount);
             }
+
         }
     }
 
@@ -232,6 +234,8 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
         startOrStopButton.setVisibility(AppCompatButton.INVISIBLE);
         circularSeekBar = findViewById(R.id.running_progress);
         timerTextView = findViewById(R.id.time);
+        distanceTextView = findViewById(R.id.distance);
+        calTextView = findViewById(R.id.calories);
         competitionTitle = findViewById(R.id.auto_complete_txt);
         statistics_layout = (LinearLayout) findViewById(R.id.statistics_layout);
         statistics_layout.getChildAt(0).setVisibility(ConstraintLayout.GONE);
@@ -332,11 +336,13 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
     private void handleIfCompetition() {
         isCompeting = true;
         isRunningCompetition = false;
+        currentCompetitionId = Long.parseLong(competitionTitle.getText().toString().substring(competitionTitle.getText().toString().indexOf("#") + 1));
+        getCompetitionDuration(currentCompetitionId);
         startOrStopButton.setBackground(getDrawable(R.drawable.start_round_button));
         startOrStopButton.setVisibility(AppCompatButton.VISIBLE);
         statistics_layout.getChildAt(0).setVisibility(ConstraintLayout.VISIBLE);
         stepCountTextView.setText(String.valueOf(compeStepCount));
-        progress = (int) ((compeStepCount * 100) / stepGoal);
+        updateCalAndDistance(compeStepCount);
         circularSeekBar.setProgress(progress);
     }
 
@@ -370,6 +376,76 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
                 what.startAnimation(animShake);
             }
         });
+    }
+
+    private void getCompetitionDuration(Long id) {
+
+        Api.initGetCompetitionDuration(headers, id);
+        Api.getCompetitionDuration.clone().enqueue(new Callback<CompetitionDurationResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<CompetitionDurationResponse> call, @NonNull Response<CompetitionDurationResponse> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        duration = response.body().getDuration();
+                        timerTextView.setText(duration);
+                    }
+                } else {
+                    Toast.makeText(RunningActivity.this, "Error" + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<CompetitionDurationResponse> call, @NonNull Throwable t) {
+                Toast.makeText(RunningActivity.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void handleWhenCompeting() {
+        Long millis = convertTimeStringToMillis(duration);
+        competitionTimer = new CountDownTimer(millis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timerTextView.setText(convertMillisToTimeString(millisUntilFinished));
+            }
+
+            @Override
+            public void onFinish() {
+                timerTextView.setText("0");
+                isRunningCompetition = false;
+                startOrStopButton.setBackground(getDrawable(R.drawable.start_round_button));
+                circularSeekBar.setProgress(progress);
+                Toast.makeText(RunningActivity.this, "Finish!", Toast.LENGTH_SHORT).show();
+            }
+        }.start();
+    }
+
+    public static long convertTimeStringToMillis(String timeString) {
+        String[] parts = timeString.split(":");
+        int hours = Integer.parseInt(parts[0]);
+        int minutes = Integer.parseInt(parts[1]);
+        int seconds = Integer.parseInt(parts[2]);
+
+        return ((hours * 60L + minutes) * 60 + seconds) * 1000L;
+    }
+
+    public static String convertMillisToTimeString(long milliseconds) {
+        long seconds = milliseconds / 1000;
+        long hours = seconds / 3600;
+        long minutes = (seconds % 3600) / 60;
+        seconds = seconds % 60;
+
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+    }
+
+    public void updateCalAndDistance(Integer stepCount) {
+        // Running
+        double distance = stepCount * 0.0008;
+        double cal = stepCount * 0.065;
+        distanceTextView.setText(String.format("%.2f", distance));
+        calTextView.setText(String.format("%.0f", cal));
+        progress = Math.min((int) ((stepCount * 100) / stepGoal), 100);
+        circularSeekBar.setProgress(progress);
     }
 
 }

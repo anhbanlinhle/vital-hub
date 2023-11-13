@@ -69,6 +69,7 @@ public class Api {
 
     public static Call<Void> deleteCompetition;
     public static Call<CompetitionMinDetailResponse> getCompetitionTitleList;
+    public static Call<CompetitionDurationResponse> getCompetitionDuration;
 
     //Exercise
     public static Call<List<SingleExercise>> singleExerciseList;
@@ -191,6 +192,10 @@ public class Api {
 
     public static void initPostRegist(Map<String, String> headers, RegistRequestObject body) {
         postRegist = controller.postRegistInfo(headers, body);
+    }
+
+    public static void initGetCompetitionDuration(Map<String, String> headers, Long id) {
+        getCompetitionDuration = controller.getCompetitionDuration(headers, id);
     }
 
     //Exercise

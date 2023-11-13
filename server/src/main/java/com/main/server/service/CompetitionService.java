@@ -27,4 +27,6 @@ public interface CompetitionService {
     void addCompetition(Long currentUserId, AddCompettitionRequest request);
 
     List<CompeMiniDto> getJoinedTitleList(Long currentUserId);
+
+    LocalTime getDuration(Long id);
 }

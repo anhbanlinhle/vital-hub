@@ -58,6 +58,9 @@ public class FriendList extends AppCompatActivity implements FriendListAdapter.F
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
 
+        prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        initRetrofitAndController(prefs.getString("server", "10.0.2.2"));
+
         // Helper
         KeyboardHelper.setupKeyboardHiding(this);
 
