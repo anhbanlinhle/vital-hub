@@ -1,17 +1,21 @@
 package com.main.server.service.implement;
 
+import com.main.server.entity.CompeEx;
 import com.main.server.entity.Competition;
 import com.main.server.entity.Participants;
+import com.main.server.repository.CompetitionExerciseRepository;
 import com.main.server.repository.CompetitionRepository;
 import com.main.server.repository.ParticipantsRepository;
 import com.main.server.request.AddCompettitionRequest;
 import com.main.server.service.CompetitionService;
+import com.main.server.service.ExerciseService;
 import com.main.server.utils.dto.CompetitionListDto;
 import com.main.server.utils.enums.ExerciseType;
 import com.main.server.utils.dto.*;
 import com.main.server.utils.enums.ExerciseType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -26,21 +30,28 @@ import java.util.List;
 public class CompetitionServiceImpl implements CompetitionService {
 
     private final CompetitionRepository competitionRepository;
+
     private final ParticipantsRepository participantsRepository;
+
+    private final CompetitionExerciseRepository competitionExerciseRepository;
+
+    private final ExerciseService exerciseService;
+
     @Override
     public List<CompetitionListDto> getCompetitionList(Boolean isJoined, Long id, String name, Integer limit, Integer offset) {
         return competitionRepository.getCompetitionList(isJoined, id, name, limit, offset);
     }
 
     @Override
-    public void joinOrLeaveCompetition(Long currentUserId, Long compId) {
-        if (participantsRepository.existsByCompIdAndParticipantId(compId, currentUserId)) {
-            participantsRepository.deleteByCompIdAndParticipantId(compId, currentUserId);
-        } else {
+    @Transactional
+    public void joinOrLeaveCompetition(Long currentUserId, Long compId, Boolean joining) {
+        if (joining) {
             participantsRepository.save(Participants.builder()
                     .compId(compId)
                     .participantId(currentUserId)
                     .build());
+        } else {
+            participantsRepository.deleteByCompIdAndParticipantId(compId, currentUserId);
         }
     }
 
@@ -72,6 +83,64 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
+    public List<EnrolledCompetitionDto> getEnrolledCompetition(Long userId, Integer page, Integer pageSize) {
+        List<EnrolledCompetitionDto> enrolledCompetitions = competitionRepository.getEnrolledCompetition(userId, pageSize, page*pageSize);
+        for (int i = 0; i < enrolledCompetitions.size(); i++) {
+            if (enrolledCompetitions.get(i).getCompetitionId() == null) {
+                enrolledCompetitions.remove(i);
+                i--;
+            }
+        }
+        return enrolledCompetitions;
+    }
+
+    @Override
+    public void saveResultForCompetition(SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto,
+                                         Long userId) {
+        SaveExerciseAndCompetitionDto hasSavedExerciseAndCompetitionDto = exerciseService.saveExercise(saveExerciseAndCompetitionDto, userId);
+
+        CompetitionResultDto competitionResultDto;
+        if (hasSavedExerciseAndCompetitionDto.getExercise().getType() == ExerciseType.BICYCLING) {
+            competitionResultDto = competitionRepository.getResultBicyclingForUser(saveExerciseAndCompetitionDto.getCompetitionId(), userId);
+        } else if (hasSavedExerciseAndCompetitionDto.getExercise().getType() == ExerciseType.RUNNING) {
+            competitionResultDto = competitionRepository.getResultRunningForUser(saveExerciseAndCompetitionDto.getCompetitionId(), userId);
+        } else {
+            competitionResultDto = competitionRepository.getResultPushUpForUser(saveExerciseAndCompetitionDto.getCompetitionId(), userId);
+        }
+
+        if (competitionResultDto == null || competitionResultDto.getExerciseId() == null) {
+            CompeEx compeEx = CompeEx.builder()
+                    .compeId(saveExerciseAndCompetitionDto.getCompetitionId())
+                    .exerciseId(hasSavedExerciseAndCompetitionDto.getExercise().getId())
+                    .build();
+
+            competitionExerciseRepository.save(compeEx);
+        } else {
+            boolean needChange = false;
+
+            if (hasSavedExerciseAndCompetitionDto.getExercise().getType() == ExerciseType.BICYCLING) {
+                if (competitionResultDto.getDistance() < saveExerciseAndCompetitionDto.getDistance()) {
+                    needChange = true;
+                }
+            } else if (hasSavedExerciseAndCompetitionDto.getExercise().getType() == ExerciseType.RUNNING) {
+                if (competitionResultDto.getStep() < saveExerciseAndCompetitionDto.getStep()) {
+                    needChange = true;
+                }
+            } else {
+                if (competitionResultDto.getRep() < saveExerciseAndCompetitionDto.getRep()) {
+                    needChange = true;
+                }
+            }
+
+            if (needChange) {
+                competitionExerciseRepository.updateExerciseForCompetition(saveExerciseAndCompetitionDto.getCompetitionId(),
+                        competitionResultDto.getExerciseId(),
+                        hasSavedExerciseAndCompetitionDto.getExercise().getId());
+            }
+        }
+    }
+
+    @Override
     public CompetitionAllDetailDto getDetailCompetition(Long id, Long userId) {
         Competition competition = competitionRepository.findByIdAndIsDeletedFalse(id);
         if (competition == null) {
@@ -86,7 +155,11 @@ public class CompetitionServiceImpl implements CompetitionService {
             rank = competitionRepository.getCompetitionPushUpRanking(id);
         }
         CompetitionDetailDto competitionDetailDto = competitionRepository.getCompetitionDetail(id);
-        return new CompetitionAllDetailDto(rank, competitionDetailDto, userId.equals(competitionDetailDto.getHostId()));
+        Boolean isEnrolled = participantsRepository.existsByCompIdAndParticipantId(id ,userId);
+        return new CompetitionAllDetailDto(rank,
+                competitionDetailDto,
+                userId.equals(competitionDetailDto.getHostId()),
+                isEnrolled);
     }
 
     @Override

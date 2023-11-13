@@ -9,13 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.vital_hub.R;
+import com.example.vital_hub.bicycle.BicycleTracker;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.pushup.PushupVideoScan;
 import com.example.vital_hub.profile.UserProfile;
+import com.example.vital_hub.test.TestMap;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.example.vital_hub.running.RunningActivity;
 
 public class ExerciseGeneralActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
@@ -51,8 +52,8 @@ public class ExerciseGeneralActivity extends AppCompatActivity implements Naviga
         choosePushupBtn.setOnClickListener(v -> {
             startActivity(new Intent(ExerciseGeneralActivity.this, PushupVideoScan.class));
         });
-        chooseRunBtn.setOnClickListener(v -> {
-            startActivity(new Intent(ExerciseGeneralActivity.this, RunningActivity.class));
+        chooseBicycleBtn.setOnClickListener(v -> {
+            startActivity(new Intent(ExerciseGeneralActivity.this, BicycleTracker.class));
         });
     }
 

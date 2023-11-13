@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,8 @@ public class GroupExerciseActivity extends AppCompatActivity {
     private TextView title;
     private TextView back;
 
+    private ImageButton submitBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +54,16 @@ public class GroupExerciseActivity extends AppCompatActivity {
         back = (TextView) findViewById(R.id.back_to_choose_ex);
         title = (TextView) findViewById(R.id.ge_ac_title);
         title.setText("Group " + groupId);
+        submitBtn = findViewById(R.id.submit_ex_btn);
         header = HeaderInitUtil.headerWithToken(this);
         geRecycler = (RecyclerView) findViewById(R.id.ge_ac_recycler);
 
+        buttonBinding();
+
+        fetchExerciseInGroup();
+    }
+
+    private void buttonBinding() {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,7 +71,9 @@ public class GroupExerciseActivity extends AppCompatActivity {
             }
         });
 
-        fetchExerciseInGroup();
+        submitBtn.setOnClickListener(v -> {
+            Toast.makeText(this, "submit", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void fetchExerciseInGroup() {

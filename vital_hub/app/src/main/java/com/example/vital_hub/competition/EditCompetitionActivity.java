@@ -128,8 +128,10 @@ public class EditCompetitionActivity extends AppCompatActivity {
         });
 
         chooseBackgroundBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
-            startActivityForResult(intent, addImgCode);
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), addImgCode);
 
         });
     }

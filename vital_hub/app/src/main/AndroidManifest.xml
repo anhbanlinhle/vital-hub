@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -21,6 +24,17 @@
         android:theme="@style/Theme.Vital_hub"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".bicycle.BicycleTracker"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${API_KEY}" />
+
+        <activity
+            android:name=".test.TestMap"
+            android:exported="false" />
         <activity
             android:name=".competition.EditCompetitionActivity"
             android:exported="false" />
@@ -77,6 +91,9 @@
             android:exported="true" />
         <activity
             android:name=".home_page.HomePageActivity"
+            android:exported="true" />
+        <activity
+            android:name=".home_page.AddPostActivity"
             android:exported="true" />
         <activity
             android:name=".post_comment.PostCommentActivity"

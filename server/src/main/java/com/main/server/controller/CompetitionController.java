@@ -9,6 +9,7 @@ import com.main.server.service.CompetitionService;
 import com.main.server.service.FriendService;
 import com.main.server.utils.dto.CompeMiniDto;
 import com.main.server.utils.dto.CompetitionListDto;
+import com.main.server.utils.dto.SaveExerciseAndCompetitionDto;
 import com.main.server.utils.enums.ExerciseType;
 import com.main.server.utils.dto.CompetitionModifyDto;
 import com.main.server.utils.dto.CompetitionModifyDto;
@@ -70,14 +71,13 @@ public class CompetitionController {
                 .build());
     }
 
-    @PostMapping("/join_or_leave")
-    public ResponseEntity<BaseResponse> joinOrLeaveCompetition(HttpServletRequest request, @RequestParam Long compId) {
+    @PostMapping("/join-or-leave")
+    public ResponseEntity<BaseResponse> joinOrLeaveCompetition(HttpServletRequest request,
+                                                               @RequestParam(name = "id") Long compId,
+                                                               @RequestParam(name = "joining") Boolean joining) {
         Long currentUserId = tokenParser.getCurrentUserId(request.getHeader("Authorization"));
-        competitionService.joinOrLeaveCompetition(currentUserId, compId);
-        return ResponseEntity.ok().body(BaseResponse.builder()
-                .message("success")
-                .success(true)
-                .build());
+        competitionService.joinOrLeaveCompetition(currentUserId, compId, joining);
+        return ResponseEntity.ok().body(null);
     }
 
     @PostMapping("/add")
@@ -106,6 +106,20 @@ public class CompetitionController {
     @PutMapping("/edit")
     public ResponseEntity<?> editCompetition(@RequestBody CompetitionModifyDto competition) {
         competitionService.editCompetition(competition);
+        return ResponseEntity.ok().body(null);
+    }
+
+    @GetMapping("/enrolled")
+    public ResponseEntity<?> getEnrolledCompetitions(@RequestParam Integer page,
+                                                     @RequestParam Integer pageSize,
+                                                     @RequestHeader(name = "Authorization") String token) {
+        return ResponseEntity.ok().body(competitionService.getEnrolledCompetition(tokenParser.getCurrentUserId(token), page, pageSize));
+    }
+
+    @PostMapping("/save-result")
+    public ResponseEntity<?> getEnrolledCompetitions(@RequestBody SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto,
+                                                     @RequestHeader(name = "Authorization") String token) {
+        competitionService.saveResultForCompetition(saveExerciseAndCompetitionDto, tokenParser.getCurrentUserId(token));
         return ResponseEntity.ok().body(null);
     }
 

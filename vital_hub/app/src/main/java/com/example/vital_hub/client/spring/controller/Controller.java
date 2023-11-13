@@ -1,6 +1,6 @@
 package com.example.vital_hub.client.spring.controller;
 
-import com.example.vital_hub.client.objects.CommentPost;
+import com.example.vital_hub.client.spring.objects.CommentPost;
 import com.example.vital_hub.client.spring.objects.*;
 import com.example.vital_hub.client.spring.objects.AuthResponseObject;
 import com.example.vital_hub.client.spring.objects.CountResponse;
@@ -87,6 +87,11 @@ public interface Controller {
 
     @PUT("/competition/delete")
     Call<Void> deleteCompetition (@HeaderMap Map<String, String> headers, @Query("id") Long id);
+
+    @POST("/competition/join-or-leave")
+    Call<Void> participateInCompetition (@HeaderMap Map<String, String> headers,
+                                         @Query("id") Long id,
+                                         @Query("joining") Boolean joining);
     @GET("/competition/joined-running")
     Call<CompetitionMinDetailResponse> getJoinedCompetitionTitleList(@HeaderMap Map<String, String> headers);
     @GET("/competition/get-duration")
@@ -126,11 +131,29 @@ public interface Controller {
     Call<List<HomePagePost>> getPostResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize);
 
     @GET("/post")
-    Call<HomePagePost> getSinglePost(@HeaderMap Map<String, String> header, @Query("postId") Long postId);
+    Call<HomePagePost> getSinglePost(@HeaderMap Map<String, String> header, @Query("id") Long postId);
 
     @GET("/comment/by-post")
     Call<List<Comment>> getCommentResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize, @Query("postId") Long postId);
 
     @POST("/comment/add-comment")
     Call<Void> postComment(@HeaderMap Map<String, String> header, @Body CommentPost body);
+
+    @POST("/post/add-post")
+    Call<Void> addPost(@HeaderMap Map<String, String> header, @Body HomePagePost body);
+
+    @PUT("/post/remove")
+    Call<Void> deletePost(@HeaderMap Map<String, String> header, @Query("id") Long postId);
+
+    @PUT("/comment/remove")
+    Call<Void> deleteComment(@HeaderMap Map<String, String> header, @Query("id") Long commentId);
+
+    @GET("/exercise")
+    Call<List<ExerciseResponse>> getExerciseList(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize);
+
+    @POST("/exercise/save")
+    Call<Void> saveExercise(@HeaderMap Map<String, String> header, @Body SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto);
+
+    @POST("/competition/save-result")
+    Call<Void> saveExerciseForCompetition(@HeaderMap Map<String, String> header, @Body SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto);
 }

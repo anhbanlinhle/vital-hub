@@ -4,11 +4,12 @@ import java.time.LocalDateTime;
 
 public class HomePagePost {
     private String avatar;
+    private String image;
     private Long postId;
     private Long userId;
     private String username;
     private String title;
-    private Long joggingId;
+    private Long exerciseId;
     private Boolean isDeleted = false;
     private String createdAt;
     private String updatedAt;
@@ -16,13 +17,29 @@ public class HomePagePost {
     private Boolean isOwned;
 
 
-    public HomePagePost(String avatar, String username, String title) {
-        this.avatar = avatar;
+    public HomePagePost(String image, String username, String title) {
+        this.image = image;
         this.username = username;
         this.title = title;
     }
 
     public HomePagePost(String avatar) {
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Long getExerciseId() {
+        return exerciseId;
+    }
+
+    public void setExerciseId(Long exerciseId) {
+        this.exerciseId = exerciseId;
     }
 
     public String getAvatar() {
@@ -71,14 +88,6 @@ public class HomePagePost {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Long getJoggingId() {
-        return joggingId;
-    }
-
-    public void setJoggingId(Long joggingId) {
-        this.joggingId = joggingId;
     }
 
     public Boolean getDeleted() {
