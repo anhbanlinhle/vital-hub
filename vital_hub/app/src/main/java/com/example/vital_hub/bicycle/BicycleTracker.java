@@ -1,4 +1,4 @@
-package com.example.vital_hub.test;
+package com.example.vital_hub.bicycle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,7 +40,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class TestMap extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, OnMapReadyCallback {
+public class BicycleTracker extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, OnMapReadyCallback {
     BottomNavigationView bottomNavigationView;
     Toolbar toolbar;
     TextView back, logo;
@@ -172,7 +172,7 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-            ActivityCompat.requestPermissions(TestMap.this, permissions, 1);
+            ActivityCompat.requestPermissions(BicycleTracker.this, permissions, 1);
         }
     }
 
