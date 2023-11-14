@@ -1,14 +1,12 @@
 package com.main.server.repository;
 
 import com.main.server.entity.Competition;
-import com.main.server.utils.dto.CompetitionDetailDto;
-import com.main.server.utils.dto.CompetitionListDto;
-import com.main.server.utils.dto.CompetitionRankingDto;
-import com.main.server.utils.dto.EnrolledCompetitionDto;
+import com.main.server.utils.dto.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalTime;
 import java.util.List;
 
 public interface CompetitionRepository extends JpaRepository<Competition, Long> {
@@ -96,22 +94,105 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
     CompetitionListDto findFirstByHostIdOrderByCreatedAtDesc(Long currentUserId);
 
     @Query(value = """
-            (SELECT (SELECT COUNT(*) FROM running r1 JOIN compe_ex ce2 ON r1.exercise_id = ce2.exercise_id WHERE ce2.compe_id = c.id AND r1.step >= (SELECT r2.step FROM running r2 WHERE r2.step = r.step)) AS position,
-            COUNT(DISTINCT p.participant_id) AS participants, c.id AS competitionId, CONCAT(r.step, ' steps') AS score, c.background AS background, c.ended_at AS endedAt, c.type AS type
-            FROM competition c JOIN compe_ex ce ON c.id = ce.compe_id JOIN participants p ON c.id = p.comp_id JOIN exercise e ON e.id = ce.exercise_id JOIN running r ON ce.exercise_id = r.exercise_id
-            WHERE c.is_deleted = FALSE AND c.host_id = :userId AND e.user_id = :userId)
+            (SELECT * FROM
+            ((WITH
+                ec AS
+                (SELECT c.id AS competitionId, c.background, c.ended_at AS endedAt, c.type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants
+                FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
+                WHERE (c.host_id = :uid OR p.participant_id = :uid)
+                GROUP BY c.id),
+                exercises AS
+                (SELECT r2.distance FROM compe_ex ce2 JOIN exercise e2 ON ce2.exercise_id = e2.id JOIN bicycling r2 on e2.id = r2.exercise_id)
+            (SELECT (SELECT COUNT(*) FROM exercises WHERE r.distance <= exercises.distance) AS position, ec.*, CONCAT(r.distance, ' meters') AS score
+            FROM ec LEFT JOIN compe_ex ce ON ec.competitionId = ce.compe_id
+            LEFT JOIN exercise e on (ce.exercise_id = e.id)
+            LEFT JOIN bicycling r on e.id = r.exercise_id
+            WHERE e.user_id = :uid AND ec.type = 'BICYCLING'
+            GROUP BY ec.competitionId))
             UNION
-            (SELECT (SELECT COUNT(*) FROM bicycling b1 JOIN compe_ex ce2 ON b1.exercise_id = ce2.exercise_id WHERE ce2.compe_id = c.id AND b1.distance >= (SELECT b2.distance FROM bicycling b2 WHERE b2.distance = b.distance)) AS position,
-            COUNT(DISTINCT p.participant_id) AS participants, c.id AS competitionId, CONCAT(b.distance, 'meters') AS score, c.background AS background, c.ended_at AS endedAt, c.type AS type
-            FROM competition c JOIN compe_ex ce ON c.id = ce.compe_id JOIN participants p ON c.id = p.comp_id JOIN exercise e ON e.id = ce.exercise_id JOIN bicycling b ON ce.exercise_id = b.exercise_id
-            WHERE c.is_deleted = FALSE AND c.host_id = :userId AND e.user_id = :userId)
+            (SELECT 0 AS position, c.id AS competitionId, c.background, c.type, c.ended_at AS endedAt, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants, '0' AS score
+            FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
+            WHERE ((c.host_id = :uid OR p.participant_id = :uid) AND c.type = 'BICYCLING')
+            GROUP BY c.id)) tb
+            GROUP BY tb.competitionId)
             UNION
-            (SELECT (SELECT COUNT(*) FROM push_up pu1 JOIN compe_ex ce2 ON pu1.exercise_id = ce2.exercise_id WHERE ce2.compe_id = c.id AND pu1.rep >= (SELECT pu2.rep FROM push_up pu2 WHERE pu2.rep = pu.rep)) AS position,
-            COUNT(DISTINCT p.participant_id) AS participants, c.id AS competitionId, CONCAT(pu.rep, ' reps') AS score, c.background AS background, c.ended_at AS endedAt, c.type AS type
-            FROM competition c JOIN compe_ex ce ON c.id = ce.compe_id JOIN participants p ON c.id = p.comp_id JOIN exercise e ON e.id = ce.exercise_id JOIN push_up pu ON ce.exercise_id = pu.exercise_id
-            WHERE c.is_deleted = FALSE AND c.host_id = :userId AND e.user_id = :userId)
+            (SELECT * FROM
+            ((WITH
+                ec AS
+                (SELECT c.id AS competitionId, c.background, c.ended_at AS endedAt, c.type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants
+                FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
+                WHERE (c.host_id = :uid OR p.participant_id = :uid)
+                GROUP BY c.id),
+                exercises AS
+                (SELECT r2.step FROM compe_ex ce2 JOIN exercise e2 ON ce2.exercise_id = e2.id JOIN running r2 on e2.id = r2.exercise_id)
+            (SELECT (SELECT COUNT(*) FROM exercises WHERE r.step <= exercises.step) AS position, ec.*, CONCAT(r.step, ' steps') AS score
+            FROM ec LEFT JOIN compe_ex ce ON ec.competitionId = ce.compe_id
+            LEFT JOIN exercise e on (ce.exercise_id = e.id)
+            LEFT JOIN running r on e.id = r.exercise_id
+            WHERE e.user_id = :uid AND ec.type = 'RUNNING'
+            GROUP BY ec.competitionId))
+            UNION
+            (SELECT 0 AS position, c.id AS competitionId, c.background, c.type, c.ended_at AS endedAt, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants, '0' AS score
+            FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
+            WHERE ((c.host_id = :uid OR p.participant_id = :uid) AND c.type = 'RUNNING')
+            GROUP BY c.id)) tb
+            GROUP BY tb.competitionId)
+            UNION
+            (SELECT * FROM
+            ((WITH
+                ec AS
+                (SELECT c.id AS competitionId, c.background, c.ended_at AS endedAt, c.type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants
+                FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
+                WHERE (c.host_id = :uid OR p.participant_id = :uid)
+                GROUP BY c.id),
+                exercises AS
+                (SELECT r2.rep FROM compe_ex ce2 JOIN exercise e2 ON ce2.exercise_id = e2.id JOIN push_up r2 on e2.id = r2.exercise_id)
+            (SELECT (SELECT COUNT(*) FROM exercises WHERE r.rep <= exercises.rep) AS position, ec.*, CONCAT(r.rep, ' reps') AS score
+            FROM ec LEFT JOIN compe_ex ce ON ec.competitionId = ce.compe_id
+            LEFT JOIN exercise e on (ce.exercise_id = e.id)
+            LEFT JOIN push_up r on e.id = r.exercise_id
+            WHERE e.user_id = :uid AND ec.type = 'PUSHUP'
+            GROUP BY ec.competitionId))
+            UNION
+            (SELECT 0 AS position, c.id AS competitionId, c.background, c.type, c.ended_at AS endedAt, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants, '0' AS score
+            FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
+            WHERE ((c.host_id = :uid OR p.participant_id = :uid) AND c.type = 'PUSHUP')
+            GROUP BY c.id)) tb
+            GROUP BY tb.competitionId)
             LIMIT :limit OFFSET :offset
             """
             , nativeQuery = true)
-    List<EnrolledCompetitionDto> getEnrolledCompetition(Long userId, Integer limit, Integer offset);
+    List<EnrolledCompetitionDto> getEnrolledCompetition(Long uid, Integer limit, Integer offset);
+
+    @Query(value = """
+            SELECT r.step AS step, ce.exercise_id AS exerciseId FROM user u JOIN participants p ON u.id = p.participant_id
+            JOIN compe_ex ce ON p.comp_id = ce.compe_id JOIN running r on ce.exercise_id = r.exercise_id
+            WHERE p.comp_id = :competitionId AND u.id = :userId
+            """
+            , nativeQuery = true)
+    CompetitionResultDto getResultRunningForUser(Long competitionId, Long userId);
+
+    @Query(value = """
+            SELECT b.distance AS distance, ce.exercise_id AS exerciseId FROM user u JOIN participants p ON u.id = p.participant_id
+            JOIN compe_ex ce ON p.comp_id = ce.compe_id JOIN bicycling b on ce.exercise_id = b.exercise_id
+            WHERE p.comp_id = :competitionId AND u.id = :userId
+            """
+            , nativeQuery = true)
+    CompetitionResultDto getResultBicyclingForUser(Long competitionId, Long userId);
+
+    @Query(value = """
+            SELECT pu.rep AS rep, ce.exercise_id AS exerciseId FROM user u JOIN participants p ON u.id = p.participant_id
+            JOIN compe_ex ce ON p.comp_id = ce.compe_id JOIN push_up pu on ce.exercise_id = pu.exercise_id
+            WHERE p.comp_id = :competitionId AND u.id = :userId
+            """
+            , nativeQuery = true)
+    CompetitionResultDto getResultPushUpForUser(Long competitionId, Long userId);
+
+    @Query(value = "SELECT id, title FROM competition c JOIN participants p ON c.id = p.comp_id WHERE type = 'RUNNING' AND p.participant_id = :currentUserId",
+            nativeQuery = true)
+    List<CompeMiniDto> getJoinedTitleList(Long currentUserId);
+
+    @Query(value = "SELECT duration FROM competition WHERE id = :id",
+            nativeQuery = true)
+    LocalTime getDuration(Long id);
 }

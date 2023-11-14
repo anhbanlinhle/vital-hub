@@ -11,6 +11,7 @@ import com.example.vital_hub.client.spring.objects.ResponseObject;
 import com.example.vital_hub.competition.data.CompetitionAllDetail;
 import com.example.vital_hub.competition.data.CompetitionEdit;
 import com.example.vital_hub.competition.data.CompetitionAdd;
+import com.example.vital_hub.competition.data.CompetitionMinDetail;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.example.vital_hub.profile.UserDetail;
@@ -63,15 +64,20 @@ public class Api {
     public static Call<CompetitionListResponse> getOwnCompetitionList;
     public static Call<Void> addCompetition;
     public static Call<CompetitionAllDetail> competitionAllDetail;
+    public static Call<Void> savedCompetitionResult;
 
     public static Call<Void> editCompetition;
 
     public static Call<Void> deleteCompetition;
+    public static Call<CompetitionMinDetailResponse> getCompetitionTitleList;
+    public static Call<CompetitionDurationResponse> getCompetitionDuration;
 
     public static Call<Void> participateInCompetition;
 
     //Exercise
     public static Call<List<SingleExercise>> singleExerciseList;
+
+    public static Call<Void> savedExercise;
 
     public static Call<List<GroupExercise>> groupExerciseList;
 
@@ -198,8 +204,16 @@ public class Api {
         participateInCompetition = controller.participateInCompetition(header, compId, joining);
     }
 
+    public static void saveResultForCompetition(Map<String, String> header, SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto) {
+        savedCompetitionResult = controller.saveExerciseForCompetition(header, saveExerciseAndCompetitionDto);
+    }
+
     public static void initPostRegist(Map<String, String> headers, RegistRequestObject body) {
         postRegist = controller.postRegistInfo(headers, body);
+    }
+
+    public static void initGetCompetitionDuration(Map<String, String> headers, Long id) {
+        getCompetitionDuration = controller.getCompetitionDuration(headers, id);
     }
 
     //Exercise
@@ -253,6 +267,10 @@ public class Api {
         postComment = controller.postComment(headers, body);
     }
 
+    public static void initGetCompetitionTitleList(Map<String, String> headers) {
+        getCompetitionTitleList = controller.getJoinedCompetitionTitleList(headers);
+    }
+
     public static void initDeletePost(Map<String, String> headers, Long postId) {
         deletePost = controller.deletePost(headers, postId);
     }
@@ -267,5 +285,9 @@ public class Api {
 
     public static void initGetExerciseList(Map<String, String> headers, int pageNum) {
         getExerciseList = controller.getExerciseList(headers, pageNum, 10);
+    }
+
+    public static void saveExercise(Map<String, String> headers, SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto) {
+        savedExercise = controller.saveExercise(headers, saveExerciseAndCompetitionDto);
     }
 }
