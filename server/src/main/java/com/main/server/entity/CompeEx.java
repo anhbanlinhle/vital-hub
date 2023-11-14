@@ -4,6 +4,7 @@ import com.main.server.entity.primaryPair.ExerciseAndCompPair;
 import com.main.server.entity.primaryPair.FriendPair;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Entity
 @Table(name = "compe_ex")
+@Builder
 @IdClass(ExerciseAndCompPair.class)
 public class CompeEx implements Serializable {
 

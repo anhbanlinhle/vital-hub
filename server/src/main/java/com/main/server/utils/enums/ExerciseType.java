@@ -1,7 +1,7 @@
 package com.main.server.utils.enums;
 
 public enum ExerciseType {
-    RUNNING("Obesity"),
+    RUNNING("Running"),
     BICYCLING("Bicycling"),
     PUSHUP("Push up"),
     GYM("Gym");
