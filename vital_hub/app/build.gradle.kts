@@ -54,4 +54,5 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation ("me.tankery.lib:circularSeekBar:1.4.2")
     implementation ("me.angrybyte.picker:picker:1.3.1")
+    implementation("androidx.work:work-runtime:2.8.1")
 }
