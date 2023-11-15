@@ -76,75 +76,6 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView"
         app:layout_constraintVertical_bias="0.172" />
 
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/save"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="4dp"-->
-<!--        android:backgroundTint="#1DB964"-->
-<!--        android:fontFamily="@font/mont_semi_bold"-->
-<!--        app:fabCustomSize="96dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.498"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.894"-->
-<!--        app:maxImageSize="72dp"-->
-<!--        app:srcCompat="@drawable/baseline_save_alt_24"-->
-<!--        app:tint="#FEFFFE" />-->
-
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/chooseVideo"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="4dp"-->
-<!--        android:backgroundTint="#1DB964"-->
-<!--        android:fontFamily="@font/mont_semi_bold"-->
-<!--        app:fabCustomSize="56dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.938"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.854"-->
-<!--        app:maxImageSize="36dp"-->
-<!--        app:srcCompat="@drawable/baseline_video_file_24"-->
-<!--        app:tint="#FEFFFE" />-->
-
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/uploadVideo"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="4dp"-->
-<!--        android:backgroundTint="#1DB964"-->
-<!--        android:fontFamily="@font/mont_semi_bold"-->
-<!--        app:fabCustomSize="56dp"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/chooseVideo"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.938"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.971"-->
-<!--        app:maxImageSize="36dp"-->
-<!--        app:srcCompat="@drawable/round_done_outline_24"-->
-<!--        app:tint="#FEFFFE" />-->
-
-<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
-<!--        android:id="@+id/bottomNavigationView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="63dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.5"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="1"-->
-<!--        app:itemIconTint="@color/color_green"-->
-<!--        app:menu="@menu/bottom_nav_menu"-->
-<!--        app:itemBackground="@android:color/transparent"-->
-<!--        app:itemActiveIndicatorStyle="@null"/>-->
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -153,44 +84,95 @@
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1"
-        android:clipChildren="false"
-        android:clipToPadding="false">
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="0px"
-            android:layout_height="match_parent"
-            android:paddingBottom="120dp"
-            android:clipToPadding="false">
+        app:layout_constraintVertical_bias="1">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="130dp">
 
-            <!-- Scrollable content -->
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.core.widget.NestedScrollView>
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:backgroundTint="@color/color_green"
             app:fabAlignmentMode="center"
             app:fabAnchorMode="cradle"
             app:fabCradleMargin="30dp"
-            app:fabCradleRoundedCornerRadius="70dp"
-            app:layout_anchorGravity="center">
+            app:fabCradleRoundedCornerRadius="70dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+                <TextView
+                    android:text="Pose"
+                    android:textAlignment="center"
+                    app:drawableTopCompat="@drawable/pushup_pose"
+                    android:drawableTint="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.015"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1"/>
+
+                <TextView
+                    android:text="Video"
+                    android:textAlignment="center"
+                    app:drawableTopCompat="@drawable/pushup_video"
+                    android:drawableTint="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1"/>
+
+                <TextView
+                    android:text="Save"
+                    android:textAlignment="center"
+                    app:drawableTopCompat="@drawable/pushup_save"
+                    android:drawableTint="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.8"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1"/>
+
+                <TextView
+                    android:text="Submit"
+                    android:textAlignment="center"
+                    app:drawableTopCompat="@drawable/pushup_submit"
+                    android:drawableTint="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.985"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.bottomappbar.BottomAppBar>
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:compatShadowEnabled="false"
-            app:elevation="0dp"
-            app:menu="@menu/pushup_menu"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/pushup_scan"
-            app:fabSize="auto"
+            android:backgroundTint="@color/white"
+            app:tint="@color/color_green"
+            app:fabCustomSize="72dp"
             app:layout_anchor="@id/bottom_bar"
-            app:layout_anchorGravity="center"
-            android:clipChildren="false" />
+            app:layout_anchorGravity="center" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
