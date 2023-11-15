@@ -44,15 +44,16 @@ public class BicycleTracker extends AppCompatActivity implements NavigationBarVi
     BottomNavigationView bottomNavigationView;
     Toolbar toolbar;
     TextView back, logo;
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     FadingEdgeLayout mapContainer;
     FragmentContainerView map;
     ViewGroup.LayoutParams mapLayoutParams;
     ConstraintLayout screen;
     int expectedMapHeight;
     FusedLocationProviderClient fusedLocationClient;
-    double latitude, longitude;
-    TextView lat, lng;
+    static double latitude;
+    static double longitude;
+    static TextView lat, lng;
     LocationRequest locationRequest;
     LocationCallback locationCallback;
 
@@ -73,9 +74,10 @@ public class BicycleTracker extends AppCompatActivity implements NavigationBarVi
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
-        updateLocation();
+//        updateLocation();
         updateMapCamera();
         expandCollapseMap();
+        startService(new Intent(BicycleTracker.this, BicycleService.class));
     }
 
     protected void findViewComponents() {
@@ -129,7 +131,7 @@ public class BicycleTracker extends AppCompatActivity implements NavigationBarVi
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
     }
 
-    protected void updateMapCamera() {
+    protected static void updateMapCamera() {
         if (mMap == null) {
             return;
         }
