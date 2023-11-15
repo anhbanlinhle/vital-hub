@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -24,6 +25,7 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -67,6 +69,7 @@ public class PushupVideoScan extends AppCompatActivity {
     private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 1;
     private static final int REQUEST_CODE_SELECT_VIDEO = 2;
     VideoView videoView;
+    AppCompatButton back;
     FloatingActionButton chooseVideo, uploadVideo, save;
     SharedPreferences prefs;
     String jwt;
@@ -84,6 +87,7 @@ public class PushupVideoScan extends AppCompatActivity {
         resultRecycler.setAdapter(recyclerAdapter);
         resultRecycler.setLayoutManager(new LinearLayoutManager(this));
 
+        back = findViewById(R.id.back);
         competitionTitle = findViewById(R.id.auto_complete_txt);
         videoView = findViewById(R.id.video_view);
         chooseVideo = findViewById(R.id.chooseVideo);
@@ -91,6 +95,7 @@ public class PushupVideoScan extends AppCompatActivity {
         save = findViewById(R.id.save);
 
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        initFastapi(prefs.getString("server", "10.0.2.2"));
 
         checkSelfPermission();
 
@@ -98,12 +103,13 @@ public class PushupVideoScan extends AppCompatActivity {
         configCompetitionSelector();
         configVideoView();
 
-//        back.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 //                startActivity(new Intent(PushupVideoScan.this, ExerciseGeneralActivity.class));
-//            }
-//        });
+                finish();
+            }
+        });
 //        help.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -264,6 +270,7 @@ public class PushupVideoScan extends AppCompatActivity {
         recyclerAdapter.notifyItemRangeChanged(0, 1);
 
         String videoPath = getVideoPathFromUri(videoUri);
+        Log.i("videoPath", videoPath);
         initPushupCall(videoPath);
 
         pushupCall.clone().enqueue(new Callback<PushUpResponse>() {
