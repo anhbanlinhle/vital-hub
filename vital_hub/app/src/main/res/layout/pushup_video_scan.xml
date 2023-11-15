@@ -100,8 +100,8 @@
             android:backgroundTint="@color/color_green"
             app:fabAlignmentMode="center"
             app:fabAnchorMode="cradle"
-            app:fabCradleMargin="30dp"
-            app:fabCradleRoundedCornerRadius="70dp">
+            app:fabCradleMargin="20dp"
+            app:fabCradleRoundedCornerRadius="90dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="fill_parent"
@@ -130,13 +130,14 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.2"
+                    app:layout_constraintHorizontal_bias="0.225"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1"/>
 
                 <TextView
                     android:text="Save"
+                    android:textSize="20dp"
                     android:textAlignment="center"
                     app:drawableTopCompat="@drawable/pushup_save"
                     android:drawableTint="@color/white"
@@ -144,7 +145,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.8"
+                    app:layout_constraintHorizontal_bias="0.775"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1"/>
@@ -166,11 +167,13 @@
         </com.google.android.material.bottomappbar.BottomAppBar>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
             android:src="@drawable/pushup_scan"
             android:backgroundTint="@color/white"
             app:tint="@color/color_green"
+            style="@style/FabCustom"
+            app:maxImageSize="48dp"
             app:fabCustomSize="72dp"
             app:layout_anchor="@id/bottom_bar"
             app:layout_anchorGravity="center" />
