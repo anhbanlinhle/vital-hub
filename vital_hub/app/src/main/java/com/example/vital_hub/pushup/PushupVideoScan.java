@@ -53,7 +53,7 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
     private static final int REQUEST_CODE_SELECT_VIDEO = 2;
     VideoView videoView;
     FloatingActionButton chooseVideo, uploadVideo, save;
-    TextView back, help;
+//    TextView back, help;
     BottomNavigationView bottomNavigationView;
     SharedPreferences prefs;
     @Override
@@ -73,8 +73,8 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
         uploadVideo = findViewById(R.id.uploadVideo);
         save = findViewById(R.id.save);
 
-        back = findViewById(R.id.back_to_home_from_pushup);
-        help = findViewById(R.id.help);
+//        back = findViewById(R.id.back_to_home_from_pushup);
+//        help = findViewById(R.id.help);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
@@ -87,18 +87,18 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
 
         configVideoView();
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(PushupVideoScan.this, ExerciseGeneralActivity.class));
-            }
-        });
-        help.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(PushupVideoScan.this, "ok", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(PushupVideoScan.this, ExerciseGeneralActivity.class));
+//            }
+//        });
+//        help.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(PushupVideoScan.this, "ok", Toast.LENGTH_SHORT).show();
+//            }
+//        });
         chooseVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
