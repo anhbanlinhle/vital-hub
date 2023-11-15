@@ -59,8 +59,7 @@
             <VideoView
                 android:id="@+id/video_view"
                 android:layout_width="360dp"
-                android:layout_height="240dp"
-                android:backgroundTint="@null" />
+                android:layout_height="240dp"/>
         </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>
 
@@ -109,6 +108,7 @@
                 android:layout_gravity="center">
                 <TextView
                     android:text="Pose"
+                    android:textColor="@color/white"
                     android:textAlignment="center"
                     app:drawableTopCompat="@drawable/pushup_pose"
                     android:drawableTint="@color/white"
@@ -123,6 +123,7 @@
 
                 <TextView
                     android:text="Video"
+                    android:textColor="@color/white"
                     android:textAlignment="center"
                     app:drawableTopCompat="@drawable/pushup_video"
                     android:drawableTint="@color/white"
@@ -137,7 +138,7 @@
 
                 <TextView
                     android:text="Save"
-                    android:textSize="20dp"
+                    android:textColor="@color/white"
                     android:textAlignment="center"
                     app:drawableTopCompat="@drawable/pushup_save"
                     android:drawableTint="@color/white"
@@ -152,6 +153,7 @@
 
                 <TextView
                     android:text="Submit"
+                    android:textColor="@color/white"
                     android:textAlignment="center"
                     app:drawableTopCompat="@drawable/pushup_submit"
                     android:drawableTint="@color/white"
@@ -163,6 +165,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.bottomappbar.BottomAppBar>
 
