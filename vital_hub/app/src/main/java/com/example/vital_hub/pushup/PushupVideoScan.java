@@ -70,10 +70,11 @@ public class PushupVideoScan extends AppCompatActivity {
     private static final int REQUEST_CODE_SELECT_VIDEO = 2;
     VideoView videoView;
     AppCompatButton back;
-    FloatingActionButton chooseVideo, uploadVideo, save;
+    TextView pose, video, save, submit;
     SharedPreferences prefs;
     String jwt;
     Map<String, String> headers;
+    FloatingActionButton scan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,9 +91,12 @@ public class PushupVideoScan extends AppCompatActivity {
         back = findViewById(R.id.back);
         competitionTitle = findViewById(R.id.auto_complete_txt);
         videoView = findViewById(R.id.video_view);
-//        chooseVideo = findViewById(R.id.chooseVideo);
-//        uploadVideo = findViewById(R.id.uploadVideo);
-//        save = findViewById(R.id.save);
+
+        pose = findViewById(R.id.pose);
+        video = findViewById(R.id.video);
+        save = findViewById(R.id.save);
+        submit = findViewById(R.id.submit);
+        scan = findViewById(R.id.scan);
 
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
         initFastapi(prefs.getString("server", "10.0.2.2"));
@@ -110,25 +114,36 @@ public class PushupVideoScan extends AppCompatActivity {
                 finish();
             }
         });
-//        help.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(PushupVideoScan.this, "ok", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        chooseVideo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                selectVideo();
-//            }
-//        });
-//
-//        uploadVideo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                processVideo();
-//            }
-//        });
+        pose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PushupVideoScan.this, "you should pose like this", Toast.LENGTH_SHORT).show();
+            }
+        });
+        video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectVideo();
+            }
+        });
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                processVideo();
+            }
+        });
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PushupVideoScan.this, "save pushup result", Toast.LENGTH_SHORT).show();
+            }
+        });
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PushupVideoScan.this, "submit pushup result", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
