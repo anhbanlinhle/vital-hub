@@ -147,27 +147,42 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1"
-        android:clipChildren="false">
+        android:clipChildren="false"
+        android:clipToPadding="false">
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:paddingBottom="120dp"
+            android:clipToPadding="false">
+
+            <!-- Scrollable content -->
+
+        </androidx.core.widget.NestedScrollView>
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:clipChildren="false"
             app:fabAlignmentMode="center"
             app:fabAnchorMode="cradle"
             app:fabCradleMargin="30dp"
             app:fabCradleRoundedCornerRadius="70dp"
-            app:layout_anchor="@+id/bottom_bar"
             app:layout_anchorGravity="center">
         </com.google.android.material.bottomappbar.BottomAppBar>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:compatShadowEnabled="false"
+            app:elevation="0dp"
+            app:menu="@menu/pushup_menu"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
@@ -175,6 +190,7 @@
             android:src="@drawable/pushup_scan"
             app:fabSize="auto"
             app:layout_anchor="@id/bottom_bar"
+            app:layout_anchorGravity="center"
             android:clipChildren="false" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

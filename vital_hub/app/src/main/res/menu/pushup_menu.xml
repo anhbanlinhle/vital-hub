@@ -7,8 +7,7 @@
         android:title="Video"
         android:icon="@drawable/pushup_video"/>
     <item android:id="@+id/fab"
-        android:title=""
-        android:enabled="false"/>
+        android:title=""/>
     <item android:id="@+id/save"
         android:title="Save"
         android:icon="@drawable/pushup_save"/>
