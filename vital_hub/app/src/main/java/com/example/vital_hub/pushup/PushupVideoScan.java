@@ -12,8 +12,11 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +25,7 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,33 +33,49 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.fastapi.objects.PushUpResponse;
+import com.example.vital_hub.client.spring.controller.Api;
+import com.example.vital_hub.client.spring.objects.CompetitionMinDetailResponse;
 import com.example.vital_hub.competition.CompetitionActivity;
+import com.example.vital_hub.competition.data.CompetitionMinDetail;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.profile.UserProfile;
+import com.example.vital_hub.running.RunningActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PushupVideoScan extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+public class PushupVideoScan extends AppCompatActivity {
+    // PushUp count display
     private RecyclerView resultRecycler;
     private ArrayList<Integer> arrayList;
     PushupAdapter recyclerAdapter;
-
+    // Competition selector display
+    List<String> items = new ArrayList<>(Collections.singletonList("None"));
+    private AutoCompleteTextView competitionTitle;
+    private ArrayAdapter<String> compeAdapter;
+    List<CompetitionMinDetail> competitionMinDetails;
     private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION = 0;
     private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 1;
     private static final int REQUEST_CODE_SELECT_VIDEO = 2;
     VideoView videoView;
-    FloatingActionButton chooseVideo, uploadVideo, save;
-    TextView back, help;
-    BottomNavigationView bottomNavigationView;
+    AppCompatButton back;
+    TextView pose, video, save, submit;
     SharedPreferences prefs;
+    String jwt;
+    Map<String, String> headers;
+    FloatingActionButton scan;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,48 +88,60 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
         resultRecycler.setAdapter(recyclerAdapter);
         resultRecycler.setLayoutManager(new LinearLayoutManager(this));
 
+        back = findViewById(R.id.back);
+        competitionTitle = findViewById(R.id.auto_complete_txt);
         videoView = findViewById(R.id.video_view);
-        chooseVideo = findViewById(R.id.chooseVideo);
-        uploadVideo = findViewById(R.id.uploadVideo);
+
+        pose = findViewById(R.id.pose);
+        video = findViewById(R.id.video);
         save = findViewById(R.id.save);
-
-        back = findViewById(R.id.back_to_home_from_pushup);
-        help = findViewById(R.id.help);
-
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(this);
-        bottomNavigationView.setSelectedItemId(R.id.exercise);
+        submit = findViewById(R.id.submit);
+        scan = findViewById(R.id.scan);
 
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
         initFastapi(prefs.getString("server", "10.0.2.2"));
 
         checkSelfPermission();
 
+        initHeaderForRequest();
+        configCompetitionSelector();
         configVideoView();
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PushupVideoScan.this, ExerciseGeneralActivity.class));
+//                startActivity(new Intent(PushupVideoScan.this, ExerciseGeneralActivity.class));
+                finish();
             }
         });
-        help.setOnClickListener(new View.OnClickListener() {
+        pose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PushupVideoScan.this, "ok", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PushupVideoScan.this, "you should pose like this", Toast.LENGTH_SHORT).show();
             }
         });
-        chooseVideo.setOnClickListener(new View.OnClickListener() {
+        video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectVideo();
             }
         });
-
-        uploadVideo.setOnClickListener(new View.OnClickListener() {
+        scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 processVideo();
+            }
+        });
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PushupVideoScan.this, "save pushup result", Toast.LENGTH_SHORT).show();
+            }
+        });
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PushupVideoScan.this, "submit pushup result", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -167,6 +199,70 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
         }
     }
 
+    void configCompetitionSelector() {
+        getCompetitionTitleList();
+        compeAdapter = new ArrayAdapter<>(PushupVideoScan.this, android.R.layout.simple_list_item_1, items);
+        competitionTitle.setAdapter(compeAdapter);
+        competitionTitle.setDropDownHeight(compeAdapter.getCount() > 3 ? 450 : compeAdapter.getCount() * 150);
+        competitionTitle.setText(items.get(0), false);
+        compeTitleOnClick();
+    }
+    private void initHeaderForRequest() {
+        prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        jwt = prefs.getString("jwt", null);
+        headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + jwt);
+    }
+    private void getCompetitionTitleList() {
+        try {
+            Api.initGetCompetitionTitleList(headers);
+            Api.getCompetitionTitleList.clone().enqueue(new Callback<CompetitionMinDetailResponse>() {
+                @Override
+                public void onResponse(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Response<CompetitionMinDetailResponse> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body() != null) {
+                            competitionMinDetails = response.body().getData();
+                            if (competitionMinDetails != null) {
+
+                                for (int i = 0; i < competitionMinDetails.size(); i++) {
+                                    items.add(competitionMinDetails.get(i).getTitle() + "  #" + competitionMinDetails.get(i).getId());
+                                }
+                                compeAdapter.notifyDataSetChanged();
+                                competitionTitle.setDropDownHeight(compeAdapter.getCount() > 3 ? 450 : compeAdapter.getCount() * 150);
+                            }
+                        }
+                    } else {
+                        Toast.makeText(PushupVideoScan.this, "Error" + response.message(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Throwable t) {
+                    Toast.makeText(PushupVideoScan.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void compeTitleOnClick() {
+        competitionTitle.setOnItemClickListener((parent, view, position, id) -> {
+            String selected = (String) parent.getItemAtPosition(position);
+            competitionTitle.setText(selected, false);
+            if (position != 0) {
+//                isCompeting = true;
+//                isRunningCompetition = false;
+                competitionTitle.clearFocus();
+//                competingNotification();
+//                handleIfCompetition();
+            } else {
+//                handleIfNone();
+            }
+        });
+    }
+
     void configVideoView() {
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(videoView);
@@ -189,6 +285,7 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
         recyclerAdapter.notifyItemRangeChanged(0, 1);
 
         String videoPath = getVideoPathFromUri(videoUri);
+        Log.i("videoPath", videoPath);
         initPushupCall(videoPath);
 
         pushupCall.clone().enqueue(new Callback<PushUpResponse>() {
@@ -222,26 +319,5 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
             return filePath;
         }
         return null;
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.profile) {
-            startActivity(new Intent(getApplicationContext(), UserProfile.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else if (item.getItemId() == R.id.home) {
-            startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else if (item.getItemId() == R.id.exercise) {
-            return true;
-        } else if (item.getItemId() == R.id.competition) {
-            startActivity(new Intent(getApplicationContext(), CompetitionActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else {
-            return false;
-        }
     }
 }
