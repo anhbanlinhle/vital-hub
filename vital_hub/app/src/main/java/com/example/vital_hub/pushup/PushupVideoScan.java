@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,31 +31,47 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.fastapi.objects.PushUpResponse;
+import com.example.vital_hub.client.spring.controller.Api;
+import com.example.vital_hub.client.spring.objects.CompetitionMinDetailResponse;
 import com.example.vital_hub.competition.CompetitionActivity;
+import com.example.vital_hub.competition.data.CompetitionMinDetail;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.profile.UserProfile;
+import com.example.vital_hub.running.RunningActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PushupVideoScan extends AppCompatActivity {
+    // PushUp count display
     private RecyclerView resultRecycler;
     private ArrayList<Integer> arrayList;
     PushupAdapter recyclerAdapter;
-
+    // Competition selector display
+    List<String> items = new ArrayList<>(Collections.singletonList("None"));
+    private AutoCompleteTextView competitionTitle;
+    private ArrayAdapter<String> compeAdapter;
+    List<CompetitionMinDetail> competitionMinDetails;
     private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION = 0;
     private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 1;
     private static final int REQUEST_CODE_SELECT_VIDEO = 2;
     VideoView videoView;
     FloatingActionButton chooseVideo, uploadVideo, save;
     SharedPreferences prefs;
+    String jwt;
+    Map<String, String> headers;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,17 +84,18 @@ public class PushupVideoScan extends AppCompatActivity {
         resultRecycler.setAdapter(recyclerAdapter);
         resultRecycler.setLayoutManager(new LinearLayoutManager(this));
 
+        competitionTitle = findViewById(R.id.auto_complete_txt);
         videoView = findViewById(R.id.video_view);
         chooseVideo = findViewById(R.id.chooseVideo);
         uploadVideo = findViewById(R.id.uploadVideo);
         save = findViewById(R.id.save);
 
-
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
-        initFastapi(prefs.getString("server", "10.0.2.2"));
 
         checkSelfPermission();
 
+        initHeaderForRequest();
+        configCompetitionSelector();
         configVideoView();
 
 //        back.setOnClickListener(new View.OnClickListener() {
@@ -157,6 +176,70 @@ public class PushupVideoScan extends AppCompatActivity {
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION);
         }
+    }
+
+    void configCompetitionSelector() {
+        getCompetitionTitleList();
+        compeAdapter = new ArrayAdapter<>(PushupVideoScan.this, android.R.layout.simple_list_item_1, items);
+        competitionTitle.setAdapter(compeAdapter);
+        competitionTitle.setDropDownHeight(compeAdapter.getCount() > 3 ? 450 : compeAdapter.getCount() * 150);
+        competitionTitle.setText(items.get(0), false);
+        compeTitleOnClick();
+    }
+    private void initHeaderForRequest() {
+        prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        jwt = prefs.getString("jwt", null);
+        headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + jwt);
+    }
+    private void getCompetitionTitleList() {
+        try {
+            Api.initGetCompetitionTitleList(headers);
+            Api.getCompetitionTitleList.clone().enqueue(new Callback<CompetitionMinDetailResponse>() {
+                @Override
+                public void onResponse(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Response<CompetitionMinDetailResponse> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body() != null) {
+                            competitionMinDetails = response.body().getData();
+                            if (competitionMinDetails != null) {
+
+                                for (int i = 0; i < competitionMinDetails.size(); i++) {
+                                    items.add(competitionMinDetails.get(i).getTitle() + "  #" + competitionMinDetails.get(i).getId());
+                                }
+                                compeAdapter.notifyDataSetChanged();
+                                competitionTitle.setDropDownHeight(compeAdapter.getCount() > 3 ? 450 : compeAdapter.getCount() * 150);
+                            }
+                        }
+                    } else {
+                        Toast.makeText(PushupVideoScan.this, "Error" + response.message(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Throwable t) {
+                    Toast.makeText(PushupVideoScan.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void compeTitleOnClick() {
+        competitionTitle.setOnItemClickListener((parent, view, position, id) -> {
+            String selected = (String) parent.getItemAtPosition(position);
+            competitionTitle.setText(selected, false);
+            if (position != 0) {
+//                isCompeting = true;
+//                isRunningCompetition = false;
+                competitionTitle.clearFocus();
+//                competingNotification();
+//                handleIfCompetition();
+            } else {
+//                handleIfNone();
+            }
+        });
     }
 
     void configVideoView() {
