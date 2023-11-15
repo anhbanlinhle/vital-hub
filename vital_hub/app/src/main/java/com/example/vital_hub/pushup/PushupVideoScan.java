@@ -43,7 +43,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PushupVideoScan extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+public class PushupVideoScan extends AppCompatActivity {
     private RecyclerView resultRecycler;
     private ArrayList<Integer> arrayList;
     PushupAdapter recyclerAdapter;
@@ -53,8 +53,6 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
     private static final int REQUEST_CODE_SELECT_VIDEO = 2;
     VideoView videoView;
     FloatingActionButton chooseVideo, uploadVideo, save;
-//    TextView back, help;
-    BottomNavigationView bottomNavigationView;
     SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +71,6 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
         uploadVideo = findViewById(R.id.uploadVideo);
         save = findViewById(R.id.save);
 
-//        back = findViewById(R.id.back_to_home_from_pushup);
-//        help = findViewById(R.id.help);
-
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(this);
-        bottomNavigationView.setSelectedItemId(R.id.exercise);
 
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
         initFastapi(prefs.getString("server", "10.0.2.2"));
@@ -222,26 +214,5 @@ public class PushupVideoScan extends AppCompatActivity implements NavigationBarV
             return filePath;
         }
         return null;
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.profile) {
-            startActivity(new Intent(getApplicationContext(), UserProfile.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else if (item.getItemId() == R.id.home) {
-            startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else if (item.getItemId() == R.id.exercise) {
-            return true;
-        } else if (item.getItemId() == R.id.competition) {
-            startActivity(new Intent(getApplicationContext(), CompetitionActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else {
-            return false;
-        }
     }
 }
