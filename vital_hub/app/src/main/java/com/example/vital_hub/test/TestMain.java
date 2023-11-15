@@ -85,7 +85,7 @@ public class TestMain extends AppCompatActivity {
         function.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TestMain.this, TestMap.class);
+                Intent intent = new Intent(TestMain.this, TestNav.class);
                 startActivity(intent);
             }
         });
