@@ -90,9 +90,9 @@ public class PushupVideoScan extends AppCompatActivity {
         back = findViewById(R.id.back);
         competitionTitle = findViewById(R.id.auto_complete_txt);
         videoView = findViewById(R.id.video_view);
-        chooseVideo = findViewById(R.id.chooseVideo);
-        uploadVideo = findViewById(R.id.uploadVideo);
-        save = findViewById(R.id.save);
+//        chooseVideo = findViewById(R.id.chooseVideo);
+//        uploadVideo = findViewById(R.id.uploadVideo);
+//        save = findViewById(R.id.save);
 
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
         initFastapi(prefs.getString("server", "10.0.2.2"));
@@ -116,19 +116,19 @@ public class PushupVideoScan extends AppCompatActivity {
 //                Toast.makeText(PushupVideoScan.this, "ok", Toast.LENGTH_SHORT).show();
 //            }
 //        });
-        chooseVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectVideo();
-            }
-        });
-
-        uploadVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                processVideo();
-            }
-        });
+//        chooseVideo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                selectVideo();
+//            }
+//        });
+//
+//        uploadVideo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                processVideo();
+//            }
+//        });
     }
 
     @Override

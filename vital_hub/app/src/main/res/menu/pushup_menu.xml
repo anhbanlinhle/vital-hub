@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/pose"
+        android:title="Pose"
+        android:icon="@drawable/pushup_pose"/>
+    <item android:id="@+id/video"
+        android:title="Video"
+        android:icon="@drawable/pushup_video"/>
+    <item android:id="@+id/fab"
+        android:title=""
+        android:enabled="false"/>
+    <item android:id="@+id/save"
+        android:title="Save"
+        android:icon="@drawable/pushup_save"/>
+    <item android:id="@+id/submit"
+        android:title="Submit"
+        android:icon="@drawable/pushup_submit"/>
+</menu>
