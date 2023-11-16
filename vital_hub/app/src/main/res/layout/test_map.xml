@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="280dp"
         app:fel_edge="top|left|bottom|right"
-        app:fel_size_top="0dp"
+        app:fel_size_top="32dp"
         app:fel_size_bottom="32dp"
         app:fel_size_left="0dp"
         app:fel_size_right="0dp"
@@ -54,7 +54,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/select_competition"
-        app:layout_constraintVertical_bias="0.05">
+        app:layout_constraintVertical_bias="0.0">
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"

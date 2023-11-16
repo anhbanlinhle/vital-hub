@@ -2,6 +2,7 @@ package com.example.vital_hub.bicycle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -10,19 +11,27 @@ import androidx.fragment.app.FragmentContainerView;
 import android.Manifest;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bosphere.fadingedgelayout.FadingEdgeLayout;
 import com.example.vital_hub.R;
+import com.example.vital_hub.client.spring.controller.Api;
+import com.example.vital_hub.client.spring.objects.CompetitionMinDetailResponse;
 import com.example.vital_hub.competition.CompetitionActivity;
+import com.example.vital_hub.competition.data.CompetitionMinDetail;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.profile.UserProfile;
+import com.example.vital_hub.pushup.PushupVideoScan;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -40,6 +49,16 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallback {
     private static GoogleMap mMap;
     FadingEdgeLayout mapContainer;
@@ -53,15 +72,26 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
     static TextView lat, lng;
     LocationRequest locationRequest;
     LocationCallback locationCallback;
+    // Competition selector display
+    List<String> items = new ArrayList<>(Collections.singletonList("None"));
+    private AutoCompleteTextView competitionTitle;
+    private ArrayAdapter<String> compeAdapter;
+    List<CompetitionMinDetail> competitionMinDetails;
+    SharedPreferences prefs;
+    String jwt;
+    Map<String, String> headers;
+    AppCompatButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_map);
 
+        initHeaderForRequest();
         findViewComponents();
         bindViewComponents();
         checkLocationPermission();
+        configCompetitionSelector();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -80,15 +110,17 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         screen = findViewById(R.id.screen);
         lat = findViewById(R.id.lat);
         lng = findViewById(R.id.lng);
+        back = findViewById(R.id.back);
+        competitionTitle = findViewById(R.id.auto_complete_txt);
     }
 
     protected void bindViewComponents() {
-//        back.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 //        logo.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -172,5 +204,70 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map));
+    }
+
+
+    void configCompetitionSelector() {
+        getCompetitionTitleList();
+        compeAdapter = new ArrayAdapter<>(BicycleTracker.this, android.R.layout.simple_list_item_1, items);
+        competitionTitle.setAdapter(compeAdapter);
+        competitionTitle.setDropDownHeight(compeAdapter.getCount() > 3 ? 450 : compeAdapter.getCount() * 150);
+        competitionTitle.setText(items.get(0), false);
+        compeTitleOnClick();
+    }
+    private void initHeaderForRequest() {
+        prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        jwt = prefs.getString("jwt", null);
+        headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + jwt);
+    }
+    private void getCompetitionTitleList() {
+        try {
+            Api.initGetCompetitionTitleList(headers);
+            Api.getCompetitionTitleList.clone().enqueue(new Callback<CompetitionMinDetailResponse>() {
+                @Override
+                public void onResponse(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Response<CompetitionMinDetailResponse> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body() != null) {
+                            competitionMinDetails = response.body().getData();
+                            if (competitionMinDetails != null) {
+
+                                for (int i = 0; i < competitionMinDetails.size(); i++) {
+                                    items.add(competitionMinDetails.get(i).getTitle() + "  #" + competitionMinDetails.get(i).getId());
+                                }
+                                compeAdapter.notifyDataSetChanged();
+                                competitionTitle.setDropDownHeight(compeAdapter.getCount() > 3 ? 450 : compeAdapter.getCount() * 150);
+                            }
+                        }
+                    } else {
+                        Toast.makeText(BicycleTracker.this, "Error" + response.message(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Throwable t) {
+                    Toast.makeText(BicycleTracker.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void compeTitleOnClick() {
+        competitionTitle.setOnItemClickListener((parent, view, position, id) -> {
+            String selected = (String) parent.getItemAtPosition(position);
+            competitionTitle.setText(selected, false);
+            if (position != 0) {
+//                isCompeting = true;
+//                isRunningCompetition = false;
+                competitionTitle.clearFocus();
+//                competingNotification();
+//                handleIfCompetition();
+            } else {
+//                handleIfNone();
+            }
+        });
     }
 }
