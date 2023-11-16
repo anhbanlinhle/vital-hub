@@ -30,10 +30,10 @@ public class TestNav extends AppCompatActivity {
         setContentView(R.layout.test_nav);
 
         bottomNavigation = findViewById(R.id.bottomNavigation);
-        bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.outline_home_24));
-        bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.baseline_fitness_center_24));
-        bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.baseline_equalizer_24));
-        bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.baseline_person_pin_24));
+        bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.nav_home));
+        bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.nav_exercise));
+        bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.nav_competition));
+        bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.nav_profile));
 
         mainLayout = findViewById(R.id.main_layout);
 
