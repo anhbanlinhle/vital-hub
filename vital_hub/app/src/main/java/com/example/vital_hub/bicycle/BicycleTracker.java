@@ -41,8 +41,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallback {
-    Toolbar toolbar;
-    TextView back, logo;
     private static GoogleMap mMap;
     FadingEdgeLayout mapContainer;
     FragmentContainerView map;
@@ -77,9 +75,6 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
     }
 
     protected void findViewComponents() {
-        toolbar = findViewById(R.id.toolbar_bicycle);
-        back = findViewById(R.id.back_to_home_from_biycle);
-        logo = findViewById(R.id.logo);
         mapContainer = findViewById(R.id.map_container);
         map = findViewById(R.id.map);
         screen = findViewById(R.id.screen);
@@ -88,18 +83,18 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
     }
 
     protected void bindViewComponents() {
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        logo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                expandCollapseMap();
-            }
-        });
+//        back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
+//        logo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                expandCollapseMap();
+//            }
+//        });
     }
 
     protected void updateLocation() {
@@ -146,7 +141,7 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
 
     protected void expandCollapseMap() {
         if (mapContainer.getMeasuredHeight() == 600) {
-            expectedMapHeight = screen.getMeasuredHeight() - toolbar.getMeasuredHeight() + 150;
+            expectedMapHeight = screen.getMeasuredHeight() + 150;
         }
         else {
             expectedMapHeight = 600;

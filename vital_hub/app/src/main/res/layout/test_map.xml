@@ -8,35 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".test.TestMap">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_bicycle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#1DB964"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-
-        <TextView
-            android:id="@+id/back_to_home_from_biycle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:drawableStartCompat="@drawable/baseline_keyboard_double_arrow_left" />
-
-        <TextView
-            android:id="@+id/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center_vertical"
-            app:drawableEndCompat="@drawable/baseline_directions_bike_24" />
-
-    </androidx.appcompat.widget.Toolbar>
-
     <com.bosphere.fadingedgelayout.FadingEdgeLayout
         android:id="@+id/map_container"
         android:layout_width="match_parent"
@@ -51,7 +22,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_bicycle"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/map"
