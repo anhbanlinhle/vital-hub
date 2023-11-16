@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".test.TestNav">
+    tools:context=".test.TestNav"
+    android:id="@+id/main_layout">
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -17,6 +18,10 @@
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:mbn_backgroundBottomColor="@color/color_green"
+        app:mbn_defaultIconColor="#FEFFFE"
+        app:mbn_selectedIconColor="@color/color_green"
+        app:mbn_circleColor="#FEFFFE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

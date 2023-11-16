@@ -5,10 +5,15 @@ import com.example.vital_hub.exercises.ExerciseGeneralFragment;
 import com.example.vital_hub.competition.CompetitionFragment;
 import com.example.vital_hub.profile.ProfileFragment;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.vital_hub.R;
@@ -18,6 +23,7 @@ import kotlin.jvm.functions.Function1;
 
 public class TestNav extends AppCompatActivity {
     MeowBottomNavigation bottomNavigation;
+    ConstraintLayout mainLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +35,13 @@ public class TestNav extends AppCompatActivity {
         bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.baseline_equalizer_24));
         bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.baseline_person_pin_24));
 
+        mainLayout = findViewById(R.id.main_layout);
+
+        Window window = this.getWindow();
+
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setNavigationBarColor(ContextCompat.getColor(this, R.color.color_green));
 
         replaceFragment(new HomeFragment());
         bottomNavigation.show(1, true);
