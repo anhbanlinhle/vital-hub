@@ -1,4 +1,4 @@
-package com.example.vital_hub.test;
+package com.example.vital_hub;
 
 import com.example.vital_hub.home_page.HomeFragment;
 import com.example.vital_hub.exercises.ExerciseGeneralFragment;
@@ -10,24 +10,22 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
-import com.example.vital_hub.R;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
-public class TestNav extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
     MeowBottomNavigation bottomNavigation;
     ConstraintLayout mainLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_nav);
+        setContentView(R.layout.activity_main);
 
         bottomNavigation = findViewById(R.id.bottomNavigation);
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.nav_home));

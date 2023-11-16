@@ -19,7 +19,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class ChooseExerciseActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+public class ChooseExerciseActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private TextView back;
@@ -27,7 +27,6 @@ public class ChooseExerciseActivity extends AppCompatActivity implements Navigat
 
     private ExerciseViewPagerAdapter exerciseViewPagerAdapter;
 
-    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +38,6 @@ public class ChooseExerciseActivity extends AppCompatActivity implements Navigat
     }
 
     private void firstDeclaration() {
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(this);
-        bottomNavigationView.setSelectedItemId(R.id.exercise);
 
         back = findViewById(R.id.back_to_home_from_ex);
         tabLayout = findViewById(R.id.tab_layout_exercise);
@@ -82,26 +78,5 @@ public class ChooseExerciseActivity extends AppCompatActivity implements Navigat
 
             }
         });
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.profile) {
-            startActivity(new Intent(getApplicationContext(), UserProfile.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else if (item.getItemId() == R.id.home) {
-            startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else if (item.getItemId() == R.id.exercise) {
-            return true;
-        } else if (item.getItemId() == R.id.competition) {
-            startActivity(new Intent(getApplicationContext(), CompetitionActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else {
-            return false;
-        }
     }
 }
