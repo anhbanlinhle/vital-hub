@@ -27,7 +27,6 @@ import com.example.vital_hub.client.spring.objects.CountResponse;
 import com.example.vital_hub.client.spring.objects.ProfileDetailResponse;
 import com.example.vital_hub.client.spring.objects.ProfileResponse;
 import com.example.vital_hub.friend.RequestFriendListAdapter;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +41,7 @@ public class OthersProfileActivity extends AppCompatActivity {
     ImageView backButton;
     ImageView profileImage;
     TextView description;
-    BottomNavigationView bottomNavigationView;
+//    BottomNavigationView bottomNavigationView;
     SharedPreferences prefs;
     String jwt;
     Map<String, String> headers;
