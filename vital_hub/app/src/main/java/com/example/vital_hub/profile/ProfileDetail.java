@@ -312,7 +312,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finish();
             }
         });
 
@@ -427,11 +427,6 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
                 Toast.makeText(ProfileDetail.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
     }
 
     public void savePopUp(View view) {

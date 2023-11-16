@@ -26,7 +26,7 @@ import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.helper.KeyboardHelper;
-import com.example.vital_hub.profile.OthersProfile;
+import com.example.vital_hub.profile.OthersProfileActivity;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -66,7 +66,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
                 showPopupWindow(view, position1, friendList.get(position1).getRawStatus());
             } else {
                 KeyboardHelper.hideKeyboard(view);
-                Intent intent = new Intent(view.getContext(),OthersProfile.class);
+                Intent intent = new Intent(view.getContext(), OthersProfileActivity.class);
                 intent.putExtra("id", friendList.get(position).getId()+"");
                 view.getContext().startActivity(intent);
             }
@@ -198,7 +198,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
         // View profile
         viewProfile.setOnClickListener(v1 -> {
             // TODO: View profile
-            Intent intent = new Intent(v1.getContext(),OthersProfile.class);
+            Intent intent = new Intent(v1.getContext(), OthersProfileActivity.class);
             intent.putExtra("id", friendList.get(position).getId()+"");
             v1.getContext().startActivity(intent);
             popupWindow.dismiss();
