@@ -37,6 +37,8 @@ android {
 }
 
 dependencies {
+    implementation("com.etebarian:meow-bottom-navigation:1.2.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61")
     implementation("com.github.bosphere.android-fadingedgelayout:fadingedgelayout:1.0.0")
     implementation("com.jakewharton:process-phoenix:2.0.0")
     implementation("com.squareup.picasso:picasso:2.8")
