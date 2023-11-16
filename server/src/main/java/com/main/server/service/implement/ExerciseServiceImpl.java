@@ -5,13 +5,18 @@ import com.main.server.repository.*;
 import com.main.server.service.ExerciseService;
 import com.main.server.utils.dto.ExerciseDto;
 import com.main.server.utils.dto.SaveExerciseAndCompetitionDto;
+import com.main.server.utils.dto.WeeklyExerciseDto;
 import com.main.server.utils.enums.ExerciseType;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 @AllArgsConstructor
@@ -79,5 +84,24 @@ public class ExerciseServiceImpl implements ExerciseService {
         }
 
         return saveExerciseAndCompetitionDto;
+    }
+
+    @Override
+    public List<WeeklyExerciseDto> getWeeklyResult(ExerciseType exerciseType, Long userId) {
+        LocalDate monday = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        List<LocalDate> weekDays = IntStream.range(0, 7).mapToObj(monday::plusDays).toList();
+
+        List<WeeklyExerciseDto> weeklyExerciseDto;
+        if (exerciseType == ExerciseType.RUNNING) {
+            weeklyExerciseDto = exerciseRepository.getWeeklyRunning(weekDays.get(0), weekDays.get(weekDays.size() - 1), userId);
+        } else if (exerciseType == ExerciseType.PUSHUP) {
+            weeklyExerciseDto = exerciseRepository.getWeeklyPushUp(weekDays.get(0), weekDays.get(weekDays.size() - 1), userId);
+        } else if (exerciseType == ExerciseType.BICYCLING) {
+            weeklyExerciseDto = exerciseRepository.getWeeklyBicycling(weekDays.get(0), weekDays.get(weekDays.size() - 1), userId);
+        } else {
+            weeklyExerciseDto = exerciseRepository.getWeeklyGym(weekDays.get(0), weekDays.get(weekDays.size() - 1), userId);
+        }
+
+        return weeklyExerciseDto;
     }
 }

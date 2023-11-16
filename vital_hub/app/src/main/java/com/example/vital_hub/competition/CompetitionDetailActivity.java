@@ -123,7 +123,7 @@ public class CompetitionDetailActivity extends AppCompatActivity {
         });
 
         backToExList.setOnClickListener(v -> {
-            startActivity(new Intent(CompetitionDetailActivity.this, CompetitionActivity.class));
+            finish();
         });
 
         joinLeaveBtn.setOnClickListener(v -> {
