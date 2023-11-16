@@ -5,25 +5,17 @@ import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
 
-import com.example.vital_hub.exercises.ExerciseGeneralActivity;
+import com.example.vital_hub.MainActivity;
 import com.example.vital_hub.authentication.LoginScreen;
 import com.example.vital_hub.R;
-import com.example.vital_hub.profile.UserProfile;
-import com.example.vital_hub.competition.CompetitionActivity;
-import com.example.vital_hub.home_page.HomePageActivity;
-import com.example.vital_hub.pushup.PushupVideoScan;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.jakewharton.processphoenix.ProcessPhoenix;
 
 
@@ -85,7 +77,7 @@ public class TestMain extends AppCompatActivity {
         function.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TestMain.this, TestNav.class);
+                Intent intent = new Intent(TestMain.this, MainActivity.class);
                 startActivity(intent);
             }
         });
