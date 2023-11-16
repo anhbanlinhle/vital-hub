@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vital_hub.MainActivity;
 import com.example.vital_hub.R;
 import com.example.vital_hub.authentication.FirstRegistInfo;
 import com.example.vital_hub.client.spring.objects.AuthResponseObject;
@@ -71,7 +72,7 @@ public class LoginScreen extends AppCompatActivity {
         String name = prefs.getString("name", null);
 
         if (name != null) {
-            Intent intent = new Intent(this, HomePageActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("email", email);
             intent.putExtra("name", name);
             startActivity(intent);
@@ -180,7 +181,7 @@ public class LoginScreen extends AppCompatActivity {
                     startActivity(intent);
                 }
                 else {
-                    intent = new Intent(LoginScreen.this, HomePageActivity.class);
+                    intent = new Intent(LoginScreen.this, MainActivity.class);
                     SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
                     editor.putString("jwt", jsonWebToken);
                     editor.putString("email", email);
