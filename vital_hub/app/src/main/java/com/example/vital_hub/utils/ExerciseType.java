@@ -1,4 +1,4 @@
-package com.main.server.utils.enums;
+package com.example.vital_hub.utils;
 
 public enum ExerciseType {
     RUNNING("Running"),

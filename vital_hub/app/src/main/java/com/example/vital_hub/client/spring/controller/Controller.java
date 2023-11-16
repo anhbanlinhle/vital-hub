@@ -149,4 +149,10 @@ public interface Controller {
 
     @GET("/exercise")
     Call<List<ExerciseResponse>> getExerciseList(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize);
+
+    @POST("/exercise/save")
+    Call<Void> saveExercise(@HeaderMap Map<String, String> header, @Body SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto);
+
+    @POST("/competition/save-result")
+    Call<Void> saveExerciseForCompetition(@HeaderMap Map<String, String> header, @Body SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto);
 }
