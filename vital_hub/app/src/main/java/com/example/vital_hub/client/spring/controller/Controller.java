@@ -54,6 +54,8 @@ public interface Controller {
 
     @GET("/friend/total")
     Call<CountResponse> getTotalFriends(@HeaderMap Map<String, String> headers);
+    @GET("/friend/total")
+    Call<CountResponse> getOthersTotalFriends(@HeaderMap Map<String, String> headers, @Query("id") Long id);
     @GET("/friend/list")
     Call<FriendListResponse> getFriendList(@HeaderMap Map<String, String> headers, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
     @GET("/friend/request-list")
@@ -108,8 +110,9 @@ public interface Controller {
     @PUT("/user/save-detail")
     Call<UserDetail> updateProfileDetail(@HeaderMap Map<String, String> headers, @Body UserDetail body);
 
-
     // Others Profile
+    @GET("/user/detail")
+    Call<ProfileDetailResponse> getOthersProfileDetail(@HeaderMap Map<String, String> header, @Query("id") Long id);
     @GET("/user/info")
     Call<ProfileResponse> getOthersProfile(@HeaderMap Map<String, String> header, @Query("id") Long id);
 

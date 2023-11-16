@@ -26,9 +26,11 @@ public class FriendController {
 
 
     @GetMapping("/total")
-    public ResponseEntity<BaseResponse> countFriend(HttpServletRequest request) {
+    public ResponseEntity<BaseResponse> countFriend(HttpServletRequest request, @RequestParam @Nullable Long id) {
         try {
-            Long id = tokenParser.getCurrentUserId(request.getHeader("Authorization"));
+            if (id == null) {
+                id = tokenParser.getCurrentUserId(request.getHeader("Authorization"));
+            }
             int totalFriend = friendService.countFriend(id);
             return ResponseEntity.ok().body(BaseResponse.builder()
                     .message("success")

@@ -1,5 +1,6 @@
 package com.example.vital_hub.friend;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
+import com.example.vital_hub.profile.OthersProfileActivity;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -23,7 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RequestFriendListAdapter extends RecyclerView.Adapter<RequestFriendListAdapter.RequestFriendViewHolder>{
-    private RequestActionListener requestActionListener;
+    public static RequestActionListener requestActionListener;
     private final ArrayList<Friend> requestList;
     Map<String, String> headers = AddFriendActivity.headers;
 
@@ -48,11 +50,9 @@ public class RequestFriendListAdapter extends RecyclerView.Adapter<RequestFriend
         Glide.with(holder.requestAvatar.getContext()).load(requestList.get(position).getAvatar()).into(holder.requestAvatar);
 
         holder.setItemClickListener((view, position1, isLongClick) -> {
-            Toast.makeText(
-                            view.getContext(),
-                            "Click: " + requestList.get(position1).getId(),
-                            Toast.LENGTH_SHORT)
-                    .show();
+            Intent intent = new Intent(view.getContext(), OthersProfileActivity.class);
+            intent.putExtra("id", requestList.get(position).getId()+"");
+            view.getContext().startActivity(intent);
         });
 
         holder.acceptButton.setOnClickListener(v -> {
@@ -105,7 +105,6 @@ public class RequestFriendListAdapter extends RecyclerView.Adapter<RequestFriend
     }
 
     public static class RequestFriendViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
         private final TextView requestName;
         private final ImageView requestAvatar;
         private final Button acceptButton, denyButton;
