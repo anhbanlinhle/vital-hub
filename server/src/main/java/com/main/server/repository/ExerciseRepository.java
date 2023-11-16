@@ -41,9 +41,9 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
             GROUP BY DATE(started_at)
             ORDER BY DATE(started_at)
             """, nativeQuery = true)
-    WeeklyExerciseDto getWeeklyRunning(LocalDate monday,
-                                       LocalDate sunday,
-                                       Long userId);
+    List<WeeklyExerciseDto> getWeeklyRunning(LocalDate monday,
+                                             LocalDate sunday,
+                                             Long userId);
 
     @Query(value = """
             SELECT TRUNCATE(SUM(e.calo), 2) AS calo, SUM(p.rep) AS rep, SUM(TIMESTAMPDIFF(SECOND, e.started_at, e.ended_at)) AS totalTime
@@ -52,9 +52,9 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
             GROUP BY DATE(started_at)
             ORDER BY DATE(started_at)
             """, nativeQuery = true)
-    WeeklyExerciseDto getWeeklyPushUp(LocalDate monday,
-                                      LocalDate sunday,
-                                      Long userId);
+    List<WeeklyExerciseDto> getWeeklyPushUp(LocalDate monday,
+                                            LocalDate sunday,
+                                            Long userId);
 
     @Query(value = """
             SELECT TRUNCATE(SUM(e.calo), 2) AS calo, TRUNCATE(SUM(b.distance), 2) AS distance, SUM(TIMESTAMPDIFF(SECOND, e.started_at, e.ended_at)) AS totalTime
@@ -63,9 +63,9 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
             GROUP BY DATE(started_at)
             ORDER BY DATE(started_at)
             """, nativeQuery = true)
-    WeeklyExerciseDto getWeeklyBicycling(LocalDate monday,
-                                         LocalDate sunday,
-                                         Long userId);
+    List<WeeklyExerciseDto> getWeeklyBicycling(LocalDate monday,
+                                               LocalDate sunday,
+                                               Long userId);
 
     @Query(value = """
             SELECT TRUNCATE(SUM(e.calo), 2) AS calo, GROUP_CONCAT(g.group_id) AS gymGroup, SUM(TIMESTAMPDIFF(SECOND, e.started_at, e.ended_at)) AS totalTime
@@ -74,7 +74,7 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
             GROUP BY DATE(started_at)
             ORDER BY DATE(started_at)
             """, nativeQuery = true)
-    WeeklyExerciseDto getWeeklyGym(LocalDate monday,
-                                   LocalDate sunday,
-                                   Long userId);
+    List<WeeklyExerciseDto> getWeeklyGym(LocalDate monday,
+                                         LocalDate sunday,
+                                         Long userId);
 }

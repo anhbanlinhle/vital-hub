@@ -37,6 +37,6 @@ public class ExerciseController {
     @GetMapping("/weekly-result")
     public ResponseEntity<?> getWeeklyResult(@RequestParam ExerciseType exerciseType,
                                              @RequestHeader(name = "Authorization") String token) {
-        return null;
+        return ResponseEntity.ok().body(exerciseService.getWeeklyResult(exerciseType, tokenParser.getCurrentUserId(token)));
     }
 }
