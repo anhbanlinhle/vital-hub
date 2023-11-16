@@ -92,6 +92,10 @@ public interface Controller {
     Call<Void> participateInCompetition (@HeaderMap Map<String, String> headers,
                                          @Query("id") Long id,
                                          @Query("joining") Boolean joining);
+    @GET("/competition/joined-running")
+    Call<CompetitionMinDetailResponse> getJoinedCompetitionTitleList(@HeaderMap Map<String, String> headers);
+    @GET("/competition/get-duration")
+    Call<CompetitionDurationResponse> getCompetitionDuration(@HeaderMap Map<String, String> headers, @Query("id") Long id);
     // /auth/**
     @POST("/auth/create-user-first-sign")
     Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);
@@ -146,4 +150,10 @@ public interface Controller {
 
     @GET("/exercise")
     Call<List<ExerciseResponse>> getExerciseList(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize);
+
+    @POST("/exercise/save")
+    Call<Void> saveExercise(@HeaderMap Map<String, String> header, @Body SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto);
+
+    @POST("/competition/save-result")
+    Call<Void> saveExerciseForCompetition(@HeaderMap Map<String, String> header, @Body SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto);
 }

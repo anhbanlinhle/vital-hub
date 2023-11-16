@@ -1,0 +1,8 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Hình tròn màu trắng -->
+    <item android:drawable="@drawable/round_blue" />
+
+    <item
+        android:drawable="@drawable/baseline_play_arrow_24"
+        android:gravity="center" />
+</layer-list>

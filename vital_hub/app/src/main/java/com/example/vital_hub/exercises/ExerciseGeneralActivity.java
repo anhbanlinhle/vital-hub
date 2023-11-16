@@ -17,6 +17,7 @@ import com.example.vital_hub.profile.UserProfile;
 import com.example.vital_hub.test.TestMap;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.example.vital_hub.running.RunningActivity;
 
 public class ExerciseGeneralActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
@@ -54,6 +55,9 @@ public class ExerciseGeneralActivity extends AppCompatActivity implements Naviga
         });
         chooseBicycleBtn.setOnClickListener(v -> {
             startActivity(new Intent(ExerciseGeneralActivity.this, BicycleTracker.class));
+        });
+        chooseRunBtn.setOnClickListener(v -> {
+            startActivity(new Intent(ExerciseGeneralActivity.this, RunningActivity.class));
         });
     }
 

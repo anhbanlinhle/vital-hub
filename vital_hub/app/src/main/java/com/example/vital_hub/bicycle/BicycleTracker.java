@@ -40,19 +40,19 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class BicycleTracker extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, OnMapReadyCallback {
-    BottomNavigationView bottomNavigationView;
+public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallback {
     Toolbar toolbar;
     TextView back, logo;
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     FadingEdgeLayout mapContainer;
     FragmentContainerView map;
     ViewGroup.LayoutParams mapLayoutParams;
     ConstraintLayout screen;
     int expectedMapHeight;
     FusedLocationProviderClient fusedLocationClient;
-    double latitude, longitude;
-    TextView lat, lng;
+    static double latitude;
+    static double longitude;
+    static TextView lat, lng;
     LocationRequest locationRequest;
     LocationCallback locationCallback;
 
@@ -65,21 +65,18 @@ public class BicycleTracker extends AppCompatActivity implements NavigationBarVi
         bindViewComponents();
         checkLocationPermission();
 
-        bottomNavigationView.setOnItemSelectedListener(this);
-        bottomNavigationView.setSelectedItemId(R.id.exercise);
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
-        updateLocation();
+//        updateLocation();
         updateMapCamera();
         expandCollapseMap();
+        startService(new Intent(BicycleTracker.this, BicycleService.class));
     }
 
     protected void findViewComponents() {
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
         toolbar = findViewById(R.id.toolbar_bicycle);
         back = findViewById(R.id.back_to_home_from_biycle);
         logo = findViewById(R.id.logo);
@@ -129,7 +126,7 @@ public class BicycleTracker extends AppCompatActivity implements NavigationBarVi
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
     }
 
-    protected void updateMapCamera() {
+    protected static void updateMapCamera() {
         if (mMap == null) {
             return;
         }
@@ -149,7 +146,7 @@ public class BicycleTracker extends AppCompatActivity implements NavigationBarVi
 
     protected void expandCollapseMap() {
         if (mapContainer.getMeasuredHeight() == 600) {
-            expectedMapHeight = screen.getMeasuredHeight() - toolbar.getMeasuredHeight() - bottomNavigationView.getMeasuredHeight() + 150;
+            expectedMapHeight = screen.getMeasuredHeight() - toolbar.getMeasuredHeight() + 150;
         }
         else {
             expectedMapHeight = 600;
@@ -180,26 +177,5 @@ public class BicycleTracker extends AppCompatActivity implements NavigationBarVi
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map));
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.profile) {
-            startActivity(new Intent(getApplicationContext(), UserProfile.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else if (item.getItemId() == R.id.home) {
-            startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else if (item.getItemId() == R.id.exercise) {
-            return true;
-        } else if (item.getItemId() == R.id.competition) {
-            startActivity(new Intent(getApplicationContext(), CompetitionActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else {
-            return false;
-        }
     }
 }
