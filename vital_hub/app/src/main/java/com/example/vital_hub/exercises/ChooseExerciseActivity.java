@@ -27,7 +27,6 @@ public class ChooseExerciseActivity extends AppCompatActivity implements Navigat
 
     private ExerciseViewPagerAdapter exerciseViewPagerAdapter;
 
-    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +38,6 @@ public class ChooseExerciseActivity extends AppCompatActivity implements Navigat
     }
 
     private void firstDeclaration() {
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(this);
-        bottomNavigationView.setSelectedItemId(R.id.exercise);
 
         back = findViewById(R.id.back_to_home_from_ex);
         tabLayout = findViewById(R.id.tab_layout_exercise);
