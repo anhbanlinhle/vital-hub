@@ -1,4 +1,4 @@
-package com.example.vital_hub.test.test_frags;
+package com.example.vital_hub.profile;
 
 import android.os.Bundle;
 

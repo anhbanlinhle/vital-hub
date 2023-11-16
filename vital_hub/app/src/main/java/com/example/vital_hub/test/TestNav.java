@@ -1,9 +1,9 @@
 package com.example.vital_hub.test;
 
-import com.example.vital_hub.test.test_frags.HomeFragment;
-import com.example.vital_hub.test.test_frags.ExerciseFragment;
-import com.example.vital_hub.test.test_frags.CompetitionFragment;
-import com.example.vital_hub.test.test_frags.ProfileFragment;
+import com.example.vital_hub.home_page.HomeFragment;
+import com.example.vital_hub.exercises.ExerciseGeneralFragment;
+import com.example.vital_hub.competition.CompetitionFragment;
+import com.example.vital_hub.profile.ProfileFragment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -45,7 +45,7 @@ public class TestNav extends AppCompatActivity {
                         replaceFragment(new HomeFragment());
                         break;
                     case 2:
-                        replaceFragment(new ExerciseFragment());
+                        replaceFragment(new ExerciseGeneralFragment());
                         break;
                     case 3:
                         replaceFragment(new CompetitionFragment());
