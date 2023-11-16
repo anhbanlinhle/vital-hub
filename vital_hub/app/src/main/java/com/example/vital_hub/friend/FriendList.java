@@ -37,7 +37,6 @@ import retrofit2.Response;
 
 public class FriendList extends AppCompatActivity implements FriendListAdapter.FriendActionListener {
 
-
     private final int limit = 10;
     private int offset = 0;
     private RecyclerView friendList;

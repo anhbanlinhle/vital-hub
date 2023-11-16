@@ -4,8 +4,11 @@ import com.example.vital_hub.client.spring.objects.CommentPost;
 import com.example.vital_hub.client.spring.objects.*;
 
 import com.example.vital_hub.client.spring.objects.AuthResponseObject;
+import com.example.vital_hub.client.spring.objects.CompetitionListResponse;
 import com.example.vital_hub.client.spring.objects.CountResponse;
 import com.example.vital_hub.client.spring.objects.FriendListResponse;
+import com.example.vital_hub.client.spring.objects.ProfileDetailResponse;
+import com.example.vital_hub.client.spring.objects.ProfileResponse;
 import com.example.vital_hub.client.spring.objects.RegistRequestObject;
 import com.example.vital_hub.client.spring.objects.ResponseObject;
 import com.example.vital_hub.competition.data.CompetitionAllDetail;
@@ -14,9 +17,9 @@ import com.example.vital_hub.competition.data.CompetitionAdd;
 import com.example.vital_hub.competition.data.CompetitionMinDetail;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
-import com.example.vital_hub.profile.UserDetail;
 import com.example.vital_hub.home_page.HomePagePost;
 import com.example.vital_hub.post_comment.Comment;
+import com.example.vital_hub.profile.UserDetail;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -50,6 +53,7 @@ public class Api {
 
     //Friend
     public static Call<CountResponse> getTotalFriend;
+    public static Call<CountResponse> getOthersTotalFriend;
     public static Call<FriendListResponse> getFriendList;
     public static Call<FriendListResponse> getFriendRequestList;
     public static Call<FriendListResponse> getSearchList;
@@ -90,7 +94,9 @@ public class Api {
     public static Call<ProfileDetailResponse> getUserProfileDetail;
     public static Call<UserDetail> updateUserProfile;
     //Others profile
+    public static Call<ProfileDetailResponse> getOthersProfileDetail;
     public static Call<ProfileResponse> getOthersProfile;
+
 
     public static void initRetrofitAndController(String server) {
         String url = "http://" + server + ":8080/";
@@ -141,6 +147,9 @@ public class Api {
     //Friend
     public static void initGetTotalFriend(Map<String, String> headers) {
         getTotalFriend = controller.getTotalFriends(headers);
+    }
+    public static void initGetOthersTotalFriend(Map<String, String> headers, Long id) {
+        getOthersTotalFriend = controller.getOthersTotalFriends(headers, id);
     }
 
     public static void initGetFriendList(Map<String, String> headers, String name, Integer limit, Integer offset) {
@@ -249,6 +258,9 @@ public class Api {
     //Others profile
     public static void initGetOthersProfile(Map<String, String> headers, Long id) {
         getOthersProfile = controller.getOthersProfile(headers, id);
+    }
+    public static void initGetOthersProfileDetail(Map<String, String> headers, Long id) {
+        getOthersProfileDetail = controller.getOthersProfileDetail(headers, id);
     }
     // post and comment
     public static void initGetPostResponse(Map<String, String> headers, int pageNum) {
