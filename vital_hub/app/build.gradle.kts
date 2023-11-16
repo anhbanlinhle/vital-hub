@@ -30,9 +30,15 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
+    implementation("com.etebarian:meow-bottom-navigation:1.2.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61")
     implementation("com.github.bosphere.android-fadingedgelayout:fadingedgelayout:1.0.0")
     implementation("com.jakewharton:process-phoenix:2.0.0")
     implementation("com.squareup.picasso:picasso:2.8")
@@ -52,4 +58,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation ("me.tankery.lib:circularSeekBar:1.4.2")
+    implementation ("me.angrybyte.picker:picker:1.3.1")
+    implementation("androidx.work:work-runtime:2.8.1")
 }

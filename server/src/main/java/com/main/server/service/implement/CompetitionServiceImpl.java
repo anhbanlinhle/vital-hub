@@ -202,4 +202,14 @@ public class CompetitionServiceImpl implements CompetitionService {
     public List<CompetitionListDto> getOwnCompetitionList(Long id, String name, Integer limit, Integer offset) {
         return competitionRepository.getOwnCompetitionList(id, name, limit, offset);
     }
+
+    @Override
+    public List<CompeMiniDto> getJoinedTitleList(Long currentUserId) {
+        return competitionRepository.getJoinedTitleList(currentUserId);
+    }
+
+    @Override
+    public LocalTime getDuration(Long id) {
+        return competitionRepository.getDuration(id);
+    }
 }

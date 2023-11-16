@@ -14,6 +14,7 @@ import com.example.vital_hub.client.spring.objects.ResponseObject;
 import com.example.vital_hub.competition.data.CompetitionAllDetail;
 import com.example.vital_hub.competition.data.CompetitionEdit;
 import com.example.vital_hub.competition.data.CompetitionAdd;
+import com.example.vital_hub.competition.data.CompetitionMinDetail;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.example.vital_hub.home_page.HomePagePost;
@@ -72,6 +73,8 @@ public class Api {
     public static Call<Void> editCompetition;
 
     public static Call<Void> deleteCompetition;
+    public static Call<CompetitionMinDetailResponse> getCompetitionTitleList;
+    public static Call<CompetitionDurationResponse> getCompetitionDuration;
 
     public static Call<Void> participateInCompetition;
 
@@ -218,6 +221,10 @@ public class Api {
         postRegist = controller.postRegistInfo(headers, body);
     }
 
+    public static void initGetCompetitionDuration(Map<String, String> headers, Long id) {
+        getCompetitionDuration = controller.getCompetitionDuration(headers, id);
+    }
+
     //Exercise
     public static void getListSingleExerciseByPage(Map<String, String> headers, Integer page, Integer pageSize, String order, Boolean desc) {
         singleExerciseList = controller.getSingleExercisePartial(headers, page, pageSize, order, desc);
@@ -270,6 +277,10 @@ public class Api {
 
     public static void initPostComment(Map<String, String> headers, CommentPost body) {
         postComment = controller.postComment(headers, body);
+    }
+
+    public static void initGetCompetitionTitleList(Map<String, String> headers) {
+        getCompetitionTitleList = controller.getJoinedCompetitionTitleList(headers);
     }
 
     public static void initDeletePost(Map<String, String> headers, Long postId) {

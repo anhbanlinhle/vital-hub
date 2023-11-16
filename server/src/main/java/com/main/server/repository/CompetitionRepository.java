@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalTime;
 import java.util.List;
 
 public interface CompetitionRepository extends JpaRepository<Competition, Long> {
@@ -186,4 +187,12 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
             """
             , nativeQuery = true)
     CompetitionResultDto getResultPushUpForUser(Long competitionId, Long userId);
+
+    @Query(value = "SELECT id, title FROM competition c JOIN participants p ON c.id = p.comp_id WHERE type = 'RUNNING' AND p.participant_id = :currentUserId",
+            nativeQuery = true)
+    List<CompeMiniDto> getJoinedTitleList(Long currentUserId);
+
+    @Query(value = "SELECT duration FROM competition WHERE id = :id",
+            nativeQuery = true)
+    LocalTime getDuration(Long id);
 }

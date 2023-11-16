@@ -184,14 +184,15 @@ public class CompetitionActivity extends AppCompatActivity implements Navigation
         competitions = new ArrayList<>();
         competitionList = findViewById(R.id.competition_list);
         competitionList.setHasFixedSize(true);
-        if (isCreated) {
-            fetchOwnCompetitionList(null, limit, offset);
-        }
-        else fetchCompetitionList(isJoined, null, limit, offset);
         competitionListAdapter = new CompetitionListAdapter(competitions, isJoined, isCreated);
         competitionList.setAdapter(competitionListAdapter);
         layoutManager = new LinearLayoutManager(this);
         competitionList.setLayoutManager(layoutManager);
+
+        if (isCreated) {
+            fetchOwnCompetitionList(null, limit, offset);
+        }
+        else fetchCompetitionList(isJoined, null, limit, offset);
 
         // Lazy load
         competitionList.addOnScrollListener(
@@ -220,7 +221,7 @@ public class CompetitionActivity extends AppCompatActivity implements Navigation
     private void fetchCompetitionList(Boolean isJoined, String name, Integer limit, Integer offset) {
 
         Api.initGetCompetitionList(headers, isJoined, name, limit, offset);
-        Api.getCompetitionList.enqueue(new Callback<CompetitionListResponse>() {
+        Api.getCompetitionList.clone().enqueue(new Callback<CompetitionListResponse>() {
             @Override
             public void onResponse(@NonNull Call<CompetitionListResponse> call, @NonNull Response<CompetitionListResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {

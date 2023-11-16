@@ -18,3 +18,12 @@ local.properties
 *.iml
 *.ipr
 Icon?
+vital_hub/local.properties
+vital_hub/.idea/caches
+vital_hub/.idea/libraries
+vital_hub/.idea/modules.xml
+vital_hub/.idea/workspace.xml
+vital_hub/.idea/navEditor.xml
+vital_hub/.idea/assetWizardSettings.xml
+vital_hub/build
+vital_hub/captures
