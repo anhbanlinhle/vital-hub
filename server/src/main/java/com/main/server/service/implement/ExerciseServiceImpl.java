@@ -10,8 +10,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 @AllArgsConstructor
@@ -79,5 +83,13 @@ public class ExerciseServiceImpl implements ExerciseService {
         }
 
         return saveExerciseAndCompetitionDto;
+    }
+
+    @Override
+    public Object getWeeklyResult(ExerciseType exerciseType, Long userId) {
+        LocalDate monday = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        List<LocalDate> weekDays = IntStream.range(0, 7).mapToObj(monday::plusDays).toList();
+
+        return null;
     }
 }
