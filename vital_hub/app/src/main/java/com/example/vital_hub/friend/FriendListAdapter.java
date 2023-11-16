@@ -26,7 +26,7 @@ import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.helper.KeyboardHelper;
-import com.example.vital_hub.profile.OthersProfile;
+import com.example.vital_hub.profile.OthersProfileActivity;
 
 import java.util.ArrayList;
 import java.util.Map;

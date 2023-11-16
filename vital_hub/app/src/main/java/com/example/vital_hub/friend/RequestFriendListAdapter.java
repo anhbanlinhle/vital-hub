@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
-import com.example.vital_hub.profile.OthersProfile;
+import com.example.vital_hub.profile.OthersProfileActivity;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -50,7 +50,7 @@ public class RequestFriendListAdapter extends RecyclerView.Adapter<RequestFriend
         Glide.with(holder.requestAvatar.getContext()).load(requestList.get(position).getAvatar()).into(holder.requestAvatar);
 
         holder.setItemClickListener((view, position1, isLongClick) -> {
-            Intent intent = new Intent(view.getContext(), OthersProfile.class);
+            Intent intent = new Intent(view.getContext(), OthersProfileActivity.class);
             intent.putExtra("id", requestList.get(position).getId()+"");
             view.getContext().startActivity(intent);
         });

@@ -1,6 +1,5 @@
 package com.example.vital_hub.profile;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,12 +26,8 @@ import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.client.spring.objects.CountResponse;
 import com.example.vital_hub.client.spring.objects.ProfileDetailResponse;
 import com.example.vital_hub.client.spring.objects.ProfileResponse;
-import com.example.vital_hub.competition.CompetitionActivity;
-import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.friend.RequestFriendListAdapter;
-import com.example.vital_hub.home_page.HomePageActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OthersProfile extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+public class OthersProfileActivity extends AppCompatActivity {
     PopupWindow popupWindow;
     View dimOverlay;
     ImageView backButton;
@@ -77,9 +72,9 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
         fetchOthersProfile(Long.parseLong(getIntent().getStringExtra("id")));
         fetchOthersProfileDetail(Long.parseLong(getIntent().getStringExtra("id")));
 
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(this);
-        bottomNavigationView.setSelectedItemId(R.id.profile);
+//        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+//        bottomNavigationView.setOnItemSelectedListener(this);
+//        bottomNavigationView.setSelectedItemId(R.id.profile);
 
         name = findViewById(R.id.username);
         profileImage = findViewById(R.id.profile_image);
@@ -104,26 +99,26 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
 
 
     }
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.profile) {
-            return true;
-        } else if (item.getItemId() == R.id.home) {
-            startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else if (item.getItemId() == R.id.exercise) {
-            startActivity(new Intent(getApplicationContext(), ExerciseGeneralActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else if (item.getItemId() == R.id.competition) {
-            startActivity(new Intent(getApplicationContext(), CompetitionActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
-        } else {
-            return false;
-        }
-    }
+//    @Override
+//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//        if (item.getItemId() == R.id.profile) {
+//            return true;
+//        } else if (item.getItemId() == R.id.home) {
+//            startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
+//            overridePendingTransition(0, 0);
+//            return true;
+//        } else if (item.getItemId() == R.id.exercise) {
+//            startActivity(new Intent(getApplicationContext(), ExerciseGeneralActivity.class));
+//            overridePendingTransition(0, 0);
+//            return true;
+//        } else if (item.getItemId() == R.id.competition) {
+//            startActivity(new Intent(getApplicationContext(), CompetitionActivity.class));
+//            overridePendingTransition(0, 0);
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 
     private void initHeaderForRequest() {
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
@@ -147,7 +142,7 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
                     } else {
                         description.setText(fetchedOthersProfileDetail.getUserDetail().getDescription());
                     }
-                    Glide.with(OthersProfile.this).load(fetchedOthersProfileDetail.getAvatar()).into(profileImage);
+                    Glide.with(OthersProfileActivity.this).load(fetchedOthersProfileDetail.getAvatar()).into(profileImage);
                     dob.setText(fetchedOthersProfileDetail.getDob());
                     if (fetchedOthersProfileDetail.getSex().getPosition() == 0) {
                         othersGender.setText("Female");
@@ -175,7 +170,7 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
             }
             @Override
             public void onFailure(Call<ProfileDetailResponse> call, Throwable t) {
-                Toast.makeText(OthersProfile.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(OthersProfileActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -207,7 +202,7 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
                             functionButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    PopupMenu popupMenu = new PopupMenu(OthersProfile.this, view);
+                                    PopupMenu popupMenu = new PopupMenu(OthersProfileActivity.this, view);
                                     popupMenu.getMenuInflater().inflate(R.menu.respond_menu, popupMenu.getMenu());
                                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                                         @Override
@@ -290,7 +285,7 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
             }
             @Override
             public void onFailure(Call<ProfileResponse> call, Throwable t) {
-                Toast.makeText(OthersProfile.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(OthersProfileActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -308,7 +303,7 @@ public class OthersProfile extends AppCompatActivity implements NavigationBarVie
 
             @Override
             public void onFailure(Call<CountResponse> call, Throwable t) {
-                Toast.makeText(OthersProfile.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(OthersProfileActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
