@@ -14,8 +14,12 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +54,7 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
@@ -72,7 +77,6 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
     FusedLocationProviderClient fusedLocationClient;
     static double latitude;
     static double longitude;
-//    static TextView lat, lng;
     LocationRequest locationRequest;
     LocationCallback locationCallback;
     // Competition selector display
@@ -84,6 +88,7 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
     String jwt;
     Map<String, String> headers;
     AppCompatButton back;
+    FloatingActionButton record;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +109,7 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
 //        updateLocation();
         updateMapCamera();
         expandCollapseMap();
-        startService(new Intent(BicycleTracker.this, BicycleService.class));
+//        startService(new Intent(BicycleTracker.this, BicycleService.class));
     }
 
     protected void findViewComponents() {
@@ -113,6 +118,8 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         screen = findViewById(R.id.screen);
         back = findViewById(R.id.back);
         competitionTitle = findViewById(R.id.auto_complete_txt);
+        record = findViewById(R.id.record);
+        recordTrackingButton();
 
         Window window = this.getWindow();
 
@@ -134,6 +141,30 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
 //                expandCollapseMap();
 //            }
 //        });
+        record.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recordTrackingButton();
+            }
+        });
+    }
+
+    void recordTrackingButton() {
+        String tracking;
+        prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        tracking = prefs.getString("tracking", "stop");
+        if (tracking.equals("stop")) {
+            record.setImageResource(R.drawable.bicycle_stop);
+            record.setColorFilter(Color.parseColor("#FFFFFF"));
+            record.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1DB954")));
+            prefs.edit().putString("tracking", "start").apply();
+        }
+        else {
+            record.setImageResource(R.drawable.bicycle_start);
+            record.setColorFilter(Color.parseColor("#1DB954"));
+            record.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
+            prefs.edit().putString("tracking", "stop").apply();
+        }
     }
 
     protected void updateLocation() {
