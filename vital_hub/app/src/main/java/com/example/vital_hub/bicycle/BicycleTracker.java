@@ -72,7 +72,7 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
     FusedLocationProviderClient fusedLocationClient;
     static double latitude;
     static double longitude;
-    static TextView lat, lng;
+//    static TextView lat, lng;
     LocationRequest locationRequest;
     LocationCallback locationCallback;
     // Competition selector display
@@ -111,8 +111,6 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         mapContainer = findViewById(R.id.map_container);
         map = findViewById(R.id.map);
         screen = findViewById(R.id.screen);
-        lat = findViewById(R.id.lat);
-        lng = findViewById(R.id.lng);
         back = findViewById(R.id.back);
         competitionTitle = findViewById(R.id.auto_complete_txt);
 
@@ -152,8 +150,6 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
                 assert result != null;
                 latitude = result.getLatitude();
                 longitude = result.getLongitude();
-                lat.setText(String.valueOf(latitude));
-                lng.setText(String.valueOf(longitude));
                 updateMapCamera();
             }
         };
