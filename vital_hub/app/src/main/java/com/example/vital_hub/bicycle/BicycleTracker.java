@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentContainerView;
@@ -54,6 +55,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
@@ -89,6 +91,8 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
     AppCompatButton back;
     FloatingActionButton record;
     TextView distance, calories;
+    BottomAppBar bottomBar;
+    ConstraintLayout navStats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +121,8 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         back = findViewById(R.id.back);
         competitionTitle = findViewById(R.id.auto_complete_txt);
         record = findViewById(R.id.record);
+        bottomBar = findViewById(R.id.bottom_bar);
+        navStats = findViewById(R.id.nav_stats);
         distance = findViewById(R.id.distance);
         calories = findViewById(R.id.calories);
 
@@ -165,6 +171,7 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         }
         expandCollapseMap(tracking);
         navBarStats(tracking);
+//        navBarShrink(tracking);
     }
 
     protected void updateLocation() {
@@ -234,36 +241,46 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
     void navBarStats(String tracking) {
         ViewGroup.LayoutParams distanceParams = distance.getLayoutParams();
         ViewGroup.LayoutParams caloriesParams = calories.getLayoutParams();
-        int expectedHeight;
+        ViewGroup.LayoutParams navStatsParams = navStats.getLayoutParams();
+        ViewGroup.LayoutParams bottomBarParams = bottomBar.getLayoutParams();
+        int bottomBarHeight;
+        int navStatsHeight;
         if (tracking.equals("start")) {
-            expectedHeight = 100;
+            navStatsHeight = 100;
+            bottomBarHeight = 200;
         }
         else {
-            expectedHeight = 0;
+            navStatsHeight = 0;
+            bottomBarHeight = 125;
         }
-        ValueAnimator anim = ValueAnimator.ofInt(distance.getMeasuredHeight(), +expectedHeight);
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int val = (Integer) valueAnimator.getAnimatedValue();
-                distanceParams.height = val;
-                distance.setLayoutParams(distanceParams);
-            }
-        });
-        anim.setDuration(1000);
-        anim.start();
 
-        ValueAnimator anim2 = ValueAnimator.ofInt(calories.getMeasuredHeight(), +expectedHeight);
-        anim2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        ValueAnimator anim4 = ValueAnimator.ofInt(navStats.getMeasuredHeight(), +navStatsHeight);
+        anim4.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int val2 = (Integer) valueAnimator.getAnimatedValue();
-                caloriesParams.height = val2;
-                calories.setLayoutParams(caloriesParams);
+                int val4 = (Integer) valueAnimator.getAnimatedValue();
+                navStatsParams.height = val4;
+                navStats.setLayoutParams(navStatsParams);
             }
         });
-        anim2.setDuration(1000);
-        anim2.start();
+        anim4.setDuration(1000);
+        anim4.start();
+
+        ValueAnimator anim3 = ValueAnimator.ofInt(bottomBar.getMeasuredHeight(), +bottomBarHeight);
+        anim3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val3 = (Integer) valueAnimator.getAnimatedValue();
+                bottomBarParams.height = val3;
+                bottomBar.setLayoutParams(bottomBarParams);
+            }
+        });
+        anim3.setDuration(1000);
+        anim3.start();
+    }
+
+    void navBarShrink (String tracking) {
+
     }
 
     protected void checkLocationPermission() {

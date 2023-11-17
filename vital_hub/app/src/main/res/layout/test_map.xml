@@ -90,6 +90,7 @@
         app:layout_constraintVertical_bias="0.657" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/nav_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -117,6 +118,7 @@
             app:fabCradleRoundedCornerRadius="90dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/nav_stats"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center">
