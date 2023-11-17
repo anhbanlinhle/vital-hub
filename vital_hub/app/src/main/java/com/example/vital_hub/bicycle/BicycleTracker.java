@@ -108,7 +108,9 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
 
 //        updateLocation();
         updateMapCamera();
-        expandCollapseMap();
+        expandCollapseMap("first");
+        recordTrackingButton();
+        expandCollapseMap("first");
 //        startService(new Intent(BicycleTracker.this, BicycleService.class));
     }
 
@@ -119,7 +121,6 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         back = findViewById(R.id.back);
         competitionTitle = findViewById(R.id.auto_complete_txt);
         record = findViewById(R.id.record);
-        recordTrackingButton();
 
         Window window = this.getWindow();
 
@@ -135,36 +136,36 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
                 finish();
             }
         });
-//        logo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                expandCollapseMap();
-//            }
-//        });
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String tracking;
+                prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+                tracking = prefs.getString("tracking", "stop");
+                if (tracking.equals("stop")) {
+                    prefs.edit().putString("tracking", "start").apply();                }
+                else {
+                    prefs.edit().putString("tracking", "stop").apply();
+                }
                 recordTrackingButton();
             }
         });
     }
 
     void recordTrackingButton() {
-        String tracking;
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
-        tracking = prefs.getString("tracking", "stop");
+        String tracking = prefs.getString("tracking", "stop");
         if (tracking.equals("stop")) {
             record.setImageResource(R.drawable.bicycle_stop);
             record.setColorFilter(Color.parseColor("#FFFFFF"));
             record.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1DB954")));
-            prefs.edit().putString("tracking", "start").apply();
         }
         else {
             record.setImageResource(R.drawable.bicycle_start);
             record.setColorFilter(Color.parseColor("#1DB954"));
             record.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
-            prefs.edit().putString("tracking", "stop").apply();
         }
+        expandCollapseMap(tracking);
     }
 
     protected void updateLocation() {
@@ -207,8 +208,13 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
-    protected void expandCollapseMap() {
-        if (mapContainer.getMeasuredHeight() == 600) {
+    protected void expandCollapseMap(String tracking) {
+        ViewGroup.LayoutParams layoutParams = mapContainer.getLayoutParams();
+
+        if (layoutParams.height < 600) {
+            expectedMapHeight = 600;
+        }
+        else if (tracking.equals("start")) {
             expectedMapHeight = screen.getMeasuredHeight() + 150;
         }
         else {
@@ -219,7 +225,6 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int val = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = mapContainer.getLayoutParams();
                 layoutParams.height = val;
                 mapContainer.setLayoutParams(layoutParams);
             }

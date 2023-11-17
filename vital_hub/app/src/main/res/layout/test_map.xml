@@ -160,8 +160,6 @@
             android:id="@+id/record"
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:src="@drawable/bicycle_start"
-
             app:tint="@color/color_green"
             style="@style/FabCustom"
             app:maxImageSize="48dp"
