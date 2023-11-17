@@ -88,6 +88,7 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
     Map<String, String> headers;
     AppCompatButton back;
     FloatingActionButton record;
+    TextView distance, calories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +117,8 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         back = findViewById(R.id.back);
         competitionTitle = findViewById(R.id.auto_complete_txt);
         record = findViewById(R.id.record);
+        distance = findViewById(R.id.distance);
+        calories = findViewById(R.id.calories);
 
         Window window = this.getWindow();
 
@@ -161,6 +164,7 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
             record.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
         }
         expandCollapseMap(tracking);
+        navBarStats(tracking);
     }
 
     protected void updateLocation() {
@@ -225,6 +229,41 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         });
         anim.setDuration(1000);
         anim.start();
+    }
+
+    void navBarStats(String tracking) {
+        ViewGroup.LayoutParams distanceParams = distance.getLayoutParams();
+        ViewGroup.LayoutParams caloriesParams = calories.getLayoutParams();
+        int expectedHeight;
+        if (tracking.equals("start")) {
+            expectedHeight = 100;
+        }
+        else {
+            expectedHeight = 0;
+        }
+        ValueAnimator anim = ValueAnimator.ofInt(distance.getMeasuredHeight(), +expectedHeight);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                distanceParams.height = val;
+                distance.setLayoutParams(distanceParams);
+            }
+        });
+        anim.setDuration(1000);
+        anim.start();
+
+        ValueAnimator anim2 = ValueAnimator.ofInt(calories.getMeasuredHeight(), +expectedHeight);
+        anim2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val2 = (Integer) valueAnimator.getAnimatedValue();
+                caloriesParams.height = val2;
+                calories.setLayoutParams(caloriesParams);
+            }
+        });
+        anim2.setDuration(1000);
+        anim2.start();
     }
 
     protected void checkLocationPermission() {
