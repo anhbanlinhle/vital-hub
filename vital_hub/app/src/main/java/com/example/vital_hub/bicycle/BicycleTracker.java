@@ -19,6 +19,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,8 +72,6 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
     private static GoogleMap mMap;
     FadingEdgeLayout mapContainer;
     FragmentContainerView map;
-    ViewGroup.LayoutParams mapLayoutParams;
-    ConstraintLayout screen;
     int expectedMapHeight;
     FusedLocationProviderClient fusedLocationClient;
     static double latitude;
@@ -106,18 +105,14 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
-//        updateLocation();
         updateMapCamera();
-        expandCollapseMap("first");
         recordTrackingButton();
-        expandCollapseMap("first");
 //        startService(new Intent(BicycleTracker.this, BicycleService.class));
     }
 
     protected void findViewComponents() {
         mapContainer = findViewById(R.id.map_container);
         map = findViewById(R.id.map);
-        screen = findViewById(R.id.screen);
         back = findViewById(R.id.back);
         competitionTitle = findViewById(R.id.auto_complete_txt);
         record = findViewById(R.id.record);
@@ -210,12 +205,11 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
 
     protected void expandCollapseMap(String tracking) {
         ViewGroup.LayoutParams layoutParams = mapContainer.getLayoutParams();
-
-        if (layoutParams.height < 600) {
-            expectedMapHeight = 600;
-        }
-        else if (tracking.equals("start")) {
-            expectedMapHeight = screen.getMeasuredHeight() + 150;
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        if (tracking.equals("start")) {
+            expectedMapHeight = height - 250;
         }
         else {
             expectedMapHeight = 600;
