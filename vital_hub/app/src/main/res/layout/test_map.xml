@@ -66,10 +66,10 @@
     </com.bosphere.fadingedgelayout.FadingEdgeLayout>
 
     <LinearLayout
+        android:id="@+id/card_stats"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/nav_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

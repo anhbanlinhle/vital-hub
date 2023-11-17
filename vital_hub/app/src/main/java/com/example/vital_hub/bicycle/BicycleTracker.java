@@ -29,6 +29,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -93,6 +94,7 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
     TextView distance, calories;
     BottomAppBar bottomBar;
     ConstraintLayout navStats;
+    LinearLayout cardStats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +127,7 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         navStats = findViewById(R.id.nav_stats);
         distance = findViewById(R.id.distance);
         calories = findViewById(R.id.calories);
+        cardStats = findViewById(R.id.card_stats);
 
         Window window = this.getWindow();
 
@@ -171,7 +174,7 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         }
         expandCollapseMap(tracking);
         navBarStats(tracking);
-//        navBarShrink(tracking);
+//        cardStatsShrink(tracking);
     }
 
     protected void updateLocation() {
@@ -239,8 +242,6 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
     }
 
     void navBarStats(String tracking) {
-        ViewGroup.LayoutParams distanceParams = distance.getLayoutParams();
-        ViewGroup.LayoutParams caloriesParams = calories.getLayoutParams();
         ViewGroup.LayoutParams navStatsParams = navStats.getLayoutParams();
         ViewGroup.LayoutParams bottomBarParams = bottomBar.getLayoutParams();
         int bottomBarHeight;
@@ -279,7 +280,29 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         anim3.start();
     }
 
-    void navBarShrink (String tracking) {
+    void cardStatsShrink (String tracking) {
+        ViewGroup.LayoutParams cardStatsParams = cardStats.getLayoutParams();
+        int cardStatsHeight;
+
+        if (tracking.equals("start")) {
+            cardStatsHeight = 0;
+        }
+        else {
+            cardStatsHeight = 500;
+        }
+
+        ValueAnimator anim5 = ValueAnimator.ofInt(cardStats.getMeasuredWidth(), +cardStatsHeight);
+        anim5.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val5 = (Integer) valueAnimator.getAnimatedValue();
+                cardStatsParams.height = val5;
+                cardStats.setLayoutParams(cardStatsParams);
+            }
+        });
+
+        anim5.setDuration(500);
+        anim5.start();
 
     }
 
