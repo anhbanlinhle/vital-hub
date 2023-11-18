@@ -8,41 +8,43 @@
     android:layout_height="match_parent"
     tools:context=".test.TestMap">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_bicycle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#1DB964"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/select_competition"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_margin="16dp"
+        android:hint="Select Competition"
+        app:layout_constraintBottom_toBottomOf="@+id/back"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/back"
+        app:layout_constraintTop_toTopOf="@+id/back">
+        <AutoCompleteTextView
+            android:id="@+id/auto_complete_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:inputType="none" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/back"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/baseline_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-
-        <TextView
-            android:id="@+id/back_to_home_from_biycle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:drawableStartCompat="@drawable/baseline_keyboard_double_arrow_left" />
-
-        <TextView
-            android:id="@+id/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center_vertical"
-            app:drawableEndCompat="@drawable/baseline_directions_bike_24" />
-
-    </androidx.appcompat.widget.Toolbar>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.bosphere.fadingedgelayout.FadingEdgeLayout
         android:id="@+id/map_container"
         android:layout_width="match_parent"
         android:layout_height="280dp"
         app:fel_edge="top|left|bottom|right"
-        app:fel_size_top="0dp"
+        app:fel_size_top="32dp"
         app:fel_size_bottom="32dp"
         app:fel_size_left="0dp"
         app:fel_size_right="0dp"
@@ -51,7 +53,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_bicycle"
+        app:layout_constraintTop_toBottomOf="@+id/select_competition"
         app:layout_constraintVertical_bias="0.0">
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/map"
@@ -63,28 +65,135 @@
             map:cameraTilt="45"/>
     </com.bosphere.fadingedgelayout.FadingEdgeLayout>
 
-    <TextView
-        android:id="@+id/lat"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/card_stats"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.566" />
+        app:layout_constraintTop_toBottomOf="@+id/map_container"
+        app:layout_constraintVertical_bias="0.5">
 
-    <TextView
-        android:id="@+id/lng"
-        android:layout_width="wrap_content"
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="20dp"
+            android:id="@+id/card_distance"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp">
+
+            <TextView
+                android:textSize="20dp"
+                android:textColor="@color/color_green"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:drawableStartCompat="@drawable/bicycle_distance"
+                android:drawableTint="@color/color_green"
+                android:text="\n\n\tDistance\n\n" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="20dp"
+            android:id="@+id/card_calories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp">
+
+            <TextView
+                android:textSize="20dp"
+                android:textColor="@color/color_green"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:drawableStartCompat="@drawable/bicycle_calories"
+                android:drawableTint="@color/color_green"
+                android:text="\n\n\tCalories\n\n" />
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/nav_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.657" />
+        app:layout_constraintVertical_bias="1">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="130dp">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:backgroundTint="@color/color_green"
+            app:fabAlignmentMode="center"
+            app:fabAnchorMode="cradle"
+            app:fabCradleMargin="20dp"
+            app:fabCradleRoundedCornerRadius="90dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/nav_stats"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+                <TextView
+                    android:id="@+id/distance"
+                    android:text="  Distance"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    app:drawableStartCompat="@drawable/bicycle_distance"
+                    android:drawableTint="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5"/>
+
+                <TextView
+                    android:id="@+id/calories"
+                    android:text="Calories  "
+                    android:textColor="@color/white"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    app:drawableEndCompat="@drawable/bicycle_calories"
+                    android:drawableTint="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/record"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            app:tint="@color/color_green"
+            style="@style/FabCustom"
+            app:maxImageSize="48dp"
+            app:fabCustomSize="72dp"
+            app:layout_anchor="@id/bottom_bar"
+            app:layout_anchorGravity="center" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

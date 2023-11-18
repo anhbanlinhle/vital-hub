@@ -1,7 +1,5 @@
 package com.example.vital_hub.bicycle;
 
-import static com.example.vital_hub.bicycle.BicycleTracker.lat;
-import static com.example.vital_hub.bicycle.BicycleTracker.lng;
 import static com.example.vital_hub.bicycle.BicycleTracker.latitude;
 import static com.example.vital_hub.bicycle.BicycleTracker.longitude;
 import static com.example.vital_hub.bicycle.BicycleTracker.updateMapCamera;
@@ -57,9 +55,10 @@ public class BicycleService extends Service {
     private void buildNotification() {
         String stop = "stop";
         PendingIntent broadcastIntent = PendingIntent.getBroadcast(
-                this, 0, new Intent(stop), PendingIntent.FLAG_UPDATE_CURRENT);
+                this, 0, new Intent(stop), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        @SuppressLint("LaunchActivityFromNotification") NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+        @SuppressLint("LaunchActivityFromNotification")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText("Tracking location")
                 .setOngoing(true)
@@ -97,8 +96,7 @@ public class BicycleService extends Service {
                         "\nLongitude : " + locationResult.getLastLocation().getLongitude();
                 latitude = locationResult.getLastLocation().getLatitude();
                 longitude = locationResult.getLastLocation().getLongitude();
-                lat.setText(String.valueOf(latitude));
-                lng.setText(String.valueOf(longitude));
+
                 updateMapCamera();
 
                 Toast.makeText(BicycleService.this, location, Toast.LENGTH_SHORT).show();
