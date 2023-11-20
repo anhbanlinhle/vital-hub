@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -45,11 +46,13 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     public SaveExerciseAndCompetitionDto saveExercise(SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto,
                              Long userId) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Exercise exercise = Exercise.builder()
                 .userId(userId)
-                .startedAt(saveExerciseAndCompetitionDto.getExercise().getStartedAt())
-                .calo(saveExerciseAndCompetitionDto.getExercise().getCalo())
-                .type(saveExerciseAndCompetitionDto.getExercise().getType())
+                .startedAt(LocalDateTime.parse(saveExerciseAndCompetitionDto.getStartedAt(), formatter))
+                .endedAt(LocalDateTime.now())
+                .calo(saveExerciseAndCompetitionDto.getCalo())
+                .type(saveExerciseAndCompetitionDto.getType())
                 .endedAt(LocalDateTime.now())
                 .build();
 
