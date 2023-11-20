@@ -94,6 +94,9 @@ public class GroupExerciseActivity extends AppCompatActivity {
                 saveExerciseAndCompetitionDto.setType(ExerciseType.GYM);
                 saveExerciseAndCompetitionDto.setCalo(totalCalo);
                 saveExerciseAndCompetitionDto.setGroupId(groupId);
+
+                submitBtn.setBackgroundResource(R.drawable.rounded_button_red);
+                submitBtn.setImageResource(R.drawable.baseline_av_timer_32_white);
             } else {
                 Api.saveExercise(header, saveExerciseAndCompetitionDto);
 
@@ -103,6 +106,8 @@ public class GroupExerciseActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             Toast.makeText(GroupExerciseActivity.this, "Save exercise successfully", Toast.LENGTH_SHORT).show();
                             saveExerciseAndCompetitionDto = new SaveExerciseAndCompetitionDto();
+                            submitBtn.setBackgroundResource(R.drawable.rounded_button_green);
+                            submitBtn.setImageResource(R.drawable.baseline_cloud_upload_32_white);
                         }
                     }
 
