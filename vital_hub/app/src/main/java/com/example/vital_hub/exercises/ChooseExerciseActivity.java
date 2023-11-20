@@ -48,7 +48,7 @@ public class ChooseExerciseActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ChooseExerciseActivity.this, ExerciseGeneralActivity.class));
+                finish();
             }
         });
 
