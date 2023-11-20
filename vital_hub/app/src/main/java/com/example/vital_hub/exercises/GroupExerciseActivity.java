@@ -1,10 +1,17 @@
 package com.example.vital_hub.exercises;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -51,6 +58,12 @@ public class GroupExerciseActivity extends AppCompatActivity {
 
     private Float totalCalo;
 
+    private NotificationManagerCompat notificationManager;
+
+    private NotificationCompat.Builder builder;
+
+    private final Integer CHANNEL_ID = 2812;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +84,12 @@ public class GroupExerciseActivity extends AppCompatActivity {
         submitBtn = findViewById(R.id.submit_ex_btn);
         header = HeaderInitUtil.headerWithToken(this);
         geRecycler = (RecyclerView) findViewById(R.id.ge_ac_recycler);
+        builder = new NotificationCompat.Builder(this, String.valueOf(CHANNEL_ID))
+                .setSmallIcon(R.drawable.noti_icon)
+                .setContentTitle("Notification")
+                .setContentText("Working out on exercises in group " + groupId)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        notificationManager = NotificationManagerCompat.from(this);
 
         buttonBinding();
 
@@ -97,6 +116,8 @@ public class GroupExerciseActivity extends AppCompatActivity {
 
                 submitBtn.setBackgroundResource(R.drawable.rounded_button_red);
                 submitBtn.setImageResource(R.drawable.baseline_av_timer_32_white);
+
+                showNotification();
             } else {
                 Api.saveExercise(header, saveExerciseAndCompetitionDto);
 
@@ -108,6 +129,7 @@ public class GroupExerciseActivity extends AppCompatActivity {
                             saveExerciseAndCompetitionDto = new SaveExerciseAndCompetitionDto();
                             submitBtn.setBackgroundResource(R.drawable.rounded_button_green);
                             submitBtn.setImageResource(R.drawable.baseline_cloud_upload_32_white);
+                            notificationManager.cancel(810);
                         }
                     }
 
@@ -118,6 +140,18 @@ public class GroupExerciseActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    private void showNotification() {
+        String channelId = "running_channel";
+        NotificationChannel channel = new NotificationChannel(channelId, "Running Channel", NotificationManager.IMPORTANCE_HIGH);
+        notificationManager.createNotificationChannel(channel);
+        builder.setChannelId(channelId);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1111);
+        }
+        notificationManager.notify(810, builder.build());
     }
 
     private void fetchExerciseInGroup() {
