@@ -2,9 +2,11 @@ package com.main.server.repository;
 
 import com.main.server.entity.Exercise;
 import com.main.server.utils.dto.ExerciseDto;
+import com.main.server.utils.dto.WeeklyExerciseDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
