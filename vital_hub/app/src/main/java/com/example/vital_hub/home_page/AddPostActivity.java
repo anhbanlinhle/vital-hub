@@ -59,6 +59,7 @@ public class AddPostActivity extends AppCompatActivity {
     ImageButton submit_btn;
     TextInputLayout post_content;
     Boolean hasPickedImage = false;
+    Boolean clicked = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,10 +92,11 @@ public class AddPostActivity extends AppCompatActivity {
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(hasPickedImage) {
+                if(hasPickedImage && !clicked) {
                     ExerciseResponse exerciseResponse = (ExerciseResponse) exerciseChoose.getSelectedItem();
                     exercise_id = exerciseResponse.getExerciseId();
                     uploadImageAndSetUrl(post_content.getEditText().getText().toString().trim(), exercise_id);
+                    clicked = true;
                 }
             }
         });
@@ -149,6 +151,7 @@ public class AddPostActivity extends AppCompatActivity {
                     return;
                 }
                 Toast.makeText(AddPostActivity.this, "Add post successfully", Toast.LENGTH_SHORT).show();
+                HomeFragment.refetch = true;
                 finish();
             }
 

@@ -134,7 +134,7 @@ public interface Controller {
     Call<List<HomePagePost>> getPostResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize);
 
     @GET("/post")
-    Call<HomePagePost> getSinglePost(@HeaderMap Map<String, String> header, @Query("id") Long postId);
+    Call<HomePagePost> getSinglePost(@HeaderMap Map<String, String> header, @Query("id") Long postId, @Query("type") String type);
 
     @GET("/comment/by-post")
     Call<List<Comment>> getCommentResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize, @Query("postId") Long postId);

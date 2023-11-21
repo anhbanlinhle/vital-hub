@@ -89,7 +89,7 @@
                 android:textSize="64sp"
                 app:backgroundTint="@null"
                 app:shapeAppearanceOverlay="@style/top_corner"
-                android:scaleType="centerInside"
+                android:scaleType="fitCenter"
                 android:adjustViewBounds="true"/>
 
 

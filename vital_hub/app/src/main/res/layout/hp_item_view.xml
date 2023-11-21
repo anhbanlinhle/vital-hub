@@ -70,7 +70,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/ex_list_icon"
+            android:id="@+id/post_ex_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
@@ -80,7 +80,7 @@
 
 
         <TextView
-            android:id="@+id/ex_list_text"
+            android:id="@+id/post_score"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -90,7 +90,6 @@
 
 
         <ImageView
-            android:id="@+id/ex_list_calo"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
@@ -99,7 +98,7 @@
             app:backgroundTint="@null" />
 
         <TextView
-            android:id="@+id/calo_text"
+            android:id="@+id/post_calo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -123,7 +122,7 @@
             android:layout_width="386dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:scaleType="centerInside"
+            android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:src="@mipmap/ic_launcher_round" />
     </androidx.cardview.widget.CardView>

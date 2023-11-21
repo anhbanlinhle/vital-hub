@@ -267,8 +267,8 @@ public class Api {
         getPostResponse = controller.getPostResponse(headers, pageNum, 10);
     }
 
-    public static void initGetSinglePost(Map<String, String> headers, Long postId) {
-        getSinglePost = controller.getSinglePost(headers, postId);
+    public static void initGetSinglePost(Map<String, String> headers, Long postId, String type) {
+        getSinglePost = controller.getSinglePost(headers, postId, type);
     }
 
     public static void initGetCommentResponse(Map<String, String> headers, int pageNum, Long postId) {
