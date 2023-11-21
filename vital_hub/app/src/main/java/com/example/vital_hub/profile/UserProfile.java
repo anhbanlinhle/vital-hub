@@ -1,7 +1,6 @@
 package com.example.vital_hub.profile;
 
 import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
-import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAndController;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,6 +29,7 @@ import com.example.vital_hub.client.spring.objects.ProfileResponse;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.friend.FriendList;
+import com.example.vital_hub.history.HistoryActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.test.TestMain;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -59,7 +59,6 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
     TextView description;
     TextView totalFriend;
     ImageView profileImage;
-    Button openOthersProfileTest;
     private UserInfo fetchedUserProfile;
     private CountResponse countResponse;
     private UserDetail fetchedUserProfileDetail;
@@ -71,7 +70,6 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         initHeaderForRequest();
         fetchUserProfileDetail();
         fetchFriends();
-        initRetrofitAndController(prefs.getString("server", "10.0.2.2"));
 
 
         //NavBar
@@ -87,22 +85,12 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         friend = findViewById(R.id.friend_view);
         name = findViewById(R.id.username);
         profileImage = findViewById(R.id.profile_image);
-        openOthersProfileTest = findViewById(R.id.others_profile);
         totalFriend = findViewById(R.id.friend_counter);
         description = findViewById(R.id.description);
-
-        openOthersProfileTest.setVisibility(View.GONE);
-        openOthersProfileTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserProfile.this, OthersProfile.class);
-                startActivity(intent);
-            }
-        });
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserProfile.this, TestPage.class);
+                Intent intent = new Intent(UserProfile.this, HistoryActivity.class);
                 startActivity(intent);
             }
         });
@@ -206,7 +194,11 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
                     assert profileDetailResponse != null;
                     fetchedUserProfileDetail = profileDetailResponse.getData();
                     name.setText(fetchedUserProfileDetail.getName());
-                    description.setText(fetchedUserProfileDetail.getUserDetail().getDescription());
+                    if (fetchedUserProfileDetail.getUserDetail().getDescription() == null) {
+                        description.setText("");
+                    } else {
+                        description.setText(fetchedUserProfileDetail.getUserDetail().getDescription());
+                    }
                     Glide.with(UserProfile.this).load(fetchedUserProfileDetail.getAvatar()).into(profileImage);
                 }
             }

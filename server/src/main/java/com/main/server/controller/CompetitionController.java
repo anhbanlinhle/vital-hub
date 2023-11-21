@@ -7,7 +7,9 @@ import com.main.server.request.AddCompettitionRequest;
 import com.main.server.response.BaseResponse;
 import com.main.server.service.CompetitionService;
 import com.main.server.service.FriendService;
+import com.main.server.utils.dto.CompeMiniDto;
 import com.main.server.utils.dto.CompetitionListDto;
+import com.main.server.utils.dto.SaveExerciseAndCompetitionDto;
 import com.main.server.utils.enums.ExerciseType;
 import com.main.server.utils.dto.CompetitionModifyDto;
 import com.main.server.utils.dto.CompetitionModifyDto;
@@ -113,4 +115,33 @@ public class CompetitionController {
                                                      @RequestHeader(name = "Authorization") String token) {
         return ResponseEntity.ok().body(competitionService.getEnrolledCompetition(tokenParser.getCurrentUserId(token), page, pageSize));
     }
+
+    @PostMapping("/save-result")
+    public ResponseEntity<?> getEnrolledCompetitions(@RequestBody SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto,
+                                                     @RequestHeader(name = "Authorization") String token) {
+        competitionService.saveResultForCompetition(saveExerciseAndCompetitionDto, tokenParser.getCurrentUserId(token));
+        return ResponseEntity.ok().body(null);
+    }
+
+    @GetMapping("/joined-running")
+    public ResponseEntity<BaseResponse> getJoinedTitleList(@RequestHeader(name = "Authorization") String token) {
+        Long currentUserId = tokenParser.getCurrentUserId(token);
+        List<CompeMiniDto> competitionList = competitionService.getJoinedTitleList(currentUserId);
+        return ResponseEntity.ok().body(BaseResponse.builder()
+                .message("success")
+                .success(true)
+                .data(competitionService.getJoinedTitleList(currentUserId))
+                .build());
+    }
+
+    @GetMapping("/get-duration")
+    public ResponseEntity<BaseResponse> getDuration(@RequestParam(name = "id") Long id) {
+        LocalTime duration = competitionService.getDuration(id);
+        return ResponseEntity.ok().body(BaseResponse.builder()
+                .message("success")
+                .success(true)
+                .data(duration)
+                .build());
+    }
+
 }

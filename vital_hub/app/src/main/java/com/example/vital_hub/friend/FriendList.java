@@ -37,7 +37,6 @@ import retrofit2.Response;
 
 public class FriendList extends AppCompatActivity implements FriendListAdapter.FriendActionListener {
 
-
     private final int limit = 10;
     private int offset = 0;
     private RecyclerView friendList;
@@ -58,8 +57,8 @@ public class FriendList extends AppCompatActivity implements FriendListAdapter.F
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
 
-        //Init server (test)
-        initRetrofitAndController("10.0.2.2");
+        prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        initRetrofitAndController(prefs.getString("server", "10.0.2.2"));
 
         // Helper
         KeyboardHelper.setupKeyboardHiding(this);
@@ -158,6 +157,13 @@ public class FriendList extends AppCompatActivity implements FriendListAdapter.F
             intent.putExtra("friendList", fetchedFriendList);
             startActivity(intent);
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchedFriendList.clear();
+//        fetchFriendList(null, limit, offset);
     }
 
     @Override

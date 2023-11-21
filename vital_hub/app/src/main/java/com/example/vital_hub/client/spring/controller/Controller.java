@@ -54,6 +54,8 @@ public interface Controller {
 
     @GET("/friend/total")
     Call<CountResponse> getTotalFriends(@HeaderMap Map<String, String> headers);
+    @GET("/friend/total")
+    Call<CountResponse> getOthersTotalFriends(@HeaderMap Map<String, String> headers, @Query("id") Long id);
     @GET("/friend/list")
     Call<FriendListResponse> getFriendList(@HeaderMap Map<String, String> headers, @Query("name") String name, @Query("limit") Integer limit, @Query("offset") Integer offset);
     @GET("/friend/request-list")
@@ -92,6 +94,10 @@ public interface Controller {
     Call<Void> participateInCompetition (@HeaderMap Map<String, String> headers,
                                          @Query("id") Long id,
                                          @Query("joining") Boolean joining);
+    @GET("/competition/joined-running")
+    Call<CompetitionMinDetailResponse> getJoinedCompetitionTitleList(@HeaderMap Map<String, String> headers);
+    @GET("/competition/get-duration")
+    Call<CompetitionDurationResponse> getCompetitionDuration(@HeaderMap Map<String, String> headers, @Query("id") Long id);
     // /auth/**
     @POST("/auth/create-user-first-sign")
     Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);
@@ -104,8 +110,9 @@ public interface Controller {
     @PUT("/user/save-detail")
     Call<UserDetail> updateProfileDetail(@HeaderMap Map<String, String> headers, @Body UserDetail body);
 
-
     // Others Profile
+    @GET("/user/detail")
+    Call<ProfileDetailResponse> getOthersProfileDetail(@HeaderMap Map<String, String> header, @Query("id") Long id);
     @GET("/user/info")
     Call<ProfileResponse> getOthersProfile(@HeaderMap Map<String, String> header, @Query("id") Long id);
 
@@ -146,4 +153,10 @@ public interface Controller {
 
     @GET("/exercise")
     Call<List<ExerciseResponse>> getExerciseList(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize);
+
+    @POST("/exercise/save")
+    Call<Void> saveExercise(@HeaderMap Map<String, String> header, @Body SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto);
+
+    @POST("/competition/save-result")
+    Call<Void> saveExerciseForCompetition(@HeaderMap Map<String, String> header, @Body SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto);
 }

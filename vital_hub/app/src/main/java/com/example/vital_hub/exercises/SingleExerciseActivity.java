@@ -51,7 +51,7 @@ public class SingleExerciseActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SingleExerciseActivity.this, ChooseExerciseActivity.class));
+                finish();
             }
         });
 
