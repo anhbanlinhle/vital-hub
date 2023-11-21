@@ -32,7 +32,6 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
             LIMIT :limit OFFSET :offset
             """
             , nativeQuery = true)
-    List<ExerciseDto> getAllExerciseWithUid(Long userId);
     List<ExerciseDto> getAllExerciseWithUid(Long userId, Integer limit, Integer offset);
 
     @Query(value = """
