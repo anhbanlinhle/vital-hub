@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,98 +7,108 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/color_green"
-        android:orientation="horizontal"
-        android:padding="15dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="15dp"
-            android:layout_weight="22"
-            android:fontFamily="@font/mont_black"
-            android:gravity="center_vertical"
-            android:text="Post"
-            android:textColor="@color/color_white"
-            android:textSize="20sp" />
-
-        <ImageButton
-            android:id="@+id/submit_post_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ok_btn"
-            android:background="@null"
-            android:layout_marginEnd="15dp"/>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingHorizontal="16dp">
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:fontFamily="@font/mont_semi_bold"
-            android:text="Choose an activity"
-            android:textSize="36sp" />
+            android:background="@color/color_green"
+            android:orientation="horizontal"
+            android:padding="15dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/add_post_input"
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="22"
+                android:fontFamily="@font/mont_black"
+                android:gravity="center_vertical"
+                android:text="Post"
+                android:textColor="@color/color_white"
+                android:textSize="20sp" />
+
+            <ImageButton
+                android:id="@+id/submit_post_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:background="@null"
+                android:src="@drawable/ok_btn" />
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/mont_semi_bold"
+                android:text="Choose an activity"
+                android:textSize="36sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/add_post_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_rounded"
+                    android:fontFamily="@font/mont_alt_reg"
+                    android:hint="Post Content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Spinner
+                android:id="@+id/ex_list_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
                 android:background="@drawable/edit_text_rounded"
-                android:fontFamily="@font/mont_alt_reg"
-                android:hint="Post Content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Spinner
-            android:id="@+id/ex_list_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/edit_text_rounded"
-            android:minHeight="55dp"
-            android:theme="@style/SpinnerTheme"/>
+                android:minHeight="55dp"
+                android:theme="@style/SpinnerTheme" />
 
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/add_post_img"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/dashed_border_rounded_top"
-            android:fontFamily="@font/sf_thin"
-            android:outlineProvider="background"
-            android:minHeight="200dp"
-            android:textColor="@color/custom_green"
-            android:textSize="64sp"
-            app:backgroundTint="@null"
-            app:shapeAppearanceOverlay="@style/top_corner"/>
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/add_post_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/dashed_border_rounded_top"
+                android:fontFamily="@font/sf_thin"
+                android:minHeight="200dp"
+                android:outlineProvider="background"
+                android:textColor="@color/custom_green"
+                android:textSize="64sp"
+                app:backgroundTint="@null"
+                app:shapeAppearanceOverlay="@style/top_corner"
+                android:scaleType="centerInside"
+                android:adjustViewBounds="true"/>
 
 
-        <Button
-            android:id="@+id/add_post_img_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_bot_24"
-            android:fontFamily="@font/sf_medium"
-            android:text="+"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            app:backgroundTint="@null" />
+            <Button
+                android:id="@+id/add_post_img_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_bot_24"
+                android:fontFamily="@font/sf_medium"
+                android:text="+"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                app:backgroundTint="@null" />
 
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+
+</ScrollView>

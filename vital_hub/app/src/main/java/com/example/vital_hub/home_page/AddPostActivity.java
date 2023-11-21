@@ -25,6 +25,8 @@ import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.client.spring.objects.ExerciseResponse;
 import com.example.vital_hub.competition.data.CompetitionAdd;
 import com.example.vital_hub.helper.ImgToUrl.ImageUploadTask;
+import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.shape.Shapeable;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
@@ -50,7 +52,7 @@ public class AddPostActivity extends AppCompatActivity {
 
     List<ExerciseResponse> exerciseResponseList;
     Button img_add_btn;
-    ImageView add_post_img;
+    ShapeableImageView add_post_img;
     public static final int PICK_IMAGE = 1;
     HomePagePost body;
     Long exercise_id;
