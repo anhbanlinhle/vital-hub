@@ -7,9 +7,9 @@
         android:layout_gravity="center_horizontal"
         android:id="@+id/result"
         android:fontFamily="@font/mont_black"
-        android:text=""
+        android:text="7"
         android:textColor="#1DB964"
-        android:textSize="55sp"
+        android:textSize="64sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
@@ -17,7 +17,7 @@
         android:fontFamily="@font/mont_semi_bold"
         android:text="number of rep(s)"
         android:textColor="#1DB964"
-        android:textSize="25sp"
+        android:textSize="32sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </LinearLayout>

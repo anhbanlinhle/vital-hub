@@ -232,7 +232,7 @@
     "elementType": "labels.text.stroke",
     "stylers": [
       {
-        "visibility": "off"
+        "color": "#000000"
       }
     ]
   },

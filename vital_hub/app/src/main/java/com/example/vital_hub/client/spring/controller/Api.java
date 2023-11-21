@@ -4,18 +4,22 @@ import com.example.vital_hub.client.spring.objects.CommentPost;
 import com.example.vital_hub.client.spring.objects.*;
 
 import com.example.vital_hub.client.spring.objects.AuthResponseObject;
+import com.example.vital_hub.client.spring.objects.CompetitionListResponse;
 import com.example.vital_hub.client.spring.objects.CountResponse;
 import com.example.vital_hub.client.spring.objects.FriendListResponse;
+import com.example.vital_hub.client.spring.objects.ProfileDetailResponse;
+import com.example.vital_hub.client.spring.objects.ProfileResponse;
 import com.example.vital_hub.client.spring.objects.RegistRequestObject;
 import com.example.vital_hub.client.spring.objects.ResponseObject;
 import com.example.vital_hub.competition.data.CompetitionAllDetail;
 import com.example.vital_hub.competition.data.CompetitionEdit;
 import com.example.vital_hub.competition.data.CompetitionAdd;
+import com.example.vital_hub.competition.data.CompetitionMinDetail;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
-import com.example.vital_hub.profile.UserDetail;
 import com.example.vital_hub.home_page.HomePagePost;
 import com.example.vital_hub.post_comment.Comment;
+import com.example.vital_hub.profile.UserDetail;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -49,6 +53,7 @@ public class Api {
 
     //Friend
     public static Call<CountResponse> getTotalFriend;
+    public static Call<CountResponse> getOthersTotalFriend;
     public static Call<FriendListResponse> getFriendList;
     public static Call<FriendListResponse> getFriendRequestList;
     public static Call<FriendListResponse> getSearchList;
@@ -63,15 +68,20 @@ public class Api {
     public static Call<CompetitionListResponse> getOwnCompetitionList;
     public static Call<Void> addCompetition;
     public static Call<CompetitionAllDetail> competitionAllDetail;
+    public static Call<Void> savedCompetitionResult;
 
     public static Call<Void> editCompetition;
 
     public static Call<Void> deleteCompetition;
+    public static Call<CompetitionMinDetailResponse> getCompetitionTitleList;
+    public static Call<CompetitionDurationResponse> getCompetitionDuration;
 
     public static Call<Void> participateInCompetition;
 
     //Exercise
     public static Call<List<SingleExercise>> singleExerciseList;
+
+    public static Call<Void> savedExercise;
 
     public static Call<List<GroupExercise>> groupExerciseList;
 
@@ -84,7 +94,9 @@ public class Api {
     public static Call<ProfileDetailResponse> getUserProfileDetail;
     public static Call<UserDetail> updateUserProfile;
     //Others profile
+    public static Call<ProfileDetailResponse> getOthersProfileDetail;
     public static Call<ProfileResponse> getOthersProfile;
+
 
     public static void initRetrofitAndController(String server) {
         String url = "http://" + server + ":8080/";
@@ -135,6 +147,9 @@ public class Api {
     //Friend
     public static void initGetTotalFriend(Map<String, String> headers) {
         getTotalFriend = controller.getTotalFriends(headers);
+    }
+    public static void initGetOthersTotalFriend(Map<String, String> headers, Long id) {
+        getOthersTotalFriend = controller.getOthersTotalFriends(headers, id);
     }
 
     public static void initGetFriendList(Map<String, String> headers, String name, Integer limit, Integer offset) {
@@ -198,8 +213,16 @@ public class Api {
         participateInCompetition = controller.participateInCompetition(header, compId, joining);
     }
 
+    public static void saveResultForCompetition(Map<String, String> header, SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto) {
+        savedCompetitionResult = controller.saveExerciseForCompetition(header, saveExerciseAndCompetitionDto);
+    }
+
     public static void initPostRegist(Map<String, String> headers, RegistRequestObject body) {
         postRegist = controller.postRegistInfo(headers, body);
+    }
+
+    public static void initGetCompetitionDuration(Map<String, String> headers, Long id) {
+        getCompetitionDuration = controller.getCompetitionDuration(headers, id);
     }
 
     //Exercise
@@ -236,6 +259,9 @@ public class Api {
     public static void initGetOthersProfile(Map<String, String> headers, Long id) {
         getOthersProfile = controller.getOthersProfile(headers, id);
     }
+    public static void initGetOthersProfileDetail(Map<String, String> headers, Long id) {
+        getOthersProfileDetail = controller.getOthersProfileDetail(headers, id);
+    }
     // post and comment
     public static void initGetPostResponse(Map<String, String> headers, int pageNum) {
         getPostResponse = controller.getPostResponse(headers, pageNum, 10);
@@ -253,6 +279,10 @@ public class Api {
         postComment = controller.postComment(headers, body);
     }
 
+    public static void initGetCompetitionTitleList(Map<String, String> headers) {
+        getCompetitionTitleList = controller.getJoinedCompetitionTitleList(headers);
+    }
+
     public static void initDeletePost(Map<String, String> headers, Long postId) {
         deletePost = controller.deletePost(headers, postId);
     }
@@ -267,5 +297,9 @@ public class Api {
 
     public static void initGetExerciseList(Map<String, String> headers, int pageNum) {
         getExerciseList = controller.getExerciseList(headers, pageNum, 10);
+    }
+
+    public static void saveExercise(Map<String, String> headers, SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto) {
+        savedExercise = controller.saveExercise(headers, saveExerciseAndCompetitionDto);
     }
 }

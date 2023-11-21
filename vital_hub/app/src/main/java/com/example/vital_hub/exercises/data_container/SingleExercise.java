@@ -55,4 +55,8 @@ public class SingleExercise {
     public String getDescription() {
         return this.description;
     }
+
+    public Float getTotalCalo() {
+        return totalCalo;
+    }
 }

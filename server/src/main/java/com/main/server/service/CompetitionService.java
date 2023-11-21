@@ -2,10 +2,7 @@ package com.main.server.service;
 
 import com.main.server.entity.Competition;
 import com.main.server.request.AddCompettitionRequest;
-import com.main.server.utils.dto.CompetitionAllDetailDto;
-import com.main.server.utils.dto.CompetitionListDto;
-import com.main.server.utils.dto.CompetitionModifyDto;
-import com.main.server.utils.dto.EnrolledCompetitionDto;
+import com.main.server.utils.dto.*;
 import com.main.server.utils.enums.ExerciseType;
 
 import java.sql.Date;
@@ -27,4 +24,10 @@ public interface CompetitionService {
     void addCompetition(Long currentUserId, AddCompettitionRequest request);
 
     List<EnrolledCompetitionDto> getEnrolledCompetition(Long userId, Integer page, Integer pageSize);
+
+    void saveResultForCompetition(SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto,
+                                  Long userId);
+    List<CompeMiniDto> getJoinedTitleList(Long currentUserId);
+
+    LocalTime getDuration(Long id);
 }
