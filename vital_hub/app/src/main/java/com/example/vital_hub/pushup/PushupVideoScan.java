@@ -37,16 +37,20 @@ import com.example.vital_hub.R;
 import com.example.vital_hub.client.fastapi.objects.PushUpResponse;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.client.spring.objects.CompetitionMinDetailResponse;
+import com.example.vital_hub.client.spring.objects.SaveExerciseAndCompetitionDto;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.competition.data.CompetitionMinDetail;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.profile.UserProfile;
 import com.example.vital_hub.running.RunningActivity;
+import com.example.vital_hub.utils.ExerciseType;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -70,6 +74,10 @@ public class PushupVideoScan extends AppCompatActivity {
     private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION = 0;
     private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 1;
     private static final int REQUEST_CODE_SELECT_VIDEO = 2;
+
+    private Long competitionId;
+
+    private SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto;
     VideoView videoView;
     AppCompatButton back;
     TextView pose, video, save, submit;
@@ -143,13 +151,25 @@ public class PushupVideoScan extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PushupVideoScan.this, "save pushup result", Toast.LENGTH_SHORT).show();
+                if (saveExerciseAndCompetitionDto == null) {
+                    Toast.makeText(PushupVideoScan.this, "No result to be saved", Toast.LENGTH_SHORT).show();
+                } else {
+                    handleSaveExercise();
+                }
             }
         });
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PushupVideoScan.this, "submit pushup result", Toast.LENGTH_SHORT).show();
+                if (saveExerciseAndCompetitionDto == null) {
+                    Toast.makeText(PushupVideoScan.this, "No result to be saved", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (saveExerciseAndCompetitionDto.getCompetitionId() == null) {
+                        Toast.makeText(PushupVideoScan.this, "Pick one competition to submit", Toast.LENGTH_SHORT).show();
+                    } else {
+                        handleSaveCompetition();
+                    }
+                }
             }
         });
     }
@@ -259,6 +279,8 @@ public class PushupVideoScan extends AppCompatActivity {
         competitionTitle.setOnItemClickListener((parent, view, position, id) -> {
             String selected = (String) parent.getItemAtPosition(position);
             competitionTitle.setText(selected, false);
+            CompetitionMinDetail selectedCompetition = (CompetitionMinDetail) parent.getItemAtPosition(position);
+            competitionId = selectedCompetition.getId();
             if (position != 0) {
 //                isCompeting = true;
 //                isRunningCompetition = false;
@@ -306,6 +328,8 @@ public class PushupVideoScan extends AppCompatActivity {
                         arrayList.add(body.getCount());
                         recyclerAdapter.notifyItemRangeChanged(0, 1);
 //                        result.setText(String.valueOf(body.getCount()));
+
+                        initExerciseAndCompetitionDto(body.getCount());
                     }
                 }
             }
@@ -327,5 +351,56 @@ public class PushupVideoScan extends AppCompatActivity {
             return filePath;
         }
         return null;
+    }
+
+    private void initExerciseAndCompetitionDto(int rep) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        saveExerciseAndCompetitionDto = new SaveExerciseAndCompetitionDto();
+        saveExerciseAndCompetitionDto.setCompetitionId(competitionId);
+        saveExerciseAndCompetitionDto.setCalo(0.5F * rep);
+        saveExerciseAndCompetitionDto.setType(ExerciseType.PUSHUP);
+        saveExerciseAndCompetitionDto.setRep(rep);
+        saveExerciseAndCompetitionDto.setStartedAt(LocalDateTime.now().format(formatter));
+    }
+
+    private void handleSaveExercise() {
+        Api.saveExercise(headers, saveExerciseAndCompetitionDto);
+
+        Api.savedExercise.clone().enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(PushupVideoScan.this, "Save push up count successful", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(PushupVideoScan.this, "Could not save push up count", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(PushupVideoScan.this, "Could not save push up count", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void handleSaveCompetition() {
+        Api.saveResultForCompetition(headers, saveExerciseAndCompetitionDto);
+
+        Api.savedCompetitionResult.clone().enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(PushupVideoScan.this, "Save result for competition successful", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(PushupVideoScan.this, "Could not save result for competition", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(PushupVideoScan.this, "Could not save result for competition", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
