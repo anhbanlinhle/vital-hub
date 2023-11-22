@@ -101,7 +101,6 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
 
         updateMapCamera();
         recordTrackingButton();
-//        startService(new Intent(BicycleTracker.this, BicycleService.class));
     }
 
     protected void findViewComponents() {
@@ -137,9 +136,12 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
                 prefs = getSharedPreferences("UserData", MODE_PRIVATE);
                 tracking = prefs.getString("tracking", "stop");
                 if (tracking.equals("stop")) {
-                    prefs.edit().putString("tracking", "start").apply();                }
+                    prefs.edit().putString("tracking", "start").apply();
+                    startService(new Intent(BicycleTracker.this, BicycleService.class));
+                }
                 else {
                     prefs.edit().putString("tracking", "stop").apply();
+                    stopService(new Intent(BicycleTracker.this, BicycleService.class));
                 }
                 recordTrackingButton();
             }
@@ -161,7 +163,6 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         }
         expandCollapseMap(tracking);
         navBarStats(tracking);
-//        cardStatsShrink(tracking);
     }
 
     protected void updateLocation() {
