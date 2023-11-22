@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".home_page.HomeFragment">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -76,16 +75,16 @@
                 android:id="@+id/add_post_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/color_white"
+                android:backgroundTint="@color/color_green"
                 android:clickable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.898"
+                app:layout_constraintHorizontal_bias="0.923"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/home_page_recycler"
-                app:layout_constraintVertical_bias="0.923"
+                app:layout_constraintVertical_bias="0.896"
                 app:srcCompat="@drawable/baseline_add_24"
-                android:backgroundTint="@color/color_green"
-                android:background="@color/color_white"
                 app:tint="@color/color_white" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

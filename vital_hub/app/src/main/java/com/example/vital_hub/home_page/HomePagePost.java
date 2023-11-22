@@ -9,29 +9,15 @@ public class HomePagePost {
     private Long userId;
     private String username;
     private String title;
-    private Long exerciseId;
-    private Boolean isDeleted = false;
     private String createdAt;
-    private String updatedAt;
-
     private Boolean isOwned;
+    private Float calo;
+    private String type;
+    private String score;
 
+    private Long exerciseId;
 
-    public HomePagePost(String image, String username, String title) {
-        this.image = image;
-        this.username = username;
-        this.title = title;
-    }
-
-    public HomePagePost(String avatar) {
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
+    public HomePagePost() {
     }
 
     public Long getExerciseId() {
@@ -46,16 +32,16 @@ public class HomePagePost {
         return avatar;
     }
 
-    public Boolean getOwned() {
-        return isOwned;
-    }
-
-    public void setOwned(Boolean owned) {
-        isOwned = owned;
-    }
-
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Long getPostId() {
@@ -90,14 +76,6 @@ public class HomePagePost {
         this.title = title;
     }
 
-    public Boolean getDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
-
     public String getCreatedAt() {
         return createdAt;
     }
@@ -106,11 +84,35 @@ public class HomePagePost {
         this.createdAt = createdAt;
     }
 
-    public String getUpdatedAt() {
-        return updatedAt;
+    public Boolean getOwned() {
+        return isOwned;
     }
 
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setOwned(Boolean owned) {
+        isOwned = owned;
+    }
+
+    public Float getCalo() {
+        return calo;
+    }
+
+    public void setCalo(Float calo) {
+        this.calo = calo;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
     }
 }

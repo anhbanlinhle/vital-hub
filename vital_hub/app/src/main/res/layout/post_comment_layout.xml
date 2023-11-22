@@ -42,59 +42,64 @@
             android:id="@+id/comment_recycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="8"
-            android:scrollbars="vertical"
-            android:background="@color/color_white"/>
+            android:layout_weight="1"
+            android:background="@color/color_white"
+            android:scrollbars="vertical" />
 
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="15dp"
-            android:background="@drawable/comment_box_bg">
+            android:layout_height="wrap_content">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                app:cardCornerRadius="99dp"
-                android:layout_gravity="center"
-                android:layout_marginRight="15dp"
-                app:backgroundTint="@null">
-                <ImageView
-                    android:id="@+id/user_profile_image"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/comment_box_bg"
+                android:orientation="horizontal"
+                android:padding="15dp"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.cardview.widget.CardView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:layout_margin="15dp"
-                    android:src="@mipmap/ic_launcher_round"
-                    app:backgroundTint="@null"/>
-            </androidx.cardview.widget.CardView>
+                    android:layout_marginRight="15dp"
+                    app:backgroundTint="@null"
+                    app:cardCornerRadius="99dp">
+
+                    <ImageView
+                        android:id="@+id/user_profile_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="15dp"
+                        android:src="@mipmap/ic_launcher_round"
+                        app:backgroundTint="@null" />
+                </androidx.cardview.widget.CardView>
 
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="7dp"
-                android:id="@+id/comment_input">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/comment_input"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Comment"
-                    android:fontFamily="@font/mont_reg" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginRight="7dp"
+                    android:layout_weight="1">
 
-            <ImageButton
-                android:id="@+id/send_button"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:background="@null"
-                android:gravity="end"
-                app:srcCompat="@drawable/send_icon" />
-        </LinearLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/mont_alt_reg"
+                        android:hint="Comment" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-
+                <ImageButton
+                    android:id="@+id/send_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:gravity="end"
+                    app:srcCompat="@drawable/send_icon" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </LinearLayout>

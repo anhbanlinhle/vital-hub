@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +29,7 @@ import com.example.vital_hub.post_comment.PostCommentActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.example.vital_hub.client.spring.controller.Api.initDeletePost;
 
@@ -63,14 +65,35 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
     public void onBindViewHolder(@NonNull HpRecyclerAdapter.ViewHolder holder, int position) {
         if (holder.itemType == VIEW_TYPE_ITEM) {
             HomePagePost post = arrayList.get(position);
-
+            holder.type = post.getType();
             holder.isOwned = post.getOwned();
             holder.postId = post.getPostId();
             holder.userId = post.getUserId();
             holder.title.setText(post.getUsername());
             holder.message.setText(post.getTitle());
+            holder.post_score.setText(post.getScore());
+            holder.post_calo.setText(post.getCalo().toString());
             Glide.with(holder.profileImage.getContext()).load(post.getAvatar()).into(holder.profileImage);
             Glide.with(holder.postImage.getContext()).load(post.getImage()).into(holder.postImage);
+
+            switch (post.getType()) {
+                case "RUNNING": {
+                    holder.post_ex_icon.setImageResource(R.drawable.running_ex);
+                    break;
+                }
+                case "GYM": {
+                    holder.post_ex_icon.setImageResource(R.drawable.gym_ex);
+                    break;
+                }
+                case "PUSHUP": {
+                    holder.post_ex_icon.setImageResource(R.drawable.pushup_ex);
+                    break;
+                }
+                case "BICYCLING": {
+                    holder.post_ex_icon.setImageResource(R.drawable.bike_ex);
+                    break;
+                }
+            }
         }
     }
 
@@ -88,6 +111,7 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
 
         ImageView profileImage;
         Long postId;
+        String type;
         Long userId;
         Boolean isOwned;
         ImageView postImage;
@@ -97,14 +121,15 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
         ImageButton comment_button;
         boolean switchOn = false;
         ImageButton kebab_button;
+        ImageView post_ex_icon;
+        TextView post_score;
+        TextView post_calo;
 
         int itemType;
 
         SharedPreferences prefs;
         String jwt;
         Map<String, String> headers;
-
-        Call<Void> deletePost;
 
         private void initHeaderForRequest(View itemView) {
             prefs = itemView.getContext().getSharedPreferences("UserData", MODE_PRIVATE);
@@ -125,6 +150,9 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
                 itemType = VIEW_TYPE_ITEM;
                 comment_button = itemView.findViewById(R.id.cmt_button);
                 kebab_button = itemView.findViewById(R.id.kebab_button);
+                post_ex_icon = itemView.findViewById(R.id.post_ex_icon);
+                post_score = itemView.findViewById(R.id.post_score);
+                post_calo = itemView.findViewById(R.id.post_calo);
 
 
                 lottieHeart.setProgress(0.0f);
@@ -150,6 +178,7 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(), PostCommentActivity.class);
                         intent.putExtra("postId", postId);
+                        intent.putExtra("type", type);
                         view.getContext().startActivity(intent);
                     }
                 });
@@ -168,7 +197,10 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
                                         Log.d("Fail", "Error" + response);
                                         return;
                                     }
-                                    Log.d("Fail", "Error" + response);
+                                    int position = getArrPosition(postId);
+                                    arrayList.remove(position);
+                                    notifyDataSetChanged();
+                                    Toast.makeText(v.getContext(), "Delete post successfully", Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
@@ -177,7 +209,7 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
                                 }
                             });
                         } else {
-
+                            Toast.makeText(v.getContext(), "Can only delete posts that is your", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -185,5 +217,14 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
                 itemType = VIEW_TYPE_LOADING;
             }
         }
+    }
+
+    public int getArrPosition(Long postId) {
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (Objects.equals(arrayList.get(i).getPostId(), postId)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
