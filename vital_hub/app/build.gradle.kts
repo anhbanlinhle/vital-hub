@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.vital_hub"
-        minSdk = 29
+        minSdk = 28
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+    implementation("com.saadahmedev.popup-dialog:popup-dialog:1.0.5")
     implementation("com.etebarian:meow-bottom-navigation:1.2.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61")
     implementation("com.github.bosphere.android-fadingedgelayout:fadingedgelayout:1.0.0")

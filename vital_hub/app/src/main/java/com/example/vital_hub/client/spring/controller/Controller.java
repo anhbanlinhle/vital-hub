@@ -95,9 +95,17 @@ public interface Controller {
                                          @Query("id") Long id,
                                          @Query("joining") Boolean joining);
     @GET("/competition/joined-running")
-    Call<CompetitionMinDetailResponse> getJoinedCompetitionTitleList(@HeaderMap Map<String, String> headers);
+    Call<CompetitionMinDetailResponse> getJoinedCompetitionRunning(@HeaderMap Map<String, String> headers);
+
+    @GET("/competition/joined-push-up")
+    Call<CompetitionMinDetailResponse> getJoinedCompetitionPushUp(@HeaderMap Map<String, String> headers);
+
+    @GET("/competition/joined-bicycling")
+    Call<CompetitionMinDetailResponse> getJoinedCompetitionBicycling(@HeaderMap Map<String, String> headers);
+
     @GET("/competition/get-duration")
     Call<CompetitionDurationResponse> getCompetitionDuration(@HeaderMap Map<String, String> headers, @Query("id") Long id);
+
     // /auth/**
     @POST("/auth/create-user-first-sign")
     Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);

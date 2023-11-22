@@ -124,13 +124,32 @@ public class CompetitionController {
     }
 
     @GetMapping("/joined-running")
-    public ResponseEntity<BaseResponse> getJoinedTitleList(@RequestHeader(name = "Authorization") String token) {
+    public ResponseEntity<BaseResponse> getJoinedCompetitionRunning(@RequestHeader(name = "Authorization") String token) {
         Long currentUserId = tokenParser.getCurrentUserId(token);
-        List<CompeMiniDto> competitionList = competitionService.getJoinedTitleList(currentUserId);
         return ResponseEntity.ok().body(BaseResponse.builder()
                 .message("success")
                 .success(true)
-                .data(competitionService.getJoinedTitleList(currentUserId))
+                .data(competitionService.getJoinedTitleList(currentUserId, ExerciseType.RUNNING))
+                .build());
+    }
+
+    @GetMapping("/joined-push-up")
+    public ResponseEntity<BaseResponse> getJoinedCompetitionPushUp(@RequestHeader(name = "Authorization") String token) {
+        Long currentUserId = tokenParser.getCurrentUserId(token);
+        return ResponseEntity.ok().body(BaseResponse.builder()
+                .message("success")
+                .success(true)
+                .data(competitionService.getJoinedTitleList(currentUserId, ExerciseType.PUSHUP))
+                .build());
+    }
+
+    @GetMapping("/joined-bicycling")
+    public ResponseEntity<BaseResponse> getJoinedCompetitionBicycling(@RequestHeader(name = "Authorization") String token) {
+        Long currentUserId = tokenParser.getCurrentUserId(token);
+        return ResponseEntity.ok().body(BaseResponse.builder()
+                .message("success")
+                .success(true)
+                .data(competitionService.getJoinedTitleList(currentUserId, ExerciseType.BICYCLING))
                 .build());
     }
 

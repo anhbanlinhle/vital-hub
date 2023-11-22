@@ -317,8 +317,8 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
 
     private void getCompetitionTitleList() {
         try {
-            Api.initGetCompetitionTitleList(headers);
-            Api.getCompetitionTitleList.clone().enqueue(new Callback<CompetitionMinDetailResponse>() {
+            Api.initGetJoinedCompetitionRunning(headers);
+            Api.getJoinedCompetitionRunning.clone().enqueue(new Callback<CompetitionMinDetailResponse>() {
                 @Override
                 public void onResponse(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Response<CompetitionMinDetailResponse> response) {
                     if (response.isSuccessful()) {

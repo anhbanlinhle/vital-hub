@@ -27,7 +27,7 @@ public interface CompetitionService {
 
     void saveResultForCompetition(SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto,
                                   Long userId);
-    List<CompeMiniDto> getJoinedTitleList(Long currentUserId);
+    List<CompeMiniDto> getJoinedTitleList(Long currentUserId, ExerciseType exerciseType);
 
     LocalTime getDuration(Long id);
 }

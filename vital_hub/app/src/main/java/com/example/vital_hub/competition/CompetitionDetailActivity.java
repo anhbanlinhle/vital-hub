@@ -163,20 +163,46 @@ public class CompetitionDetailActivity extends AppCompatActivity {
             Glide.with(CompetitionDetailActivity.this).load(competitionAllDetail.getDetail().getBackground()).into(compeBackground);
         }
 
-        name1.setText(competitionAllDetail.getRank().get(0).getName());
-        name2.setText(competitionAllDetail.getRank().get(1).getName());
-        name3.setText(competitionAllDetail.getRank().get(2).getName());
-        score1.setText(competitionAllDetail.getRank().get(0).getScore());
-        score2.setText(competitionAllDetail.getRank().get(1).getScore());
-        score3.setText(competitionAllDetail.getRank().get(2).getScore());
-        if (competitionAllDetail.getRank().get(0).getAvatar() != null) {
-            Glide.with(CompetitionDetailActivity.this).load(competitionAllDetail.getRank().get(0).getAvatar()).into(avatar1);
+        if (competitionAllDetail.getRank().size() == 1) {
+            name1.setText(competitionAllDetail.getRank().get(0).getName());
+            score1.setText(competitionAllDetail.getRank().get(0).getScore());
+            if (competitionAllDetail.getRank().get(0).getAvatar() != null) {
+                Glide.with(CompetitionDetailActivity.this).load(competitionAllDetail.getRank().get(0).getAvatar()).into(avatar1);
+            }
         }
-        if (competitionAllDetail.getRank().get(1).getAvatar() != null) {
-            Glide.with(CompetitionDetailActivity.this).load(competitionAllDetail.getRank().get(1).getAvatar()).into(avatar2);
+
+        if (competitionAllDetail.getRank().size() == 2) {
+            name1.setText(competitionAllDetail.getRank().get(0).getName());
+            score1.setText(competitionAllDetail.getRank().get(0).getScore());
+            if (competitionAllDetail.getRank().get(0).getAvatar() != null) {
+                Glide.with(CompetitionDetailActivity.this).load(competitionAllDetail.getRank().get(0).getAvatar()).into(avatar1);
+            }
+
+            name2.setText(competitionAllDetail.getRank().get(1).getName());
+            score2.setText(competitionAllDetail.getRank().get(1).getScore());
+            if (competitionAllDetail.getRank().get(1).getAvatar() != null) {
+                Glide.with(CompetitionDetailActivity.this).load(competitionAllDetail.getRank().get(1).getAvatar()).into(avatar2);
+            }
         }
-        if (competitionAllDetail.getRank().get(2).getAvatar() != null) {
-            Glide.with(CompetitionDetailActivity.this).load(competitionAllDetail.getRank().get(2).getAvatar()).into(avatar3);
+
+        if (competitionAllDetail.getRank().size() == 3) {
+            name1.setText(competitionAllDetail.getRank().get(0).getName());
+            score1.setText(competitionAllDetail.getRank().get(0).getScore());
+            if (competitionAllDetail.getRank().get(0).getAvatar() != null) {
+                Glide.with(CompetitionDetailActivity.this).load(competitionAllDetail.getRank().get(0).getAvatar()).into(avatar1);
+            }
+
+            name2.setText(competitionAllDetail.getRank().get(1).getName());
+            score2.setText(competitionAllDetail.getRank().get(1).getScore());
+            if (competitionAllDetail.getRank().get(1).getAvatar() != null) {
+                Glide.with(CompetitionDetailActivity.this).load(competitionAllDetail.getRank().get(1).getAvatar()).into(avatar2);
+            }
+
+            name3.setText(competitionAllDetail.getRank().get(2).getName());
+            score3.setText(competitionAllDetail.getRank().get(2).getScore());
+            if (competitionAllDetail.getRank().get(2).getAvatar() != null) {
+                Glide.with(CompetitionDetailActivity.this).load(competitionAllDetail.getRank().get(2).getAvatar()).into(avatar3);
+            }
         }
 
         isEnrolled = competitionAllDetail.getIsEnrolled();
