@@ -79,13 +79,13 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
 
     @Query(value = "SELECT u.name AS name, u.avatar AS avatar, CONCAT(r.distance, ' meters') AS score " +
             "FROM compe_ex ce JOIN exercise e on ce.exercise_id = e.id JOIN bicycling r on e.id = r.exercise_id JOIN user u on e.user_id = u.id " +
-            "WHERE ce.compe_id = :id ORDER BY r.step DESC LIMIT 3",
+            "WHERE ce.compe_id = :id ORDER BY r.distance DESC LIMIT 3",
             nativeQuery = true)
     List<CompetitionRankingDto> getCompetitionBicyclingRanking(Long id);
 
     @Query(value = "SELECT u.name AS name, u.avatar AS avatar, CONCAT(r.rep, ' reps') AS score " +
             "FROM compe_ex ce JOIN exercise e on ce.exercise_id = e.id JOIN push_up r on e.id = r.exercise_id JOIN user u on e.user_id = u.id " +
-            "WHERE ce.compe_id = :id ORDER BY r.step DESC LIMIT 3",
+            "WHERE ce.compe_id = :id ORDER BY r.rep DESC LIMIT 3",
             nativeQuery = true)
     List<CompetitionRankingDto> getCompetitionPushUpRanking(Long id);
 
@@ -166,7 +166,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
 
     @Query(value = """
             SELECT r.step AS step, ce.exercise_id AS exerciseId FROM user u JOIN participants p ON u.id = p.participant_id
-            JOIN compe_ex ce ON p.comp_id = ce.compe_id JOIN running r on ce.exercise_id = r.exercise_id
+            JOIN compe_ex ce ON p.comp_id = ce.compe_id JOIN running r on ce.exercise_id = r.exercise_id JOIN exercise e ON (e.id = ce.exercise_id AND e.user_id = u.id)
             WHERE p.comp_id = :competitionId AND u.id = :userId
             """
             , nativeQuery = true)
@@ -174,7 +174,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
 
     @Query(value = """
             SELECT b.distance AS distance, ce.exercise_id AS exerciseId FROM user u JOIN participants p ON u.id = p.participant_id
-            JOIN compe_ex ce ON p.comp_id = ce.compe_id JOIN bicycling b on ce.exercise_id = b.exercise_id
+            JOIN compe_ex ce ON p.comp_id = ce.compe_id JOIN bicycling b on ce.exercise_id = b.exercise_id JOIN exercise e ON (e.id = ce.exercise_id AND e.user_id = u.id)
             WHERE p.comp_id = :competitionId AND u.id = :userId
             """
             , nativeQuery = true)
@@ -182,7 +182,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
 
     @Query(value = """
             SELECT pu.rep AS rep, ce.exercise_id AS exerciseId FROM user u JOIN participants p ON u.id = p.participant_id
-            JOIN compe_ex ce ON p.comp_id = ce.compe_id JOIN push_up pu on ce.exercise_id = pu.exercise_id
+            JOIN compe_ex ce ON p.comp_id = ce.compe_id JOIN push_up pu ON ce.exercise_id = pu.exercise_id JOIN exercise e ON (e.id = ce.exercise_id AND e.user_id = u.id)
             WHERE p.comp_id = :competitionId AND u.id = :userId
             """
             , nativeQuery = true)
