@@ -32,6 +32,19 @@ import com.google.android.gms.location.LocationServices;
 public class BicycleService extends Service {
     private final IBinder mBinder = new MapBinder();
     private static final String CHANNEL_ID = "2";
+    private final LocationCallback locationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            String location = "Latitude : " + locationResult.getLastLocation().getLatitude() +
+
+                    "\nLongitude : " + locationResult.getLastLocation().getLongitude();
+            latitude = locationResult.getLastLocation().getLatitude();
+            longitude = locationResult.getLastLocation().getLongitude();
+
+            updateMapCamera();
+            Toast.makeText(BicycleService.this, location, Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Nullable
     @Override
@@ -49,6 +62,7 @@ public class BicycleService extends Service {
     public void onCreate() {
         super.onCreate();
         buildNotification();
+        requestLocationUpdates();
         requestLocationUpdates();
     }
 
@@ -88,21 +102,20 @@ public class BicycleService extends Service {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        client.requestLocationUpdates(request, new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                String location = "Latitude : " + locationResult.getLastLocation().getLatitude() +
+        client.requestLocationUpdates(request, locationCallback, null);
 
-                        "\nLongitude : " + locationResult.getLastLocation().getLongitude();
-                latitude = locationResult.getLastLocation().getLatitude();
-                longitude = locationResult.getLastLocation().getLongitude();
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopLocationUpdates();
+    }
 
-                updateMapCamera();
-
-                Toast.makeText(BicycleService.this, location, Toast.LENGTH_SHORT).show();
-            }
-        }, null);
-
+    private void stopLocationUpdates() {
+        stopForeground(true);
+        stopSelf();
+        FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
+        client.removeLocationUpdates(locationCallback);
     }
 
     public class MapBinder extends Binder {

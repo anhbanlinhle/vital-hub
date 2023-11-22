@@ -150,9 +150,12 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
                 prefs = getSharedPreferences("UserData", MODE_PRIVATE);
                 tracking = prefs.getString("tracking", "stop");
                 if (tracking.equals("stop")) {
-                    prefs.edit().putString("tracking", "start").apply();                }
+                    prefs.edit().putString("tracking", "start").apply();
+                    startService(new Intent(BicycleTracker.this, BicycleService.class));
+                }
                 else {
                     prefs.edit().putString("tracking", "stop").apply();
+                    stopService(new Intent(BicycleTracker.this, BicycleService.class));
                 }
                 recordTrackingButton();
             }
