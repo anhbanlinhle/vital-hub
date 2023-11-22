@@ -13,6 +13,9 @@ public interface PostDto {
     LocalDateTime getCreatedAt();
 
     String getImage();
+    String getType();
+    String getScore();
+    Float getCalo();
 
     @JsonIgnore
     Integer getIsOwnedInt();

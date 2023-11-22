@@ -40,4 +40,28 @@ public class OriginExercise {
     public Long getUserId() {
         return userId;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setStartedAt(LocalDateTime startedAt) {
+        this.startedAt = startedAt;
+    }
+
+    public void setEndedAt(LocalDateTime endedAt) {
+        this.endedAt = endedAt;
+    }
+
+    public void setCalo(Float calo) {
+        this.calo = calo;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setType(ExerciseType type) {
+        this.type = type;
+    }
 }
