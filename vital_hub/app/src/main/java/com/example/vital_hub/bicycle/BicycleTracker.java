@@ -55,6 +55,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -206,9 +207,9 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         }
         LatLng home = new LatLng(latitude, longitude);
         mMap.setBuildingsEnabled(true);
-        mMap.addMarker(new MarkerOptions()
-                .position(home)
-                .title("Your location"));
+//        mMap.addMarker(new MarkerOptions()
+//                .position(home)
+//                .title("Your location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(home));
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(home)
@@ -384,5 +385,21 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
 //                handleIfNone();
             }
         });
+    }
+    public static void drawRoute(ArrayList<LatLng> locations) {
+        if (locations.size() < 2) {
+            // Not enough points to draw a route
+            return;
+        }
+
+        PolylineOptions polylineOptions = new PolylineOptions();
+        polylineOptions.color(Color.BLUE);
+        polylineOptions.width(5);
+
+        for (LatLng location : locations) {
+            polylineOptions.add(location);
+        }
+
+        mMap.addPolyline(polylineOptions);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.vital_hub.bicycle;
 
+import static com.example.vital_hub.bicycle.BicycleTracker.drawRoute;
 import static com.example.vital_hub.bicycle.BicycleTracker.latitude;
 import static com.example.vital_hub.bicycle.BicycleTracker.longitude;
 import static com.example.vital_hub.bicycle.BicycleTracker.updateMapCamera;
@@ -29,9 +30,13 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
 
 
 public class BicycleService extends Service {
+    private ArrayList<LatLng> locationList = new ArrayList<>();
     private final IBinder mBinder = new MapBinder();
     private static final String CHANNEL_ID = "7979";
     RemoteViews customLayout;
@@ -54,6 +59,11 @@ public class BicycleService extends Service {
                     .setCustomContentView(customLayout)
                     .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                     .build());
+
+            LatLng latLng = new LatLng(latitude, longitude);
+            locationList.add(latLng);
+
+            drawRoute(locationList);
 
             updateMapCamera();
 //            Toast.makeText(BicycleService.this, location, Toast.LENGTH_SHORT).show();
