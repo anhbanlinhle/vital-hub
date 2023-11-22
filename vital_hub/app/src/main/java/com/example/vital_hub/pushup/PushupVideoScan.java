@@ -129,18 +129,7 @@ public class PushupVideoScan extends AppCompatActivity {
         pose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupDialog.getInstance(PushupVideoScan.this)
-                        .setStyle(Styles.FAILED)
-                        .setHeading("Uh-Oh")
-                        .setDescription("Unexpected error occurred."+
-                                " Try again later.")
-                        .setCancelable(false)
-                        .showDialog(new OnDialogButtonClickListener() {
-                            @Override
-                            public void onDismissClicked(Dialog dialog) {
-                                super.onDismissClicked(dialog);
-                            }
-                        });
+                startActivity(new Intent(PushupVideoScan.this, PushUpPoseActivity.class));
             }
         });
         video.setOnClickListener(new View.OnClickListener() {
