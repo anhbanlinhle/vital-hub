@@ -47,13 +47,16 @@ public class BicycleService extends Service {
             customLayout.setTextViewText(R.id.lat, String.valueOf(latitude));
             customLayout.setTextViewText(R.id.lng, String.valueOf(longitude));
             startForeground(1, new NotificationCompat.Builder(BicycleService.this, CHANNEL_ID)
+                    .setContentTitle("Vital Hub")
+                    .setContentText("Tracking location")
                     .setOngoing(true)
                     .setSmallIcon(R.drawable.vital_hub_logo)
-                    .setContent(customLayout)
+                    .setCustomContentView(customLayout)
+                    .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                     .build());
 
             updateMapCamera();
-            Toast.makeText(BicycleService.this, location, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(BicycleService.this, location, Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -74,7 +77,6 @@ public class BicycleService extends Service {
         super.onCreate();
         buildNotification();
         requestLocationUpdates();
-        requestLocationUpdates();
     }
 
     private void buildNotification() {
@@ -83,15 +85,14 @@ public class BicycleService extends Service {
                 this, 0, new Intent(stop), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         customLayout = new RemoteViews(getPackageName(), R.layout.bicycle_notification_layout);
-//        customLayout.setTextViewText(R.id.lat, "vital hub");
-//        customLayout.setTextViewText(R.id.lng, "zzzzzzz");
 
         @SuppressLint("LaunchActivityFromNotification")
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setOngoing(true)
                 .setContentIntent(broadcastIntent)
                 .setSmallIcon(R.drawable.vital_hub_logo)
-                .setContent(customLayout);
+                .setCustomContentView(customLayout)
+                .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
 
         NotificationChannel channel = new NotificationChannel(
                 CHANNEL_ID,
@@ -106,7 +107,6 @@ public class BicycleService extends Service {
         manager.createNotificationChannel(channel);
 
         Notification notification = builder.build();
-
 
         startForeground(1, notification);
     }
