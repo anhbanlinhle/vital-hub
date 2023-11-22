@@ -12,14 +12,10 @@ import com.main.server.service.ExerciseService;
 import com.main.server.utils.dto.CompetitionListDto;
 import com.main.server.utils.enums.ExerciseType;
 import com.main.server.utils.dto.*;
-import com.main.server.utils.enums.ExerciseType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDateTime;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -204,8 +200,14 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
-    public List<CompeMiniDto> getJoinedTitleList(Long currentUserId) {
-        return competitionRepository.getJoinedTitleList(currentUserId);
+    public List<CompeMiniDto> getJoinedTitleList(Long currentUserId, ExerciseType exerciseType) {
+        if (exerciseType == ExerciseType.RUNNING) {
+            return competitionRepository.getJoinedCompetitionRunning(currentUserId);
+        } else if (exerciseType == ExerciseType.BICYCLING) {
+            return competitionRepository.getJoinedCompetitionBicycling(currentUserId);
+        } else {
+            return competitionRepository.getJoinedCompetitionPushUp(currentUserId);
+        }
     }
 
     @Override

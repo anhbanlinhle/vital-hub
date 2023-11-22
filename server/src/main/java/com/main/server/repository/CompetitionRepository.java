@@ -190,7 +190,15 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
 
     @Query(value = "SELECT id, title FROM competition c JOIN participants p ON c.id = p.comp_id WHERE type = 'RUNNING' AND p.participant_id = :currentUserId",
             nativeQuery = true)
-    List<CompeMiniDto> getJoinedTitleList(Long currentUserId);
+    List<CompeMiniDto> getJoinedCompetitionRunning(Long currentUserId);
+
+    @Query(value = "SELECT id, title FROM competition c JOIN participants p ON c.id = p.comp_id WHERE type = 'PUSHUP' AND p.participant_id = :currentUserId",
+            nativeQuery = true)
+    List<CompeMiniDto> getJoinedCompetitionPushUp(Long currentUserId);
+
+    @Query(value = "SELECT id, title FROM competition c JOIN participants p ON c.id = p.comp_id WHERE type = 'BICYCLING' AND p.participant_id = :currentUserId",
+            nativeQuery = true)
+    List<CompeMiniDto> getJoinedCompetitionBicycling(Long currentUserId);
 
     @Query(value = "SELECT duration FROM competition WHERE id = :id",
             nativeQuery = true)
