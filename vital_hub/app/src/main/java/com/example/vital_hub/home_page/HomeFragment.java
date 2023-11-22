@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
@@ -45,6 +46,7 @@ public class HomeFragment extends Fragment {
     public static List<HomePagePost> postResponse;
     int pageNum = 0;
     FloatingActionButton addPostButton;
+    public static Boolean refetch = false;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -54,6 +56,15 @@ public class HomeFragment extends Fragment {
         HomeFragment fragment = new HomeFragment();
 
         return fragment;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("res", String.valueOf(refetch));
+        if(refetch) {
+            refetchPost();
+        }
     }
 
     @Override
@@ -140,5 +151,9 @@ public class HomeFragment extends Fragment {
         isLoading = false;
     }
 
-
+    private void refetchPost() {
+        arrayList.clear();
+        pageNum = 0;
+        getMoreData();
+    }
 }

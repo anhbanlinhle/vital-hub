@@ -247,7 +247,7 @@ INSERT INTO user_detail (user_id, current_height, current_weight, exercise_days_
 VALUES (2, 100, 100, 5, 'test2 description');
 
 INSERT INTO user (id, gmail, name, sex, phone_no, avatar, dob)
-VALUES (3, 'Nhimcoi262@gmail.com', 'test2', 'MALE', '12312422', 'https://lh3.googleusercontent.com/a/ACg8ocLY7LrsvJy9YlvROkNVsHsBFfRrjxgkwv26Q-cuyy7YFes=s96-c', '2003-12-28');
+VALUES (3, 'nhimcoi262@gmail.com', 'test2', 'MALE', '12312422', 'https://lh3.googleusercontent.com/a/ACg8ocLY7LrsvJy9YlvROkNVsHsBFfRrjxgkwv26Q-cuyy7YFes=s96-c', '2003-12-28');
 
 INSERT INTO user_detail (user_id, current_height, current_weight, exercise_days_per_week, description)
 VALUES (3, 100, 100, 5, 'test2 description');
@@ -273,17 +273,38 @@ VALUES (6, 100, 100, 5, 'test2 description');
 INSERT INTO post (id ,user_id, exercise_id, title, created_at, updated_at, is_deleted, image)
 VALUES (1, 1, 1, 'lorem ipsum', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE, 'https://c02.purpledshub.com/uploads/sites/48/2023/02/why-sky-blue-2db86ae.jpg');
 
+INSERT INTO post (id ,user_id, exercise_id, title, created_at, updated_at, is_deleted, image)
+VALUES (2, 1, 1, 'lorem ipsum', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE, 'https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/1200px-Man_Utd_FC_.svg.png');
+
+INSERT INTO post (id ,user_id, exercise_id, title, created_at, updated_at, is_deleted, image)
+VALUES (3, 1, 1, 'lorem ipsum', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE, 'https://baocantho.com.vn/image/fckeditor/upload/2018/20180829/images/malone.jpg');
+
+INSERT INTO post (id ,user_id, exercise_id, title, created_at, updated_at, is_deleted, image)
+VALUES (4, 1, 1, 'lorem ipsum', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE, 'https://staticg.sportskeeda.com/editor/2023/09/f29a8-16954713783435-1920.jpg?w=840');
+
+INSERT INTO post (id ,user_id, exercise_id, title, created_at, updated_at, is_deleted, image)
+VALUES (5, 1, 1, 'lorem ipsum', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE, 'https://storage.googleapis.com/cdn-entrade/bovagau-meme/ban-qua-hu-ban-se-bi-dam-daddy-p_1680063754');
+
+INSERT INTO post (id ,user_id, exercise_id, title, created_at, updated_at, is_deleted, image)
+VALUES (6, 1, 1, 'lorem ipsum', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE, 'https://storage.googleapis.com/cdn-entrade/bovagau-meme/yda1680038570_1680063486');
+
 INSERT INTO comment (user_id, post_id, content, created_at, updated_at, is_deleted)
 VALUES (1, 1, 'dep trai 1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE);
 
 INSERT INTO comment (user_id, post_id, content, created_at, updated_at, is_deleted)
-VALUES (2, 1, 'dep trai 2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE);
+VALUES (2, 2, 'dep trai 2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE);
 
 INSERT INTO comment (user_id, post_id, content, created_at, updated_at, is_deleted)
 VALUES (1, 1, 'dep trai 3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE);
 
 INSERT INTO comment (user_id, post_id, content, created_at, updated_at, is_deleted)
 VALUES (2, 1, 'dep trai 4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE);
+
+INSERT INTO comment (user_id, post_id, content, created_at, updated_at, is_deleted)
+VALUES (2, 3, 'dep trai 5', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE);
+
+INSERT INTO comment (user_id, post_id, content, created_at, updated_at, is_deleted)
+VALUES (3, 4, 'dep trai 6', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE);
 
 INSERT INTO exercise (id, started_at, ended_at, calo, user_id, type)
 VALUES (1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 300, 1, 'RUNNING');
@@ -310,6 +331,12 @@ INSERT INTO running (exercise_id, step)
 VALUES (7, 4200);
 
 INSERT INTO exercise (id, started_at, ended_at, calo, user_id, type)
+VALUES (8, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 300, 3, 'RUNNING');
+
+INSERT INTO running (exercise_id, step)
+VALUES (8, 10000);
+
+INSERT INTO exercise (id, started_at, ended_at, calo, user_id, type)
 VALUES (2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 300, 1, 'BICYCLING');
 
 INSERT INTO bicycling (exercise_id, distance)
@@ -328,14 +355,23 @@ INSERT INTO gym (exercise_id, group_id)
 VALUES (4, 4);
 
 INSERT INTO competition (id, host_id, title, created_at, started_at, ended_at, is_deleted, type, duration, background)
-VALUES (1, 2, 'lorem ipsum', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE, 'RUNNING', '00:30:00', 'https://c02.purpledshub.com/uploads/sites/48/2023/02/why-sky-blue-2db86ae.jpg');
+VALUES (1, 2, 'lorem ipsum', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE, 'RUNNING', '00:30:00', 'https://nld.mediacdn.vn/2020/12/8/13047134238384917728367743121356127102584377n-1607402858403113582018.jpg');
+
+INSERT INTO competition (id, host_id, title, created_at, started_at, ended_at, is_deleted, type, duration, background)
+VALUES (2, 2, 'push up', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE, 'PUSHUP', '00:30:00', 'https://i.ytimg.com/vi/7fFVQO1vJjI/maxresdefault.jpg');
 
 INSERT INTO compe_ex (exercise_id, compe_id) VALUES (1, 1);
-INSERT INTO compe_ex (exercise_id, compe_id) VALUES (5, 1);
 INSERT INTO compe_ex (exercise_id, compe_id) VALUES (6, 1);
-INSERT INTO compe_ex (exercise_id, compe_id) VALUES (7, 1);
+INSERT INTO compe_ex (exercise_id, compe_id) VALUES (3, 2);
+INSERT INTO compe_ex (exercise_id, compe_id) VALUES (8, 1);
 
 INSERT INTO participants (participant_id, comp_id) VALUES (1, 1);
 INSERT INTO participants (participant_id, comp_id) VALUES (2, 1);
+INSERT INTO participants (participant_id, comp_id) VALUES (3, 1);
+INSERT INTO participants (participant_id, comp_id) VALUES (1, 2);
+INSERT INTO participants (participant_id, comp_id) VALUES (2, 2);
+INSERT INTO participants (participant_id, comp_id) VALUES (3, 2);
 
 INSERT INTO friend (first_user_id, second_user_id, status) VALUES (1, 2, 'ACCEPTED');
+INSERT INTO friend (first_user_id, second_user_id, status) VALUES (3, 2, 'ACCEPTED');
+INSERT INTO friend (first_user_id, second_user_id, status) VALUES (3, 4, 'ACCEPTED');

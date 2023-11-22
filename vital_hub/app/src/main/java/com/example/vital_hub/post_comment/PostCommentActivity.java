@@ -44,6 +44,7 @@ public class PostCommentActivity extends AppCompatActivity {
 
     private TextInputLayout comment_input;
     private Long postId;
+    String type;
     SharedPreferences prefs;
     String jwt;
     Map<String, String> headers;
@@ -56,6 +57,7 @@ public class PostCommentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_comment_layout);
         postId = this.getIntent().getLongExtra("postId", -1);
+        type = this.getIntent().getStringExtra("type");
 
         initHeaderForRequest();
         back_button = findViewById(R.id.back_button);
@@ -67,7 +69,7 @@ public class PostCommentActivity extends AppCompatActivity {
 
         cmtRecycler = findViewById(R.id.comment_recycler);
 
-        fetchSinglePost(postId);
+        fetchSinglePost(postId, type);
 
         recyclerAdapter = new CommentRecyclerAdapter(arrayList);
         cmtRecycler.setAdapter(recyclerAdapter);
@@ -99,10 +101,8 @@ public class PostCommentActivity extends AppCompatActivity {
                             Toast.makeText(PostCommentActivity.this, "Error occured. Code: " + response.code(), Toast.LENGTH_LONG).show();
                             return;
                         }
-//                        Comment comment = new Comment(R.drawable.ic_launcher_background, "Profile Name" , comment_input.getEditText().getText().toString().trim());
-//                        arrayList.add(1, comment);
-//                        recyclerAdapter.notifyItemRangeChanged(arrayList.size()-1, 1);
                         comment_input.getEditText().getText().clear();
+                        refetchComment();
                     }
 
                     @Override
@@ -119,7 +119,7 @@ public class PostCommentActivity extends AppCompatActivity {
         super.onContextItemSelected(item);
         switch (item.getItemId()) {
             case 101:
-                recyclerAdapter.deleteComment(item.getGroupId());
+                recyclerAdapter.deleteComment(item.getGroupId(), PostCommentActivity.this);
                 return true;
         }
         return false;
@@ -134,6 +134,15 @@ public class PostCommentActivity extends AppCompatActivity {
         isLoading = false;
     }
 
+    private void refetchComment() {
+        int size = arrayList.size();
+        for(int i = 0; i < size - 1; i++) {
+            arrayList.remove(1);
+        }
+        pageNum = 0;
+        getMoreData();
+    }
+
     private void initHeaderForRequest() {
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
         jwt = prefs.getString("jwt", null);
@@ -142,8 +151,8 @@ public class PostCommentActivity extends AppCompatActivity {
     }
 
 
-    private void fetchSinglePost(Long postId) {
-        Api.initGetSinglePost(headers, postId);
+    private void fetchSinglePost(Long postId, String type) {
+        Api.initGetSinglePost(headers, postId, type);
         Api.getSinglePost.clone().enqueue(new Callback<HomePagePost>() {
             @Override
             public void onResponse(Call<HomePagePost> call, Response<HomePagePost> response) {
