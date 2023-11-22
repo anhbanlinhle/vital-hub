@@ -40,6 +40,8 @@ import com.example.vital_hub.client.spring.objects.SaveExerciseAndCompetitionDto
 import com.example.vital_hub.competition.data.CompetitionMinDetail;
 import com.example.vital_hub.utils.ExerciseType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -125,7 +127,14 @@ public class PushupVideoScan extends AppCompatActivity {
         pose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PushupVideoScan.this, "you should pose like this", Toast.LENGTH_SHORT).show();
+                PopupDialog.getInstance(PushupVideoScan.this)
+                        .setStyle(Styles.LOTTIE_ANIMATION)
+                        //Required if no RawRes
+                        .setLottieAssetName("technologies.json")
+                        //Required if no Asset
+                        .setLottieRawRes(R.raw.heart2)
+                        .setCancelable(false)
+                        .showDialog();
             }
         });
         video.setOnClickListener(new View.OnClickListener() {
@@ -280,6 +289,9 @@ public class PushupVideoScan extends AppCompatActivity {
                 }
             }
             competitionId = Long.parseLong(selected.substring(splitPos + 1));
+            if (saveExerciseAndCompetitionDto != null) {
+                saveExerciseAndCompetitionDto.setCompetitionId(competitionId);
+            }
             if (position != 0) {
 //                isCompeting = true;
 //                isRunningCompetition = false;
