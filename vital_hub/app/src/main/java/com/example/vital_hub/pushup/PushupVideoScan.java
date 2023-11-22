@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -38,16 +37,9 @@ import com.example.vital_hub.client.fastapi.objects.PushUpResponse;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.client.spring.objects.CompetitionMinDetailResponse;
 import com.example.vital_hub.client.spring.objects.SaveExerciseAndCompetitionDto;
-import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.competition.data.CompetitionMinDetail;
-import com.example.vital_hub.exercises.ExerciseGeneralActivity;
-import com.example.vital_hub.home_page.HomePageActivity;
-import com.example.vital_hub.profile.UserProfile;
-import com.example.vital_hub.running.RunningActivity;
 import com.example.vital_hub.utils.ExerciseType;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationBarView;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -243,8 +235,8 @@ public class PushupVideoScan extends AppCompatActivity {
     }
     private void getCompetitionTitleList() {
         try {
-            Api.initGetCompetitionTitleList(headers);
-            Api.getCompetitionTitleList.clone().enqueue(new Callback<CompetitionMinDetailResponse>() {
+            Api.initGetJoinedCompetitionPushUp(headers);
+            Api.getJoinedCompetitionPushUp.clone().enqueue(new Callback<CompetitionMinDetailResponse>() {
                 @Override
                 public void onResponse(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Response<CompetitionMinDetailResponse> response) {
                     if (response.isSuccessful()) {
@@ -279,8 +271,15 @@ public class PushupVideoScan extends AppCompatActivity {
         competitionTitle.setOnItemClickListener((parent, view, position, id) -> {
             String selected = (String) parent.getItemAtPosition(position);
             competitionTitle.setText(selected, false);
-            CompetitionMinDetail selectedCompetition = (CompetitionMinDetail) parent.getItemAtPosition(position);
-            competitionId = selectedCompetition.getId();
+
+            int splitPos = 0;
+            for (int i = selected.length() - 1; i >= 0; i--) {
+                if (selected.charAt(i) == '#') {
+                    splitPos = i;
+                    break;
+                }
+            }
+            competitionId = Long.parseLong(selected.substring(splitPos + 1));
             if (position != 0) {
 //                isCompeting = true;
 //                isRunningCompetition = false;
