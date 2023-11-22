@@ -114,7 +114,6 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
 
         updateMapCamera();
         recordTrackingButton();
-//        startService(new Intent(BicycleTracker.this, BicycleService.class));
     }
 
     protected void findViewComponents() {
@@ -177,7 +176,6 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         }
         expandCollapseMap(tracking);
         navBarStats(tracking);
-//        cardStatsShrink(tracking);
     }
 
     protected void updateLocation() {
