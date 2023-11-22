@@ -5,6 +5,7 @@ import static com.example.vital_hub.client.fastapi.controller.VideoApi.initPushu
 import static com.example.vital_hub.client.fastapi.controller.VideoApi.pushupCall;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -42,6 +43,7 @@ import com.example.vital_hub.utils.ExerciseType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.saadahmedsoft.popupdialog.PopupDialog;
 import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -128,13 +130,17 @@ public class PushupVideoScan extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 PopupDialog.getInstance(PushupVideoScan.this)
-                        .setStyle(Styles.LOTTIE_ANIMATION)
-                        //Required if no RawRes
-                        .setLottieAssetName("technologies.json")
-                        //Required if no Asset
-                        .setLottieRawRes(R.raw.heart2)
+                        .setStyle(Styles.FAILED)
+                        .setHeading("Uh-Oh")
+                        .setDescription("Unexpected error occurred."+
+                                " Try again later.")
                         .setCancelable(false)
-                        .showDialog();
+                        .showDialog(new OnDialogButtonClickListener() {
+                            @Override
+                            public void onDismissClicked(Dialog dialog) {
+                                super.onDismissClicked(dialog);
+                            }
+                        });
             }
         });
         video.setOnClickListener(new View.OnClickListener() {
