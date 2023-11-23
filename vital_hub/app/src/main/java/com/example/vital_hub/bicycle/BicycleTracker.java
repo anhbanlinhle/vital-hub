@@ -144,6 +144,19 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
                 prefs = getSharedPreferences("UserData", MODE_PRIVATE);
                 tracking = prefs.getString("tracking", "stop");
                 if (tracking.equals("stop")) {
+                    PopupDialog.getInstance(BicycleTracker.this)
+                            .setStyle(Styles.ALERT)
+                            .setHeading("Cycle Safely")
+                            .setDescription("Keep your phone away while cycling. Stay alert for a safer ride.")
+                            .setDismissButtonText("Got it")
+                            .setCancelable(true)
+                            .setTimeout(2)
+                            .showDialog(new OnDialogButtonClickListener() {
+                                @Override
+                                public void onDismissClicked(Dialog dialog) {
+                                    super.onDismissClicked(dialog);
+                                }
+                            });
                     prefs.edit().putString("tracking", "start").apply();
                     startService(new Intent(BicycleTracker.this, BicycleService.class));
                 }
@@ -153,7 +166,7 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
                             .setHeading("Stop Bicycling...?")
                             .setDescription("Are you sure you want to stop?"+
                                     " This action cannot be undone")
-                            .setCancelable(false)
+                            .setCancelable(true)
                             .setPositiveButtonText("Confirm")
                             .setPositiveButtonTextColor(R.color.color_red)
                             .setNegativeButtonText("Cancel")
