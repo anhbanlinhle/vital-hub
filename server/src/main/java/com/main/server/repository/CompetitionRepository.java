@@ -97,7 +97,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
             (SELECT * FROM
             ((WITH
                 ec AS
-                (SELECT c.id AS competitionId, c.background, c.ended_at AS endedAt, c.type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants
+                (SELECT c.id AS competitionId, c.title AS title, c.background AS background, c.ended_at AS endedAt, c.type AS type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants
                 FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
                 WHERE (c.host_id = :uid OR p.participant_id = :uid)
                 GROUP BY c.id),
@@ -110,7 +110,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
             WHERE e.user_id = :uid AND ec.type = 'BICYCLING'
             GROUP BY ec.competitionId))
             UNION
-            (SELECT 0 AS position, c.id AS competitionId, c.background, c.ended_at AS endedAt, c.type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants, '0' AS score
+            (SELECT 0 AS position, c.id AS competitionId, c.title AS title, c.background AS background, c.ended_at AS endedAt, c.type AS type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants, '0' AS score
             FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
             WHERE ((c.host_id = :uid OR p.participant_id = :uid) AND c.type = 'BICYCLING')
             GROUP BY c.id)) tb
@@ -119,7 +119,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
             (SELECT * FROM
             ((WITH
                 ec AS
-                (SELECT c.id AS competitionId, c.background, c.ended_at AS endedAt, c.type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants
+                (SELECT c.id AS competitionId, c.title AS title, c.background AS background, c.ended_at AS endedAt, c.type AS type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants
                 FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
                 WHERE (c.host_id = :uid OR p.participant_id = :uid)
                 GROUP BY c.id),
@@ -132,7 +132,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
             WHERE e.user_id = :uid AND ec.type = 'RUNNING'
             GROUP BY ec.competitionId))
             UNION
-            (SELECT 0 AS position, c.id AS competitionId, c.background, c.ended_at AS endedAt, c.type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants, '0' AS score
+            (SELECT 0 AS position, c.id AS competitionId, c.title AS title, c.background AS background, c.ended_at AS endedAt, c.type AS type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants, '0' AS score
             FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
             WHERE ((c.host_id = :uid OR p.participant_id = :uid) AND c.type = 'RUNNING')
             GROUP BY c.id)) tb
@@ -141,7 +141,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
             (SELECT * FROM
             ((WITH
                 ec AS
-                (SELECT c.id AS competitionId, c.background, c.ended_at AS endedAt, c.type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants
+                (SELECT c.id AS competitionId, c.title AS title, c.background AS background, c.ended_at AS endedAt, c.type AS type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants
                 FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
                 WHERE (c.host_id = :uid OR p.participant_id = :uid)
                 GROUP BY c.id),
@@ -154,7 +154,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
             WHERE e.user_id = :uid AND ec.type = 'PUSHUP'
             GROUP BY ec.competitionId))
             UNION
-            (SELECT 0 AS position, c.id AS competitionId, c.background, c.ended_at AS endedAt, c.type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants, '0' AS score
+            (SELECT 0 AS position, c.id AS competitionId, c.title AS title, c.background AS background, c.ended_at AS endedAt, c.type AS type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants, '0' AS score
             FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
             WHERE ((c.host_id = :uid OR p.participant_id = :uid) AND c.type = 'PUSHUP')
             GROUP BY c.id)) tb
