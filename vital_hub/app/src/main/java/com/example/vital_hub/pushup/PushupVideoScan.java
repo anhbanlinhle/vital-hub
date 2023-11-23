@@ -275,6 +275,9 @@ public class PushupVideoScan extends AppCompatActivity {
         competitionTitle.setOnItemClickListener((parent, view, position, id) -> {
             String selected = (String) parent.getItemAtPosition(position);
             competitionTitle.setText(selected, false);
+            if (position == 0) {
+                return;
+            }
 
             int splitPos = 0;
             for (int i = selected.length() - 1; i >= 0; i--) {
