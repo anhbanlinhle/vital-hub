@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentContainerView;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -50,6 +51,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -144,8 +148,30 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
                     startService(new Intent(BicycleTracker.this, BicycleService.class));
                 }
                 else {
-                    prefs.edit().putString("tracking", "stop").apply();
-                    stopService(new Intent(BicycleTracker.this, BicycleService.class));
+                    PopupDialog.getInstance(BicycleTracker.this)
+                            .setStyle(Styles.IOS)
+                            .setHeading("Stop Bicycling...?")
+                            .setDescription("Are you sure you want to stop?"+
+                                    " This action cannot be undone")
+                            .setCancelable(false)
+                            .setPositiveButtonText("Confirm")
+                            .setPositiveButtonTextColor(R.color.color_red)
+                            .setNegativeButtonText("Cancel")
+                            .setNegativeButtonTextColor(R.color.color_green)
+                            .showDialog(new OnDialogButtonClickListener() {
+                                @Override
+                                public void onPositiveClicked(Dialog dialog) {
+                                    super.onPositiveClicked(dialog);
+                                    prefs.edit().putString("tracking", "stop").apply();
+                                    stopService(new Intent(BicycleTracker.this, BicycleService.class));
+                                    recordTrackingButton();
+                                }
+
+                                @Override
+                                public void onNegativeClicked(Dialog dialog) {
+                                    super.onNegativeClicked(dialog);
+                                }
+                            });
                 }
                 recordTrackingButton();
             }
@@ -217,7 +243,7 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         mMap.moveCamera(CameraUpdateFactory.newLatLng(home));
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(home)
-                .zoom(20)
+                .zoom(19)
                 .tilt(45)
                 .build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
