@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentContainerView;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
@@ -44,6 +45,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.bottomappbar.BottomAppBar;
@@ -83,6 +85,7 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
     BottomAppBar bottomBar;
     ConstraintLayout navStats;
     LinearLayout cardStats;
+    static Marker currentLocationMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,6 +197,20 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         }
         LatLng home = new LatLng(latitude, longitude);
         mMap.setBuildingsEnabled(true);
+
+        if (currentLocationMarker != null) {
+            currentLocationMarker.remove();
+            currentLocationMarker = null;
+            currentLocationMarker = mMap.addMarker(new MarkerOptions()
+                    .position(home)
+                    .title("Your location"));
+//            mMap.clear();
+        }
+        else {
+            currentLocationMarker = mMap.addMarker(new MarkerOptions()
+                    .position(home)
+                    .title("Your location"));
+        }
 //        mMap.addMarker(new MarkerOptions()
 //                .position(home)
 //                .title("Your location"));
