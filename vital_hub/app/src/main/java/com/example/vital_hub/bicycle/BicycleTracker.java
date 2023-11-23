@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentContainerView;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -45,9 +46,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -83,6 +89,7 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
     BottomAppBar bottomBar;
     ConstraintLayout navStats;
     LinearLayout cardStats;
+    static Marker currentLocationMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,12 +144,47 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
                 prefs = getSharedPreferences("UserData", MODE_PRIVATE);
                 tracking = prefs.getString("tracking", "stop");
                 if (tracking.equals("stop")) {
+                    PopupDialog.getInstance(BicycleTracker.this)
+                            .setStyle(Styles.ALERT)
+                            .setHeading("Cycle Safely")
+                            .setDescription("Keep your phone away while cycling. Stay alert for a safer ride.")
+                            .setDismissButtonText("Got it")
+                            .setCancelable(true)
+                            .setTimeout(2)
+                            .showDialog(new OnDialogButtonClickListener() {
+                                @Override
+                                public void onDismissClicked(Dialog dialog) {
+                                    super.onDismissClicked(dialog);
+                                }
+                            });
                     prefs.edit().putString("tracking", "start").apply();
                     startService(new Intent(BicycleTracker.this, BicycleService.class));
                 }
                 else {
-                    prefs.edit().putString("tracking", "stop").apply();
-                    stopService(new Intent(BicycleTracker.this, BicycleService.class));
+                    PopupDialog.getInstance(BicycleTracker.this)
+                            .setStyle(Styles.IOS)
+                            .setHeading("Stop Bicycling...?")
+                            .setDescription("Are you sure you want to stop?"+
+                                    " This action cannot be undone")
+                            .setCancelable(true)
+                            .setPositiveButtonText("Confirm")
+                            .setPositiveButtonTextColor(R.color.color_red)
+                            .setNegativeButtonText("Cancel")
+                            .setNegativeButtonTextColor(R.color.color_green)
+                            .showDialog(new OnDialogButtonClickListener() {
+                                @Override
+                                public void onPositiveClicked(Dialog dialog) {
+                                    super.onPositiveClicked(dialog);
+                                    prefs.edit().putString("tracking", "stop").apply();
+                                    stopService(new Intent(BicycleTracker.this, BicycleService.class));
+                                    recordTrackingButton();
+                                }
+
+                                @Override
+                                public void onNegativeClicked(Dialog dialog) {
+                                    super.onNegativeClicked(dialog);
+                                }
+                            });
                 }
                 recordTrackingButton();
             }
@@ -194,13 +236,27 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         }
         LatLng home = new LatLng(latitude, longitude);
         mMap.setBuildingsEnabled(true);
-        mMap.addMarker(new MarkerOptions()
-                .position(home)
-                .title("Your location"));
+
+        if (currentLocationMarker != null) {
+            currentLocationMarker.remove();
+            currentLocationMarker = null;
+            currentLocationMarker = mMap.addMarker(new MarkerOptions()
+                    .position(home)
+                    .title("Your location"));
+//            mMap.clear();
+        }
+        else {
+            currentLocationMarker = mMap.addMarker(new MarkerOptions()
+                    .position(home)
+                    .title("Your location"));
+        }
+//        mMap.addMarker(new MarkerOptions()
+//                .position(home)
+//                .title("Your location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(home));
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(home)
-                .zoom(20)
+                .zoom(19)
                 .tilt(45)
                 .build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -372,5 +428,21 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
 //                handleIfNone();
             }
         });
+    }
+    public static void drawRoute(ArrayList<LatLng> locations) {
+        if (locations.size() < 2) {
+            // Not enough points to draw a route
+            return;
+        }
+
+        PolylineOptions polylineOptions = new PolylineOptions();
+        polylineOptions.color(Color.BLUE);
+        polylineOptions.width(5);
+
+        for (LatLng location : locations) {
+            polylineOptions.add(location);
+        }
+
+        mMap.addPolyline(polylineOptions);
     }
 }
