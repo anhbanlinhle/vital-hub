@@ -148,7 +148,7 @@ public class PushupVideoScan extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (saveExerciseAndCompetitionDto == null) {
-                    Toast.makeText(PushupVideoScan.this, "No result to be saved", Toast.LENGTH_SHORT).show();
+                    openPopup("Alert", "No result to be saved", Styles.ALERT);
                 } else {
                     handleSaveExercise();
                 }
@@ -158,10 +158,10 @@ public class PushupVideoScan extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (saveExerciseAndCompetitionDto == null) {
-                    Toast.makeText(PushupVideoScan.this, "No result to be saved", Toast.LENGTH_SHORT).show();
+                    openPopup("Alert", "No result to be saved", Styles.ALERT);
                 } else {
                     if (saveExerciseAndCompetitionDto.getCompetitionId() == null) {
-                        Toast.makeText(PushupVideoScan.this, "Pick one competition to submit", Toast.LENGTH_SHORT).show();
+                        openPopup("Alert", "Pick one competition to submit", Styles.ALERT);
                     } else {
                         handleSaveCompetition();
                     }
@@ -256,13 +256,13 @@ public class PushupVideoScan extends AppCompatActivity {
                             }
                         }
                     } else {
-                        Toast.makeText(PushupVideoScan.this, "Error" + response.message(), Toast.LENGTH_SHORT).show();
+                        openPopup("Oh no", "Error: " + response.message(), Styles.FAILED);
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Throwable t) {
-                    Toast.makeText(PushupVideoScan.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    openPopup("Oh no", "Error: " + t.getMessage(), Styles.FAILED);
                 }
             });
         } catch (Exception e) {
@@ -313,7 +313,7 @@ public class PushupVideoScan extends AppCompatActivity {
     void processVideo() {
         Uri videoUri = videoView.getTag() != null ? (Uri) videoView.getTag() : null;
         if (videoUri == null) {
-            Toast.makeText(PushupVideoScan.this, "No video selected", Toast.LENGTH_SHORT).show();
+            openPopup("Alert", "No video selected", Styles.ALERT);
             return;
         }
         arrayList.clear();
@@ -377,15 +377,15 @@ public class PushupVideoScan extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(PushupVideoScan.this, "Save push up count successful", Toast.LENGTH_SHORT).show();
+                    openPopup("Well done", "Save push up count successful", Styles.SUCCESS);
                 } else {
-                    Toast.makeText(PushupVideoScan.this, "Could not save push up count", Toast.LENGTH_SHORT).show();
+                    openPopup("Oh no", "Could not save push up count", Styles.FAILED);
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(PushupVideoScan.this, "Could not save push up count", Toast.LENGTH_SHORT).show();
+                openPopup("Oh no", "Could not save push up count", Styles.FAILED);
             }
         });
     }
@@ -397,16 +397,30 @@ public class PushupVideoScan extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(PushupVideoScan.this, "Save result for competition successful", Toast.LENGTH_SHORT).show();
+                    openPopup("Well done", "Save result for competition successful", Styles.SUCCESS);
                 } else {
-                    Toast.makeText(PushupVideoScan.this, "Could not save result for competition", Toast.LENGTH_SHORT).show();
+                    openPopup("Oh no", "Could not save result for competition", Styles.FAILED);
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(PushupVideoScan.this, "Could not save result for competition", Toast.LENGTH_SHORT).show();
+                openPopup("Oh no", "Could not save result for competition", Styles.FAILED);
             }
         });
+    }
+
+    private void openPopup(String heading, String description, Styles styles) {
+        PopupDialog.getInstance(this)
+            .setStyle(styles)
+            .setHeading(heading)
+            .setDescription(description)
+            .setCancelable(false)
+            .showDialog(new OnDialogButtonClickListener() {
+                @Override
+                public void onDismissClicked(Dialog dialog) {
+                    super.onDismissClicked(dialog);
+                }
+            });
     }
 }
