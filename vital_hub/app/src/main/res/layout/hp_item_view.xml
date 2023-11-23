@@ -53,7 +53,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="15dp"
             android:background="@null"
-            app:srcCompat="@drawable/kebab_menu" />
+            app:srcCompat="@drawable/baseline_delete_40_red" />
     </LinearLayout>
 
     <TextView

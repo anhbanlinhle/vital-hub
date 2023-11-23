@@ -94,6 +94,10 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
                     break;
                 }
             }
+
+            if (!holder.isOwned) {
+                holder.kebab_button.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -182,7 +186,6 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
                         view.getContext().startActivity(intent);
                     }
                 });
-
 
                 kebab_button.setOnClickListener(new View.OnClickListener() {
                     @Override

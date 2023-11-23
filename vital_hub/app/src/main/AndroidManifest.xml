@@ -27,6 +27,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".pushup.PushUpPoseActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
@@ -91,7 +94,8 @@
             android:name=".profile.OthersProfileActivity"
             android:exported="true"
             android:label="false" />
-        <activity android:name=".history.HistoryActivity"
+        <activity
+            android:name=".history.HistoryActivity"
             android:exported="true" />
         <activity
             android:name=".test.TestMain"
