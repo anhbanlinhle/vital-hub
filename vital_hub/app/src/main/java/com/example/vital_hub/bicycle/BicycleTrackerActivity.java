@@ -65,7 +65,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallback {
+public class BicycleTrackerActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static GoogleMap mMap;
     FadingEdgeLayout mapContainer;
     FragmentContainerView map;
@@ -85,7 +85,8 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
     Map<String, String> headers;
     AppCompatButton back;
     FloatingActionButton record;
-    TextView distance, calories;
+    static TextView distance;
+    static TextView calories;
     BottomAppBar bottomBar;
     ConstraintLayout navStats;
     LinearLayout cardStats;
@@ -144,7 +145,7 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
                 prefs = getSharedPreferences("UserData", MODE_PRIVATE);
                 tracking = prefs.getString("tracking", "stop");
                 if (tracking.equals("stop")) {
-                    PopupDialog.getInstance(BicycleTracker.this)
+                    PopupDialog.getInstance(BicycleTrackerActivity.this)
                             .setStyle(Styles.ALERT)
                             .setHeading("Cycle Safely")
                             .setDescription("Keep your phone away while cycling. Stay alert for a safer ride.")
@@ -158,10 +159,10 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
                                 }
                             });
                     prefs.edit().putString("tracking", "start").apply();
-                    startService(new Intent(BicycleTracker.this, BicycleService.class));
+                    startService(new Intent(BicycleTrackerActivity.this, BicycleService.class));
                 }
                 else {
-                    PopupDialog.getInstance(BicycleTracker.this)
+                    PopupDialog.getInstance(BicycleTrackerActivity.this)
                             .setStyle(Styles.IOS)
                             .setHeading("Stop Bicycling...?")
                             .setDescription("Are you sure you want to stop?"+
@@ -176,7 +177,7 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
                                 public void onPositiveClicked(Dialog dialog) {
                                     super.onPositiveClicked(dialog);
                                     prefs.edit().putString("tracking", "stop").apply();
-                                    stopService(new Intent(BicycleTracker.this, BicycleService.class));
+                                    stopService(new Intent(BicycleTrackerActivity.this, BicycleService.class));
                                     recordTrackingButton();
                                 }
 
@@ -243,16 +244,12 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
             currentLocationMarker = mMap.addMarker(new MarkerOptions()
                     .position(home)
                     .title("Your location"));
-//            mMap.clear();
         }
         else {
             currentLocationMarker = mMap.addMarker(new MarkerOptions()
                     .position(home)
                     .title("Your location"));
         }
-//        mMap.addMarker(new MarkerOptions()
-//                .position(home)
-//                .title("Your location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(home));
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(home)
@@ -355,7 +352,7 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-            ActivityCompat.requestPermissions(BicycleTracker.this, permissions, 1);
+            ActivityCompat.requestPermissions(BicycleTrackerActivity.this, permissions, 1);
         }
     }
 
@@ -365,10 +362,9 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map));
     }
 
-
     void configCompetitionSelector() {
         getCompetitionTitleList();
-        compeAdapter = new ArrayAdapter<>(BicycleTracker.this, android.R.layout.simple_list_item_1, items);
+        compeAdapter = new ArrayAdapter<>(BicycleTrackerActivity.this, android.R.layout.simple_list_item_1, items);
         competitionTitle.setAdapter(compeAdapter);
         competitionTitle.setDropDownHeight(compeAdapter.getCount() > 3 ? 450 : compeAdapter.getCount() * 150);
         competitionTitle.setText(items.get(0), false);
@@ -399,13 +395,13 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
                             }
                         }
                     } else {
-                        Toast.makeText(BicycleTracker.this, "Error" + response.message(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BicycleTrackerActivity.this, "Error" + response.message(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Throwable t) {
-                    Toast.makeText(BicycleTracker.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BicycleTrackerActivity.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (Exception e) {
@@ -444,5 +440,11 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         }
 
         mMap.addPolyline(polylineOptions);
+    }
+
+    public static void getResultsAndDisplay(ArrayList<LatLng> locations) {
+        BicycleUtils.CyclingResults results = BicycleUtils.calculateRouteInfo(locations);
+        distance.setText(String.format("%.2f", results.distances) + " km");
+        calories.setText(String.format("%.2f", results.calories) + " kcal");
     }
 }
