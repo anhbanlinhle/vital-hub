@@ -33,7 +33,9 @@ import com.bosphere.fadingedgelayout.FadingEdgeLayout;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.client.spring.objects.CompetitionMinDetailResponse;
+import com.example.vital_hub.client.spring.objects.SaveExerciseAndCompetitionDto;
 import com.example.vital_hub.competition.data.CompetitionMinDetail;
+import com.example.vital_hub.utils.ExerciseType;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -55,6 +57,8 @@ import com.saadahmedsoft.popupdialog.PopupDialog;
 import com.saadahmedsoft.popupdialog.Styles;
 import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -91,6 +95,16 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
     ConstraintLayout navStats;
     LinearLayout cardStats;
     static Marker currentLocationMarker;
+
+    private SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto;
+
+    private Long competitionId;
+
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    private static double distanceValue;
+
+    private static double caloValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,33 +173,41 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
                                 }
                             });
                     prefs.edit().putString("tracking", "start").apply();
-                    startService(new Intent(BicycleTrackerActivity.this, BicycleService.class));
-                }
-                else {
-                    PopupDialog.getInstance(BicycleTrackerActivity.this)
-                            .setStyle(Styles.IOS)
-                            .setHeading("Stop Bicycling...?")
-                            .setDescription("Are you sure you want to stop?"+
-                                    " This action cannot be undone")
-                            .setCancelable(true)
-                            .setPositiveButtonText("Confirm")
-                            .setPositiveButtonTextColor(R.color.color_red)
-                            .setNegativeButtonText("Cancel")
-                            .setNegativeButtonTextColor(R.color.color_green)
-                            .showDialog(new OnDialogButtonClickListener() {
-                                @Override
-                                public void onPositiveClicked(Dialog dialog) {
-                                    super.onPositiveClicked(dialog);
-                                    prefs.edit().putString("tracking", "stop").apply();
-                                    stopService(new Intent(BicycleTrackerActivity.this, BicycleService.class));
-                                    recordTrackingButton();
-                                }
 
-                                @Override
-                                public void onNegativeClicked(Dialog dialog) {
-                                    super.onNegativeClicked(dialog);
-                                }
-                            });
+                    initValueSaveDto();
+
+                    startService(new Intent(BicycleTrackerActivity.this, BicycleService.class));
+                } else {
+                    saveExerciseAndCompetitionDto.setCalo((float) caloValue);
+                    saveExerciseAndCompetitionDto.setDistance((float) distanceValue);
+
+                    PopupDialog.getInstance(BicycleTrackerActivity.this)
+                        .setStyle(Styles.IOS)
+                        .setHeading("Stop Bicycling...?")
+                        .setDescription("Are you sure you want to stop?"+
+                                " This action cannot be undone")
+                        .setCancelable(true)
+                        .setPositiveButtonText("Confirm")
+                        .setPositiveButtonTextColor(R.color.color_red)
+                        .setNegativeButtonText("Cancel")
+                        .setNegativeButtonTextColor(R.color.color_green)
+                        .showDialog(new OnDialogButtonClickListener() {
+                            @Override
+                            public void onPositiveClicked(Dialog dialog) {
+                                super.onPositiveClicked(dialog);
+                                prefs.edit().putString("tracking", "stop").apply();
+                                stopService(new Intent(BicycleTrackerActivity.this, BicycleService.class));
+                                recordTrackingButton();
+                                handleSubmitResult();
+                            }
+
+                            @Override
+                            public void onNegativeClicked(Dialog dialog) {
+                                super.onNegativeClicked(dialog);
+                            }
+                        });
+
+
                 }
                 recordTrackingButton();
             }
@@ -378,8 +400,8 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
     }
     private void getCompetitionTitleList() {
         try {
-            Api.initGetJoinedCompetitionRunning(headers);
-            Api.getJoinedCompetitionRunning.clone().enqueue(new Callback<CompetitionMinDetailResponse>() {
+            Api.initGetJoinedCompetitionBicycling(headers);
+            Api.getJoinedCompetitionBicycling.clone().enqueue(new Callback<CompetitionMinDetailResponse>() {
                 @Override
                 public void onResponse(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Response<CompetitionMinDetailResponse> response) {
                     if (response.isSuccessful()) {
@@ -414,6 +436,22 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
         competitionTitle.setOnItemClickListener((parent, view, position, id) -> {
             String selected = (String) parent.getItemAtPosition(position);
             competitionTitle.setText(selected, false);
+
+            if (position == 0) {
+                return;
+            }
+            int splitPos = 0;
+            for (int i = selected.length() - 1; i >= 0; i--) {
+                if (selected.charAt(i) == '#') {
+                    splitPos = i;
+                    break;
+                }
+            }
+            competitionId = Long.parseLong(selected.substring(splitPos + 1));
+            if (saveExerciseAndCompetitionDto != null) {
+                saveExerciseAndCompetitionDto.setCompetitionId(competitionId);
+            }
+
             if (position != 0) {
 //                isCompeting = true;
 //                isRunningCompetition = false;
@@ -444,7 +482,70 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
 
     public static void getResultsAndDisplay(ArrayList<LatLng> locations) {
         BicycleUtils.CyclingResults results = BicycleUtils.calculateRouteInfo(locations);
+        distanceValue = results.distances;
+        caloValue = results.calories;
         distance.setText(String.format("%.2f", results.distances) + " km");
         calories.setText(String.format("%.2f", results.calories) + " kcal");
+    }
+
+    private void handleSubmitResult() {
+        if (saveExerciseAndCompetitionDto.getCompetitionId() != null) {
+            Api.saveResultForCompetition(headers, saveExerciseAndCompetitionDto);
+
+            Api.savedCompetitionResult.clone().enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        openPopup("Well done", "Save result for competition successful", Styles.SUCCESS);
+                    } else {
+                        openPopup("Oh no", "Fail to save result for competition", Styles.FAILED);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    openPopup("Oh no", "Fail to save result for competition", Styles.FAILED);
+                }
+            });
+        } else {
+            Api.saveExercise(headers, saveExerciseAndCompetitionDto);
+
+            Api.savedExercise.clone().enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        openPopup("Well done", "Save bicycling result successful", Styles.SUCCESS);
+                    } else {
+                        openPopup("Oh no", "Fail to save bicycling result", Styles.FAILED);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    openPopup("Oh no", "Fail to save bicycling result", Styles.FAILED);
+                }
+            });
+        }
+    }
+
+    private void initValueSaveDto() {
+        saveExerciseAndCompetitionDto = new SaveExerciseAndCompetitionDto();
+        saveExerciseAndCompetitionDto.setType(ExerciseType.BICYCLING);
+        saveExerciseAndCompetitionDto.setStartedAt(LocalDateTime.now().format(formatter));
+        saveExerciseAndCompetitionDto.setCompetitionId(competitionId);
+    }
+
+    private void openPopup(String heading, String description, Styles styles) {
+        PopupDialog.getInstance(this)
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
     }
 }
