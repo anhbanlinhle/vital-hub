@@ -33,7 +33,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".bicycle.BicycleTracker"
+            android:name=".bicycle.BicycleTrackerActivity"
             android:exported="false" />
 
         <meta-data
