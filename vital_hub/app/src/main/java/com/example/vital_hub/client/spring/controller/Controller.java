@@ -116,6 +116,10 @@ public interface Controller {
     @GET("/user/info")
     Call<ProfileResponse> getOthersProfile(@HeaderMap Map<String, String> header, @Query("id") Long id);
 
+    //Competition History
+    @GET("/competition/enrolled")
+    Call<List<CompetitionHistoryListResponse>> getCompetitionHistoryList(@HeaderMap Map<String, String> header, @Query("page") Integer pageNum, @Query("pageSize") Integer pageSize);
+
     // /workout/**
     @GET("/workout/exercise-groups")
     Call<List<GroupExercise>> getGroupExerciseAll(@HeaderMap Map<String, String> header, @Query("suggest") Boolean suggest);
