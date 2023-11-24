@@ -50,6 +50,9 @@ import com.example.vital_hub.client.spring.objects.CompetitionDurationResponse;
 import com.example.vital_hub.client.spring.objects.CompetitionMinDetailResponse;
 import com.example.vital_hub.client.spring.objects.SaveExerciseAndCompetitionDto;
 import com.example.vital_hub.competition.data.CompetitionMinDetail;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -121,7 +124,6 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
         scheduleSave();
 
 
-
         // Check if step goal is set
         SharedPreferences sharedPreferences = getSharedPreferences("stepGoal", MODE_PRIVATE);
         if (sharedPreferences.getInt("stepGoal", 0) == 0) {
@@ -157,7 +159,6 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
         competitionTitle.setDropDownHeight(adapter.getCount() > 3 ? 450 : adapter.getCount() * 150);
         competitionTitle.setText(items.get(0), false);
         compeTitleOnClick();
-
 
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -338,7 +339,7 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
             @Override
             public void onProgressChanged(CircularSeekBar circularSeekBar, float progress, boolean fromUser) {
                 if (progress >= 100) {
-                    Toast.makeText(RunningActivity.this, "You have reached your goal!", Toast.LENGTH_SHORT).show();
+                    openPopup("Congratulate", "You have reached your goal!", Styles.SUCCESS);
                 }
             }
 
@@ -438,18 +439,18 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
                             }
                         }
                     } else {
-                        Toast.makeText(RunningActivity.this, "Error" + response.message(), Toast.LENGTH_SHORT).show();
+                        openPopup("Oh no", String.valueOf(response.code()), Styles.FAILED);
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Throwable t) {
-                    Toast.makeText(RunningActivity.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    openPopup("Oh no", t.getMessage(), Styles.FAILED);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Error" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            openPopup("Oh no", e.getMessage(), Styles.FAILED);
         }
     }
 
@@ -562,13 +563,13 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
                         notificationManager.notify(666, builder.build());
                     }
                 } else {
-                    Toast.makeText(RunningActivity.this, "Error" + response.message(), Toast.LENGTH_SHORT).show();
+                    openPopup("Oh no", response.message(), Styles.FAILED);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<CompetitionDurationResponse> call, @NonNull Throwable t) {
-                Toast.makeText(RunningActivity.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                openPopup("Oh no", t.getMessage(), Styles.FAILED);
             }
         });
     }
@@ -594,7 +595,7 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
                 isRunningCompetition = false;
                 startOrStopButton.setBackground(getDrawable(R.drawable.start_round_button));
                 circularSeekBar.setProgress(progress);
-                Toast.makeText(RunningActivity.this, "Finish!", Toast.LENGTH_SHORT).show();
+                openPopup("Finish", "Time over!", Styles.SUCCESS);
             }
         }.start();
     }
@@ -698,8 +699,7 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.setAction(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
 
         competingBuilder = new NotificationCompat.Builder(this, "competing")
@@ -730,15 +730,29 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(RunningActivity.this, "Error" + response.message(), Toast.LENGTH_SHORT).show();
+                    openPopup("Oh no", response.message(), Styles.FAILED);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                Toast.makeText(RunningActivity.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                openPopup("Oh no", t.getMessage(), Styles.FAILED);
             }
         });
+    }
+
+    private void openPopup(String heading, String description, Styles styles) {
+        PopupDialog.getInstance(this)
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
     }
 
 
