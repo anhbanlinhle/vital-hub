@@ -362,7 +362,6 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map));
     }
 
-
     void configCompetitionSelector() {
         getCompetitionTitleList();
         compeAdapter = new ArrayAdapter<>(BicycleTrackerActivity.this, android.R.layout.simple_list_item_1, items);

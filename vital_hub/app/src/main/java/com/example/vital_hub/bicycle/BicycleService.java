@@ -48,9 +48,13 @@ public class BicycleService extends Service {
                     "\nLongitude : " + locationResult.getLastLocation().getLongitude();
             latitude = locationResult.getLastLocation().getLatitude();
             longitude = locationResult.getLastLocation().getLongitude();
+
+            BicycleUtils.CyclingResults results = BicycleUtils.calculateRouteInfo(locationList);
             customLayout = new RemoteViews(getPackageName(), R.layout.bicycle_notification_layout);
             customLayout.setTextViewText(R.id.lat, String.valueOf(latitude));
             customLayout.setTextViewText(R.id.lng, String.valueOf(longitude));
+            customLayout.setTextViewText(R.id.distance, String.format("%.2f", results.distances));
+            customLayout.setTextViewText(R.id.calories, String.format("%.2f", results.calories));
             startForeground(1, new NotificationCompat.Builder(BicycleService.this, CHANNEL_ID)
                     .setContentTitle("Vital Hub")
                     .setContentText("Tracking location")
