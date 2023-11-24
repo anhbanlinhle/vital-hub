@@ -1,6 +1,7 @@
 package com.example.vital_hub.bicycle;
 
 import static com.example.vital_hub.bicycle.BicycleTrackerActivity.drawRoute;
+import static com.example.vital_hub.bicycle.BicycleTrackerActivity.getResultsAndDisplay;
 import static com.example.vital_hub.bicycle.BicycleTrackerActivity.latitude;
 import static com.example.vital_hub.bicycle.BicycleTrackerActivity.longitude;
 import static com.example.vital_hub.bicycle.BicycleTrackerActivity.updateMapCamera;
@@ -63,6 +64,7 @@ public class BicycleService extends Service {
             locationList.add(latLng);
 
             drawRoute(locationList);
+            getResultsAndDisplay(locationList);
 
             updateMapCamera();
 //            Toast.makeText(BicycleService.this, location, Toast.LENGTH_SHORT).show();

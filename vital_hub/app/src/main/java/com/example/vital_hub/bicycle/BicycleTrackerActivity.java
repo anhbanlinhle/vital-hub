@@ -85,7 +85,8 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
     Map<String, String> headers;
     AppCompatButton back;
     FloatingActionButton record;
-    TextView distance, calories;
+    static TextView distance;
+    static TextView calories;
     BottomAppBar bottomBar;
     ConstraintLayout navStats;
     LinearLayout cardStats;
@@ -243,16 +244,12 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
             currentLocationMarker = mMap.addMarker(new MarkerOptions()
                     .position(home)
                     .title("Your location"));
-//            mMap.clear();
         }
         else {
             currentLocationMarker = mMap.addMarker(new MarkerOptions()
                     .position(home)
                     .title("Your location"));
         }
-//        mMap.addMarker(new MarkerOptions()
-//                .position(home)
-//                .title("Your location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(home));
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(home)
@@ -444,5 +441,11 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
         }
 
         mMap.addPolyline(polylineOptions);
+    }
+
+    public static void getResultsAndDisplay(ArrayList<LatLng> locations) {
+        BicycleUtils.CyclingResults results = BicycleUtils.calculateRouteInfo(locations);
+        distance.setText(String.format("%.2f", results.distances) + " km");
+        calories.setText(String.format("%.2f", results.calories) + " kcal");
     }
 }
