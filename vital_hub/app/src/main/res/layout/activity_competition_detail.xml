@@ -105,17 +105,26 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/compe_background"
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="225dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
                     android:layout_marginBottom="16dp"
-                    android:background="@drawable/rounded_20_white"
-                    android:clipToOutline="true"
-                    android:contentDescription="Competition background"
-                    android:outlineProvider="background"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/fitness_stat" />
+                    android:layout_weight="1"
+                    app:backgroundTint="@null"
+                    app:cardCornerRadius="12dp">
+                    <ImageView
+                        android:id="@+id/compe_background"
+                        android:layout_width="match_parent"
+                        android:layout_height="225dp"
+                        android:background="@drawable/rounded_20_white"
+                        android:contentDescription="Competition background"
+                        android:scaleType="centerCrop"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/fitness_stat" />
+                </androidx.cardview.widget.CardView>
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -260,7 +269,7 @@
                             android:id="@+id/name_2nd"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Minh Tuan"
+                            android:text="None"
                             android:textSize="18dp"
                             android:fontFamily="@font/mont_semi_bold"
                             />
@@ -269,7 +278,7 @@
                             android:id="@+id/score_2nd"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="100 meters"
+                            android:text="N/a"
                             android:textSize="16dp"
                             android:fontFamily="@font/sf_light"
                             />
@@ -300,7 +309,7 @@
                             android:id="@+id/name_1st"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Minh Tuan"
+                            android:text="None"
                             android:textSize="18dp"
                             android:fontFamily="@font/mont_semi_bold"
                             />
@@ -309,7 +318,7 @@
                             android:id="@+id/score_1st"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="100 meters"
+                            android:text="N/a"
                             android:textSize="16dp"
                             android:fontFamily="@font/sf_light"
                             />
@@ -340,7 +349,7 @@
                             android:id="@+id/name_3rd"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Minh Tuan"
+                            android:text="None"
                             android:textSize="18dp"
                             android:fontFamily="@font/mont_semi_bold"
                             />
@@ -349,7 +358,7 @@
                             android:id="@+id/score_3rd"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="100 meters"
+                            android:text="N/a"
                             android:textSize="16dp"
                             android:fontFamily="@font/sf_light"
                             />

@@ -3,12 +3,15 @@ package com.example.vital_hub.running;
 import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAndController;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -19,6 +22,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -37,22 +41,27 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
+
+import com.example.vital_hub.utils.ExerciseType;
 
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.client.spring.objects.CompetitionDurationResponse;
 import com.example.vital_hub.client.spring.objects.CompetitionMinDetailResponse;
+import com.example.vital_hub.client.spring.objects.SaveExerciseAndCompetitionDto;
 import com.example.vital_hub.competition.data.CompetitionMinDetail;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import me.angrybyte.numberpicker.view.ActualNumberPicker;
 import me.tankery.lib.circularseekbar.CircularSeekBar;
@@ -65,13 +74,13 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
     private SensorManager sensorManager;
     private Boolean isCompeting = false, isRunningCompetition = false;
     private TextView stepCountTextView, timerTextView, distanceTextView, calTextView;
-    int stepCount = 0, compeStepCount = 0;
+    int stepCount = 0, compeStepCount = 0, stepCountInit = 0;
     int stepGoal = 1000;
     int progress = 0;
     int previousCount = 0;
     String duration;
     Long currentCompetitionId;
-    private Sensor stepCounterSensor, stepDetectorSensor;
+    private Sensor stepCounterSensor;
     private AppCompatButton startOrStopButton, backButton;
     private CircularSeekBar circularSeekBar;
     private AutoCompleteTextView competitionTitle;
@@ -86,13 +95,34 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
     NotificationManager notificationManager;
     RemoteViews competingNotificationLayout, runningNotificationLayout;
     NotificationCompat.Builder builder, competingBuilder, runningBuilder;
+    SaveExerciseAndCompetitionDto saveExerciseDto, saveExerciseForCompetitionDto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_running);
 
+        // Check permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED) {
+            // Ask for permission
+            requestPermissions(new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 19);
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // Ask for permission
+            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 19);
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.FOREGROUND_SERVICE) != PackageManager.PERMISSION_GRANTED) {
+            // Ask for permission
+            requestPermissions(new String[]{Manifest.permission.FOREGROUND_SERVICE}, 19);
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SCHEDULE_EXACT_ALARM) != PackageManager.PERMISSION_GRANTED) {
+            // Ask for permission
+            requestPermissions(new String[]{Manifest.permission.SCHEDULE_EXACT_ALARM}, 19);
+        }
+
+        scheduleInit();
         scheduleSave();
+
 
         // Check if step goal is set
         SharedPreferences sharedPreferences = getSharedPreferences("stepGoal", MODE_PRIVATE);
@@ -130,15 +160,6 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
         competitionTitle.setText(items.get(0), false);
         compeTitleOnClick();
 
-        // Check permission
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED) {
-            // Ask for permission
-            requestPermissions(new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 19);
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // Ask for permission
-            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 19);
-        }
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
@@ -155,7 +176,23 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
                 builder = competingBuilder;
                 competingNotificationLayout.setTextViewText(R.id.steps, stepCountTextView.getText().toString());
                 competingNotificationLayout.setTextViewText(R.id.time_left, timerTextView.getText().toString());
+
+                // Delete notification stop button
+                competingBuilder.mActions.clear();
                 notificationManager.notify(666, builder.build());
+
+                // Save exercise
+                saveExerciseForCompetitionDto = new SaveExerciseAndCompetitionDto();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+                saveExerciseForCompetitionDto.setStartedAt(LocalDateTime.now().format(formatter));
+                saveExerciseForCompetitionDto.setType(ExerciseType.RUNNING);
+                saveExerciseForCompetitionDto.setStep(10000);
+                float cal = 10000 * 0.065f;
+                saveExerciseForCompetitionDto.setCalo(cal);
+                saveExerciseForCompetitionDto.setCompetitionId(currentCompetitionId);
+                saveExerciseAndCompetition(saveExerciseForCompetitionDto);
+
             } else {
                 isRunningCompetition = true;
                 previousCount = stepCount;
@@ -164,6 +201,15 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
                 updateCalAndDistance(compeStepCount);
                 startOrStopButton.setBackground(getDrawable(R.drawable.stop_round_button));
                 handleWhenCompeting();
+
+                // Add stop button to notification
+                Intent stopIntent = new Intent(this, RunningActivity.class);
+                stopIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                stopIntent.putExtra("stop", true);
+                PendingIntent stopPendingIntent = PendingIntent.getActivity(this, 0, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+                competingBuilder.addAction(R.drawable.stop_round_button, "Stop", stopPendingIntent);
+                notificationManager.notify(666, builder.build());
             }
         });
 
@@ -184,15 +230,52 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if (intent.getBooleanExtra("stop", false)) {
+            isRunningCompetition = false;
+            startOrStopButton.setBackground(getDrawable(R.drawable.start_round_button));
+            competitionTimer.cancel();
+            timerTextView.setText(duration);
+            calTextView.setText("0");
+            distanceTextView.setText("0,00");
+            circularSeekBar.setProgress(0);
+            stepCountTextView.setText("0");
+            builder = competingBuilder;
+            competingNotificationLayout.setTextViewText(R.id.steps, stepCountTextView.getText().toString());
+            competingNotificationLayout.setTextViewText(R.id.time_left, timerTextView.getText().toString());
+
+            // Delete notification stop button
+            competingBuilder.mActions.clear();
+            notificationManager.notify(666, builder.build());
+
+            // Save exercise
+            saveExerciseForCompetitionDto = new SaveExerciseAndCompetitionDto();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            saveExerciseForCompetitionDto.setStartedAt(LocalDateTime.now().format(formatter));
+            saveExerciseForCompetitionDto.setType(ExerciseType.RUNNING);
+            saveExerciseForCompetitionDto.setStep(10000);
+            float cal = 10000 * 0.065f;
+            saveExerciseForCompetitionDto.setCalo(cal);
+            saveExerciseForCompetitionDto.setCompetitionId(currentCompetitionId);
+            saveExerciseAndCompetition(saveExerciseForCompetitionDto);
+        }
+
+
+    }
+
+    @Override
     public void onSensorChanged(SensorEvent event) {
 
         if (event.sensor == stepCounterSensor) {
-            stepCount = (int) event.values[0];
+
+            stepCount = (int) event.values[0] - stepCountInit;
             if (!isCompeting) {
                 stepCountTextView.setText(String.valueOf(stepCount));
                 runningNotificationLayout.setTextViewText(R.id.steps, stepCountTextView.getText().toString());
-                builder.setProgress(100, progress, false);
-                notificationManager.notify(666, builder.build());
+                notificationManager.notify(666, runningBuilder.build());
                 updateCalAndDistance(stepCount);
             } else if (isRunningCompetition) {
                 compeStepCount = stepCount - previousCount;
@@ -200,14 +283,12 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
                 circularSeekBar.setProgress(progress);
                 competingNotificationLayout.setTextViewText(R.id.steps, stepCountTextView.getText().toString());
                 competingNotificationLayout.setTextViewText(R.id.time_left, timerTextView.getText().toString());
-                builder.setProgress(100, progress, false);
-                notificationManager.notify(666, builder.build());
+                notificationManager.notify(666, competingBuilder.build());
                 updateCalAndDistance(compeStepCount);
             } else {
                 competingNotificationLayout.setTextViewText(R.id.steps, stepCountTextView.getText().toString());
                 competingNotificationLayout.setTextViewText(R.id.time_left, timerTextView.getText().toString());
-                builder.setProgress(100, progress, false);
-                notificationManager.notify(666, builder.build());
+                notificationManager.notify(666, competingBuilder.build());
                 updateCalAndDistance(compeStepCount);
             }
 
@@ -229,13 +310,36 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
         editor.apply();
     }
 
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        SharedPreferences sharedPreferences = getSharedPreferences("stepCount" + Calendar.getInstance().get(Calendar.DAY_OF_WEEK), MODE_PRIVATE);
+//        stepCount = sharedPreferences.getInt("stepCount", 0);
+//        stepCountTextView.setText(String.valueOf(stepCount));
+//        progress = Math.min((int) ((stepCount * 100) / stepGoal), 100);
+//        circularSeekBar.setProgress(progress);
+//        runningNotificationLayout.setTextViewText(R.id.steps, stepCountTextView.getText().toString());
+//        builder.setProgress(100, progress, false);
+//        notificationManager.notify(666, builder.build());
+//    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isRunningCompetition) {
+            competitionTimer.cancel();
+        }
+
+        notificationManager.cancel(666);
+    }
+
     private void initCircularSeekBar() {
         circularSeekBar.setProgress(progress);
         circularSeekBar.setOnSeekBarChangeListener(new CircularSeekBar.OnCircularSeekBarChangeListener() {
             @Override
             public void onProgressChanged(CircularSeekBar circularSeekBar, float progress, boolean fromUser) {
                 if (progress >= 100) {
-                    Toast.makeText(RunningActivity.this, "You have reached your goal!", Toast.LENGTH_SHORT).show();
+                    openPopup("Congratulate", "You have reached your goal!", Styles.SUCCESS);
                 }
             }
 
@@ -255,6 +359,7 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
     private void initActivity() {
 
         SharedPreferences sharedPreferences = getSharedPreferences("stepCount" + Calendar.getInstance().get(Calendar.DAY_OF_WEEK), MODE_PRIVATE);
+        stepCountInit = sharedPreferences.getInt("stepCountInit", 0);
         stepCount = sharedPreferences.getInt("stepCount", 0);
         stepCountTextView = findViewById(R.id.steps_count);
         stepCountTextView.setText(String.valueOf(stepCount));
@@ -276,7 +381,7 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
         distanceTextView = findViewById(R.id.distance);
         calTextView = findViewById(R.id.calories);
         competitionTitle = findViewById(R.id.auto_complete_txt);
-        statistics_layout = (LinearLayout) findViewById(R.id.statistics_layout);
+        statistics_layout = findViewById(R.id.statistics_layout);
         statistics_layout.getChildAt(0).setVisibility(ConstraintLayout.GONE);
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         competingNotificationLayout = new RemoteViews(getPackageName(), R.layout.competing_notification);
@@ -317,8 +422,8 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
 
     private void getCompetitionTitleList() {
         try {
-            Api.initGetCompetitionTitleList(headers);
-            Api.getCompetitionTitleList.clone().enqueue(new Callback<CompetitionMinDetailResponse>() {
+            Api.initGetJoinedCompetitionRunning(headers);
+            Api.getJoinedCompetitionRunning.clone().enqueue(new Callback<CompetitionMinDetailResponse>() {
                 @Override
                 public void onResponse(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Response<CompetitionMinDetailResponse> response) {
                     if (response.isSuccessful()) {
@@ -334,18 +439,18 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
                             }
                         }
                     } else {
-                        Toast.makeText(RunningActivity.this, "Error" + response.message(), Toast.LENGTH_SHORT).show();
+                        openPopup("Oh no", String.valueOf(response.code()), Styles.FAILED);
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Throwable t) {
-                    Toast.makeText(RunningActivity.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    openPopup("Oh no", t.getMessage(), Styles.FAILED);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Error" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            openPopup("Oh no", e.getMessage(), Styles.FAILED);
         }
     }
 
@@ -367,6 +472,9 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
                 competingNotification();
                 handleIfCompetition();
             } else {
+                isCompeting = false;
+                isRunningCompetition = false;
+                competitionTitle.clearFocus();
                 handleIfNone();
             }
         });
@@ -378,7 +486,7 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
         startOrStopButton.setVisibility(AppCompatButton.INVISIBLE);
         statistics_layout.getChildAt(0).setVisibility(ConstraintLayout.GONE);
         stepCountTextView.setText(String.valueOf(stepCount));
-        progress = (int) ((stepCount * 100) / stepGoal);
+        progress = Math.min((int) ((stepCount * 100) / stepGoal), 100);
         circularSeekBar.setProgress(progress);
         builder = runningBuilder;
         notificationManager.notify(666, builder.build());
@@ -425,6 +533,10 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
                 editor.putInt("stepGoal", stepGoal);
                 editor.apply();
                 dialog.dismiss();
+
+                // Update progress
+                progress = Math.min((int) ((stepCount * 100) / stepGoal), 100);
+                circularSeekBar.setProgress(progress);
             } else {
                 TextView what = dialog.findViewById(R.id.what);
                 what.setVisibility(TextView.VISIBLE);
@@ -451,13 +563,13 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
                         notificationManager.notify(666, builder.build());
                     }
                 } else {
-                    Toast.makeText(RunningActivity.this, "Error" + response.message(), Toast.LENGTH_SHORT).show();
+                    openPopup("Oh no", response.message(), Styles.FAILED);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<CompetitionDurationResponse> call, @NonNull Throwable t) {
-                Toast.makeText(RunningActivity.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                openPopup("Oh no", t.getMessage(), Styles.FAILED);
             }
         });
     }
@@ -471,6 +583,9 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
                 builder = competingBuilder;
                 competingNotificationLayout.setTextViewText(R.id.steps, stepCountTextView.getText().toString());
                 competingNotificationLayout.setTextViewText(R.id.time_left, timerTextView.getText().toString());
+                // Update progress
+                progress = Math.min((int) ((stepCount * 100) / stepGoal), 100);
+                circularSeekBar.setProgress(progress);
                 notificationManager.notify(666, builder.build());
             }
 
@@ -480,7 +595,7 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
                 isRunningCompetition = false;
                 startOrStopButton.setBackground(getDrawable(R.drawable.start_round_button));
                 circularSeekBar.setProgress(progress);
-                Toast.makeText(RunningActivity.this, "Finish!", Toast.LENGTH_SHORT).show();
+                openPopup("Finish", "Time over!", Styles.SUCCESS);
             }
         }.start();
     }
@@ -513,29 +628,40 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
         circularSeekBar.setProgress(progress);
     }
 
-    public void saveStepCount() {
-        SharedPreferences sharedPreferences = getSharedPreferences("stepCount" + Calendar.getInstance().get(Calendar.DAY_OF_WEEK), MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("stepCount", stepCount);
-        editor.putInt("progress", progress);
-        editor.apply();
-    }
-
     public void scheduleSave() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.MINUTE, 58);
+        calendar.set(Calendar.SECOND, 0);
 
-        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
 
-        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(ScheduleSaveWorker.class, 1, TimeUnit.DAYS)
-                .setInitialDelay(calendar.getTimeInMillis() - System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-                .build();
+        Intent intent = new Intent(this, SaveStepCountReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+    }
+
+    public void scheduleInit() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
 
 
-        WorkManager.getInstance(this).enqueue(workRequest);
+        Intent intent = new Intent(this, InitStepCountReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY , pendingIntent);
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
     }
 
     public void runningNotification() {
@@ -546,12 +672,13 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
 
 
         runningBuilder = new NotificationCompat.Builder(this, "running")
+                .setContentIntent(PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE))
                 .setAutoCancel(false)
                 .setOngoing(true)
+                .setOnlyAlertOnce(true)
                 .setSmallIcon(R.drawable.vital_hub_logo)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setCustomContentView(runningNotificationLayout)
-                .setProgress(100, progress, false)
                 .setPriority(NotificationCompat.PRIORITY_MAX);
 
         String channelId = "running_channel";
@@ -567,21 +694,22 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
     }
 
     public void competingNotification() {
+        // Back to activity intent
         Intent intent = new Intent(this, RunningActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.setAction(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
 
         competingBuilder = new NotificationCompat.Builder(this, "competing")
+                .setContentIntent(pendingIntent)
                 .setAutoCancel(false)
                 .setOngoing(true)
-                .setContentIntent(pendingIntent)
+                .setOnlyAlertOnce(true)
                 .setSmallIcon(R.drawable.vital_hub_logo)
-                .addAction(R.drawable.baseline_stop_24, "Stop", null)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setCustomContentView(competingNotificationLayout)
-                .setProgress(100, progress, false)
                 .setPriority(NotificationCompat.PRIORITY_MAX);
 
         String channelId = "competing_channel";
@@ -595,6 +723,39 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
         }
         notificationManager.notify(666, competingBuilder.build());
     }
+
+    public void saveExerciseAndCompetition(SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto) {
+        Api.saveResultForCompetition(headers, saveExerciseAndCompetitionDto);
+        Api.savedCompetitionResult.clone().enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (!response.isSuccessful()) {
+                    openPopup("Oh no", response.message(), Styles.FAILED);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                openPopup("Oh no", t.getMessage(), Styles.FAILED);
+            }
+        });
+    }
+
+    private void openPopup(String heading, String description, Styles styles) {
+        PopupDialog.getInstance(this)
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
+    }
+
+
 }
 
 

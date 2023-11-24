@@ -17,6 +17,7 @@ import com.example.vital_hub.client.spring.objects.SaveExerciseAndCompetitionDto
 import com.example.vital_hub.competition.data.CompetitionAdd;
 import com.example.vital_hub.competition.data.CompetitionAllDetail;
 import com.example.vital_hub.competition.data.CompetitionEdit;
+import com.example.vital_hub.competition.data.CompetitionAdd;
 import com.example.vital_hub.exercises.data_container.GroupExercise;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.example.vital_hub.home_page.HomePagePost;
@@ -75,7 +76,9 @@ public class Api {
     public static Call<Void> editCompetition;
 
     public static Call<Void> deleteCompetition;
-    public static Call<CompetitionMinDetailResponse> getCompetitionTitleList;
+    public static Call<CompetitionMinDetailResponse> getJoinedCompetitionRunning;
+    public static Call<CompetitionMinDetailResponse> getJoinedCompetitionPushUp;
+    public static Call<CompetitionMinDetailResponse> getJoinedCompetitionBicycling;
     public static Call<CompetitionDurationResponse> getCompetitionDuration;
 
     public static Call<Void> participateInCompetition;
@@ -288,8 +291,16 @@ public class Api {
         postComment = controller.postComment(headers, body);
     }
 
-    public static void initGetCompetitionTitleList(Map<String, String> headers) {
-        getCompetitionTitleList = controller.getJoinedCompetitionTitleList(headers);
+    public static void initGetJoinedCompetitionRunning(Map<String, String> headers) {
+        getJoinedCompetitionRunning = controller.getJoinedCompetitionRunning(headers);
+    }
+
+    public static void initGetJoinedCompetitionBicycling(Map<String, String> headers) {
+        getJoinedCompetitionBicycling = controller.getJoinedCompetitionBicycling(headers);
+    }
+
+    public static void initGetJoinedCompetitionPushUp(Map<String, String> headers) {
+        getJoinedCompetitionPushUp = controller.getJoinedCompetitionPushUp(headers);
     }
 
     public static void initDeletePost(Map<String, String> headers, Long postId) {

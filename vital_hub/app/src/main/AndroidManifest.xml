@@ -9,10 +9,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.BODY_SENSORS" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -27,10 +30,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".pushup.PushUpPoseActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".bicycle.BicycleTracker"
+            android:name=".bicycle.BicycleTrackerActivity"
             android:exported="false" />
 
         <meta-data
@@ -146,6 +152,10 @@
             android:name=".running.RunningActivity"
             android:exported="true"
             android:launchMode="singleTop" />
-    </application>
+        <receiver android:name=".running.SaveStepCountReceiver" />
+        <receiver android:name=".running.InitStepCountReceiver" />
+
+
+</application>
 
 </manifest>

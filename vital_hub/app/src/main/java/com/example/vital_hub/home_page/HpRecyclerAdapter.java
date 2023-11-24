@@ -65,6 +65,12 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
     public void onBindViewHolder(@NonNull HpRecyclerAdapter.ViewHolder holder, int position) {
         if (holder.itemType == VIEW_TYPE_ITEM) {
             HomePagePost post = arrayList.get(position);
+            if (!post.getOwned()) {
+                holder.kebab_button.setVisibility(View.GONE);
+            } else {
+                holder.kebab_button.setVisibility(View.VISIBLE);
+            }
+
             holder.type = post.getType();
             holder.isOwned = post.getOwned();
             holder.postId = post.getPostId();
@@ -94,6 +100,8 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
                     break;
                 }
             }
+
+
         }
     }
 
@@ -130,6 +138,7 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
         SharedPreferences prefs;
         String jwt;
         Map<String, String> headers;
+        boolean firstLoad = false;
 
         private void initHeaderForRequest(View itemView) {
             prefs = itemView.getContext().getSharedPreferences("UserData", MODE_PRIVATE);
@@ -182,8 +191,6 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
                         view.getContext().startActivity(intent);
                     }
                 });
-
-
                 kebab_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -208,8 +215,6 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
                                     Log.d("Fail", t.getMessage());
                                 }
                             });
-                        } else {
-                            Toast.makeText(v.getContext(), "Can only delete posts that is your", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
