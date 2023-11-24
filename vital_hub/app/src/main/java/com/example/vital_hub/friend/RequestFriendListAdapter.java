@@ -1,5 +1,6 @@
 package com.example.vital_hub.friend;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,9 @@ import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.profile.OthersProfileActivity;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -65,13 +69,12 @@ public class RequestFriendListAdapter extends RecyclerView.Adapter<RequestFriend
                         Toast.makeText(v.getContext(), "Accept friend request successfully", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        Toast.makeText(v.getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
-                    }
+                        openPopup("Oh no", String.valueOf(response.code()), Styles.FAILED, v);                    }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                    Toast.makeText(v.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    openPopup("Oh no", t.getMessage(), Styles.FAILED, v);
                 }
             });
         });
@@ -95,10 +98,24 @@ public class RequestFriendListAdapter extends RecyclerView.Adapter<RequestFriend
                     Toast.makeText(v.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+
         });
 
     }
 
+    private void openPopup(String heading, String description, Styles styles, View v) {
+        PopupDialog.getInstance(v.getContext())
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
+    }
     @Override
     public int getItemCount() {
         return requestList.size();
