@@ -7,6 +7,7 @@ public interface EnrolledCompetitionDto {
     Integer getParticipants();
     String getBackground();
     String getEndedAt();
+    String getTitle();
 
     default String getPositionStr() {
         if (getPosition() == null) {

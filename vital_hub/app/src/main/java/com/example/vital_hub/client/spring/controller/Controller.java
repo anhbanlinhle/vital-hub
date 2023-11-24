@@ -95,9 +95,17 @@ public interface Controller {
                                          @Query("id") Long id,
                                          @Query("joining") Boolean joining);
     @GET("/competition/joined-running")
-    Call<CompetitionMinDetailResponse> getJoinedCompetitionTitleList(@HeaderMap Map<String, String> headers);
+    Call<CompetitionMinDetailResponse> getJoinedCompetitionRunning(@HeaderMap Map<String, String> headers);
+
+    @GET("/competition/joined-push-up")
+    Call<CompetitionMinDetailResponse> getJoinedCompetitionPushUp(@HeaderMap Map<String, String> headers);
+
+    @GET("/competition/joined-bicycling")
+    Call<CompetitionMinDetailResponse> getJoinedCompetitionBicycling(@HeaderMap Map<String, String> headers);
+
     @GET("/competition/get-duration")
     Call<CompetitionDurationResponse> getCompetitionDuration(@HeaderMap Map<String, String> headers, @Query("id") Long id);
+
     // /auth/**
     @POST("/auth/create-user-first-sign")
     Call<Void> postRegistInfo(@HeaderMap Map<String, String> header, @Body RegistRequestObject body);
@@ -134,7 +142,7 @@ public interface Controller {
     Call<List<HomePagePost>> getPostResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize);
 
     @GET("/post")
-    Call<HomePagePost> getSinglePost(@HeaderMap Map<String, String> header, @Query("id") Long postId);
+    Call<HomePagePost> getSinglePost(@HeaderMap Map<String, String> header, @Query("id") Long postId, @Query("type") String type);
 
     @GET("/comment/by-post")
     Call<List<Comment>> getCommentResponse(@HeaderMap Map<String, String> header, @Query("page") int pageNum, @Query("pageSize") int pageSize, @Query("postId") Long postId);
@@ -142,7 +150,7 @@ public interface Controller {
     @POST("/comment/add-comment")
     Call<Void> postComment(@HeaderMap Map<String, String> header, @Body CommentPost body);
 
-    @POST("/post/add-post")
+    @POST("/post/add")
     Call<Void> addPost(@HeaderMap Map<String, String> header, @Body HomePagePost body);
 
     @PUT("/post/remove")

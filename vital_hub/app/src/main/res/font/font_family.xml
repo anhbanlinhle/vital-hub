@@ -17,9 +17,13 @@
         android:font="@font/mont_extra_bold"/>
     <font
         android:fontStyle="normal"
-        android:font="@font/mont_reg"/>
+        android:font="@font/mont_alt_reg"/>
     <font
         android:fontStyle="normal"
         android:font="@font/mont_semi_bold"/>
+
+    <font
+        android:fontStyle="normal"
+        android:font="@font/mont_reg"/>
 
 </font-family>

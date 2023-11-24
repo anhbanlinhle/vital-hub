@@ -36,10 +36,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_button_green"
-                android:src="@drawable/baseline_fitness_center_96_white"
-                android:padding="36dp"
                 android:contentDescription="Gym"
-            />
+                android:padding="36dp"
+                android:src="@drawable/baseline_fitness_center_96_white" />
 
             <LinearLayout
                 android:layout_width="match_parent"
