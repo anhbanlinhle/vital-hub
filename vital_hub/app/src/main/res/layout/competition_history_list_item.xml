@@ -70,7 +70,7 @@
 					android:layout_height="wrap_content"
 					android:fontFamily="@font/sf_medium"
 					android:text="Participants: "
-					android:layout_marginTop="40dp"
+					android:layout_marginTop="62dp"
 					android:layout_marginStart="20dp"
 					app:layout_constraintTop_toBottomOf="@id/competition_type"
 					app:layout_constraintStart_toStartOf="parent"/>
@@ -80,6 +80,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="0"
+					android:paddingTop="0.2dp"
 					android:fontFamily="@font/sf_medium"
 					app:layout_constraintStart_toEndOf="@id/participant_text"
 					app:layout_constraintTop_toTopOf="@id/participant_text" />
@@ -99,34 +100,20 @@
 					android:layout_height="wrap_content"
 					android:text="20-11-2023 20:00:00"
 					android:fontFamily="@font/sf_medium"
-					app:layout_constraintTop_toBottomOf="@id/end_date_text"
-					app:layout_constraintStart_toStartOf="@id/end_date_text"/>
+					app:layout_constraintStart_toEndOf="@id/end_date_text"
+					app:layout_constraintTop_toTopOf="@id/end_date_text"/>
 
 
 				<TextView
 					android:id="@+id/ranking"
 					android:layout_width="80dp"
 					android:layout_height="80dp"
-					android:layout_marginBottom="28dp"
+					android:layout_marginEnd="20dp"
 					android:text="1st"
 					app:autoSizeTextType="uniform"
-					app:layout_constraintStart_toStartOf="@+id/detail_button"
-					app:layout_constraintBottom_toTopOf="@id/detail_button"
-					app:layout_constraintEnd_toEndOf="@id/detail_button"/>
-
-				<Button
-					android:id="@+id/detail_button"
-					android:layout_width="wrap_content"
-					android:layout_height="30dp"
-					android:layout_marginEnd="20dp"
-					android:background="@drawable/rounded_corner_green"
-					android:paddingVertical="0dp"
-					android:text="Detail"
-					android:textColor="@color/color_green"
-					android:textSize="15sp"
-					app:backgroundTint="@null"
-					app:layout_constraintBottom_toBottomOf="@id/end_date"
-					app:layout_constraintEnd_toEndOf="parent" />
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toTopOf="parent" />
 
 			</androidx.constraintlayout.widget.ConstraintLayout>
 		</androidx.constraintlayout.widget.ConstraintLayout>

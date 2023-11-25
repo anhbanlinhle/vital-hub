@@ -44,17 +44,6 @@
 				android:text="Competition Title"
 				android:textSize="20sp" />
 
-			<TextView
-				android:id="@+id/type"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:paddingLeft="5dp"
-				android:layout_gravity="center"
-				android:text="(Type)"
-				android:textSize="20sp"
-				android:textColor="@color/color_green"
-				android:fontFamily="@font/mont_semi_bold"/>
-
 		</androidx.appcompat.widget.Toolbar>
 
 		<ScrollView
@@ -73,12 +62,12 @@
 				android:orientation="vertical"
 				android:paddingHorizontal="16dp">
 
-				<LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="24dp"
-					android:gravity="bottom"
-					android:orientation="horizontal" />
+<!--				<LinearLayout-->
+<!--					android:layout_width="match_parent"-->
+<!--					android:layout_height="wrap_content"-->
+<!--					android:layout_marginBottom="24dp"-->
+<!--					android:gravity="bottom"-->
+<!--					android:orientation="horizontal" />-->
 
 				<androidx.cardview.widget.CardView
 					android:layout_width="match_parent"
@@ -100,6 +89,21 @@
 						android:src="@drawable/fitness_stat" />
 				</androidx.cardview.widget.CardView>
 
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="8dp"
+					android:gravity="bottom"
+					android:orientation="horizontal">
+					<TextView
+						android:id="@+id/competition_type"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:fontFamily="@font/mont_semi_bold"
+						android:text="Competion Type"
+						android:textColor="@color/color_green"
+						android:textSize="16sp" />
+				</LinearLayout>
 
 				<LinearLayout
 					android:layout_width="match_parent"
@@ -152,7 +156,7 @@
 					android:orientation="horizontal">
 
 					<TextView
-						android:id="@+id/compe_participant"
+						android:id="@+id/participant_count"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:drawableLeft="@drawable/baseline_groups_24_green"

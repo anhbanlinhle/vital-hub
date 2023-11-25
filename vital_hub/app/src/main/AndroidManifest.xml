@@ -81,7 +81,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -98,6 +97,8 @@
             android:exported="true"
             android:label="false" />
         <activity android:name=".history.CompetitionHistoryActivity"
+            android:exported="true" />
+        <activity android:name=".history.CompetitionHistoryDetailActivity"
             android:exported="true" />
         <activity
             android:name=".test.TestMain"

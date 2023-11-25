@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.objects.CompetitionHistoryListResponse;
-import com.example.vital_hub.competition.CompetitionDetailActivity;
+import com.example.vital_hub.friend.ItemClickListener;
+import com.example.vital_hub.helper.KeyboardHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,6 +61,17 @@ public class CompetitionHistoryListAdapter extends RecyclerView.Adapter<Competit
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        holder.setItemClickListener((view, listPosition, isLongClick) -> {
+            if (isLongClick) {
+
+            } else {
+                KeyboardHelper.hideKeyboard(view);
+                Intent intent = new Intent(view.getContext(), CompetitionHistoryDetailActivity.class);
+                intent.putExtra("competitionHistoryId", competitionHistoryList.get(listPosition).getCompetitionId());
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -68,14 +79,14 @@ public class CompetitionHistoryListAdapter extends RecyclerView.Adapter<Competit
         return competitionHistoryList.size();
     }
 
-    public static class CompetitionHistoryViewHolder extends RecyclerView.ViewHolder {
+    public static class CompetitionHistoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView competitionType;
         TextView ranking;
         ImageView background;
         TextView competitionName;
         TextView participantCount;
         TextView endDate;
-        Button detailButton;
+        ItemClickListener itemClickListener;
 
         public CompetitionHistoryViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -85,15 +96,14 @@ public class CompetitionHistoryListAdapter extends RecyclerView.Adapter<Competit
             competitionName = itemView.findViewById(R.id.competition_name);
             participantCount = itemView.findViewById(R.id.participant_count);
             endDate = itemView.findViewById(R.id.end_date);
-            detailButton = itemView.findViewById(R.id.detail_button);
-
-            detailButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), CompetitionDetailActivity.class);
-                    view.getContext().startActivity(intent);
-                }
-            });
+            itemView.setOnClickListener(this);
+        }
+        public void setItemClickListener(ItemClickListener itemClickListener) {
+            this.itemClickListener = itemClickListener;
+        }
+        @Override
+        public void onClick(View v) {
+            itemClickListener.onClick(v, getAdapterPosition(), false);
         }
     }
 }
