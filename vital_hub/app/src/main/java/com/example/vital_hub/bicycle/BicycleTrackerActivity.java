@@ -322,32 +322,6 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
         anim3.start();
     }
 
-    void cardStatsShrink (String tracking) {
-        ViewGroup.LayoutParams cardStatsParams = cardStats.getLayoutParams();
-        int cardStatsHeight;
-
-        if (tracking.equals("start")) {
-            cardStatsHeight = 0;
-        }
-        else {
-            cardStatsHeight = 500;
-        }
-
-        ValueAnimator anim5 = ValueAnimator.ofInt(cardStats.getMeasuredWidth(), +cardStatsHeight);
-        anim5.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int val5 = (Integer) valueAnimator.getAnimatedValue();
-                cardStatsParams.height = val5;
-                cardStats.setLayoutParams(cardStatsParams);
-            }
-        });
-
-        anim5.setDuration(500);
-        anim5.start();
-
-    }
-
     protected void checkLocationPermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
