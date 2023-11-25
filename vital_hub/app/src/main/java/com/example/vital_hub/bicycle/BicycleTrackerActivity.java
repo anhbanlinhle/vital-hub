@@ -482,7 +482,7 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
 
     public static void getResultsAndDisplay(ArrayList<LatLng> locations) {
         BicycleUtils.CyclingResults results = BicycleUtils.calculateRouteInfo(locations);
-        distanceValue = results.distances;
+        distanceValue = results.distances * 1000;
         caloValue = results.calories;
         distance.setText(String.format("%.2f", results.distances) + " km");
         calories.setText(String.format("%.2f", results.calories) + " kcal");
