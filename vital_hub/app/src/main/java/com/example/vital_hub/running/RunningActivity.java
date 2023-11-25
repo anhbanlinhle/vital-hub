@@ -165,33 +165,53 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
         stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         startOrStopButton.setOnClickListener(v -> {
             if (isRunningCompetition) {
-                isRunningCompetition = false;
-                startOrStopButton.setBackground(getDrawable(R.drawable.start_round_button));
-                competitionTimer.cancel();
-                timerTextView.setText(duration);
-                calTextView.setText("0");
-                distanceTextView.setText("0,00");
-                circularSeekBar.setProgress(0);
-                stepCountTextView.setText("0");
-                builder = competingBuilder;
-                competingNotificationLayout.setTextViewText(R.id.steps, stepCountTextView.getText().toString());
-                competingNotificationLayout.setTextViewText(R.id.time_left, timerTextView.getText().toString());
+                PopupDialog.getInstance(this)
+                        .setStyle(Styles.STANDARD)
+                        .setHeading("Are you sure?")
+                        .setDescription("You will lose your progress")
+                        .setCancelable(false)
+                        .setPopupDialogIcon(R.mipmap.question)
+                        .showDialog(new OnDialogButtonClickListener() {
+                            @Override
+                            public void onPositiveClicked(Dialog dialog) {
+                                super.onPositiveClicked(dialog);
+                                isRunningCompetition = false;
+                                startOrStopButton.setBackground(getDrawable(R.drawable.start_round_button));
+                                competitionTimer.cancel();
+                                timerTextView.setText(duration);
+                                calTextView.setText("0");
+                                distanceTextView.setText("0,00");
+                                circularSeekBar.setProgress(0);
+                                stepCountTextView.setText("0");
+                                builder = competingBuilder;
+                                competingNotificationLayout.setTextViewText(R.id.steps, stepCountTextView.getText().toString());
+                                competingNotificationLayout.setTextViewText(R.id.time_left, timerTextView.getText().toString());
 
-                // Delete notification stop button
-                competingBuilder.mActions.clear();
-                notificationManager.notify(666, builder.build());
+                                // Delete notification stop button
+                                competingBuilder.mActions.clear();
+                                notificationManager.notify(666, builder.build());
 
-                // Save exercise
-                saveExerciseForCompetitionDto = new SaveExerciseAndCompetitionDto();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                                // Save exercise
+                                saveExerciseForCompetitionDto = new SaveExerciseAndCompetitionDto();
+                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-                saveExerciseForCompetitionDto.setStartedAt(LocalDateTime.now().format(formatter));
-                saveExerciseForCompetitionDto.setType(ExerciseType.RUNNING);
-                saveExerciseForCompetitionDto.setStep(10000);
-                float cal = 10000 * 0.065f;
-                saveExerciseForCompetitionDto.setCalo(cal);
-                saveExerciseForCompetitionDto.setCompetitionId(currentCompetitionId);
-                saveExerciseAndCompetition(saveExerciseForCompetitionDto);
+                                saveExerciseForCompetitionDto.setStartedAt(LocalDateTime.now().format(formatter));
+                                saveExerciseForCompetitionDto.setType(ExerciseType.RUNNING);
+                                saveExerciseForCompetitionDto.setStep(compeStepCount);
+                                float cal = compeStepCount * 0.065f;
+                                saveExerciseForCompetitionDto.setCalo(cal);
+                                saveExerciseForCompetitionDto.setCompetitionId(currentCompetitionId);
+                                saveExerciseAndCompetition(saveExerciseForCompetitionDto);
+
+                                // Success popup
+                                openPopup("Congratulate", "You have done your exercise!", Styles.SUCCESS);
+                            }
+
+                            @Override
+                            public void onNegativeClicked(Dialog dialog) {
+                                super.onNegativeClicked(dialog);
+                            }
+                        });
 
             } else {
                 isRunningCompetition = true;
@@ -214,6 +234,26 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
         });
 
         backButton.setOnClickListener(v -> {
+            if (isRunningCompetition) {
+                PopupDialog.getInstance(this)
+                        .setStyle(Styles.STANDARD)
+                        .setHeading("Are you sure?")
+                        .setDescription("You will lose your progress")
+                        .setCancelable(false)
+                        .setPopupDialogIcon(R.mipmap.question)
+                        .showDialog(new OnDialogButtonClickListener() {
+                            @Override
+                            public void onPositiveClicked(Dialog dialog) {
+                                super.onPositiveClicked(dialog);
+                                finish();
+                            }
+
+                            @Override
+                            public void onNegativeClicked(Dialog dialog) {
+                                super.onNegativeClicked(dialog);
+                            }
+                        });
+            }
             finish();
         });
 
@@ -234,33 +274,53 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
         super.onNewIntent(intent);
 
         if (intent.getBooleanExtra("stop", false)) {
-            isRunningCompetition = false;
-            startOrStopButton.setBackground(getDrawable(R.drawable.start_round_button));
-            competitionTimer.cancel();
-            timerTextView.setText(duration);
-            calTextView.setText("0");
-            distanceTextView.setText("0,00");
-            circularSeekBar.setProgress(0);
-            stepCountTextView.setText("0");
-            builder = competingBuilder;
-            competingNotificationLayout.setTextViewText(R.id.steps, stepCountTextView.getText().toString());
-            competingNotificationLayout.setTextViewText(R.id.time_left, timerTextView.getText().toString());
+            PopupDialog.getInstance(this)
+                    .setStyle(Styles.STANDARD)
+                    .setHeading("Are you sure?")
+                    .setDescription("You will lose your progress")
+                    .setCancelable(false)
+                    .setPopupDialogIcon(R.mipmap.question)
+                    .showDialog(new OnDialogButtonClickListener() {
+                        @Override
+                        public void onPositiveClicked(Dialog dialog) {
+                            super.onPositiveClicked(dialog);
+                            isRunningCompetition = false;
+                            startOrStopButton.setBackground(getDrawable(R.drawable.start_round_button));
+                            competitionTimer.cancel();
+                            timerTextView.setText(duration);
+                            calTextView.setText("0");
+                            distanceTextView.setText("0,00");
+                            circularSeekBar.setProgress(0);
+                            stepCountTextView.setText("0");
+                            builder = competingBuilder;
+                            competingNotificationLayout.setTextViewText(R.id.steps, stepCountTextView.getText().toString());
+                            competingNotificationLayout.setTextViewText(R.id.time_left, timerTextView.getText().toString());
 
-            // Delete notification stop button
-            competingBuilder.mActions.clear();
-            notificationManager.notify(666, builder.build());
+                            // Delete notification stop button
+                            competingBuilder.mActions.clear();
+                            notificationManager.notify(666, builder.build());
 
-            // Save exercise
-            saveExerciseForCompetitionDto = new SaveExerciseAndCompetitionDto();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                            // Save exercise
+                            saveExerciseForCompetitionDto = new SaveExerciseAndCompetitionDto();
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-            saveExerciseForCompetitionDto.setStartedAt(LocalDateTime.now().format(formatter));
-            saveExerciseForCompetitionDto.setType(ExerciseType.RUNNING);
-            saveExerciseForCompetitionDto.setStep(10000);
-            float cal = 10000 * 0.065f;
-            saveExerciseForCompetitionDto.setCalo(cal);
-            saveExerciseForCompetitionDto.setCompetitionId(currentCompetitionId);
-            saveExerciseAndCompetition(saveExerciseForCompetitionDto);
+                            saveExerciseForCompetitionDto.setStartedAt(LocalDateTime.now().format(formatter));
+                            saveExerciseForCompetitionDto.setType(ExerciseType.RUNNING);
+                            saveExerciseForCompetitionDto.setStep(compeStepCount);
+                            float cal = compeStepCount * 0.065f;
+                            saveExerciseForCompetitionDto.setCalo(cal);
+                            saveExerciseForCompetitionDto.setCompetitionId(currentCompetitionId);
+                            saveExerciseAndCompetition(saveExerciseForCompetitionDto);
+
+                            // Success popup
+                            openPopup("Congratulate", "You have done your exercise!", Styles.SUCCESS);
+                        }
+
+                        @Override
+                        public void onNegativeClicked(Dialog dialog) {
+                            super.onNegativeClicked(dialog);
+                        }
+                    });
         }
 
 
@@ -272,7 +332,7 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
         if (event.sensor == stepCounterSensor) {
 
             stepCount = (int) event.values[0] - stepCountInit;
-            if (!isCompeting) {
+            if (!isCompeting && !isRunningCompetition) {
                 stepCountTextView.setText(String.valueOf(stepCount));
                 runningNotificationLayout.setTextViewText(R.id.steps, stepCountTextView.getText().toString());
                 notificationManager.notify(666, runningBuilder.build());
@@ -280,6 +340,7 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
             } else if (isRunningCompetition) {
                 compeStepCount = stepCount - previousCount;
                 stepCountTextView.setText(String.valueOf(compeStepCount));
+                progress = Math.min((int) ((compeStepCount * 100) / stepGoal), 100);
                 circularSeekBar.setProgress(progress);
                 competingNotificationLayout.setTextViewText(R.id.steps, stepCountTextView.getText().toString());
                 competingNotificationLayout.setTextViewText(R.id.time_left, timerTextView.getText().toString());
@@ -486,6 +547,7 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
         startOrStopButton.setVisibility(AppCompatButton.INVISIBLE);
         statistics_layout.getChildAt(0).setVisibility(ConstraintLayout.GONE);
         stepCountTextView.setText(String.valueOf(stepCount));
+        updateCalAndDistance(stepCount);
         progress = Math.min((int) ((stepCount * 100) / stepGoal), 100);
         circularSeekBar.setProgress(progress);
         builder = runningBuilder;
@@ -504,7 +566,7 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
         distanceTextView.setText("0,00");
         circularSeekBar.setProgress(0);
         stepCountTextView.setText("0");
-        updateCalAndDistance(compeStepCount);
+        updateCalAndDistance(0);
         builder = competingBuilder;
         competingNotificationLayout.setTextViewText(R.id.steps, stepCountTextView.getText().toString());
         competingNotificationLayout.setTextViewText(R.id.time_left, timerTextView.getText().toString());
@@ -585,7 +647,7 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
                 competingNotificationLayout.setTextViewText(R.id.time_left, timerTextView.getText().toString());
                 // Update progress
                 progress = Math.min((int) ((stepCount * 100) / stepGoal), 100);
-                circularSeekBar.setProgress(progress);
+//                circularSeekBar.setProgress(progress);
                 notificationManager.notify(666, builder.build());
             }
 
@@ -641,7 +703,7 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
         Intent intent = new Intent(this, SaveStepCountReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
@@ -659,7 +721,7 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
         Intent intent = new Intent(this, InitStepCountReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY , pendingIntent);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY , pendingIntent);
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
     }
