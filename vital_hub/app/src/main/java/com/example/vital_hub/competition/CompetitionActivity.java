@@ -25,7 +25,7 @@ import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.helper.EndlessScrollListener;
 import com.example.vital_hub.helper.KeyboardHelper;
 import com.example.vital_hub.home_page.HomePageActivity;
-import com.example.vital_hub.profile.UserProfile;
+import com.example.vital_hub.profile.UserProfileActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -268,7 +268,7 @@ public class CompetitionActivity extends AppCompatActivity implements Navigation
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.profile) {
-            startActivity(new Intent(getApplicationContext(), UserProfile.class));
+            startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
             overridePendingTransition(0, 0);
             return true;
         } else if (item.getItemId() == R.id.home) {

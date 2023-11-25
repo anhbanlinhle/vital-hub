@@ -1,5 +1,6 @@
 package com.example.vital_hub.history;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.objects.CompetitionHistoryListResponse;
+import com.example.vital_hub.competition.CompetitionDetailActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CompetitionHistoryListAdapter extends RecyclerView.Adapter<CompetitionHistoryListAdapter.CompetitionHistoryViewHolder> {
 
@@ -31,13 +36,31 @@ public class CompetitionHistoryListAdapter extends RecyclerView.Adapter<Competit
         return new CompetitionHistoryViewHolder(view);
     }
 
+
+
+
     @Override
     public void onBindViewHolder(@NonNull CompetitionHistoryViewHolder holder, int position) {
         Glide.with(holder.background.getContext()).load(competitionHistoryList.get(position).getBackground()).into(holder.background);
+        holder.competitionName.setText(competitionHistoryList.get(position).getTitle());
         holder.participantCount.setText(String.valueOf(competitionHistoryList.get(position).getParticipants()));
-        holder.endDate.setText(competitionHistoryList.get(position).getEndedAt());
-        holder.ranking.setText(competitionHistoryList.get(position).getPositionStr());
+        if ((competitionHistoryList.get(position).getPositionStr()).equals("0th")) {
+            holder.ranking.setText("N/A");
+        } else {
+            holder.ranking.setText(competitionHistoryList.get(position).getPositionStr());
+        }
         holder.competitionType.setText(competitionHistoryList.get(position).getType());
+
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date endDate = inputFormat.parse(competitionHistoryList.get(position).getEndedAt());
+            String formattedDate = outputFormat.format(endDate);
+
+            holder.endDate.setText(formattedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -63,6 +86,14 @@ public class CompetitionHistoryListAdapter extends RecyclerView.Adapter<Competit
             participantCount = itemView.findViewById(R.id.participant_count);
             endDate = itemView.findViewById(R.id.end_date);
             detailButton = itemView.findViewById(R.id.detail_button);
+
+            detailButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(view.getContext(), CompetitionDetailActivity.class);
+                    view.getContext().startActivity(intent);
+                }
+            });
         }
     }
 }

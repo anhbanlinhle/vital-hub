@@ -2,14 +2,16 @@ package com.example.vital_hub.client.spring.objects;
 
 public class CompetitionHistoryListResponse {
     private String type;
+    private String title;
     private Long position;
     private Long competitionId;
     private String background;
     private String endedAt;
     private Integer participants;
     private String positionStr;
-    public CompetitionHistoryListResponse(String type, Long position, Long competitionId, String background, String endedAt, Integer participants, String positionStr) {
+    public CompetitionHistoryListResponse(String type, String title, Long position, Long competitionId, String background, String endedAt, Integer participants, String positionStr) {
         this.type = type;
+        this.title = title;
         this.position = position;
         this.competitionId = competitionId;
         this.background = background;
@@ -19,6 +21,9 @@ public class CompetitionHistoryListResponse {
     }
     public String getType() {
         return type;
+    }
+    public String getTitle() {
+        return title;
     }
     public Long getPosition() {
         return position;
