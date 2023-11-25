@@ -209,28 +209,6 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
         navBarStats(tracking);
     }
 
-    protected void updateLocation() {
-        checkLocationPermission();
-        locationRequest = new LocationRequest()
-                .setInterval(1000)
-                .setFastestInterval(500)
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-                Location result = locationResult.getLastLocation();
-                assert result != null;
-                latitude = result.getLatitude();
-                longitude = result.getLongitude();
-                updateMapCamera();
-            }
-        };
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
-    }
-
     protected static void updateMapCamera() {
         if (mMap == null) {
             return;
