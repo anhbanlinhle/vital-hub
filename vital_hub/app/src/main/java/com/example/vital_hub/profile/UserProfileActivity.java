@@ -42,7 +42,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserProfile extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+public class UserProfileActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     Toolbar toolbar;
     ImageView setting;
     View history;
@@ -90,7 +90,7 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserProfile.this, CompetitionHistoryActivity.class);
+                Intent intent = new Intent(UserProfileActivity.this, CompetitionHistoryActivity.class);
                 startActivity(intent);
             }
         });
@@ -98,7 +98,7 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         statistic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserProfile.this, TestPage.class);
+                Intent intent = new Intent(UserProfileActivity.this, TestPage.class);
                 startActivity(intent);
             }
         });
@@ -106,28 +106,28 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserProfile.this, FriendList.class);
+                Intent intent = new Intent(UserProfileActivity.this, FriendList.class);
                 startActivity(intent);
             }
         });
         profileDetailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserProfile.this, ProfileDetail.class);
+                Intent intent = new Intent(UserProfileActivity.this, ProfileDetailActivity.class);
                 startActivity(intent);
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(UserProfile.this, setting);
+                PopupMenu popupMenu = new PopupMenu(UserProfileActivity.this, setting);
                 popupMenu.getMenuInflater().inflate(R.menu.setting_menu, popupMenu.getMenu());
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         if (menuItem.getItemId() == R.id.test) {
-                            Intent intent = new Intent(UserProfile.this, TestMain.class);
+                            Intent intent = new Intent(UserProfileActivity.this, TestMain.class);
                             startActivity(intent);
                             return true;
                         } else if (menuItem.getItemId() == R.id.logout) {
@@ -172,7 +172,7 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
         SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
         editor.clear();
         editor.commit();
-        Intent intent = new Intent(UserProfile.this, LoginScreen.class);
+        Intent intent = new Intent(UserProfileActivity.this, LoginScreen.class);
         startActivity(intent);
         finish();
     }
@@ -199,13 +199,13 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
                     } else {
                         description.setText(fetchedUserProfileDetail.getUserDetail().getDescription());
                     }
-                    Glide.with(UserProfile.this).load(fetchedUserProfileDetail.getAvatar()).into(profileImage);
+                    Glide.with(UserProfileActivity.this).load(fetchedUserProfileDetail.getAvatar()).into(profileImage);
                 }
             }
 
             @Override
             public void onFailure(Call<ProfileDetailResponse> call, Throwable t) {
-                Toast.makeText(UserProfile.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserProfileActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -224,7 +224,7 @@ public class UserProfile extends AppCompatActivity implements NavigationBarView.
 
             @Override
             public void onFailure(Call<CountResponse> call, Throwable t) {
-                Toast.makeText(UserProfile.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserProfileActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -1,20 +1,20 @@
 package com.example.vital_hub;
 
-import com.example.vital_hub.home_page.HomeFragment;
-import com.example.vital_hub.exercises.ExerciseGeneralFragment;
-import com.example.vital_hub.competition.CompetitionFragment;
-import com.example.vital_hub.profile.ProfileFragment;
+import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
-
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.example.vital_hub.competition.CompetitionFragment;
+import com.example.vital_hub.exercises.ExerciseGeneralFragment;
+import com.example.vital_hub.home_page.HomeFragment;
+import com.example.vital_hub.profile.UserProfileFragment;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                         replaceFragment(new CompetitionFragment());
                         break;
                     case 4:
-                        replaceFragment(new ProfileFragment());
+                        replaceFragment(new UserProfileFragment());
                         break;
                 }
                 return null;
