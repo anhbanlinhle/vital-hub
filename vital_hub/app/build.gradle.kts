@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+    implementation("com.yuyakaido.android:card-stack-view:2.3.4")
     implementation("com.saadahmedev.popup-dialog:popup-dialog:1.0.5")
     implementation("com.etebarian:meow-bottom-navigation:1.2.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61")
