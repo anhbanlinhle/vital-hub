@@ -95,10 +95,9 @@
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/card_stack_view"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingVertical="40dp"
-        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

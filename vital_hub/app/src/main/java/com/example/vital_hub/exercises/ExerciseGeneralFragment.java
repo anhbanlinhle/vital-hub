@@ -83,11 +83,11 @@ public class ExerciseGeneralFragment extends Fragment implements CardStackListen
 
     private void paginate() {
         List<Items> old = adapter.getItems();
-        List<Items> newSpots = new ArrayList<>(old);
-        newSpots.addAll(createItems());
-        ItemsDiffCallback callback = new ItemsDiffCallback(old, newSpots);
+        List<Items> newItems = new ArrayList<>(old);
+        newItems.addAll(createItems());
+        ItemsDiffCallback callback = new ItemsDiffCallback(old, newItems);
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
-        adapter.setItems(newSpots);
+        adapter.setItems(newItems);
         result.dispatchUpdatesTo(adapter);
     }
 
@@ -107,7 +107,7 @@ public class ExerciseGeneralFragment extends Fragment implements CardStackListen
 
     @Override
     public void onCardSwiped(Direction direction) {
-        if (manager.getTopPosition() == adapter.getItemCount() - 5) {
+        if (manager.getTopPosition() == adapter.getItemCount() - 3) {
             paginate();
         }
     }
