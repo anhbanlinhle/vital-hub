@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public interface WeeklyExerciseDto {
     Float getCalo();
     Float getDistance();
-    String getGymGroup();
+    Integer getGymGroup();
     Integer getRep();
     Integer getStep();
     Integer getTotalTime(); // second
