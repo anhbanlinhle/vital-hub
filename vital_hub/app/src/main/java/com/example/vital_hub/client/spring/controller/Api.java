@@ -19,6 +19,7 @@ import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.example.vital_hub.home_page.HomePagePost;
 import com.example.vital_hub.post_comment.Comment;
 import com.example.vital_hub.profile.UserDetail;
+import com.example.vital_hub.utils.ExerciseType;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -120,6 +121,7 @@ public class Api {
     public static Call<Void> addPost;
     public static Call<List<ExerciseResponse>> getExerciseList;
 
+    public static Call<Map<ExerciseType, List<WeeklyExercise>>> getWeeklyStat;
     //Init
     public static void initGetSingle(Map<String, String> headers) {
         getSingle = controller.getResponseObject(headers);
@@ -310,5 +312,9 @@ public class Api {
 
     public static void saveExercise(Map<String, String> headers, SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto) {
         savedExercise = controller.saveExercise(headers, saveExerciseAndCompetitionDto);
+    }
+
+    public static void initGetWeeklyStat(Map<String, String> headers) {
+        getWeeklyStat = controller.getWeeklyStat(headers);
     }
 }
