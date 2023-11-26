@@ -1,5 +1,6 @@
 package com.example.vital_hub.exercises;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +17,12 @@ import android.view.animation.LinearInterpolator;
 
 
 import com.example.vital_hub.R;
+import com.example.vital_hub.bicycle.BicycleTrackerActivity;
 import com.example.vital_hub.exercises.category.CardStackAdapter;
 import com.example.vital_hub.exercises.category.Items;
 import com.example.vital_hub.exercises.category.ItemsDiffCallback;
+import com.example.vital_hub.pushup.PushupVideoScan;
+import com.example.vital_hub.running.RunningActivity;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -107,7 +112,26 @@ public class ExerciseGeneralFragment extends Fragment implements CardStackListen
 
     @Override
     public void onCardSwiped(Direction direction) {
-        if (manager.getTopPosition() == adapter.getItemCount() - 3) {
+        int topPosition = manager.getTopPosition();
+        Items item = adapter.getItems().get(topPosition - 1);
+        String name = item.getName();
+        if(direction == Direction.Left) {
+            if (name.equals("Gym")) {
+                Intent intent = new Intent(getActivity(), ChooseExerciseActivity.class);
+                startActivity(intent);
+            } else if (name.equals("Running")) {
+                Intent intent = new Intent(getActivity(), RunningActivity.class);
+                startActivity(intent);
+            } else if (name.equals("Bicycle")) {
+                Intent intent = new Intent(getActivity(), BicycleTrackerActivity.class);
+                startActivity(intent);
+            } else if (name.equals("Pushup")) {
+                Intent intent = new Intent(getActivity(), PushupVideoScan.class);
+                startActivity(intent);
+            };
+        }
+
+        if (topPosition == adapter.getItemCount() - 3) {
             paginate();
         }
     }
