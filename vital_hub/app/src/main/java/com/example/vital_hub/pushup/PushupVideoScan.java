@@ -181,7 +181,8 @@ public class PushupVideoScan extends AppCompatActivity {
             videoView.setTag(videoUri);
             videoView.start();
         } else {
-            Toast.makeText(this, "No video selected", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "No video selected", Toast.LENGTH_SHORT).show();
+            openPopup("Alert", "No video selected", Styles.ALERT);
         }
     }
 
@@ -191,16 +192,18 @@ public class PushupVideoScan extends AppCompatActivity {
 
         if (requestCode == REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Read permisson granted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Read permission granted", Toast.LENGTH_SHORT).show();
             } else {
 //                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                openPopup("Alert", "Permission denied", Styles.ALERT);
             }
         }
         if (requestCode == REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Write permisson granted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Write permission granted", Toast.LENGTH_SHORT).show();
             } else {
 //                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                openPopup("Alert", "Permission denied", Styles.ALERT);
             }
         }
     }
@@ -256,13 +259,13 @@ public class PushupVideoScan extends AppCompatActivity {
                             }
                         }
                     } else {
-                        openPopup("Oh no", "Error: " + response.message(), Styles.FAILED);
+                        openPopup("Oh no", "Error loading competition: " + response.message(), Styles.FAILED);
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Throwable t) {
-                    openPopup("Oh no", "Error: " + t.getMessage(), Styles.FAILED);
+                    openPopup("Oh no", "Error loading competition: " + t.getMessage(), Styles.FAILED);
                 }
             });
         } catch (Exception e) {
@@ -275,6 +278,9 @@ public class PushupVideoScan extends AppCompatActivity {
         competitionTitle.setOnItemClickListener((parent, view, position, id) -> {
             String selected = (String) parent.getItemAtPosition(position);
             competitionTitle.setText(selected, false);
+            if (position == 0) {
+                return;
+            }
 
             int splitPos = 0;
             for (int i = selected.length() - 1; i >= 0; i--) {
@@ -415,7 +421,7 @@ public class PushupVideoScan extends AppCompatActivity {
             .setStyle(styles)
             .setHeading(heading)
             .setDescription(description)
-            .setCancelable(false)
+            .setCancelable(true)
             .showDialog(new OnDialogButtonClickListener() {
                 @Override
                 public void onDismissClicked(Dialog dialog) {

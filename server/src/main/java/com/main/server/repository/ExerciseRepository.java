@@ -35,9 +35,10 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
     List<ExerciseDto> getAllExerciseWithUid(Long userId, Integer limit, Integer offset);
 
     @Query(value = """
-            SELECT TRUNCATE(SUM(e.calo), 2) AS calo, SUM(r.step) AS step, SUM(TIMESTAMPDIFF(SECOND, e.started_at, e.ended_at)) AS totalTime
+            SELECT DATE(e.started_at) AS date, TRUNCATE(SUM(e.calo), 2) AS calo, SUM(r.step) AS step, SUM(TIMESTAMPDIFF(SECOND, e.started_at, e.ended_at)) AS totalTime
             FROM exercise e JOIN running r on e.id = r.exercise_id
-            WHERE e.user_id = :userId AND (:monday <= DATE(started_at) AND DATE(started_at) <= :sunday) AND e.type = 'RUNNING'
+            WHERE e.user_id = :userId AND (:monday <= DATE(started_at) AND DATE(started_at) <= :sunday) 
+            AND e.type = 'RUNNING' AND TIME(started_at) = '00:00:00'
             GROUP BY DATE(started_at)
             ORDER BY DATE(started_at)
             """, nativeQuery = true)
@@ -46,7 +47,7 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
                                              Long userId);
 
     @Query(value = """
-            SELECT TRUNCATE(SUM(e.calo), 2) AS calo, SUM(p.rep) AS rep, SUM(TIMESTAMPDIFF(SECOND, e.started_at, e.ended_at)) AS totalTime
+            SELECT DATE(e.started_at) AS date, TRUNCATE(SUM(e.calo), 2) AS calo, SUM(p.rep) AS rep, SUM(TIMESTAMPDIFF(SECOND, e.started_at, e.ended_at)) AS totalTime
             FROM exercise e JOIN push_up p on e.id = p.exercise_id
             WHERE e.user_id = :userId AND (:monday <= DATE(started_at) AND DATE(started_at) <= :sunday) AND e.type = 'PUSHUP'
             GROUP BY DATE(started_at)
@@ -57,7 +58,7 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
                                             Long userId);
 
     @Query(value = """
-            SELECT TRUNCATE(SUM(e.calo), 2) AS calo, TRUNCATE(SUM(b.distance), 2) AS distance, SUM(TIMESTAMPDIFF(SECOND, e.started_at, e.ended_at)) AS totalTime
+            SELECT DATE(e.started_at) AS date, TRUNCATE(SUM(e.calo), 2) AS calo, TRUNCATE(SUM(b.distance), 2) AS distance, SUM(TIMESTAMPDIFF(SECOND, e.started_at, e.ended_at)) AS totalTime
             FROM exercise e JOIN bicycling b on e.id = b.exercise_id
             WHERE e.user_id = :userId AND (:monday <= DATE(started_at) AND DATE(started_at) <= :sunday) AND e.type = 'BICYCLING'
             GROUP BY DATE(started_at)
@@ -68,7 +69,7 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
                                                Long userId);
 
     @Query(value = """
-            SELECT TRUNCATE(SUM(e.calo), 2) AS calo, GROUP_CONCAT(g.group_id) AS gymGroup, SUM(TIMESTAMPDIFF(SECOND, e.started_at, e.ended_at)) AS totalTime
+            SELECT DATE(e.started_at) AS date, TRUNCATE(SUM(e.calo), 2) AS calo, GROUP_CONCAT(g.group_id) AS gymGroup, SUM(TIMESTAMPDIFF(SECOND, e.started_at, e.ended_at)) AS totalTime
             FROM exercise e JOIN gym g on e.id = g.exercise_id
             WHERE e.user_id = :userId AND (:monday <= DATE(started_at) AND DATE(started_at) <= :sunday) AND e.type = 'GYM'
             GROUP BY DATE(started_at)

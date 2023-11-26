@@ -1,8 +1,10 @@
 package com.example.vital_hub.bicycle;
 
-import static com.example.vital_hub.bicycle.BicycleTracker.latitude;
-import static com.example.vital_hub.bicycle.BicycleTracker.longitude;
-import static com.example.vital_hub.bicycle.BicycleTracker.updateMapCamera;
+import static com.example.vital_hub.bicycle.BicycleTrackerActivity.drawRoute;
+import static com.example.vital_hub.bicycle.BicycleTrackerActivity.getResultsAndDisplay;
+import static com.example.vital_hub.bicycle.BicycleTrackerActivity.latitude;
+import static com.example.vital_hub.bicycle.BicycleTrackerActivity.longitude;
+import static com.example.vital_hub.bicycle.BicycleTrackerActivity.updateMapCamera;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -21,7 +23,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import com.example.vital_hub.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -29,9 +30,13 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
 
 
 public class BicycleService extends Service {
+    private ArrayList<LatLng> locationList = new ArrayList<>();
     private final IBinder mBinder = new MapBinder();
     private static final String CHANNEL_ID = "7979";
     RemoteViews customLayout;
@@ -43,9 +48,13 @@ public class BicycleService extends Service {
                     "\nLongitude : " + locationResult.getLastLocation().getLongitude();
             latitude = locationResult.getLastLocation().getLatitude();
             longitude = locationResult.getLastLocation().getLongitude();
+
+            BicycleUtils.CyclingResults results = BicycleUtils.calculateRouteInfo(locationList);
             customLayout = new RemoteViews(getPackageName(), R.layout.bicycle_notification_layout);
             customLayout.setTextViewText(R.id.lat, String.valueOf(latitude));
             customLayout.setTextViewText(R.id.lng, String.valueOf(longitude));
+            customLayout.setTextViewText(R.id.distance, String.format("%.2f", results.distances));
+            customLayout.setTextViewText(R.id.calories, String.format("%.2f", results.calories));
             startForeground(1, new NotificationCompat.Builder(BicycleService.this, CHANNEL_ID)
                     .setContentTitle("Vital Hub")
                     .setContentText("Tracking location")
@@ -54,6 +63,12 @@ public class BicycleService extends Service {
                     .setCustomContentView(customLayout)
                     .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                     .build());
+
+            LatLng latLng = new LatLng(latitude, longitude);
+            locationList.add(latLng);
+
+            drawRoute(locationList);
+            getResultsAndDisplay(locationList);
 
             updateMapCamera();
 //            Toast.makeText(BicycleService.this, location, Toast.LENGTH_SHORT).show();

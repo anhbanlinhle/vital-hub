@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/arrow_back/baseline_arrow_back_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/location_on/baseline_location_on_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,9 +28,10 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="1db964" />
-                            <entry key="outputName" value="baseline_arrow_back_45_green" />
-                            <entry key="sourceFile" value="D:\hk1_3\mobile\prj_vh\vital_hub\vital_hub" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="color" value="d3d3d3" />
+                            <entry key="outputName" value="goal" />
+                            <entry key="sourceFile" value="C:\Users\ACER\Downloads\goal-svgrepo-com.svg" />
                           </map>
                         </option>
                       </PersistentState>

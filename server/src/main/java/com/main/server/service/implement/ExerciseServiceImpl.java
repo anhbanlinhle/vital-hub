@@ -16,7 +16,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 @Service
@@ -45,7 +48,7 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public SaveExerciseAndCompetitionDto saveExercise(SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto,
-                             Long userId) {
+                                                      Long userId) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Exercise exercise = Exercise.builder()
                 .userId(userId)
@@ -61,9 +64,9 @@ public class ExerciseServiceImpl implements ExerciseService {
 
         if (savedExercise.getType() == ExerciseType.BICYCLING) {
             Bicycling bicycling = Bicycling.builder()
-                                            .distance(saveExerciseAndCompetitionDto.getDistance())
-                                            .exerciseId(savedExercise.getId())
-                                            .build();
+                    .distance(saveExerciseAndCompetitionDto.getDistance())
+                    .exerciseId(savedExercise.getId())
+                    .build();
 
             bicyclingRepository.save(bicycling);
         } else if (savedExercise.getType() == ExerciseType.RUNNING) {
@@ -90,21 +93,74 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public List<WeeklyExerciseDto> getWeeklyResult(ExerciseType exerciseType, Long userId) {
+    public Map<ExerciseType, List<WeeklyExerciseDto>> getWeeklyResult(Long userId) {
         LocalDate monday = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
         List<LocalDate> weekDays = IntStream.range(0, 7).mapToObj(monday::plusDays).toList();
 
-        List<WeeklyExerciseDto> weeklyExerciseDto;
-        if (exerciseType == ExerciseType.RUNNING) {
-            weeklyExerciseDto = exerciseRepository.getWeeklyRunning(weekDays.get(0), weekDays.get(weekDays.size() - 1), userId);
-        } else if (exerciseType == ExerciseType.PUSHUP) {
-            weeklyExerciseDto = exerciseRepository.getWeeklyPushUp(weekDays.get(0), weekDays.get(weekDays.size() - 1), userId);
-        } else if (exerciseType == ExerciseType.BICYCLING) {
-            weeklyExerciseDto = exerciseRepository.getWeeklyBicycling(weekDays.get(0), weekDays.get(weekDays.size() - 1), userId);
-        } else {
-            weeklyExerciseDto = exerciseRepository.getWeeklyGym(weekDays.get(0), weekDays.get(weekDays.size() - 1), userId);
-        }
+        Map<ExerciseType, List<WeeklyExerciseDto>> resultExerciseMap = new HashMap<>();
 
-        return weeklyExerciseDto;
+
+        resultExerciseMap.put(ExerciseType.RUNNING, exerciseRepository.getWeeklyRunning(weekDays.get(0), weekDays.get(weekDays.size() - 1), userId));
+        resultExerciseMap.put(ExerciseType.BICYCLING, exerciseRepository.getWeeklyBicycling(weekDays.get(0), weekDays.get(weekDays.size() - 1), userId));
+        resultExerciseMap.put(ExerciseType.GYM, exerciseRepository.getWeeklyGym(weekDays.get(0), weekDays.get(weekDays.size() - 1), userId));
+        resultExerciseMap.put(ExerciseType.PUSHUP, exerciseRepository.getWeeklyPushUp(weekDays.get(0), weekDays.get(weekDays.size() - 1), userId));
+
+        for (ExerciseType exerciseType : resultExerciseMap.keySet()) {
+            List<WeeklyExerciseDto> weeklyExerciseDto = resultExerciseMap.get(exerciseType);
+            int resultIndex = 0;
+            int weekDayIndex = 0;
+
+            while (weekDayIndex < weekDays.size()) {
+                try {
+                    if (!weekDays.get(weekDayIndex).equals(weeklyExerciseDto.get(resultIndex).getDate())) {
+                        weeklyExerciseDto.add(resultIndex, noExerciseDay(exerciseType, weekDays.get(weekDayIndex)));
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    weeklyExerciseDto.add(noExerciseDay(exerciseType, weekDays.get(weekDayIndex)));
+                }
+                resultIndex++;
+                weekDayIndex++;
+            }
+        }
+        return resultExerciseMap;
+    }
+
+    private WeeklyExerciseDto noExerciseDay(ExerciseType exerciseType, LocalDate localDate) {
+        return new WeeklyExerciseDto() {
+            @Override
+            public Float getCalo() {
+                return 0F;
+            }
+
+            @Override
+            public Float getDistance() {
+                return exerciseType == ExerciseType.BICYCLING ? 0F : null;
+            }
+
+            @Override
+            public String getGymGroup() {
+                return exerciseType == ExerciseType.GYM ? "" : null;
+            }
+
+            @Override
+            public Integer getRep() {
+                return exerciseType == ExerciseType.PUSHUP ? 0 : null;
+            }
+
+            @Override
+            public Integer getStep() {
+                return exerciseType == ExerciseType.RUNNING ? 0 : null;
+            }
+
+            @Override
+            public Integer getTotalTime() {
+                return 0;
+            }
+
+            @Override
+            public LocalDate getDate() {
+                return localDate;
+            }
+        };
     }
 }

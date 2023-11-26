@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentContainerView;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -45,9 +46,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,7 +65,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallback {
+public class BicycleTrackerActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static GoogleMap mMap;
     FadingEdgeLayout mapContainer;
     FragmentContainerView map;
@@ -79,10 +85,12 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
     Map<String, String> headers;
     AppCompatButton back;
     FloatingActionButton record;
-    TextView distance, calories;
+    static TextView distance;
+    static TextView calories;
     BottomAppBar bottomBar;
     ConstraintLayout navStats;
     LinearLayout cardStats;
+    static Marker currentLocationMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,12 +145,47 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
                 prefs = getSharedPreferences("UserData", MODE_PRIVATE);
                 tracking = prefs.getString("tracking", "stop");
                 if (tracking.equals("stop")) {
+                    PopupDialog.getInstance(BicycleTrackerActivity.this)
+                            .setStyle(Styles.ALERT)
+                            .setHeading("Cycle Safely")
+                            .setDescription("Keep your phone away while cycling. Stay alert for a safer ride.")
+                            .setDismissButtonText("Got it")
+                            .setCancelable(true)
+                            .setTimeout(2)
+                            .showDialog(new OnDialogButtonClickListener() {
+                                @Override
+                                public void onDismissClicked(Dialog dialog) {
+                                    super.onDismissClicked(dialog);
+                                }
+                            });
                     prefs.edit().putString("tracking", "start").apply();
-                    startService(new Intent(BicycleTracker.this, BicycleService.class));
+                    startService(new Intent(BicycleTrackerActivity.this, BicycleService.class));
                 }
                 else {
-                    prefs.edit().putString("tracking", "stop").apply();
-                    stopService(new Intent(BicycleTracker.this, BicycleService.class));
+                    PopupDialog.getInstance(BicycleTrackerActivity.this)
+                            .setStyle(Styles.IOS)
+                            .setHeading("Stop Bicycling...?")
+                            .setDescription("Are you sure you want to stop?"+
+                                    " This action cannot be undone")
+                            .setCancelable(true)
+                            .setPositiveButtonText("Confirm")
+                            .setPositiveButtonTextColor(R.color.color_red)
+                            .setNegativeButtonText("Cancel")
+                            .setNegativeButtonTextColor(R.color.color_green)
+                            .showDialog(new OnDialogButtonClickListener() {
+                                @Override
+                                public void onPositiveClicked(Dialog dialog) {
+                                    super.onPositiveClicked(dialog);
+                                    prefs.edit().putString("tracking", "stop").apply();
+                                    stopService(new Intent(BicycleTrackerActivity.this, BicycleService.class));
+                                    recordTrackingButton();
+                                }
+
+                                @Override
+                                public void onNegativeClicked(Dialog dialog) {
+                                    super.onNegativeClicked(dialog);
+                                }
+                            });
                 }
                 recordTrackingButton();
             }
@@ -194,13 +237,23 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         }
         LatLng home = new LatLng(latitude, longitude);
         mMap.setBuildingsEnabled(true);
-        mMap.addMarker(new MarkerOptions()
-                .position(home)
-                .title("Your location"));
+
+        if (currentLocationMarker != null) {
+            currentLocationMarker.remove();
+            currentLocationMarker = null;
+            currentLocationMarker = mMap.addMarker(new MarkerOptions()
+                    .position(home)
+                    .title("Your location"));
+        }
+        else {
+            currentLocationMarker = mMap.addMarker(new MarkerOptions()
+                    .position(home)
+                    .title("Your location"));
+        }
         mMap.moveCamera(CameraUpdateFactory.newLatLng(home));
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(home)
-                .zoom(20)
+                .zoom(19)
                 .tilt(45)
                 .build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -299,7 +352,7 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-            ActivityCompat.requestPermissions(BicycleTracker.this, permissions, 1);
+            ActivityCompat.requestPermissions(BicycleTrackerActivity.this, permissions, 1);
         }
     }
 
@@ -309,10 +362,9 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map));
     }
 
-
     void configCompetitionSelector() {
         getCompetitionTitleList();
-        compeAdapter = new ArrayAdapter<>(BicycleTracker.this, android.R.layout.simple_list_item_1, items);
+        compeAdapter = new ArrayAdapter<>(BicycleTrackerActivity.this, android.R.layout.simple_list_item_1, items);
         competitionTitle.setAdapter(compeAdapter);
         competitionTitle.setDropDownHeight(compeAdapter.getCount() > 3 ? 450 : compeAdapter.getCount() * 150);
         competitionTitle.setText(items.get(0), false);
@@ -343,13 +395,13 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
                             }
                         }
                     } else {
-                        Toast.makeText(BicycleTracker.this, "Error" + response.message(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BicycleTrackerActivity.this, "Error" + response.message(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Throwable t) {
-                    Toast.makeText(BicycleTracker.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BicycleTrackerActivity.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (Exception e) {
@@ -372,5 +424,27 @@ public class BicycleTracker extends AppCompatActivity implements OnMapReadyCallb
 //                handleIfNone();
             }
         });
+    }
+    public static void drawRoute(ArrayList<LatLng> locations) {
+        if (locations.size() < 2) {
+            // Not enough points to draw a route
+            return;
+        }
+
+        PolylineOptions polylineOptions = new PolylineOptions();
+        polylineOptions.color(Color.BLUE);
+        polylineOptions.width(5);
+
+        for (LatLng location : locations) {
+            polylineOptions.add(location);
+        }
+
+        mMap.addPolyline(polylineOptions);
+    }
+
+    public static void getResultsAndDisplay(ArrayList<LatLng> locations) {
+        BicycleUtils.CyclingResults results = BicycleUtils.calculateRouteInfo(locations);
+        distance.setText(String.format("%.2f", results.distances) + " km");
+        calories.setText(String.format("%.2f", results.calories) + " kcal");
     }
 }

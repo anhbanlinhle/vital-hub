@@ -490,7 +490,7 @@
                     android:fontFamily="@font/sf_semi_bold"
                     android:text="01:00:00"
                     android:textColor="#28282B"
-                    android:textSize="27dp"
+                    android:textSize="26dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.example.vital_hub.R;
-import com.example.vital_hub.bicycle.BicycleTracker;
+import com.example.vital_hub.bicycle.BicycleTrackerActivity;
 import com.example.vital_hub.pushup.PushupVideoScan;
 import com.example.vital_hub.running.RunningActivity;
 
@@ -49,7 +49,7 @@ public class ExerciseGeneralFragment extends Fragment {
             startActivity(new Intent(getActivity().getBaseContext(), PushupVideoScan.class));
         });
         chooseBicycleBtn.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity().getBaseContext(), BicycleTracker.class));
+            startActivity(new Intent(getActivity().getBaseContext(), BicycleTrackerActivity.class));
         });
         chooseRunBtn.setOnClickListener(v -> {
             startActivity(new Intent(getActivity().getBaseContext(), RunningActivity.class));
