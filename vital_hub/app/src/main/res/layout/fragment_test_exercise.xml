@@ -10,16 +10,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingHorizontal="16dp">
+        android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
@@ -27,77 +18,76 @@
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/mont_semi_bold"
                 android:text="Choose an activity"
+                android:layout_marginVertical="10dp"
                 android:textSize="36sp" />
 
-            <LinearLayout
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/choose_gym_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                >
+                android:backgroundTint="@color/color_green"
+                android:text="Exercises"
+                android:textSize="28dp"
+                android:fontFamily="@font/mont_semi_bold"
+                app:icon="@drawable/exercise_weight_lift"
+                app:iconSize="40dp"
+                app:iconTint="@color/color_white"
+                android:textColor="@color/color_white"
+                android:padding="16dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
+                android:contentDescription="Gym" />
 
-                <ImageButton
-                    android:id="@+id/choose_gym_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_button_green"
-                    android:src="@drawable/baseline_fitness_center_96_white"
-                    android:padding="36dp"
-                    android:contentDescription="Gym"
-                    />
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/choose_pushup_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/color_green"
+            android:text="Push Up"
+            android:textSize="28dp"
+            android:fontFamily="@font/mont_semi_bold"
+            app:icon="@drawable/pushup_pose"
+            app:iconSize="40dp"
+            app:iconTint="@color/color_white"
+            android:textColor="@color/color_white"
+            android:padding="16dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="10dp"
+            android:contentDescription="Push Up" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    >
-                    <ImageButton
-                        android:id="@+id/choose_pushup_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rounded_button_green"
-                        android:src="@drawable/baseline_accessibility_new_96_white"
-                        android:padding="36dp"
-                        android:contentDescription="Push up"
-                        />
-                </LinearLayout>
-            </LinearLayout>
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/choose_run_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/color_green"
+            android:text="Running"
+            android:textSize="28dp"
+            android:fontFamily="@font/mont_semi_bold"
+            app:icon="@drawable/baseline_directions_run_24"
+            app:iconSize="40dp"
+            app:iconTint="@color/color_white"
+            android:textColor="@color/color_white"
+            android:padding="16dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="10dp"
+            android:contentDescription="Running" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="32dp"
-                >
-
-                <ImageButton
-                    android:id="@+id/choose_run_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_button_green"
-                    android:src="@drawable/baseline_directions_run_96_white"
-                    android:padding="36dp"
-                    android:contentDescription="Run"
-                    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    >
-                    <ImageButton
-                        android:id="@+id/choose_bicycle_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rounded_button_green"
-                        android:src="@drawable/baseline_directions_bike_96_white"
-                        android:padding="36dp"
-                        android:contentDescription="Bicycle"
-                        />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/choose_bicycle_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/color_green"
+            android:text="Bicycling"
+            android:textSize="28dp"
+            android:fontFamily="@font/mont_semi_bold"
+            app:icon="@drawable/baseline_directions_bike_24"
+            app:iconSize="40dp"
+            app:iconTint="@color/color_white"
+            android:textColor="@color/color_white"
+            android:padding="16dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="10dp"
+            android:contentDescription="Bicycling" />
     </LinearLayout>
 
 </FrameLayout>

@@ -14,6 +14,7 @@ import com.example.vital_hub.R;
 import com.example.vital_hub.bicycle.BicycleTrackerActivity;
 import com.example.vital_hub.pushup.PushupVideoScan;
 import com.example.vital_hub.running.RunningActivity;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,10 +22,10 @@ import com.example.vital_hub.running.RunningActivity;
  * create an instance of this fragment.
  */
 public class ExerciseGeneralFragment extends Fragment {
-    private ImageButton chooseGymBtn;
-    private ImageButton chooseRunBtn;
-    private ImageButton chooseBicycleBtn;
-    private ImageButton choosePushupBtn;
+    private ExtendedFloatingActionButton chooseGymBtn;
+    private ExtendedFloatingActionButton chooseRunBtn;
+    private ExtendedFloatingActionButton chooseBicycleBtn;
+    private ExtendedFloatingActionButton choosePushupBtn;
     public ExerciseGeneralFragment() {
         // Required empty public constructor
     }
