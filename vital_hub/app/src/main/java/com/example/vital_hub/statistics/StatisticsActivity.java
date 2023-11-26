@@ -1,20 +1,29 @@
 package com.example.vital_hub.statistics;
 
+import static com.example.vital_hub.client.spring.controller.Api.initGetWeeklyStat;
+
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.vital_hub.R;
+import com.example.vital_hub.client.spring.controller.Api;
+import com.example.vital_hub.client.spring.objects.WeeklyExercise;
 import com.example.vital_hub.home_page.AddPostActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.home_page.HpRecyclerAdapter;
+import com.example.vital_hub.utils.ExerciseType;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -28,26 +37,57 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.tabs.TabLayout;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class StatisticsActivity extends AppCompatActivity {
-    BarChart runningBarChart;
-    BarChart bikingBarChart;
-    BarChart gymBarChart;
-    BarChart pushupBarChart;
+    static BarChart runningBarChart;
+    static BarChart bikingBarChart;
+    static BarChart gymBarChart;
+    static BarChart pushupBarChart;
+    static BarDataSet runningDataSet;
+    static BarDataSet bikingDataSet;
+    static BarDataSet gymDataSet;
+    static BarDataSet pushupDataSet;
+
     ImageView runningIcon;
     ImageView bikeIcon;
     ImageView gymIcon;
     ImageView pushupIcon;
-    List<String> xValues = Arrays.asList("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN");
+    static List<String> xValues = Arrays.asList("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN");
+    SharedPreferences prefs;
+    String jwt;
+    Map<String, String> headers;
+    ImageButton back_button;
+    TabLayout stat_tab_layout;
+    static Map<ExerciseType, List<WeeklyExercise>> weeklyResult;
+    static ArrayList<BarEntry> runningEntries = new ArrayList<>();
+    static ArrayList<BarEntry> bikingEntries = new ArrayList<>();
+    static ArrayList<BarEntry> gymEntries = new ArrayList<>();
+    static ArrayList<BarEntry> pushupEntries = new ArrayList<>();
+    static BarData runningBarData;
+    static BarData bikingBarData;
+    static BarData gymBarData;
+    static BarData pushupBarData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.statistics_layout);
+
         runningBarChart = findViewById(R.id.running_bar_chart);
         bikingBarChart = findViewById(R.id.bike_bar_chart);
         gymBarChart = findViewById(R.id.gym_bar_chart);
@@ -56,6 +96,11 @@ public class StatisticsActivity extends AppCompatActivity {
         bikeIcon = findViewById(R.id.stat_bike_icon);
         gymIcon = findViewById(R.id.stat_gym_icon);
         pushupIcon = findViewById(R.id.stat_pushup_icon);
+        back_button = findViewById(R.id.stat_back_button);
+        stat_tab_layout = findViewById(R.id.stat_tab);
+
+        initHeaderForRequest();
+        fetchStat();
 
         int bikeColor = Color.parseColor("#00c9bd");
         int gymColor = Color.parseColor("#ec9a3a");
@@ -65,56 +110,19 @@ public class StatisticsActivity extends AppCompatActivity {
         gymIcon.setColorFilter(gymColor);
         pushupIcon.setColorFilter(pushupColor);
 
-        ArrayList<BarEntry> runningEntries = new ArrayList<>();
-        runningEntries.add(new BarEntry(0, 1));
-        runningEntries.add(new BarEntry(1, 3));
-        runningEntries.add(new BarEntry(2, 5));
-        runningEntries.add(new BarEntry(3, 7));
-        runningEntries.add(new BarEntry(4, 2));
-        runningEntries.add(new BarEntry(5, 6));
-        runningEntries.add(new BarEntry(6, 4));
-
-        ArrayList<BarEntry> bikingEntries = new ArrayList<>();
-        bikingEntries.add(new BarEntry(0, 1));
-        bikingEntries.add(new BarEntry(1, 3));
-        bikingEntries.add(new BarEntry(2, 5));
-        bikingEntries.add(new BarEntry(3, 7));
-        bikingEntries.add(new BarEntry(4, 2));
-        bikingEntries.add(new BarEntry(5, 6));
-        bikingEntries.add(new BarEntry(6, 4));
-
-        ArrayList<BarEntry> gymEntries = new ArrayList<>();
-        gymEntries.add(new BarEntry(0, 1));
-        gymEntries.add(new BarEntry(1, 3));
-        gymEntries.add(new BarEntry(2, 5));
-        gymEntries.add(new BarEntry(3, 7));
-        gymEntries.add(new BarEntry(4, 2));
-        gymEntries.add(new BarEntry(5, 6));
-        gymEntries.add(new BarEntry(6, 4));
-
-        ArrayList<BarEntry> pushupEntries = new ArrayList<>();
-        pushupEntries.add(new BarEntry(0, 1));
-        pushupEntries.add(new BarEntry(1, 3));
-        pushupEntries.add(new BarEntry(2, 5));
-        pushupEntries.add(new BarEntry(3, 7));
-        pushupEntries.add(new BarEntry(4, 2));
-        pushupEntries.add(new BarEntry(5, 6));
-        pushupEntries.add(new BarEntry(6, 4));
-
-        BarDataSet runningDataSet = new BarDataSet(runningEntries, "RUNNING");
+        runningDataSet = new BarDataSet(runningEntries, "RUNNING");
         runningDataSet.setColors(Color.parseColor("#1DB954"));
 
-        BarDataSet bikingDataSet = new BarDataSet(bikingEntries, "BIKE");
+        bikingDataSet = new BarDataSet(bikingEntries, "BIKE");
         bikingDataSet.setColors(Color.parseColor("#00c9bd"));
 
-        BarDataSet gymDataSet = new BarDataSet(gymEntries, "GYM");
+        gymDataSet = new BarDataSet(gymEntries, "GYM");
         gymDataSet.setColors(Color.parseColor("#ec9a3a"));
 
-        BarDataSet pushupDataSet = new BarDataSet(pushupEntries, "PUSHUP");
+        pushupDataSet = new BarDataSet(pushupEntries, "PUSHUP");
         pushupDataSet.setColors(Color.parseColor("#e05252"));
 
-
-        BarData runningBarData = new BarData(runningDataSet);
+        runningBarData = new BarData(runningDataSet);
         runningBarData.setBarWidth(0.25f);
         runningBarChart.setData(runningBarData);
         runningBarChart.getDescription().setEnabled(false);
@@ -132,10 +140,8 @@ public class StatisticsActivity extends AppCompatActivity {
         runningBarChart.getXAxis().setGranularity(1);
         runningBarChart.getXAxis().setGranularityEnabled(true);
         runningBarChart.getLegend().setEnabled(false);
-        runningBarChart.animate();
-        runningBarChart.invalidate();
 
-        BarData gymBarData = new BarData(gymDataSet);
+        gymBarData = new BarData(gymDataSet);
         gymBarData.setBarWidth(0.25f);
         gymBarChart.setData(gymBarData);
         gymBarChart.getDescription().setEnabled(false);
@@ -153,9 +159,8 @@ public class StatisticsActivity extends AppCompatActivity {
         gymBarChart.getXAxis().setGranularity(1);
         gymBarChart.getXAxis().setGranularityEnabled(true);
         gymBarChart.getLegend().setEnabled(false);
-        gymBarChart.invalidate();
 
-        BarData bikingBarData = new BarData(bikingDataSet);
+        bikingBarData = new BarData(bikingDataSet);
         bikingBarData.setBarWidth(0.25f);
         bikingBarChart.setData(bikingBarData);
         bikingBarChart.getDescription().setEnabled(false);
@@ -173,9 +178,8 @@ public class StatisticsActivity extends AppCompatActivity {
         bikingBarChart.getXAxis().setGranularity(1);
         bikingBarChart.getXAxis().setGranularityEnabled(true);
         bikingBarChart.getLegend().setEnabled(false);
-        bikingBarChart.invalidate();
 
-        BarData pushupBarData = new BarData(pushupDataSet);
+        pushupBarData = new BarData(pushupDataSet);
         pushupBarData.setBarWidth(0.25f);
         pushupBarChart.setData(pushupBarData);
         pushupBarChart.getDescription().setEnabled(false);
@@ -193,6 +197,112 @@ public class StatisticsActivity extends AppCompatActivity {
         pushupBarChart.getXAxis().setGranularity(1);
         pushupBarChart.getXAxis().setGranularityEnabled(true);
         pushupBarChart.getLegend().setEnabled(false);
-        pushupBarChart.invalidate();
+
+        stat_tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if(tab.getPosition() == 1) {
+                    populatedData(1);
+                } else {
+                    populatedData(0);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
+    private void initHeaderForRequest() {
+        prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        jwt = prefs.getString("jwt", null);
+        headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + jwt);
+    }
+
+    private void fetchStat() {
+        initGetWeeklyStat(headers);
+        Api.getWeeklyStat.clone().enqueue(new Callback<Map<ExerciseType, List<WeeklyExercise>>>() {
+            @Override
+            public void onResponse(Call<Map<ExerciseType, List<WeeklyExercise>>> call, Response<Map<ExerciseType, List<WeeklyExercise>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    weeklyResult = response.body();
+                    populatedData(0);
+                } else {
+                    openPopup("Error", "Error code: " + response.code(), Styles.FAILED);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<ExerciseType, List<WeeklyExercise>>> call, Throwable t) {
+                openPopup("Error", "Error code: " + t.getMessage(), Styles.FAILED);
+            }
+        });
+    }
+
+    private void openPopup(String heading, String description, Styles styles) {
+        PopupDialog.getInstance(this)
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
+    }
+
+    private static void populatedData(int tab) {
+        if(tab == 0) {
+            for(int i=0; i<7; i++) {
+                runningEntries.add(new BarEntry(i, Objects.requireNonNull(weeklyResult.get(ExerciseType.RUNNING)).get(i).getStep()));
+                bikingEntries.add(new BarEntry(i, Objects.requireNonNull(weeklyResult.get(ExerciseType.BICYCLING)).get(i).getDistance()));
+                gymEntries.add(new BarEntry(i, Objects.requireNonNull(weeklyResult.get(ExerciseType.GYM)).get(i).getTotalTime()));
+                pushupEntries.add(new BarEntry(i, Objects.requireNonNull(weeklyResult.get(ExerciseType.PUSHUP)).get(i).getRep()));
+
+                runningDataSet.setValues(runningEntries);
+                bikingDataSet.setValues(bikingEntries);
+                gymDataSet.setValues(gymEntries);
+                pushupDataSet.setValues(pushupEntries);
+
+                runningBarData.removeDataSet(0);
+                runningBarData.addDataSet(runningDataSet);
+                bikingBarData.removeDataSet(0);
+                bikingBarData.addDataSet(bikingDataSet);
+                gymBarData.removeDataSet(0);
+                gymBarData.addDataSet(gymDataSet);
+                pushupBarData.removeDataSet(0);
+                pushupBarData.addDataSet(pushupDataSet);
+
+                runningBarChart.setData(runningBarData);
+                bikingBarChart.setData(bikingBarData);
+                gymBarChart.setData(gymBarData);
+                pushupBarChart.setData(pushupBarData);
+
+                runningBarChart.animateXY(500,500);
+                bikingBarChart.animateXY(500,500);
+                gymBarChart.animateXY(500,500);
+                pushupBarChart.animateXY(500,500);
+            }
+
+        } else {
+            System.out.println(weeklyResult);
+        }
     }
 }

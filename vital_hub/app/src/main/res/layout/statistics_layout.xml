@@ -41,6 +41,7 @@
 
 
             <com.google.android.material.tabs.TabLayout
+                android:id="@+id/stat_tab"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabIndicatorColor="@color/color_green"

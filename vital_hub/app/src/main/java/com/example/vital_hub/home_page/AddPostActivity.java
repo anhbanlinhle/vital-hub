@@ -3,6 +3,7 @@ package com.example.vital_hub.home_page;
 import static com.example.vital_hub.client.spring.controller.Api.initAddPost;
 import static com.example.vital_hub.client.spring.controller.Api.initGetExerciseList;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -28,6 +29,9 @@ import com.example.vital_hub.helper.ImgToUrl.ImageUploadTask;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.shape.Shapeable;
 import com.google.android.material.textfield.TextInputLayout;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -135,7 +139,7 @@ public class AddPostActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<List<ExerciseResponse>> call, @NonNull Throwable t) {
-                Log.e("Error", Objects.requireNonNull(t.getMessage()));
+                openPopup("Something is not working", "Failed to get exercises", Styles.FAILED);
             }
         });
     }
@@ -150,14 +154,14 @@ public class AddPostActivity extends AppCompatActivity {
                     Toast.makeText(AddPostActivity.this, "Error occured. Code: " + response.code(), Toast.LENGTH_LONG).show();
                     return;
                 }
-                Toast.makeText(AddPostActivity.this, "Add post successfully", Toast.LENGTH_SHORT).show();
+                openPopup("Success!", "Upload post successful", Styles.SUCCESS);
                 HomeFragment.refetch = true;
                 finish();
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(AddPostActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                openPopup("Something is not working", "Fail to upload your post", Styles.FAILED);
             }
         });
     }
@@ -175,10 +179,24 @@ public class AddPostActivity extends AppCompatActivity {
 
             @Override
             public void onUploadFailed() {
-                Toast.makeText(AddPostActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+                openPopup("Something is not working", "Fail to upload image", Styles.FAILED);
             }
         });
         imageUploadTask.execute();
 
+    }
+
+    private void openPopup(String heading, String description, Styles styles) {
+        PopupDialog.getInstance(this)
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
     }
 }
