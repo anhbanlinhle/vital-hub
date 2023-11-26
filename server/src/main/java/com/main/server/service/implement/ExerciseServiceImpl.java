@@ -138,8 +138,8 @@ public class ExerciseServiceImpl implements ExerciseService {
             }
 
             @Override
-            public String getGymGroup() {
-                return exerciseType == ExerciseType.GYM ? "" : null;
+            public Integer getGymGroup() {
+                return exerciseType == ExerciseType.GYM ? 0 : null;
             }
 
             @Override

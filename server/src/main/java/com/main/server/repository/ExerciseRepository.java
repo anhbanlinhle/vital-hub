@@ -69,7 +69,7 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
                                                Long userId);
 
     @Query(value = """
-            SELECT DATE(e.started_at) AS date, TRUNCATE(SUM(e.calo), 2) AS calo, GROUP_CONCAT(g.group_id) AS gymGroup, SUM(TIMESTAMPDIFF(SECOND, e.started_at, e.ended_at)) AS totalTime
+            SELECT DATE(e.started_at) AS date, TRUNCATE(SUM(e.calo), 2) AS calo, COUNT(g.group_id) AS gymGroup, SUM(TIMESTAMPDIFF(SECOND, e.started_at, e.ended_at)) AS totalTime
             FROM exercise e JOIN gym g on e.id = g.exercise_id
             WHERE e.user_id = :userId AND (:monday <= DATE(started_at) AND DATE(started_at) <= :sunday) AND e.type = 'GYM'
             GROUP BY DATE(started_at)
