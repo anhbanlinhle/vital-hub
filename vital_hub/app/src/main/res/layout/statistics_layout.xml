@@ -81,18 +81,22 @@
                         app:backgroundTint="@null" />
 
                     <TextView
+                        android:id="@+id/stat_run_score_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/mont_bold"
                         android:gravity="center"
-                        android:text="STEPS" />
+                        android:text="STEPS"
+                        android:textSize="12dp"/>
 
                     <TextView
+                        android:id="@+id/stat_run_score"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/mont_bold"
                         android:gravity="center"
-                        android:text="SCORE" />
+                        android:text="SCORE"
+                        android:textSize="14dp"/>
 
                 </LinearLayout>
 
@@ -132,18 +136,22 @@
                         app:backgroundTint="@null" />
 
                     <TextView
+                        android:id="@+id/stat_bike_score_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/mont_bold"
                         android:gravity="center"
-                        android:text="STEPS" />
+                        android:text="STEPS"
+                        android:textSize="12dp"/>
 
                     <TextView
+                        android:id="@+id/stat_bike_score"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/mont_bold"
                         android:gravity="center"
-                        android:text="SCORE" />
+                        android:text="SCORE"
+                        android:textSize="14dp"/>
 
                 </LinearLayout>
 
@@ -183,18 +191,22 @@
                         app:backgroundTint="@null" />
 
                     <TextView
+                        android:id="@+id/stat_gym_score_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/mont_bold"
                         android:gravity="center"
-                        android:text="STEPS" />
+                        android:text="STEPS"
+                        android:textSize="12dp"/>
 
                     <TextView
+                        android:id="@+id/stat_gym_score"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/mont_bold"
                         android:gravity="center"
-                        android:text="SCORE" />
+                        android:text="SCORE"
+                        android:textSize="14dp"/>
 
                 </LinearLayout>
 
@@ -234,18 +246,22 @@
                         app:backgroundTint="@null" />
 
                     <TextView
+                        android:id="@+id/stat_pushup_score_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/mont_bold"
                         android:gravity="center"
-                        android:text="STEPS" />
+                        android:text="STEPS"
+                        android:textSize="12dp"/>
 
                     <TextView
+                        android:id="@+id/stat_pushup_score"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/mont_bold"
                         android:gravity="center"
-                        android:text="SCORE" />
+                        android:text="SCORE"
+                        android:textSize="14dp"/>
 
                 </LinearLayout>
 

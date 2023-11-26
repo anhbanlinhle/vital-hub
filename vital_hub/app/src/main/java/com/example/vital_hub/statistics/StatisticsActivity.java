@@ -2,6 +2,7 @@ package com.example.vital_hub.statistics;
 
 import static com.example.vital_hub.client.spring.controller.Api.initGetWeeklyStat;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -82,6 +84,14 @@ public class StatisticsActivity extends AppCompatActivity {
     static BarData bikingBarData;
     static BarData gymBarData;
     static BarData pushupBarData;
+    static TextView runScoreText;
+    static TextView bikeScoreText;
+    static TextView gymScoreText;
+    static TextView pushupScoreText;
+    static TextView runScore;
+    static TextView bikeScore;
+    static TextView gymScore;
+    static TextView pushupScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +108,15 @@ public class StatisticsActivity extends AppCompatActivity {
         pushupIcon = findViewById(R.id.stat_pushup_icon);
         back_button = findViewById(R.id.stat_back_button);
         stat_tab_layout = findViewById(R.id.stat_tab);
+        runScoreText = findViewById(R.id.stat_run_score_text);
+        bikeScoreText = findViewById(R.id.stat_bike_score_text);
+        gymScoreText = findViewById(R.id.stat_gym_score_text);
+        pushupScoreText = findViewById(R.id.stat_pushup_score_text);
+        runScore = findViewById(R.id.stat_run_score);
+        bikeScore = findViewById(R.id.stat_bike_score);
+        gymScore = findViewById(R.id.stat_gym_score);
+        pushupScore = findViewById(R.id.stat_pushup_score);
+
 
         initHeaderForRequest();
         fetchStat();
@@ -268,12 +287,34 @@ public class StatisticsActivity extends AppCompatActivity {
                 });
     }
 
+
     private static void populatedData(int tab) {
         if(tab == 0) {
+            Integer totalStep = 0;
+            Float totalDistance = 0F;
+            Integer totalAttempts = 0;
+            Integer totalReps = 0;
+
+            runningEntries.clear();
+            bikingEntries.clear();
+            gymEntries.clear();
+            pushupEntries.clear();
+
+            runScoreText.setText("STEPS");
+            bikeScoreText.setText("DISTANCE");
+            gymScoreText.setText("ATTEMPTS");
+            pushupScoreText.setText("REPS");
+
+
             for(int i=0; i<7; i++) {
+                totalStep += Objects.requireNonNull(weeklyResult.get(ExerciseType.RUNNING)).get(i).getStep();
+                totalDistance += Objects.requireNonNull(weeklyResult.get(ExerciseType.BICYCLING)).get(i).getDistance();
+                totalAttempts += Objects.requireNonNull(weeklyResult.get(ExerciseType.GYM)).get(i).getGymGroup();
+                totalReps += Objects.requireNonNull(weeklyResult.get(ExerciseType.PUSHUP)).get(i).getRep();
+
                 runningEntries.add(new BarEntry(i, Objects.requireNonNull(weeklyResult.get(ExerciseType.RUNNING)).get(i).getStep()));
                 bikingEntries.add(new BarEntry(i, Objects.requireNonNull(weeklyResult.get(ExerciseType.BICYCLING)).get(i).getDistance()));
-                gymEntries.add(new BarEntry(i, Objects.requireNonNull(weeklyResult.get(ExerciseType.GYM)).get(i).getTotalTime()));
+                gymEntries.add(new BarEntry(i, Objects.requireNonNull(weeklyResult.get(ExerciseType.GYM)).get(i).getGymGroup()));
                 pushupEntries.add(new BarEntry(i, Objects.requireNonNull(weeklyResult.get(ExerciseType.PUSHUP)).get(i).getRep()));
 
                 runningDataSet.setValues(runningEntries);
@@ -295,14 +336,79 @@ public class StatisticsActivity extends AppCompatActivity {
                 gymBarChart.setData(gymBarData);
                 pushupBarChart.setData(pushupBarData);
 
-                runningBarChart.animateXY(500,500);
-                bikingBarChart.animateXY(500,500);
-                gymBarChart.animateXY(500,500);
-                pushupBarChart.animateXY(500,500);
+                runningBarChart.animateXY(300,300);
+                bikingBarChart.animateXY(300,300);
+                gymBarChart.animateXY(300,300);
+                pushupBarChart.animateXY(300,300);
             }
 
+            runScore.setText(Integer.toString(totalStep));
+            bikeScore.setText(totalDistance.toString());
+            gymScore.setText(Integer.toString(totalAttempts));
+            pushupScore.setText(Integer.toString(totalReps));
+
         } else {
-            System.out.println(weeklyResult);
+            Float totalStep = 0F;
+            Float totalDistance = 0F;
+            Float totalAttempts = 0F;
+            Float totalReps = 0F;
+
+            runningEntries.clear();
+            bikingEntries.clear();
+            gymEntries.clear();
+            pushupEntries.clear();
+
+            runScoreText.setText("CALO");
+            bikeScoreText.setText("CALO");
+            gymScoreText.setText("CALO");
+            pushupScoreText.setText("CALO");
+
+
+            runningEntries.clear();
+            bikingEntries.clear();
+            gymEntries.clear();
+            pushupEntries.clear();
+
+            for(int i=0; i<7; i++) {
+                totalStep += Objects.requireNonNull(weeklyResult.get(ExerciseType.RUNNING)).get(i).getCalo();
+                totalDistance += Objects.requireNonNull(weeklyResult.get(ExerciseType.BICYCLING)).get(i).getCalo();
+                totalAttempts += Objects.requireNonNull(weeklyResult.get(ExerciseType.GYM)).get(i).getCalo();
+                totalReps += Objects.requireNonNull(weeklyResult.get(ExerciseType.PUSHUP)).get(i).getCalo();
+
+                runningEntries.add(new BarEntry(i, Objects.requireNonNull(weeklyResult.get(ExerciseType.RUNNING)).get(i).getCalo()));
+                bikingEntries.add(new BarEntry(i, Objects.requireNonNull(weeklyResult.get(ExerciseType.BICYCLING)).get(i).getCalo()));
+                gymEntries.add(new BarEntry(i, Objects.requireNonNull(weeklyResult.get(ExerciseType.GYM)).get(i).getCalo()));
+                pushupEntries.add(new BarEntry(i, Objects.requireNonNull(weeklyResult.get(ExerciseType.PUSHUP)).get(i).getCalo()));
+
+                runningDataSet.setValues(runningEntries);
+                bikingDataSet.setValues(bikingEntries);
+                gymDataSet.setValues(gymEntries);
+                pushupDataSet.setValues(pushupEntries);
+
+                runningBarData.removeDataSet(0);
+                runningBarData.addDataSet(runningDataSet);
+                bikingBarData.removeDataSet(0);
+                bikingBarData.addDataSet(bikingDataSet);
+                gymBarData.removeDataSet(0);
+                gymBarData.addDataSet(gymDataSet);
+                pushupBarData.removeDataSet(0);
+                pushupBarData.addDataSet(pushupDataSet);
+
+                runningBarChart.setData(runningBarData);
+                bikingBarChart.setData(bikingBarData);
+                gymBarChart.setData(gymBarData);
+                pushupBarChart.setData(pushupBarData);
+
+                runningBarChart.animateXY(300,300);
+                bikingBarChart.animateXY(300,300);
+                gymBarChart.animateXY(300,300);
+                pushupBarChart.animateXY(300,300);
+            }
+
+            runScore.setText(totalStep.toString());
+            bikeScore.setText(totalDistance.toString());
+            gymScore.setText(totalAttempts.toString());
+            pushupScore.setText(totalReps.toString());
         }
     }
 }
