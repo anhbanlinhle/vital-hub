@@ -347,18 +347,51 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
                             }
                         }
                     } else {
-                        Toast.makeText(BicycleTrackerActivity.this, "Error" + response.message(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(BicycleTrackerActivity.this, "Error" + response.message(), Toast.LENGTH_SHORT).show();
+                        PopupDialog.getInstance(BicycleTrackerActivity.this)
+                                .setStyle(Styles.FAILED)
+                                .setHeading("Uh-Oh")
+                                .setDescription(response.message())
+                                .setCancelable(false)
+                                .showDialog(new OnDialogButtonClickListener() {
+                                    @Override
+                                    public void onDismissClicked(Dialog dialog) {
+                                        super.onDismissClicked(dialog);
+                                    }
+                                });
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Throwable t) {
-                    Toast.makeText(BicycleTrackerActivity.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(BicycleTrackerActivity.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    PopupDialog.getInstance(BicycleTrackerActivity.this)
+                            .setStyle(Styles.FAILED)
+                            .setHeading("Uh-Oh")
+                            .setDescription(t.getMessage())
+                            .setCancelable(false)
+                            .showDialog(new OnDialogButtonClickListener() {
+                                @Override
+                                public void onDismissClicked(Dialog dialog) {
+                                    super.onDismissClicked(dialog);
+                                }
+                            });
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Error" + e.getMessage(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Error" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            PopupDialog.getInstance(BicycleTrackerActivity.this)
+                    .setStyle(Styles.FAILED)
+                    .setHeading("Uh-Oh")
+                    .setDescription(e.getMessage())
+                    .setCancelable(false)
+                    .showDialog(new OnDialogButtonClickListener() {
+                        @Override
+                        public void onDismissClicked(Dialog dialog) {
+                            super.onDismissClicked(dialog);
+                        }
+                    });
         }
     }
 
