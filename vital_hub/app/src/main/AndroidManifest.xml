@@ -9,10 +9,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.BODY_SENSORS" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -104,6 +107,9 @@
             android:name=".home_page.HomePageActivity"
             android:exported="true" />
         <activity
+            android:name=".statistics.StatisticsActivity"
+            android:exported="true" />
+        <activity
             android:name=".home_page.AddPostActivity"
             android:exported="true" />
         <activity
@@ -150,6 +156,10 @@
             android:name=".running.RunningActivity"
             android:exported="true"
             android:launchMode="singleTop" />
-    </application>
+        <receiver android:name=".running.SaveStepCountReceiver" />
+        <receiver android:name=".running.InitStepCountReceiver" />
+
+
+</application>
 
 </manifest>

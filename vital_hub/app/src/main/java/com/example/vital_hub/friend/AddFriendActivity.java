@@ -108,6 +108,7 @@ public class AddFriendActivity extends AppCompatActivity implements RequestFrien
             @Override
             public void onResponse(@NonNull Call<FriendListResponse> call,@NonNull Response<FriendListResponse> response) {
                 if (response.isSuccessful()) {
+                    fetchedRequestList.clear();
                     friendListResponse = response.body();
                     assert friendListResponse != null;
                     fetchedRequestList.addAll(Arrays.asList(friendListResponse.getData()));
