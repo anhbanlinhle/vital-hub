@@ -84,8 +84,6 @@ public class HomeFragment extends Fragment {
         arrayList = new ArrayList<>();
 
         hpRecycler = view.findViewById(R.id.home_page_recycler);
-
-        logout_button = view.findViewById(R.id.logout_button);
         addPostButton = view.findViewById(R.id.add_post_button);
 
         recyclerAdapter = new HpRecyclerAdapter(arrayList);
