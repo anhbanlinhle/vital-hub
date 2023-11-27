@@ -9,82 +9,6 @@
     tools:context=".exercises.ExerciseGeneralFragment"
     android:clipToPadding="false">
 
-<!--    <LinearLayout-->
-<!--        xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--        xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:orientation="vertical">-->
-
-<!--            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
-<!--                android:id="@+id/choose_gym_btn"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:backgroundTint="@color/color_green"-->
-<!--                android:text="Exercises"-->
-<!--                android:textSize="28dp"-->
-<!--                android:fontFamily="@font/mont_semi_bold"-->
-<!--                app:icon="@drawable/exercise_weight_lift"-->
-<!--                app:iconSize="40dp"-->
-<!--                app:iconTint="@color/color_white"-->
-<!--                android:textColor="@color/color_white"-->
-<!--                android:padding="16dp"-->
-<!--                android:layout_marginHorizontal="10dp"-->
-<!--                android:layout_marginVertical="10dp"-->
-<!--                android:contentDescription="Gym" />-->
-
-<!--        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
-<!--            android:id="@+id/choose_pushup_btn"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:backgroundTint="@color/color_green"-->
-<!--            android:text="Push Up"-->
-<!--            android:textSize="28dp"-->
-<!--            android:fontFamily="@font/mont_semi_bold"-->
-<!--            app:icon="@drawable/pushup_pose"-->
-<!--            app:iconSize="40dp"-->
-<!--            app:iconTint="@color/color_white"-->
-<!--            android:textColor="@color/color_white"-->
-<!--            android:padding="16dp"-->
-<!--            android:layout_marginHorizontal="10dp"-->
-<!--            android:layout_marginVertical="10dp"-->
-<!--            android:contentDescription="Push Up" />-->
-
-<!--        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
-<!--            android:id="@+id/choose_run_btn"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:backgroundTint="@color/color_green"-->
-<!--            android:text="Running"-->
-<!--            android:textSize="28dp"-->
-<!--            android:fontFamily="@font/mont_semi_bold"-->
-<!--            app:icon="@drawable/baseline_directions_run_24"-->
-<!--            app:iconSize="40dp"-->
-<!--            app:iconTint="@color/color_white"-->
-<!--            android:textColor="@color/color_white"-->
-<!--            android:padding="16dp"-->
-<!--            android:layout_marginHorizontal="10dp"-->
-<!--            android:layout_marginVertical="10dp"-->
-<!--            android:contentDescription="Running" />-->
-
-<!--        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
-<!--            android:id="@+id/choose_bicycle_btn"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:backgroundTint="@color/color_green"-->
-<!--            android:text="Bicycling"-->
-<!--            android:textSize="28dp"-->
-<!--            android:fontFamily="@font/mont_semi_bold"-->
-<!--            app:icon="@drawable/baseline_directions_bike_24"-->
-<!--            app:iconSize="40dp"-->
-<!--            app:iconTint="@color/color_white"-->
-<!--            android:textColor="@color/color_white"-->
-<!--            android:padding="16dp"-->
-<!--            android:layout_marginHorizontal="10dp"-->
-<!--            android:layout_marginVertical="10dp"-->
-<!--            android:contentDescription="Bicycling" />-->
-<!--    </LinearLayout>-->
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -106,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="80dp"
-        android:paddingBottom="80dp"
+        android:paddingBottom="100dp"
         android:paddingHorizontal="20dp"
         android:backgroundTint="@color/color_white"
         android:clipToPadding="false"
