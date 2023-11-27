@@ -6,6 +6,7 @@ import com.main.server.utils.dto.WeeklyExerciseDto;
 import com.main.server.utils.enums.ExerciseType;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ExerciseService {
 
@@ -14,5 +15,5 @@ public interface ExerciseService {
     SaveExerciseAndCompetitionDto saveExercise(SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto,
                       Long userId);
 
-    List<WeeklyExerciseDto> getWeeklyResult(ExerciseType exerciseType, Long userId);
+    Map<ExerciseType, List<WeeklyExerciseDto>> getWeeklyResult(Long userId);
 }

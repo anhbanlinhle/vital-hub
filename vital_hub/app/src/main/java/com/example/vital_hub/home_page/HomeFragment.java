@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import static com.example.vital_hub.client.spring.controller.Api.initGetPostResponse;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,6 +25,9 @@ import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -126,20 +130,34 @@ public class HomeFragment extends Fragment {
         Api.getPostResponse.clone().enqueue(new Callback<List<HomePagePost>>() {
             @Override
             public void onResponse(Call<List<HomePagePost>> call, Response<List<HomePagePost>> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body() != null) {
                     postResponse = response.body();
-                    for(HomePagePost post : postResponse) {
-                        arrayList.add(post);
-                    }
+                    arrayList.addAll(postResponse);
                     recyclerAdapter.notifyItemRangeChanged(arrayList.size() - postResponse.size(), postResponse.size());
+                } else {
+                    openPopup("Error", "Fail to load post", Styles.FAILED);
                 }
             }
 
             @Override
             public void onFailure(Call<List<HomePagePost>> call, Throwable t) {
-                Log.e("Error", t.getMessage());
+                openPopup("Error", "Fail to load post", Styles.FAILED);
             }
         });
+    }
+
+    private void openPopup(String heading, String description, Styles styles) {
+        PopupDialog.getInstance(this.getContext())
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
     }
 
     private void getMoreData() {
