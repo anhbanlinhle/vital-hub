@@ -30,6 +30,7 @@ import com.example.vital_hub.client.spring.objects.CountResponse;
 import com.example.vital_hub.client.spring.objects.ProfileDetailResponse;
 import com.example.vital_hub.client.spring.objects.ProfileResponse;
 import com.example.vital_hub.friend.FriendList;
+import com.example.vital_hub.statistics.StatisticsActivity;
 import com.example.vital_hub.test.TestMain;
 
 import java.util.HashMap;
@@ -174,7 +175,7 @@ public class ProfileFragment extends Fragment {
         statistic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getBaseContext(), TestPage.class);
+                Intent intent = new Intent(getActivity().getBaseContext(), StatisticsActivity.class);
                 startActivity(intent);
             }
         });
