@@ -115,7 +115,7 @@ public class ExerciseGeneralFragment extends Fragment implements CardStackListen
         int topPosition = manager.getTopPosition();
         Items item = adapter.getItems().get(topPosition - 1);
         String name = item.getName();
-        if(direction == Direction.Left) {
+        if(direction == Direction.Right) {
             if (name.equals("Gym")) {
                 Intent intent = new Intent(getActivity(), ChooseExerciseActivity.class);
                 startActivity(intent);
