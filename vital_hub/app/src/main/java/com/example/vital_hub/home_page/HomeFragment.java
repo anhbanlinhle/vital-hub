@@ -150,6 +150,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void openPopup(String heading, String description, Styles styles) {
+        if (getContext() == null) {
+            return;
+        }
         PopupDialog.getInstance(requireContext())
                 .setStyle(styles)
                 .setHeading(heading)
