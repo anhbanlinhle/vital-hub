@@ -18,6 +18,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ import android.widget.Toast;
 import com.bosphere.fadingedgelayout.FadingEdgeLayout;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
+import com.example.vital_hub.client.spring.objects.CompetitionDurationResponse;
 import com.example.vital_hub.client.spring.objects.CompetitionMinDetailResponse;
 import com.example.vital_hub.client.spring.objects.SaveExerciseAndCompetitionDto;
 import com.example.vital_hub.competition.data.CompetitionMinDetail;
@@ -94,17 +96,23 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
     BottomAppBar bottomBar;
     ConstraintLayout navStats;
     LinearLayout cardStats;
+    private TextView durationView;
+    private TextView distanceView;
+    private TextView caloView;
     static Marker currentLocationMarker;
 
     private SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto;
+    private CountDownTimer competitionTimer;
 
     private Long competitionId;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    private static double distanceValue;
+    private static double distanceValue = 0;
 
-    private static double caloValue;
+    private static double caloValue = 0;
+
+    String duration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +145,11 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
         distance = findViewById(R.id.distance);
         calories = findViewById(R.id.calories);
         cardStats = findViewById(R.id.card_stats);
+        durationView = findViewById(R.id.duration);
+        caloView = findViewById(R.id.calo_view);
+        distanceView = findViewById(R.id.distance_view);
+
+        saveExerciseAndCompetitionDto = new SaveExerciseAndCompetitionDto();
 
         Window window = this.getWindow();
 
@@ -176,7 +189,14 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
 
                     initValueSaveDto();
 
-                    startService(new Intent(BicycleTrackerActivity.this, BicycleService.class));
+                    Intent intent = new Intent(BicycleTrackerActivity.this, BicycleService.class);
+                    if (competitionId != null) {
+                        handleWhenCompeting();
+                        intent.putExtra("duration", duration);
+                    }
+
+                    startService(intent);
+
                 } else {
                     saveExerciseAndCompetitionDto.setCalo((float) caloValue);
                     saveExerciseAndCompetitionDto.setDistance((float) distanceValue);
@@ -198,6 +218,9 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
                                 prefs.edit().putString("tracking", "stop").apply();
                                 stopService(new Intent(BicycleTrackerActivity.this, BicycleService.class));
                                 recordTrackingButton();
+                                if (competitionTimer != null) {
+                                    competitionTimer.cancel();
+                                }
                                 handleSubmitResult();
                             }
 
@@ -218,12 +241,12 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
         String tracking = prefs.getString("tracking", "stop");
         if (tracking.equals("stop")) {
-            record.setImageResource(R.drawable.bicycle_stop);
+            record.setImageResource(R.drawable.bicycle_start);
             record.setColorFilter(Color.parseColor("#FFFFFF"));
             record.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1DB954")));
         }
         else {
-            record.setImageResource(R.drawable.bicycle_start);
+            record.setImageResource(R.drawable.bicycle_stop);
             record.setColorFilter(Color.parseColor("#1DB954"));
             record.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
         }
@@ -423,6 +446,9 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
             competitionTitle.setText(selected, false);
 
             if (position == 0) {
+                duration = null;
+                durationView.setText("Duration (HH:mm:ss)");
+                competitionId = null;
                 return;
             }
             int splitPos = 0;
@@ -436,6 +462,8 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
             if (saveExerciseAndCompetitionDto != null) {
                 saveExerciseAndCompetitionDto.setCompetitionId(competitionId);
             }
+
+            getCompetitionDuration(competitionId);
 
             if (position != 0) {
 //                isCompeting = true;
@@ -474,6 +502,9 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
     }
 
     private void handleSubmitResult() {
+        distanceView.setText(String.format("%.02f", saveExerciseAndCompetitionDto.getDistance()) + " meters");
+        caloView.setText(String.format("%.02f", saveExerciseAndCompetitionDto.getCalo()) + " calories");
+
         if (saveExerciseAndCompetitionDto.getCompetitionId() != null) {
             Api.saveResultForCompetition(headers, saveExerciseAndCompetitionDto);
 
@@ -532,5 +563,59 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
                         super.onDismissClicked(dialog);
                     }
                 });
+    }
+
+    private void getCompetitionDuration(Long id) {
+
+        Api.initGetCompetitionDuration(headers, id);
+        Api.getCompetitionDuration.clone().enqueue(new Callback<CompetitionDurationResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<CompetitionDurationResponse> call, @NonNull Response<CompetitionDurationResponse> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        duration = response.body().getDuration();
+                        durationView.setText(duration);
+//                        builder = competingBuilder;
+//                        competingNotificationLayout.setTextViewText(R.id.steps, stepCountTextView.getText().toString());
+//                        competingNotificationLayout.setTextViewText(R.id.time_left, timerTextView.getText().toString());
+//                        notificationManager.notify(666, builder.build());
+                    }
+                } else {
+                    openPopup("Oh no", response.message(), Styles.FAILED);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<CompetitionDurationResponse> call, @NonNull Throwable t) {
+                openPopup("Oh no", t.getMessage(), Styles.FAILED);
+            }
+        });
+    }
+
+    public long convertTimeStringToMillis(String timeString) {
+        String[] parts = timeString.split(":");
+        int hours = Integer.parseInt(parts[0]);
+        int minutes = Integer.parseInt(parts[1]);
+        int seconds = Integer.parseInt(parts[2]);
+
+        return ((hours * 60L + minutes) * 60 + seconds) * 1000L;
+    }
+
+    private void handleWhenCompeting() {
+        Long millis = convertTimeStringToMillis(duration);
+        competitionTimer = new CountDownTimer(millis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+
+            @Override
+            public void onFinish() {
+                durationView.setText("Duration (HH:mm:ss)");
+//                isRunningCompetition = false;
+//                startOrStopButton.setBackground(getDrawable(R.drawable.start_round_button));
+//                circularSeekBar.setProgress(progress);
+                handleSubmitResult();
+            }
+        }.start();
     }
 }

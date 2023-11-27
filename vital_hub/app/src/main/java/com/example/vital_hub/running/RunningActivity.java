@@ -95,7 +95,9 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
     NotificationManager notificationManager;
     RemoteViews competingNotificationLayout, runningNotificationLayout;
     NotificationCompat.Builder builder, competingBuilder, runningBuilder;
-    SaveExerciseAndCompetitionDto saveExerciseDto, saveExerciseForCompetitionDto;
+    SaveExerciseAndCompetitionDto saveExerciseForCompetitionDto;
+
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,19 +194,8 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
                                 notificationManager.notify(666, builder.build());
 
                                 // Save exercise
-                                saveExerciseForCompetitionDto = new SaveExerciseAndCompetitionDto();
-                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                                saveResult();
 
-                                saveExerciseForCompetitionDto.setStartedAt(LocalDateTime.now().format(formatter));
-                                saveExerciseForCompetitionDto.setType(ExerciseType.RUNNING);
-                                saveExerciseForCompetitionDto.setStep(compeStepCount);
-                                float cal = compeStepCount * 0.065f;
-                                saveExerciseForCompetitionDto.setCalo(cal);
-                                saveExerciseForCompetitionDto.setCompetitionId(currentCompetitionId);
-                                saveExerciseAndCompetition(saveExerciseForCompetitionDto);
-
-                                // Success popup
-                                openPopup("Congratulate", "You have done your exercise!", Styles.SUCCESS);
                             }
 
                             @Override
@@ -301,19 +292,7 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
                             notificationManager.notify(666, builder.build());
 
                             // Save exercise
-                            saveExerciseForCompetitionDto = new SaveExerciseAndCompetitionDto();
-                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-                            saveExerciseForCompetitionDto.setStartedAt(LocalDateTime.now().format(formatter));
-                            saveExerciseForCompetitionDto.setType(ExerciseType.RUNNING);
-                            saveExerciseForCompetitionDto.setStep(compeStepCount);
-                            float cal = compeStepCount * 0.065f;
-                            saveExerciseForCompetitionDto.setCalo(cal);
-                            saveExerciseForCompetitionDto.setCompetitionId(currentCompetitionId);
-                            saveExerciseAndCompetition(saveExerciseForCompetitionDto);
-
-                            // Success popup
-                            openPopup("Congratulate", "You have done your exercise!", Styles.SUCCESS);
+                            saveResult();
                         }
 
                         @Override
@@ -657,7 +636,7 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
                 isRunningCompetition = false;
                 startOrStopButton.setBackground(getDrawable(R.drawable.start_round_button));
                 circularSeekBar.setProgress(progress);
-                openPopup("Finish", "Time over!", Styles.SUCCESS);
+                saveResult();
             }
         }.start();
     }
@@ -793,6 +772,8 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (!response.isSuccessful()) {
                     openPopup("Oh no", response.message(), Styles.FAILED);
+                } else {
+                    openPopup("Congratulation!", "You have done your exercise!", Styles.SUCCESS);
                 }
             }
 
@@ -817,7 +798,17 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
                 });
     }
 
+    private void saveResult() {
+        saveExerciseForCompetitionDto = new SaveExerciseAndCompetitionDto();
 
+        saveExerciseForCompetitionDto.setStartedAt(LocalDateTime.now().format(formatter));
+        saveExerciseForCompetitionDto.setType(ExerciseType.RUNNING);
+        saveExerciseForCompetitionDto.setStep(compeStepCount);
+        float cal = compeStepCount * 0.065f;
+        saveExerciseForCompetitionDto.setCalo(cal);
+        saveExerciseForCompetitionDto.setCompetitionId(currentCompetitionId);
+        saveExerciseAndCompetition(saveExerciseForCompetitionDto);
+    }
 }
 
 
