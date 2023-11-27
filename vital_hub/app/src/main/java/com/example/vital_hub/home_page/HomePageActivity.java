@@ -69,9 +69,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
 
         hpRecycler = findViewById(R.id.home_page_recycler);
 
-        logout_button = findViewById(R.id.logout_button);
         addPostButton = findViewById(R.id.add_post_button);
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home);
 
