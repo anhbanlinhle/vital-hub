@@ -65,12 +65,12 @@ public class ExerciseGeneralFragment extends Fragment implements CardStackListen
 
     private void setUpCardStack(View view) {
         manager = new CardStackLayoutManager(requireContext(), this);
-        manager.setStackFrom(StackFrom.None);
+        manager.setStackFrom(StackFrom.TopAndLeft);
         manager.setVisibleCount(4);
         manager.setTranslationInterval(8.0f);
-        manager.setScaleInterval(0.95f);
+        manager.setScaleInterval(0.9f);
         manager.setSwipeThreshold(0.3f);
-        manager.setMaxDegree(0.0f);
+        manager.setMaxDegree(30.0f);
         manager.setDirections(Direction.HORIZONTAL);
         manager.setCanScrollHorizontal(true);
         manager.setCanScrollVertical(false);
