@@ -81,7 +81,12 @@ public class ProfileFragment extends Fragment {
 
     private void signOut() {
         oneTapClient.signOut();
+        prefs = this.getActivity().getSharedPreferences("UserData", MODE_PRIVATE);
+        String server = prefs.getString("server", null);
         SharedPreferences.Editor editor = getActivity().getSharedPreferences("UserData", MODE_PRIVATE).edit();
+        editor.clear();
+        editor.apply();
+        editor.putString("server", server);
         editor.clear();
         editor.apply();
         Intent intent = new Intent(getActivity().getBaseContext(), LoginScreen.class);
