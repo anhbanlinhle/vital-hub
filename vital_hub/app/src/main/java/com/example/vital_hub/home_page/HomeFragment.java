@@ -107,7 +107,7 @@ public class HomeFragment extends Fragment {
         addPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity().getBaseContext(), AddPostActivity.class);
+                Intent intent = new Intent(requireContext(), AddPostActivity.class);
                 startActivity(intent);
             }
         });

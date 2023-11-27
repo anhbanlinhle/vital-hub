@@ -104,13 +104,13 @@ public class ProfileFragment extends Fragment {
                     fetchedUserProfileDetail = profileDetailResponse.getData();
                     name.setText(fetchedUserProfileDetail.getName());
                     description.setText(fetchedUserProfileDetail.getUserDetail().getDescription());
-                    Glide.with(getActivity().getBaseContext()).load(fetchedUserProfileDetail.getAvatar()).into(profileImage);
+                    Glide.with(requireContext()).load(fetchedUserProfileDetail.getAvatar()).into(profileImage);
                 }
             }
 
             @Override
             public void onFailure(Call<ProfileDetailResponse> call, Throwable t) {
-                Toast.makeText(getActivity().getBaseContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -129,7 +129,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onFailure(Call<CountResponse> call, Throwable t) {
-                Toast.makeText(getActivity().getBaseContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -159,14 +159,14 @@ public class ProfileFragment extends Fragment {
         openOthersProfileTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getBaseContext(), OthersProfileActivity.class);
+                Intent intent = new Intent(requireContext(), OthersProfileActivity.class);
                 startActivity(intent);
             }
         });
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getBaseContext(), TestPage.class);
+                Intent intent = new Intent(requireContext(), TestPage.class);
                 startActivity(intent);
             }
         });
@@ -174,7 +174,7 @@ public class ProfileFragment extends Fragment {
         statistic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getBaseContext(), TestPage.class);
+                Intent intent = new Intent(requireContext(), TestPage.class);
                 startActivity(intent);
             }
         });
@@ -182,28 +182,28 @@ public class ProfileFragment extends Fragment {
         friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getBaseContext(), FriendList.class);
+                Intent intent = new Intent(requireContext(), FriendList.class);
                 startActivity(intent);
             }
         });
         profileDetailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getBaseContext(), ProfileDetail.class);
+                Intent intent = new Intent(requireContext(), ProfileDetail.class);
                 startActivity(intent);
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(getActivity().getBaseContext(), setting);
+                PopupMenu popupMenu = new PopupMenu(requireContext(), setting);
                 popupMenu.getMenuInflater().inflate(R.menu.setting_menu, popupMenu.getMenu());
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         if (menuItem.getItemId() == R.id.test) {
-                            Intent intent = new Intent(getActivity().getBaseContext(), TestMain.class);
+                            Intent intent = new Intent(requireContext(), TestMain.class);
                             startActivity(intent);
                             return true;
                         } else if (menuItem.getItemId() == R.id.logout) {
@@ -216,9 +216,9 @@ public class ProfileFragment extends Fragment {
                 popupMenu.show();
             }
         });
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ((AppCompatActivity)requireActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity)requireActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ActionBar actionBar = ((AppCompatActivity)requireActivity()).getSupportActionBar();
 
         return view;
     }
