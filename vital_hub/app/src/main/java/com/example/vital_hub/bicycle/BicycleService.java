@@ -43,9 +43,6 @@ public class BicycleService extends Service {
     private LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
-            String location = "Latitude : " + locationResult.getLastLocation().getLatitude() +
-
-                    "\nLongitude : " + locationResult.getLastLocation().getLongitude();
             latitude = locationResult.getLastLocation().getLatitude();
             longitude = locationResult.getLastLocation().getLongitude();
 
@@ -71,7 +68,6 @@ public class BicycleService extends Service {
             getResultsAndDisplay(locationList);
 
             updateMapCamera();
-//            Toast.makeText(BicycleService.this, location, Toast.LENGTH_SHORT).show();
         }
     };
 
