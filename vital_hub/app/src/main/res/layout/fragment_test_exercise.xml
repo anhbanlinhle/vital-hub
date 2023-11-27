@@ -26,19 +26,4 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"/>
 
-    <com.yuyakaido.android.cardstackview.CardStackView
-        android:id="@+id/card_stack_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="80dp"
-        android:paddingBottom="100dp"
-        android:paddingHorizontal="20dp"
-        android:backgroundTint="@color/color_white"
-        android:clipToPadding="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.866" />
 </androidx.constraintlayout.widget.ConstraintLayout>
