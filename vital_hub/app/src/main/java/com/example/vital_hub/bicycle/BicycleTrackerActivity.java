@@ -18,6 +18,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,6 +102,7 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
     static Marker currentLocationMarker;
 
     private SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto;
+    private CountDownTimer competitionTimer;
 
     private Long competitionId;
 
@@ -187,7 +189,14 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
 
                     initValueSaveDto();
 
-                    startService(new Intent(BicycleTrackerActivity.this, BicycleService.class));
+                    Intent intent = new Intent(BicycleTrackerActivity.this, BicycleService.class);
+                    if (competitionId != null) {
+                        handleWhenCompeting();
+                        intent.putExtra("duration", duration);
+                    }
+
+                    startService(intent);
+
                 } else {
                     saveExerciseAndCompetitionDto.setCalo((float) caloValue);
                     saveExerciseAndCompetitionDto.setDistance((float) distanceValue);
@@ -209,6 +218,9 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
                                 prefs.edit().putString("tracking", "stop").apply();
                                 stopService(new Intent(BicycleTrackerActivity.this, BicycleService.class));
                                 recordTrackingButton();
+                                if (competitionTimer != null) {
+                                    competitionTimer.cancel();
+                                }
                                 handleSubmitResult();
                             }
 
@@ -401,6 +413,9 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
             competitionTitle.setText(selected, false);
 
             if (position == 0) {
+                duration = null;
+                durationView.setText("Duration (HH:mm:ss)");
+                competitionId = null;
                 return;
             }
             int splitPos = 0;
@@ -544,12 +559,30 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
         });
     }
 
-    private String convertMillisToTimeString(long milliseconds) {
-        long seconds = milliseconds / 1000;
-        long hours = seconds / 3600;
-        long minutes = (seconds % 3600) / 60;
-        seconds = seconds % 60;
+    public long convertTimeStringToMillis(String timeString) {
+        String[] parts = timeString.split(":");
+        int hours = Integer.parseInt(parts[0]);
+        int minutes = Integer.parseInt(parts[1]);
+        int seconds = Integer.parseInt(parts[2]);
 
-        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        return ((hours * 60L + minutes) * 60 + seconds) * 1000L;
+    }
+
+    private void handleWhenCompeting() {
+        Long millis = convertTimeStringToMillis(duration);
+        competitionTimer = new CountDownTimer(millis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+
+            @Override
+            public void onFinish() {
+                durationView.setText("Duration (HH:mm:ss)");
+//                isRunningCompetition = false;
+//                startOrStopButton.setBackground(getDrawable(R.drawable.start_round_button));
+//                circularSeekBar.setProgress(progress);
+                handleSubmitResult();
+            }
+        }.start();
     }
 }
