@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.TransitionInflater;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -74,6 +75,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TransitionInflater inflater = TransitionInflater.from(requireContext());
+        setEnterTransition(inflater.inflateTransition(R.transition.fade));
     }
 
     @Override
@@ -84,8 +87,6 @@ public class HomeFragment extends Fragment {
         arrayList = new ArrayList<>();
 
         hpRecycler = view.findViewById(R.id.home_page_recycler);
-
-        logout_button = view.findViewById(R.id.logout_button);
         addPostButton = view.findViewById(R.id.add_post_button);
 
         recyclerAdapter = new HpRecyclerAdapter(arrayList);
@@ -111,7 +112,7 @@ public class HomeFragment extends Fragment {
         addPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity().getBaseContext(), AddPostActivity.class);
+                Intent intent = new Intent(requireContext(), AddPostActivity.class);
                 startActivity(intent);
             }
         });
@@ -147,7 +148,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void openPopup(String heading, String description, Styles styles) {
-        PopupDialog.getInstance(this.getContext())
+        if (getContext() == null) {
+            return;
+        }
+        PopupDialog.getInstance(requireContext())
                 .setStyle(styles)
                 .setHeading(heading)
                 .setDescription(description)

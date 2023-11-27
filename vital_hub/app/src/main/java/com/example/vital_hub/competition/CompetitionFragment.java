@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.TransitionInflater;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -66,7 +67,8 @@ public class CompetitionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        TransitionInflater inflater = TransitionInflater.from(requireContext());
+        setEnterTransition(inflater.inflateTransition(R.transition.fade));
     }
 
     @Override
@@ -75,7 +77,7 @@ public class CompetitionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_test_competition, container, false);
 
         // Helper
-        KeyboardHelper.setupKeyboardHiding(this.getActivity());
+        KeyboardHelper.setupKeyboardHiding(requireActivity());
 
         // Init header for request
         initHeaderForRequest();

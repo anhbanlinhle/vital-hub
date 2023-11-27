@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.transition.Explode;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -25,7 +26,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Window window = this.getWindow();
+        window.requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+        window.setEnterTransition(new Explode());
+        window.setExitTransition(new Explode());
+
         setContentView(R.layout.activity_main);
+
 
         bottomNavigation = findViewById(R.id.bottomNavigation);
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.nav_home));
@@ -34,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.nav_profile));
 
         mainLayout = findViewById(R.id.main_layout);
-
-        Window window = this.getWindow();
 
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);

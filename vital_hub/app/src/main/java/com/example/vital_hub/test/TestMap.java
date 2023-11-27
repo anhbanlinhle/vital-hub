@@ -140,23 +140,23 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
         @Override
         public void onReceive(Context context, Intent intent) {
             if (LocationResult.hasResult(intent)) {
-                LocationResult locationResult = LocationResult.extractResult(intent);
-                if (locationResult != null) {
-                    for (Location location : locationResult.getLocations()) {
-                        latitude = location.getLatitude();
-                        longitude = location.getLongitude();
-                        if (count == null)
-                            count = 0;
-                        else {
-                            count++;
-                            Log.i("count", String.valueOf(count));
-
-                        }
-                        lat.setText(String.valueOf(latitude));
-                        lng.setText(String.valueOf(longitude));
-                        updateMapCamera();
-                    }
-                }
+//                LocationResult locationResult = LocationResult.extractResult(intent);
+//                if (locationResult != null) {
+//                    for (Location location : locationResult.getLocations()) {
+//                        latitude = location.getLatitude();
+//                        longitude = location.getLongitude();
+//                        if (count == null)
+//                            count = 0;
+//                        else {
+//                            count++;
+//                            Log.i("count", String.valueOf(count));
+//
+//                        }
+//                        lat.setText(String.valueOf(latitude));
+//                        lng.setText(String.valueOf(longitude));
+//                        updateMapCamera();
+//                    }
+//                }
             }
         }
     }
@@ -168,11 +168,11 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
                 .setFastestInterval(50)
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        Intent intent = new Intent(this, LocationReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        fusedLocationClient.requestLocationUpdates(locationRequest, pendingIntent);
+//        Intent intent = new Intent(this, LocationReceiver.class);
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+//        fusedLocationClient.requestLocationUpdates(locationRequest, pendingIntent);
     }
 
     protected static void updateMapCamera() {
