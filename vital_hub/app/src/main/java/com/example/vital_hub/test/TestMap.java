@@ -140,23 +140,23 @@ public class TestMap extends AppCompatActivity implements NavigationBarView.OnIt
         @Override
         public void onReceive(Context context, Intent intent) {
             if (LocationResult.hasResult(intent)) {
-                LocationResult locationResult = LocationResult.extractResult(intent);
-                if (locationResult != null) {
-                    for (Location location : locationResult.getLocations()) {
-                        latitude = location.getLatitude();
-                        longitude = location.getLongitude();
-                        if (count == null)
-                            count = 0;
-                        else {
-                            count++;
-                            Log.i("count", String.valueOf(count));
-
-                        }
-                        lat.setText(String.valueOf(latitude));
-                        lng.setText(String.valueOf(longitude));
-                        updateMapCamera();
-                    }
-                }
+//                LocationResult locationResult = LocationResult.extractResult(intent);
+//                if (locationResult != null) {
+//                    for (Location location : locationResult.getLocations()) {
+//                        latitude = location.getLatitude();
+//                        longitude = location.getLongitude();
+//                        if (count == null)
+//                            count = 0;
+//                        else {
+//                            count++;
+//                            Log.i("count", String.valueOf(count));
+//
+//                        }
+//                        lat.setText(String.valueOf(latitude));
+//                        lng.setText(String.valueOf(longitude));
+//                        updateMapCamera();
+//                    }
+//                }
             }
         }
     }
