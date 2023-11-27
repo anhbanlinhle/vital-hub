@@ -147,7 +147,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void openPopup(String heading, String description, Styles styles) {
-        PopupDialog.getInstance(this.getContext())
+        PopupDialog.getInstance(requireContext())
                 .setStyle(styles)
                 .setHeading(heading)
                 .setDescription(description)
