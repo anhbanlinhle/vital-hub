@@ -37,6 +37,8 @@ android {
 }
 
 dependencies {
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("com.yuyakaido.android:card-stack-view:2.3.4")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("com.saadahmedev.popup-dialog:popup-dialog:1.0.5")
     implementation("com.etebarian:meow-bottom-navigation:1.2.0")

@@ -3,28 +3,38 @@ package com.example.vital_hub.exercises;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.view.animation.LinearInterpolator;
+
 
 import com.example.vital_hub.R;
 import com.example.vital_hub.bicycle.BicycleTrackerActivity;
+import com.example.vital_hub.exercises.category.CardStackAdapter;
+import com.example.vital_hub.exercises.category.Items;
+import com.example.vital_hub.exercises.category.ItemsDiffCallback;
 import com.example.vital_hub.pushup.PushupVideoScan;
 import com.example.vital_hub.running.RunningActivity;
+import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
+import com.yuyakaido.android.cardstackview.CardStackListener;
+import com.yuyakaido.android.cardstackview.CardStackView;
+import com.yuyakaido.android.cardstackview.Direction;
+import com.yuyakaido.android.cardstackview.StackFrom;
+import com.yuyakaido.android.cardstackview.SwipeableMethod;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ExerciseGeneralFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class ExerciseGeneralFragment extends Fragment {
-    private ImageButton chooseGymBtn;
-    private ImageButton chooseRunBtn;
-    private ImageButton chooseBicycleBtn;
-    private ImageButton choosePushupBtn;
+
     public ExerciseGeneralFragment() {
         // Required empty public constructor
     }
@@ -41,31 +51,11 @@ public class ExerciseGeneralFragment extends Fragment {
 
     }
 
-    private void btnBinding() {
-        chooseGymBtn.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity().getBaseContext(), ChooseExerciseActivity.class));
-        });
-        choosePushupBtn.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity().getBaseContext(), PushupVideoScan.class));
-        });
-        chooseBicycleBtn.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity().getBaseContext(), BicycleTrackerActivity.class));
-        });
-        chooseRunBtn.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity().getBaseContext(), RunningActivity.class));
-        });
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_test_exercise, container, false);
-        chooseGymBtn = view.findViewById(R.id.choose_gym_btn);
-        chooseRunBtn = view.findViewById(R.id.choose_run_btn);
-        choosePushupBtn = view.findViewById(R.id.choose_pushup_btn);
-        chooseBicycleBtn = view.findViewById(R.id.choose_bicycle_btn);
 
-        btnBinding();
         return view;
     }
 }

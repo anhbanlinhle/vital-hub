@@ -75,7 +75,7 @@ public class CompetitionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_test_competition, container, false);
 
         // Helper
-        KeyboardHelper.setupKeyboardHiding(this.getActivity());
+        KeyboardHelper.setupKeyboardHiding(requireActivity());
 
         // Init header for request
         initHeaderForRequest();
