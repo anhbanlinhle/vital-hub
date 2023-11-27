@@ -77,7 +77,6 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         TransitionInflater inflater = TransitionInflater.from(requireContext());
         setEnterTransition(inflater.inflateTransition(R.transition.fade));
-        setExitTransition(inflater.inflateTransition(R.transition.fade));
     }
 
     @Override
