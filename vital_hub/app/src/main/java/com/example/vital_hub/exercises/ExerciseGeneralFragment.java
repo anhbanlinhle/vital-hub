@@ -69,8 +69,8 @@ public class ExerciseGeneralFragment extends Fragment implements CardStackListen
         manager.setVisibleCount(4);
         manager.setTranslationInterval(8.0f);
         manager.setScaleInterval(0.9f);
-        manager.setSwipeThreshold(0.3f);
-        manager.setMaxDegree(30.0f);
+        manager.setSwipeThreshold(0.1f);
+        manager.setMaxDegree(45.0f);
         manager.setDirections(Direction.HORIZONTAL);
         manager.setCanScrollHorizontal(true);
         manager.setCanScrollVertical(false);
@@ -100,8 +100,8 @@ public class ExerciseGeneralFragment extends Fragment implements CardStackListen
         List<Items> items = new ArrayList<>();
         items.add(new Items("Gym", "Gym"));
         items.add(new Items("Running", "Running"));
-        items.add(new Items("Bicycle", "Bicycle"));
-        items.add(new Items("Pushup", "Pushup"));
+        items.add(new Items("Bicycling", "Bicycle"));
+        items.add(new Items("Push Up", "Pushup"));
         return items;
     }
 

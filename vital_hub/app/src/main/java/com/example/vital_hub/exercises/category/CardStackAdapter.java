@@ -29,7 +29,19 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
     public void onBindViewHolder(CardStackAdapter.ViewHolder holder, int position) {
         Items item = items.get(position);
         holder.name.setText(item.getName());
-        holder.description.setText(item.getDescription());
+//        if (item.getDescription() == "Gym") {
+//            holder.description.setCompoundDrawablesWithIntrinsicBounds(R.drawable.exercise_weight_lift, 0, 0, 0);
+//        }
+//        else if (item.getDescription() == "Running") {
+//            holder.description.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_directions_run_24_white, 0, 0, 0);
+//        }
+//        else if (item.getDescription() == "Bicycle") {
+//            holder.description.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_directions_bike_24_white, 0, 0, 0);
+//        }
+//        else if (item.getDescription() == "Pushup") {
+//            holder.description.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pushup_pose, 0, 0, 0);
+//        }
+
     }
 
     @Override
