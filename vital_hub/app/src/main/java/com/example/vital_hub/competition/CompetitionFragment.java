@@ -193,6 +193,9 @@ public class CompetitionFragment extends Fragment {
         // Get competition list
         competitions = new ArrayList<>();
         competitionList = view.findViewById(R.id.competition_list);
+        int bottomPadding = getResources().getDimensionPixelSize(R.dimen.bottom_padding);
+        BottomPaddingDecoration itemDecoration = new BottomPaddingDecoration(bottomPadding);
+        competitionList.addItemDecoration(itemDecoration);
         competitionList.setHasFixedSize(true);
         competitionListAdapter = new CompetitionListAdapter(competitions, isJoined, isCreated);
         competitionList.setAdapter(competitionListAdapter);
@@ -214,6 +217,16 @@ public class CompetitionFragment extends Fragment {
                             fetchOwnCompetitionList(searchCompetition.getText().toString(), limit, offset);
                         }
                         else fetchCompetitionList(isJoined, searchCompetition.getText().toString(), limit, offset);
+                    }
+                    @Override
+                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+
+//                        if (!recyclerView.canScrollVertically(1)) {
+//                            recyclerView.setPadding(0, 0, 0, bottomPadding);
+//                        } else {
+//                            recyclerView.setPadding(0, 0, 0, 0);
+//                        }
                     }
                 }
         );
