@@ -87,6 +87,10 @@ public class HomeFragment extends Fragment {
         arrayList = new ArrayList<>();
 
         hpRecycler = view.findViewById(R.id.home_page_recycler);
+        int bottomPadding = getResources().getDimensionPixelSize(R.dimen.bottom_padding);
+        BottomPaddingDecoration itemDecoration = new BottomPaddingDecoration(bottomPadding);
+        hpRecycler.addItemDecoration(itemDecoration);
+
         addPostButton = view.findViewById(R.id.add_post_button);
 
         recyclerAdapter = new HpRecyclerAdapter(arrayList);
@@ -105,6 +109,11 @@ public class HomeFragment extends Fragment {
                         isLoading = true;
                         getMoreData();
                     }
+                }
+                if (!recyclerView.canScrollVertically(1)) {
+                    recyclerView.setPadding(0, 0, 0, bottomPadding);
+                } else {
+                    recyclerView.setPadding(0, 0, 0, 0);
                 }
             }
         });
