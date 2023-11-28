@@ -1,5 +1,6 @@
 package com.example.vital_hub.history;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,9 @@ import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.competition.data.CompetitionAllDetail;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -79,6 +83,19 @@ public class CompetitionHistoryDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+    private void openPopup(String heading, String description, Styles styles) {
+        PopupDialog.getInstance(this)
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
     }
     private void initHeaderForRequest() {
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
@@ -162,7 +179,7 @@ public class CompetitionHistoryDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<CompetitionAllDetail> call, Throwable t) {
-
+                openPopup("Error", "Error code: " + t.getMessage(), Styles.FAILED);
             }
         });
     }

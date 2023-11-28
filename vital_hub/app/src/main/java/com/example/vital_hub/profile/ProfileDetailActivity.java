@@ -5,13 +5,13 @@ import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAnd
 import static com.example.vital_hub.client.spring.controller.Api.updateUserProfile;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -27,7 +27,6 @@ import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -37,6 +36,9 @@ import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.client.spring.objects.ProfileDetailResponse;
 import com.example.vital_hub.helper.KeyboardHelper;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -195,6 +197,8 @@ public class ProfileDetailActivity extends AppCompatActivity implements AdapterV
             }
         });
 
+
+
         //Set up new save TextView
         save = new TextView(this);
         save.setId(R.id.save);
@@ -333,6 +337,20 @@ public class ProfileDetailActivity extends AppCompatActivity implements AdapterV
         headers.put("Authorization", "Bearer " + jwt);
     }
 
+    private void openPopup(String heading, String description, Styles styles) {
+        PopupDialog.getInstance(this)
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
+    }
+
     private void initBodyForRequest() {
         newInfo = new UserDetail(
                 fetchedUserProfileDetail.getId(),
@@ -379,7 +397,7 @@ public class ProfileDetailActivity extends AppCompatActivity implements AdapterV
 
             @Override
             public void onFailure(Call<UserDetail> call, Throwable t) {
-                Log.d("Fail", t.getMessage());
+                openPopup("Error", "Error code: " + t.getMessage(), Styles.FAILED);
             }
         });
     }
@@ -424,7 +442,7 @@ public class ProfileDetailActivity extends AppCompatActivity implements AdapterV
 
             @Override
             public void onFailure(Call<ProfileDetailResponse> call, Throwable t) {
-                Toast.makeText(ProfileDetailActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                openPopup("Error", "Error code: " + t.getMessage(), Styles.FAILED);
             }
         });
     }
