@@ -5,7 +5,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 
 public class BicycleUtils {
-    private static final double CALORIES_BURNED_PER_KM = 0.05;
+    private static final double CALORIES_BURNED_PER_KM = 23;
     private static final double EARTH_RADIUS = 6371;
     public static class CyclingResults {
         public double distances;

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.TransitionInflater;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -66,7 +67,8 @@ public class CompetitionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        TransitionInflater inflater = TransitionInflater.from(requireContext());
+        setEnterTransition(inflater.inflateTransition(R.transition.fade));
     }
 
     @Override
@@ -75,7 +77,7 @@ public class CompetitionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_test_competition, container, false);
 
         // Helper
-        KeyboardHelper.setupKeyboardHiding(this.getActivity());
+        KeyboardHelper.setupKeyboardHiding(requireActivity());
 
         // Init header for request
         initHeaderForRequest();
@@ -191,6 +193,9 @@ public class CompetitionFragment extends Fragment {
         // Get competition list
         competitions = new ArrayList<>();
         competitionList = view.findViewById(R.id.competition_list);
+        int bottomPadding = getResources().getDimensionPixelSize(R.dimen.bottom_padding);
+        BottomPaddingDecoration itemDecoration = new BottomPaddingDecoration(bottomPadding);
+        competitionList.addItemDecoration(itemDecoration);
         competitionList.setHasFixedSize(true);
         competitionListAdapter = new CompetitionListAdapter(competitions, isJoined, isCreated);
         competitionList.setAdapter(competitionListAdapter);
@@ -212,6 +217,16 @@ public class CompetitionFragment extends Fragment {
                             fetchOwnCompetitionList(searchCompetition.getText().toString(), limit, offset);
                         }
                         else fetchCompetitionList(isJoined, searchCompetition.getText().toString(), limit, offset);
+                    }
+                    @Override
+                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+
+//                        if (!recyclerView.canScrollVertically(1)) {
+//                            recyclerView.setPadding(0, 0, 0, bottomPadding);
+//                        } else {
+//                            recyclerView.setPadding(0, 0, 0, 0);
+//                        }
                     }
                 }
         );

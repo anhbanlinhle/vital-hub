@@ -76,6 +76,7 @@ public class LoginScreen extends AppCompatActivity {
             intent.putExtra("email", email);
             intent.putExtra("name", name);
             startActivity(intent);
+            finish();
         }
 
         initGoogleSignInRequest();

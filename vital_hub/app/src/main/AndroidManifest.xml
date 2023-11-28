@@ -108,6 +108,9 @@
             android:name=".home_page.HomePageActivity"
             android:exported="true" />
         <activity
+            android:name=".statistics.StatisticsActivity"
+            android:exported="true" />
+        <activity
             android:name=".home_page.AddPostActivity"
             android:exported="true" />
         <activity

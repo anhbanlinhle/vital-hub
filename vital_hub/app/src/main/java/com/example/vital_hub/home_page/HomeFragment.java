@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import static com.example.vital_hub.client.spring.controller.Api.initGetPostResponse;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.TransitionInflater;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +26,9 @@ import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,6 +75,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TransitionInflater inflater = TransitionInflater.from(requireContext());
+        setEnterTransition(inflater.inflateTransition(R.transition.fade));
     }
 
     @Override
@@ -80,8 +87,10 @@ public class HomeFragment extends Fragment {
         arrayList = new ArrayList<>();
 
         hpRecycler = view.findViewById(R.id.home_page_recycler);
+        int bottomPadding = getResources().getDimensionPixelSize(R.dimen.bottom_padding);
+        BottomPaddingDecoration itemDecoration = new BottomPaddingDecoration(bottomPadding);
+        hpRecycler.addItemDecoration(itemDecoration);
 
-        logout_button = view.findViewById(R.id.logout_button);
         addPostButton = view.findViewById(R.id.add_post_button);
 
         recyclerAdapter = new HpRecyclerAdapter(arrayList);
@@ -101,13 +110,18 @@ public class HomeFragment extends Fragment {
                         getMoreData();
                     }
                 }
+                if (!recyclerView.canScrollVertically(1)) {
+                    recyclerView.setPadding(0, 0, 0, bottomPadding);
+                } else {
+                    recyclerView.setPadding(0, 0, 0, 0);
+                }
             }
         });
 
         addPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity().getBaseContext(), AddPostActivity.class);
+                Intent intent = new Intent(requireContext(), AddPostActivity.class);
                 startActivity(intent);
             }
         });
@@ -126,20 +140,37 @@ public class HomeFragment extends Fragment {
         Api.getPostResponse.clone().enqueue(new Callback<List<HomePagePost>>() {
             @Override
             public void onResponse(Call<List<HomePagePost>> call, Response<List<HomePagePost>> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body() != null) {
                     postResponse = response.body();
-                    for(HomePagePost post : postResponse) {
-                        arrayList.add(post);
-                    }
+                    arrayList.addAll(postResponse);
                     recyclerAdapter.notifyItemRangeChanged(arrayList.size() - postResponse.size(), postResponse.size());
+                } else {
+                    openPopup("Error", "Fail to load post", Styles.FAILED);
                 }
             }
 
             @Override
             public void onFailure(Call<List<HomePagePost>> call, Throwable t) {
-                Log.e("Error", t.getMessage());
+                openPopup("Error", "Fail to load post", Styles.FAILED);
             }
         });
+    }
+
+    private void openPopup(String heading, String description, Styles styles) {
+        if (getContext() == null) {
+            return;
+        }
+        PopupDialog.getInstance(requireContext())
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
     }
 
     private void getMoreData() {

@@ -20,6 +20,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.transition.TransitionInflater;
 
 import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
@@ -31,6 +32,7 @@ import com.example.vital_hub.client.spring.objects.ProfileDetailResponse;
 import com.example.vital_hub.client.spring.objects.ProfileResponse;
 import com.example.vital_hub.friend.FriendList;
 import com.example.vital_hub.history.CompetitionHistoryActivity;
+import com.example.vital_hub.statistics.StatisticsActivity;
 import com.example.vital_hub.test.TestMain;
 
 import java.util.HashMap;
@@ -74,12 +76,18 @@ public class UserProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        TransitionInflater inflater = TransitionInflater.from(requireContext());
+        setEnterTransition(inflater.inflateTransition(R.transition.fade));
     }
 
     private void signOut() {
         oneTapClient.signOut();
+        prefs = this.getActivity().getSharedPreferences("UserData", MODE_PRIVATE);
+        String server = prefs.getString("server", null);
         SharedPreferences.Editor editor = getActivity().getSharedPreferences("UserData", MODE_PRIVATE).edit();
+        editor.clear();
+        editor.apply();
+        editor.putString("server", server);
         editor.clear();
         editor.apply();
         Intent intent = new Intent(getActivity().getBaseContext(), LoginScreen.class);
@@ -105,13 +113,13 @@ public class UserProfileFragment extends Fragment {
                     fetchedUserProfileDetail = profileDetailResponse.getData();
                     name.setText(fetchedUserProfileDetail.getName());
                     description.setText(fetchedUserProfileDetail.getUserDetail().getDescription());
-                    Glide.with(getActivity().getBaseContext()).load(fetchedUserProfileDetail.getAvatar()).into(profileImage);
+                    Glide.with(requireContext()).load(fetchedUserProfileDetail.getAvatar()).into(profileImage);
                 }
             }
 
             @Override
             public void onFailure(Call<ProfileDetailResponse> call, Throwable t) {
-                Toast.makeText(getActivity().getBaseContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -130,7 +138,7 @@ public class UserProfileFragment extends Fragment {
 
             @Override
             public void onFailure(Call<CountResponse> call, Throwable t) {
-                Toast.makeText(getActivity().getBaseContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -160,14 +168,14 @@ public class UserProfileFragment extends Fragment {
         openOthersProfileTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getBaseContext(), OthersProfileActivity.class);
+                Intent intent = new Intent(requireContext(), OthersProfileActivity.class);
                 startActivity(intent);
             }
         });
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getBaseContext(), CompetitionHistoryActivity.class);
+                Intent intent = new Intent(requireContext(), CompetitionHistoryActivity.class);
                 startActivity(intent);
             }
         });
@@ -175,7 +183,7 @@ public class UserProfileFragment extends Fragment {
         statistic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getBaseContext(), TestPage.class);
+                Intent intent = new Intent(requireContext(), StatisticsActivity.class);
                 startActivity(intent);
             }
         });
@@ -183,28 +191,28 @@ public class UserProfileFragment extends Fragment {
         friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getBaseContext(), FriendList.class);
+                Intent intent = new Intent(requireContext(), FriendList.class);
                 startActivity(intent);
             }
         });
         profileDetailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getBaseContext(), ProfileDetailActivity.class);
+                Intent intent = new Intent(requireContext(), ProfileDetailActivity.class);
                 startActivity(intent);
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(getActivity().getBaseContext(), setting);
+                PopupMenu popupMenu = new PopupMenu(requireContext(), setting);
                 popupMenu.getMenuInflater().inflate(R.menu.setting_menu, popupMenu.getMenu());
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         if (menuItem.getItemId() == R.id.test) {
-                            Intent intent = new Intent(getActivity().getBaseContext(), TestMain.class);
+                            Intent intent = new Intent(requireContext(), TestMain.class);
                             startActivity(intent);
                             return true;
                         } else if (menuItem.getItemId() == R.id.logout) {
@@ -217,9 +225,9 @@ public class UserProfileFragment extends Fragment {
                 popupMenu.show();
             }
         });
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ((AppCompatActivity)requireActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity)requireActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ActionBar actionBar = ((AppCompatActivity)requireActivity()).getSupportActionBar();
 
         return view;
     }

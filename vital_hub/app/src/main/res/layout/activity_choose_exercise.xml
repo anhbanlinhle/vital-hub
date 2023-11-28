@@ -6,20 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".exercises.ChooseExerciseActivity"
     android:orientation="vertical"
+    android:background="@color/white"
 >
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_choose_ex"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#1DB964"
+        android:background="@color/white"
         android:theme="?attr/actionBarTheme" >
 
         <TextView
             android:id="@+id/back_to_home_from_ex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:drawableStartCompat="@drawable/baseline_keyboard_double_arrow_left" />
+            app:drawableStartCompat="@drawable/baseline_arrow_back_45_green" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,6 +37,7 @@
         app:tabSelectedTextColor="@color/custom_green"
         app:tabTextColor="@color/black"
         app:tabIndicatorColor="@color/custom_green"
+        android:background="@color/white"
     >
 
         <com.google.android.material.tabs.TabItem

@@ -15,6 +15,7 @@ import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.example.vital_hub.home_page.HomePagePost;
 import com.example.vital_hub.post_comment.Comment;
 import com.example.vital_hub.profile.UserDetail;
+import com.example.vital_hub.utils.ExerciseType;
 
 import java.util.List;
 import java.util.Map;
@@ -171,4 +172,7 @@ public interface Controller {
 
     @POST("/competition/save-result")
     Call<Void> saveExerciseForCompetition(@HeaderMap Map<String, String> header, @Body SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto);
+
+    @GET("/exercise/weekly-result")
+    Call<Map<ExerciseType, List<WeeklyExercise>>> getWeeklyStat(@HeaderMap Map<String, String> header);
 }

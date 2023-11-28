@@ -10,6 +10,12 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.Bundle;
+import android.transition.Explode;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.vital_hub.competition.CompetitionFragment;
 import com.example.vital_hub.exercises.ExerciseGeneralFragment;
@@ -25,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Window window = this.getWindow();
+        window.requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+        window.setEnterTransition(new Explode());
+        window.setExitTransition(new Explode());
+
         setContentView(R.layout.activity_main);
 
         bottomNavigation = findViewById(R.id.bottomNavigation);
@@ -35,11 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
         mainLayout = findViewById(R.id.main_layout);
 
-        Window window = this.getWindow();
-
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setNavigationBarColor(ContextCompat.getColor(this, R.color.color_green));
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.color_green));
 
         replaceFragment(new HomeFragment());
         bottomNavigation.show(1, true);

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.vital_hub.authentication.LoginScreen;
+import com.example.vital_hub.statistics.StatisticsActivity;
 
 public class SplashScreen extends Activity {
     Handler handler;

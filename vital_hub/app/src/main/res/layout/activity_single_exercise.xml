@@ -12,14 +12,15 @@
         android:id="@+id/toolbar_single_ex"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#1DB964"
+        android:background="@color/white"
         android:theme="?attr/actionBarTheme" >
 
         <TextView
             android:id="@+id/back_to_choose_ex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:drawableStartCompat="@drawable/baseline_keyboard_double_arrow_left" />
+            android:textColor="@color/custom_green"
+            app:drawableStartCompat="@drawable/baseline_arrow_back_45_green" />
 
         <TextView
             android:layout_width="wrap_content"

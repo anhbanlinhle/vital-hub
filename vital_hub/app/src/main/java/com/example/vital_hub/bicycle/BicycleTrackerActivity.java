@@ -18,6 +18,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +33,11 @@ import android.widget.Toast;
 import com.bosphere.fadingedgelayout.FadingEdgeLayout;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
+import com.example.vital_hub.client.spring.objects.CompetitionDurationResponse;
 import com.example.vital_hub.client.spring.objects.CompetitionMinDetailResponse;
+import com.example.vital_hub.client.spring.objects.SaveExerciseAndCompetitionDto;
 import com.example.vital_hub.competition.data.CompetitionMinDetail;
+import com.example.vital_hub.utils.ExerciseType;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -55,6 +59,8 @@ import com.saadahmedsoft.popupdialog.PopupDialog;
 import com.saadahmedsoft.popupdialog.Styles;
 import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -90,7 +96,23 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
     BottomAppBar bottomBar;
     ConstraintLayout navStats;
     LinearLayout cardStats;
+    private TextView durationView;
+    private TextView distanceView;
+    private TextView caloView;
     static Marker currentLocationMarker;
+
+    private SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto;
+    private CountDownTimer competitionTimer;
+
+    private Long competitionId;
+
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    private static double distanceValue = 0;
+
+    private static double caloValue = 0;
+
+    String duration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +145,11 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
         distance = findViewById(R.id.distance);
         calories = findViewById(R.id.calories);
         cardStats = findViewById(R.id.card_stats);
+        durationView = findViewById(R.id.duration);
+        caloView = findViewById(R.id.calo_view);
+        distanceView = findViewById(R.id.distance_view);
+
+        saveExerciseAndCompetitionDto = new SaveExerciseAndCompetitionDto();
 
         Window window = this.getWindow();
 
@@ -159,33 +186,51 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
                                 }
                             });
                     prefs.edit().putString("tracking", "start").apply();
-                    startService(new Intent(BicycleTrackerActivity.this, BicycleService.class));
-                }
-                else {
-                    PopupDialog.getInstance(BicycleTrackerActivity.this)
-                            .setStyle(Styles.IOS)
-                            .setHeading("Stop Bicycling...?")
-                            .setDescription("Are you sure you want to stop?"+
-                                    " This action cannot be undone")
-                            .setCancelable(true)
-                            .setPositiveButtonText("Confirm")
-                            .setPositiveButtonTextColor(R.color.color_red)
-                            .setNegativeButtonText("Cancel")
-                            .setNegativeButtonTextColor(R.color.color_green)
-                            .showDialog(new OnDialogButtonClickListener() {
-                                @Override
-                                public void onPositiveClicked(Dialog dialog) {
-                                    super.onPositiveClicked(dialog);
-                                    prefs.edit().putString("tracking", "stop").apply();
-                                    stopService(new Intent(BicycleTrackerActivity.this, BicycleService.class));
-                                    recordTrackingButton();
-                                }
 
-                                @Override
-                                public void onNegativeClicked(Dialog dialog) {
-                                    super.onNegativeClicked(dialog);
+                    initValueSaveDto();
+
+                    Intent intent = new Intent(BicycleTrackerActivity.this, BicycleService.class);
+                    if (competitionId != null) {
+                        handleWhenCompeting();
+                        intent.putExtra("duration", duration);
+                    }
+
+                    startService(intent);
+
+                } else {
+                    saveExerciseAndCompetitionDto.setCalo((float) caloValue);
+                    saveExerciseAndCompetitionDto.setDistance((float) distanceValue);
+
+                    PopupDialog.getInstance(BicycleTrackerActivity.this)
+                        .setStyle(Styles.IOS)
+                        .setHeading("Stop Bicycling...?")
+                        .setDescription("Are you sure you want to stop?"+
+                                " This action cannot be undone")
+                        .setCancelable(true)
+                        .setPositiveButtonText("Confirm")
+                        .setPositiveButtonTextColor(R.color.color_red)
+                        .setNegativeButtonText("Cancel")
+                        .setNegativeButtonTextColor(R.color.color_green)
+                        .showDialog(new OnDialogButtonClickListener() {
+                            @Override
+                            public void onPositiveClicked(Dialog dialog) {
+                                super.onPositiveClicked(dialog);
+                                prefs.edit().putString("tracking", "stop").apply();
+                                stopService(new Intent(BicycleTrackerActivity.this, BicycleService.class));
+                                recordTrackingButton();
+                                if (competitionTimer != null) {
+                                    competitionTimer.cancel();
                                 }
-                            });
+                                handleSubmitResult();
+                            }
+
+                            @Override
+                            public void onNegativeClicked(Dialog dialog) {
+                                super.onNegativeClicked(dialog);
+                            }
+                        });
+
+
                 }
                 recordTrackingButton();
             }
@@ -196,12 +241,12 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
         prefs = getSharedPreferences("UserData", MODE_PRIVATE);
         String tracking = prefs.getString("tracking", "stop");
         if (tracking.equals("stop")) {
-            record.setImageResource(R.drawable.bicycle_stop);
+            record.setImageResource(R.drawable.bicycle_start);
             record.setColorFilter(Color.parseColor("#FFFFFF"));
             record.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1DB954")));
         }
         else {
-            record.setImageResource(R.drawable.bicycle_start);
+            record.setImageResource(R.drawable.bicycle_stop);
             record.setColorFilter(Color.parseColor("#1DB954"));
             record.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
         }
@@ -330,8 +375,8 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
     }
     private void getCompetitionTitleList() {
         try {
-            Api.initGetJoinedCompetitionRunning(headers);
-            Api.getJoinedCompetitionRunning.clone().enqueue(new Callback<CompetitionMinDetailResponse>() {
+            Api.initGetJoinedCompetitionBicycling(headers);
+            Api.getJoinedCompetitionBicycling.clone().enqueue(new Callback<CompetitionMinDetailResponse>() {
                 @Override
                 public void onResponse(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Response<CompetitionMinDetailResponse> response) {
                     if (response.isSuccessful()) {
@@ -347,18 +392,51 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
                             }
                         }
                     } else {
-                        Toast.makeText(BicycleTrackerActivity.this, "Error" + response.message(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(BicycleTrackerActivity.this, "Error" + response.message(), Toast.LENGTH_SHORT).show();
+                        PopupDialog.getInstance(BicycleTrackerActivity.this)
+                                .setStyle(Styles.FAILED)
+                                .setHeading("Uh-Oh")
+                                .setDescription(response.message())
+                                .setCancelable(false)
+                                .showDialog(new OnDialogButtonClickListener() {
+                                    @Override
+                                    public void onDismissClicked(Dialog dialog) {
+                                        super.onDismissClicked(dialog);
+                                    }
+                                });
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<CompetitionMinDetailResponse> call, @NonNull Throwable t) {
-                    Toast.makeText(BicycleTrackerActivity.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(BicycleTrackerActivity.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    PopupDialog.getInstance(BicycleTrackerActivity.this)
+                            .setStyle(Styles.FAILED)
+                            .setHeading("Uh-Oh")
+                            .setDescription(t.getMessage())
+                            .setCancelable(false)
+                            .showDialog(new OnDialogButtonClickListener() {
+                                @Override
+                                public void onDismissClicked(Dialog dialog) {
+                                    super.onDismissClicked(dialog);
+                                }
+                            });
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Error" + e.getMessage(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Error" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            PopupDialog.getInstance(BicycleTrackerActivity.this)
+                    .setStyle(Styles.FAILED)
+                    .setHeading("Uh-Oh")
+                    .setDescription(e.getMessage())
+                    .setCancelable(false)
+                    .showDialog(new OnDialogButtonClickListener() {
+                        @Override
+                        public void onDismissClicked(Dialog dialog) {
+                            super.onDismissClicked(dialog);
+                        }
+                    });
         }
     }
 
@@ -366,6 +444,27 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
         competitionTitle.setOnItemClickListener((parent, view, position, id) -> {
             String selected = (String) parent.getItemAtPosition(position);
             competitionTitle.setText(selected, false);
+
+            if (position == 0) {
+                duration = null;
+                durationView.setText("Duration (HH:mm:ss)");
+                competitionId = null;
+                return;
+            }
+            int splitPos = 0;
+            for (int i = selected.length() - 1; i >= 0; i--) {
+                if (selected.charAt(i) == '#') {
+                    splitPos = i;
+                    break;
+                }
+            }
+            competitionId = Long.parseLong(selected.substring(splitPos + 1));
+            if (saveExerciseAndCompetitionDto != null) {
+                saveExerciseAndCompetitionDto.setCompetitionId(competitionId);
+            }
+
+            getCompetitionDuration(competitionId);
+
             if (position != 0) {
 //                isCompeting = true;
 //                isRunningCompetition = false;
@@ -396,7 +495,127 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
 
     public static void getResultsAndDisplay(ArrayList<LatLng> locations) {
         BicycleUtils.CyclingResults results = BicycleUtils.calculateRouteInfo(locations);
+        distanceValue = results.distances * 1000;
+        caloValue = results.calories;
         distance.setText(String.format("%.2f", results.distances) + " km");
         calories.setText(String.format("%.2f", results.calories) + " kcal");
+    }
+
+    private void handleSubmitResult() {
+        distanceView.setText(String.format("%.02f", saveExerciseAndCompetitionDto.getDistance()) + " meters");
+        caloView.setText(String.format("%.02f", saveExerciseAndCompetitionDto.getCalo()) + " calories");
+
+        if (saveExerciseAndCompetitionDto.getCompetitionId() != null) {
+            Api.saveResultForCompetition(headers, saveExerciseAndCompetitionDto);
+
+            Api.savedCompetitionResult.clone().enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        openPopup("Well done", "Save result for competition successful", Styles.SUCCESS);
+                    } else {
+                        openPopup("Oh no", "Fail to save result for competition", Styles.FAILED);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    openPopup("Oh no", "Fail to save result for competition", Styles.FAILED);
+                }
+            });
+        } else {
+            Api.saveExercise(headers, saveExerciseAndCompetitionDto);
+
+            Api.savedExercise.clone().enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        openPopup("Well done", "Save bicycling result successful", Styles.SUCCESS);
+                    } else {
+                        openPopup("Oh no", "Fail to save bicycling result", Styles.FAILED);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    openPopup("Oh no", "Fail to save bicycling result", Styles.FAILED);
+                }
+            });
+        }
+    }
+
+    private void initValueSaveDto() {
+        saveExerciseAndCompetitionDto = new SaveExerciseAndCompetitionDto();
+        saveExerciseAndCompetitionDto.setType(ExerciseType.BICYCLING);
+        saveExerciseAndCompetitionDto.setStartedAt(LocalDateTime.now().format(formatter));
+        saveExerciseAndCompetitionDto.setCompetitionId(competitionId);
+    }
+
+    private void openPopup(String heading, String description, Styles styles) {
+        PopupDialog.getInstance(this)
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
+    }
+
+    private void getCompetitionDuration(Long id) {
+
+        Api.initGetCompetitionDuration(headers, id);
+        Api.getCompetitionDuration.clone().enqueue(new Callback<CompetitionDurationResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<CompetitionDurationResponse> call, @NonNull Response<CompetitionDurationResponse> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        duration = response.body().getDuration();
+                        durationView.setText(duration);
+//                        builder = competingBuilder;
+//                        competingNotificationLayout.setTextViewText(R.id.steps, stepCountTextView.getText().toString());
+//                        competingNotificationLayout.setTextViewText(R.id.time_left, timerTextView.getText().toString());
+//                        notificationManager.notify(666, builder.build());
+                    }
+                } else {
+                    openPopup("Oh no", response.message(), Styles.FAILED);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<CompetitionDurationResponse> call, @NonNull Throwable t) {
+                openPopup("Oh no", t.getMessage(), Styles.FAILED);
+            }
+        });
+    }
+
+    public long convertTimeStringToMillis(String timeString) {
+        String[] parts = timeString.split(":");
+        int hours = Integer.parseInt(parts[0]);
+        int minutes = Integer.parseInt(parts[1]);
+        int seconds = Integer.parseInt(parts[2]);
+
+        return ((hours * 60L + minutes) * 60 + seconds) * 1000L;
+    }
+
+    private void handleWhenCompeting() {
+        Long millis = convertTimeStringToMillis(duration);
+        competitionTimer = new CountDownTimer(millis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+
+            @Override
+            public void onFinish() {
+                durationView.setText("Duration (HH:mm:ss)");
+//                isRunningCompetition = false;
+//                startOrStopButton.setBackground(getDrawable(R.drawable.start_round_button));
+//                circularSeekBar.setProgress(progress);
+                handleSubmitResult();
+            }
+        }.start();
     }
 }
