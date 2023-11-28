@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_white"
+            android:background="@color/color_green"
             android:orientation="horizontal"
             android:paddingTop="5dp"
             android:paddingLeft="15dp">
@@ -29,7 +29,7 @@
                 android:fontFamily="@font/mont_black"
                 android:gravity="center_vertical"
                 android:text="vitalHub"
-                android:textColor="@color/color_green"
+                android:textColor="@color/color_white"
                 android:textSize="28sp" />
 
         </LinearLayout>
