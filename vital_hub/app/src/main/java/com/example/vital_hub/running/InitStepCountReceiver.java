@@ -23,7 +23,6 @@ public class InitStepCountReceiver extends BroadcastReceiver implements SensorEv
     @Override
     public void onReceive(Context context, Intent intent) {
         this.context = context;
-        Log.d("StepCounter", "InitStepCountReceiver onReceive");
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         if (stepCounterSensor != null) {

@@ -38,7 +38,6 @@ public class SaveStepCountReceiver extends BroadcastReceiver implements SensorEv
     @Override
     public void onReceive(Context context, Intent intent) {
         this.context = context;
-        Log.d("StepCounter", "InitStepCountReceiver onReceive");
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         if (stepCounterSensor != null) {
@@ -62,8 +61,8 @@ public class SaveStepCountReceiver extends BroadcastReceiver implements SensorEv
 
             SaveExerciseAndCompetitionDto saveExerciseAndCompetitionDto = new SaveExerciseAndCompetitionDto();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-            saveExerciseAndCompetitionDto.setStartedAt(LocalDateTime.now().format(formatter));
+            LocalDateTime startAt = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
+            saveExerciseAndCompetitionDto.setStartedAt(startAt.format(formatter));
             saveExerciseAndCompetitionDto.setType(ExerciseType.RUNNING);
             saveExerciseAndCompetitionDto.setStep(stepCount);
             float cal = (float) (stepCount * 0.065);
