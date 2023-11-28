@@ -41,18 +41,19 @@ public class CompetitionHistoryActivity extends AppCompatActivity {
     String jwt;
     Map<String, String> headers;
     Integer pageNum = 0;
+    String temp = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.history_layout);
+        setContentView(R.layout.competition_history_layout);
         initHeaderForRequest();
 
         KeyboardHelper.setupKeyboardHiding(this);
         competitionHistories = new ArrayList<>();
         competitionHistoryList = findViewById(R.id.competition_history_list);
         backButton = findViewById(R.id.back_button);
-        searchBar = findViewById(R.id.search);
+        searchBar = findViewById(R.id.search_bar);
         competitionHistoryListAdapter = new CompetitionHistoryListAdapter(competitionHistories);
         competitionHistoryList.setAdapter(competitionHistoryListAdapter);
         layoutManager = new LinearLayoutManager(this);
@@ -83,7 +84,12 @@ public class CompetitionHistoryActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String searchTerm = charSequence.toString();
                 competitionHistories.clear();
-                fetchSpecificCompetitionHistoryList(searchTerm, pageNum);
+                pageNum = 0;
+                if (searchTerm.equals("")) {
+                    fetchCompetitionHistoryList(pageNum);
+                } else {
+                    fetchSpecificCompetitionHistoryList(searchTerm, pageNum);
+                }
             }
 
             @Override
@@ -108,8 +114,7 @@ public class CompetitionHistoryActivity extends AppCompatActivity {
                     competitionHistoryListResponse = response.body();
                     assert competitionHistoryListResponse != null;
                     competitionHistories.addAll(competitionHistoryListResponse);
-                    competitionHistoryListAdapter = new CompetitionHistoryListAdapter(competitionHistories);
-                    competitionHistoryList.setAdapter(competitionHistoryListAdapter);
+                    competitionHistoryListAdapter.notifyDataSetChanged();
                 } else {
                     Log.d("Error", "Error: " + response.code());
                 }
@@ -139,8 +144,9 @@ public class CompetitionHistoryActivity extends AppCompatActivity {
     private void getMoreData() {
         competitionHistories.add(null);
         competitionHistories.remove(competitionHistories.size() - 1);
-        fetchCompetitionHistoryList(pageNum);
+        temp = searchBar.getText().toString();
         pageNum++;
+        fetchSpecificCompetitionHistoryList(temp, pageNum);
         isLoading = false;
     }
     private void fetchSpecificCompetitionHistoryList(String searchTerm, Integer pageNum) {
@@ -148,7 +154,7 @@ public class CompetitionHistoryActivity extends AppCompatActivity {
         Api.getCompetitionHistoryList.clone().enqueue(new Callback<List<CompetitionHistoryListResponse>>() {
             @Override
             public void onResponse(@NonNull Call<List<CompetitionHistoryListResponse>> call, @NonNull Response<List<CompetitionHistoryListResponse>> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful() && response.body() != null && response.body().size() != 0) {
                     competitionHistoryListResponse = response.body();
                     assert competitionHistoryListResponse != null;
                     filterCompetitionHistories(searchTerm);
@@ -165,13 +171,15 @@ public class CompetitionHistoryActivity extends AppCompatActivity {
         });
     }
     private void filterCompetitionHistories(String searchTerm) {
-        competitionHistories.clear();
-
         for (CompetitionHistoryListResponse history : competitionHistoryListResponse) {
             if (history.getTitle().toLowerCase().contains(searchTerm.toLowerCase())) {
                 competitionHistories.add(history);
+                if (competitionHistories.size() < 3) {
+                    getMoreData();
+                }
             }
         }
     }
+
 
 }
