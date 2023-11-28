@@ -263,7 +263,7 @@ public class RunningActivity extends AppCompatActivity implements SensorEventLis
     protected void onResume() {
         super.onResume();
         if (sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) == null) {
-            Toast.makeText(this, "No step counter sensor detected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No sensor detected", Toast.LENGTH_SHORT).show();
         } else {
             sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_UI);
         }
