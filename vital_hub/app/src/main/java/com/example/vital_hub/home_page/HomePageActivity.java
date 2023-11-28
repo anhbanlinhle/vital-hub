@@ -4,33 +4,25 @@ package com.example.vital_hub.home_page;
 import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
 import static com.example.vital_hub.client.spring.controller.Api.initGetPostResponse;
 
-import com.example.vital_hub.SplashScreen;
-import com.example.vital_hub.authentication.LoginScreen;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.vital_hub.R;
+import com.example.vital_hub.authentication.LoginScreen;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.competition.CompetitionActivity;
-import com.example.vital_hub.R;
-import com.example.vital_hub.post_comment.PostCommentActivity;
-import com.example.vital_hub.profile.UserProfile;
-import com.example.vital_hub.exercises.ChooseExerciseActivity;
 import com.example.vital_hub.exercises.ExerciseGeneralActivity;
-import com.example.vital_hub.friend.Friend;
+import com.example.vital_hub.profile.UserProfileActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
@@ -108,7 +100,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationBar
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.profile) {
-            startActivity(new Intent(getApplicationContext(), UserProfile.class));
+            startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
             overridePendingTransition(0, 0);
             return true;
         } else if (item.getItemId() == R.id.home) {

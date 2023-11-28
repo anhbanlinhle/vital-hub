@@ -48,7 +48,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProfileDetail extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class ProfileDetailActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     PopupWindow popupWindow;
     View dimOverlay;
     ViewGroup toolBar;
@@ -304,7 +304,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         birthDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new DatePickerDialog(ProfileDetail.this, date, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+                new DatePickerDialog(ProfileDetailActivity.this, date, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
@@ -319,7 +319,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(ProfileDetail.this, profileImage);
+                PopupMenu popupMenu = new PopupMenu(ProfileDetailActivity.this, profileImage);
                 popupMenu.getMenuInflater().inflate(R.menu.profile_image_options, popupMenu.getMenu());
                 popupMenu.show();
             }
@@ -373,7 +373,7 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
             @Override
             public void onResponse(Call<UserDetail> call, Response<UserDetail> response) {
                 if (response.isSuccessful()) {
-                    savePopUp(ProfileDetail.this.getWindow().getDecorView().getRootView());
+                    savePopUp(ProfileDetailActivity.this.getWindow().getDecorView().getRootView());
                 }
             }
 
@@ -418,13 +418,13 @@ public class ProfileDetail extends AppCompatActivity implements AdapterView.OnIt
                     } else {
                         exercisePerDay.setText("");
                     }
-                    Glide.with(ProfileDetail.this).load(fetchedUserProfileDetail.getAvatar()).into(profileImage);
+                    Glide.with(ProfileDetailActivity.this).load(fetchedUserProfileDetail.getAvatar()).into(profileImage);
                 }
             }
 
             @Override
             public void onFailure(Call<ProfileDetailResponse> call, Throwable t) {
-                Toast.makeText(ProfileDetail.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileDetailActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
