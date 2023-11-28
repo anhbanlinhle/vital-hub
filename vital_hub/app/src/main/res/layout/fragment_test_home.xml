@@ -17,18 +17,20 @@
             android:layout_height="wrap_content"
             android:background="@color/color_white"
             android:orientation="horizontal"
-            android:padding="15dp">
+            android:paddingTop="5dp"
+            android:paddingLeft="15dp">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginBottom="15dp"
                 android:layout_weight="22"
                 android:fontFamily="@font/mont_black"
                 android:gravity="center_vertical"
                 android:text="vitalHub"
                 android:textColor="@color/color_green"
-                android:textSize="25sp" />
+                android:textSize="28sp" />
 
         </LinearLayout>
 

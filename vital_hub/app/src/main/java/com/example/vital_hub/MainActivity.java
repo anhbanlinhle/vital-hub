@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setNavigationBarColor(ContextCompat.getColor(this, R.color.color_green));
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.color_white));
 
         replaceFragment(new HomeFragment());
         bottomNavigation.show(1, true);
