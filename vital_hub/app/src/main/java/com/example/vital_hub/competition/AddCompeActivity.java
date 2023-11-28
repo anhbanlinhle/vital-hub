@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,6 +39,9 @@ import retrofit2.Response;
 
 import com.example.vital_hub.helper.*;
 import com.example.vital_hub.helper.ImgToUrl.ImageUploadTask;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 public class AddCompeActivity extends AppCompatActivity {
     private ScrollView scrollView;
@@ -314,11 +318,26 @@ public class AddCompeActivity extends AppCompatActivity {
     }
 
     private void uploadImageAndSetUrl(CompetitionAdd competitionAdd) {
+        PopupDialog dialog = PopupDialog.getInstance(this);
+        dialog.setStyle(Styles.PROGRESS)
+                .setProgressDialogTint(R.color.color_green)
+                .setCancelable(false)
+                .showDialog();
         imageUploadTask = new ImageUploadTask(imageView, new ImageUploadTask.ImageUploadCallback() {
             @Override
             public void onImageUploaded(String imageUrl) {
                 competitionAdd.setBackground(imageUrl);
                 addCompetition(competitionAdd);
+                dialog.setStyle(Styles.SUCCESS)
+                        .setHeading("Success")
+                        .setDescription("Add competition successfully")
+                        .setCancelable(true)
+                        .showDialog(new OnDialogButtonClickListener() {
+                            @Override
+                            public void onDismissClicked(Dialog dialog) {
+                                finish();
+                            }
+                        });
             }
 
             @Override
