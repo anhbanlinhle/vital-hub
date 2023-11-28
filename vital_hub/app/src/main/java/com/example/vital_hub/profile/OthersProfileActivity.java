@@ -1,8 +1,8 @@
 package com.example.vital_hub.profile;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -27,6 +27,9 @@ import com.example.vital_hub.client.spring.objects.CountResponse;
 import com.example.vital_hub.client.spring.objects.ProfileDetailResponse;
 import com.example.vital_hub.client.spring.objects.ProfileResponse;
 import com.example.vital_hub.friend.RequestFriendListAdapter;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -126,6 +129,20 @@ public class OthersProfileActivity extends AppCompatActivity {
         headers.put("Authorization", "Bearer " + jwt);
     }
 
+    private void openPopup(String heading, String description, Styles styles) {
+        PopupDialog.getInstance(this)
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
+    }
+
     private void fetchOthersProfileDetail(long id) {
         Api.initGetOthersProfileDetail(headers, id);
         Api.getOthersProfileDetail.clone().enqueue(new Callback<ProfileDetailResponse>() {
@@ -169,7 +186,7 @@ public class OthersProfileActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<ProfileDetailResponse> call, Throwable t) {
-                Toast.makeText(OthersProfileActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                openPopup("Error", "Error code: " + t.getMessage(), Styles.FAILED);
             }
         });
     }
@@ -218,12 +235,12 @@ public class OthersProfileActivity extends AppCompatActivity {
                                                             startActivity(getIntent());
                                                             RequestFriendListAdapter.requestActionListener.onAction();
                                                         } else {
-                                                            Toast.makeText(view.getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                                                            openPopup("Error", "Error code: " + response.code(), Styles.FAILED);
                                                         }
                                                     }
                                                     @Override
                                                     public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                                                        Toast.makeText(view.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                                        openPopup("Error", "Error code: " + t.getMessage(), Styles.FAILED);
                                                     }
                                                 });
                                             } else if (menuItem.getItemId() == R.id.deny) {
@@ -237,12 +254,12 @@ public class OthersProfileActivity extends AppCompatActivity {
                                                             overridePendingTransition(0, 0);
                                                             startActivity(getIntent());
                                                         } else {
-                                                            Toast.makeText(view.getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                                                            openPopup("Error", "Error code: " + response.code(), Styles.FAILED);
                                                         }
                                                     }
                                                     @Override
                                                     public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                                                        Toast.makeText(view.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                                        openPopup("Error", "Error code: " + t.getMessage(), Styles.FAILED);
                                                     }
                                                 });
                                             }
@@ -268,12 +285,12 @@ public class OthersProfileActivity extends AppCompatActivity {
                                                 overridePendingTransition(0, 0);
                                                 startActivity(getIntent());
                                             } else {
-                                                Toast.makeText(view.getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                                                openPopup("Error", "Error code: " + response.code(), Styles.FAILED);
                                             }
                                         }
                                         @Override
                                         public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                                            Toast.makeText(view.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                            openPopup("Error", "Error code: " + t.getMessage(), Styles.FAILED);
                                         }
                                     });
                                 }
@@ -284,7 +301,7 @@ public class OthersProfileActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<ProfileResponse> call, Throwable t) {
-                Toast.makeText(OthersProfileActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                openPopup("Error", "Error code: " + t.getMessage(), Styles.FAILED);
             }
         });
     }
@@ -302,7 +319,7 @@ public class OthersProfileActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<CountResponse> call, Throwable t) {
-                Toast.makeText(OthersProfileActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                openPopup("Error", "Error code: " + t.getMessage(), Styles.FAILED);
             }
         });
     }
@@ -362,13 +379,12 @@ public class OthersProfileActivity extends AppCompatActivity {
                             startActivity(getIntent());
                         }
                         else {
-                            Toast.makeText(view.getContext(), "Error: " + response, Toast.LENGTH_SHORT).show();
-                            Log.d("Error", "Error: " + response);
+                            openPopup("Error", "Error code: " + response.code(), Styles.FAILED);
                         }
                     }
                     @Override
                     public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                        Toast.makeText(view.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        openPopup("Error", "Error code: " + t.getMessage(), Styles.FAILED);
                     }
                 });
             }

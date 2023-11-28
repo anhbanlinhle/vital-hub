@@ -1,10 +1,10 @@
 package com.example.vital_hub.history;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,6 +18,9 @@ import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.client.spring.objects.CompetitionHistoryListResponse;
 import com.example.vital_hub.helper.KeyboardHelper;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -116,13 +119,13 @@ public class CompetitionHistoryActivity extends AppCompatActivity {
                     competitionHistories.addAll(competitionHistoryListResponse);
                     competitionHistoryListAdapter.notifyDataSetChanged();
                 } else {
-                    Log.d("Error", "Error: " + response.code());
+                    openPopup("Error", "Error code: " + response.code(), Styles.FAILED);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<CompetitionHistoryListResponse>> call, @NonNull Throwable t) {
-                System.out.println("Error: " + t.getMessage());
+                openPopup("Error", "Error code: " + t.getMessage(), Styles.FAILED);
             }
 
         });
@@ -160,12 +163,12 @@ public class CompetitionHistoryActivity extends AppCompatActivity {
                     filterCompetitionHistories(searchTerm);
                     competitionHistoryListAdapter.notifyDataSetChanged();
                 } else {
-                    Log.d("Error", "Error: " + response.code());
+                    openPopup("Error", "Error code: " + response.code(), Styles.FAILED);
                 }
             }
             @Override
             public void onFailure(@NonNull Call<List<CompetitionHistoryListResponse>> call, @NonNull Throwable t) {
-                System.out.println("Error: " + t.getMessage());
+                openPopup("Error", "Error code: " + t.getMessage(), Styles.FAILED);
             }
 
         });
@@ -179,6 +182,19 @@ public class CompetitionHistoryActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+    private void openPopup(String heading, String description, Styles styles) {
+        PopupDialog.getInstance(this)
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
     }
 
 

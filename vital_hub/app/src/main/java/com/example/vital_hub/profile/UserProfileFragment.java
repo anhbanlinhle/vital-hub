@@ -3,6 +3,7 @@ package com.example.vital_hub.profile;
 import static android.content.Context.MODE_PRIVATE;
 import static com.example.vital_hub.authentication.LoginScreen.oneTapClient;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,7 +15,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +24,6 @@ import androidx.transition.TransitionInflater;
 
 import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
-import com.example.vital_hub.TestPage;
 import com.example.vital_hub.authentication.LoginScreen;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.client.spring.objects.CountResponse;
@@ -34,6 +33,9 @@ import com.example.vital_hub.friend.FriendList;
 import com.example.vital_hub.history.CompetitionHistoryActivity;
 import com.example.vital_hub.statistics.StatisticsActivity;
 import com.example.vital_hub.test.TestMain;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -95,6 +97,20 @@ public class UserProfileFragment extends Fragment {
         getActivity().finish();
     }
 
+    private void openPopup(String heading, String description, Styles styles) {
+        PopupDialog.getInstance(getContext())
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
+    }
+
     private void initHeaderForRequest() {
         prefs = this.getActivity().getSharedPreferences("UserData", MODE_PRIVATE);
         jwt = prefs.getString("jwt", null);
@@ -119,7 +135,7 @@ public class UserProfileFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ProfileDetailResponse> call, Throwable t) {
-                Toast.makeText(requireContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                openPopup("Error", "Error code: " + t.getMessage(), Styles.FAILED);
             }
         });
     }
@@ -138,7 +154,7 @@ public class UserProfileFragment extends Fragment {
 
             @Override
             public void onFailure(Call<CountResponse> call, Throwable t) {
-                Toast.makeText(requireContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                openPopup("Error", "Error code: " + t.getMessage(), Styles.FAILED);
             }
         });
     }
