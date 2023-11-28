@@ -94,6 +94,7 @@ public class PushupVideoScan extends AppCompatActivity {
         window.setNavigationBarColor(ContextCompat.getColor(this, R.color.color_green));
 
         arrayList = new ArrayList<>();
+        arrayList.add(-1);
         resultRecycler = findViewById(R.id.resultRecycle);
 
         recyclerAdapter = new PushupAdapter(arrayList);
@@ -384,6 +385,9 @@ public class PushupVideoScan extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     openPopup("Well done", "Save push up count successful", Styles.SUCCESS);
+                    arrayList.clear();
+                    arrayList.add(-1);
+                    recyclerAdapter.notifyItemRangeChanged(0, 1);
                 } else {
                     openPopup("Oh no", "Could not save push up count", Styles.FAILED);
                 }
@@ -403,7 +407,11 @@ public class PushupVideoScan extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
+                    arrayList.clear();
+                    arrayList.add(-1);
+                    recyclerAdapter.notifyItemRangeChanged(0, 1);
                     openPopup("Well done", "Save result for competition successful", Styles.SUCCESS);
+
                 } else {
                     openPopup("Oh no", "Could not save result for competition", Styles.FAILED);
                 }

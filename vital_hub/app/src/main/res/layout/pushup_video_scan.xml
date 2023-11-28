@@ -68,14 +68,15 @@
         android:id="@+id/resultRecycle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:layout_constraintVertical_bias="0.172" />
+        app:layout_constraintVertical_bias="0.521" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -84,6 +85,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -106,84 +108,85 @@
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center">
+
                 <TextView
                     android:id="@+id/pose"
-                    android:text="Pose"
-                    android:textColor="@color/white"
-                    android:textAlignment="center"
-                    app:drawableTopCompat="@drawable/pushup_pose"
-                    android:drawableTint="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableTint="@color/white"
+                    android:text="Pose"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    app:drawableTopCompat="@drawable/pushup_pose"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.015"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1"/>
+                    app:layout_constraintVertical_bias="1" />
 
                 <TextView
                     android:id="@+id/video"
-                    android:text="Video"
-                    android:textColor="@color/white"
-                    android:textAlignment="center"
-                    app:drawableTopCompat="@drawable/pushup_video"
-                    android:drawableTint="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableTint="@color/white"
+                    android:text="Video"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    app:drawableTopCompat="@drawable/pushup_video"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.225"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1"/>
+                    app:layout_constraintVertical_bias="1" />
 
                 <TextView
                     android:id="@+id/save"
-                    android:text="Save"
-                    android:textColor="@color/white"
-                    android:textAlignment="center"
-                    app:drawableTopCompat="@drawable/pushup_save"
-                    android:drawableTint="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableTint="@color/white"
+                    android:text="Save"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    app:drawableTopCompat="@drawable/pushup_save"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.775"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1"/>
+                    app:layout_constraintVertical_bias="1" />
 
                 <TextView
                     android:id="@+id/submit"
-                    android:text="Submit"
-                    android:textColor="@color/white"
-                    android:textAlignment="center"
-                    app:drawableTopCompat="@drawable/pushup_submit"
-                    android:drawableTint="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableTint="@color/white"
+                    android:text="Submit"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    app:drawableTopCompat="@drawable/pushup_submit"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.985"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1"/>
+                    app:layout_constraintVertical_bias="1" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.bottomappbar.BottomAppBar>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/scan"
+            style="@style/FabCustom"
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:src="@drawable/pushup_scan"
             android:backgroundTint="@color/white"
-            app:tint="@color/color_green"
-            style="@style/FabCustom"
-            app:maxImageSize="48dp"
+            android:src="@drawable/pushup_scan"
             app:fabCustomSize="72dp"
             app:layout_anchor="@id/bottom_bar"
-            app:layout_anchorGravity="center" />
+            app:layout_anchorGravity="center"
+            app:maxImageSize="48dp"
+            app:tint="@color/color_green" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

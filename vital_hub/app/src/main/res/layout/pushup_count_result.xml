@@ -8,8 +8,9 @@
         android:id="@+id/result"
         android:fontFamily="@font/mont_black"
         android:text="7"
+        android:padding="10dp"
         android:textColor="#1DB964"
-        android:textSize="64sp"
+        android:textSize="80sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
@@ -17,7 +18,8 @@
         android:fontFamily="@font/mont_semi_bold"
         android:text="number of rep(s)"
         android:textColor="#1DB964"
-        android:textSize="32sp"
+        android:textSize="40sp"
+        android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </LinearLayout>
