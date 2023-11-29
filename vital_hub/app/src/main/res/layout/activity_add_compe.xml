@@ -193,20 +193,23 @@
             android:textSize="16sp"
             android:layout_marginTop="16dp"/>
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/compe_img_holder"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
+            android:minHeight="200dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/dashed_border_rounded_top"
             android:clipToOutline="true"
             android:contentDescription="Competition background"
             android:fontFamily="@font/sf_thin"
             android:outlineProvider="background"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
             android:textColor="@color/custom_green"
             android:textSize="64sp"
-            app:backgroundTint="@null" />
+            app:backgroundTint="@null"
+            app:shapeAppearanceOverlay="@style/top_corner"/>
 
         <Button
             android:id="@+id/add_compe_img_btn"

@@ -54,8 +54,17 @@ public class CompetitionFragment extends Fragment {
     SharedPreferences prefs;
     String jwt;
     Map<String, String> headers;
+    public static boolean refetch = false;
     public CompetitionFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(refetch) {
+            reloadData();
+        }
     }
 
     public static CompetitionFragment newInstance(String param1, String param2) {
@@ -298,6 +307,7 @@ public class CompetitionFragment extends Fragment {
             competitions.clear();
             fetchCompetitionList(isJoined, null, limit, offset);
         }
+        refetch = false;
     }
 
 }
