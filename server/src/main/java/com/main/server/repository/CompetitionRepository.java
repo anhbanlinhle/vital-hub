@@ -100,10 +100,8 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
                 (SELECT c.id AS competitionId, c.title AS title, c.background AS background, c.ended_at AS endedAt, c.type AS type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants
                 FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
                 WHERE (c.host_id = :uid OR p.participant_id = :uid) AND c.is_deleted = FALSE
-                GROUP BY c.id),
-                exercises AS
-                (SELECT r2.distance FROM compe_ex ce2 JOIN exercise e2 ON ce2.exercise_id = e2.id JOIN bicycling r2 on e2.id = r2.exercise_id)
-            (SELECT (SELECT COUNT(*) FROM exercises WHERE r.distance <= exercises.distance) AS position, ec.*, CONCAT(r.distance, ' meters') AS score
+                GROUP BY c.id)
+            (SELECT (SELECT COUNT(*) FROM (SELECT r2.distance FROM compe_ex ce2 JOIN exercise e2 ON (ce2.exercise_id = e2.id AND ce2.compe_id = ec.competitionId) JOIN bicycling r2 on e2.id = r2.exercise_id) cc WHERE r.distance <= cc.distance) - (SELECT COUNT(*) FROM (SELECT r3.distance, r3.id FROM compe_ex ce3 JOIN exercise e3 ON (ce3.exercise_id = e3.id AND ce3.compe_id = ec.competitionId) JOIN bicycling r3 on e3.id = r3.exercise_id) cc2 WHERE r.distance = cc2.distance AND r.id != cc2.id) AS position, ec.*, CONCAT(r.distance, ' meters') AS score
             FROM ec LEFT JOIN compe_ex ce ON ec.competitionId = ce.compe_id
             LEFT JOIN exercise e on (ce.exercise_id = e.id)
             LEFT JOIN bicycling r on e.id = r.exercise_id
@@ -122,10 +120,8 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
                 (SELECT c.id AS competitionId, c.title AS title, c.background AS background, c.ended_at AS endedAt, c.type AS type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants
                 FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
                 WHERE (c.host_id = :uid OR p.participant_id = :uid) AND c.is_deleted = FALSE
-                GROUP BY c.id),
-                exercises AS
-                (SELECT r2.step FROM compe_ex ce2 JOIN exercise e2 ON ce2.exercise_id = e2.id JOIN running r2 on e2.id = r2.exercise_id)
-            (SELECT (SELECT COUNT(*) FROM exercises WHERE r.step <= exercises.step) AS position, ec.*, CONCAT(r.step, ' steps') AS score
+                GROUP BY c.id)
+            (SELECT (SELECT COUNT(*) FROM (SELECT r2.step FROM compe_ex ce2 JOIN exercise e2 ON (ce2.exercise_id = e2.id AND ce2.compe_id = ec.competitionId) JOIN running r2 on e2.id = r2.exercise_id) cc WHERE r.step <= cc.step) - (SELECT COUNT(*) FROM (SELECT r3.step, r3.id FROM compe_ex ce3 JOIN exercise e3 ON (ce3.exercise_id = e3.id AND ce3.compe_id = ec.competitionId) JOIN running r3 on e3.id = r3.exercise_id) cc2 WHERE r.step = cc2.step AND r.id != cc2.id) AS position, ec.*, CONCAT(r.step, ' steps') AS score
             FROM ec LEFT JOIN compe_ex ce ON ec.competitionId = ce.compe_id
             LEFT JOIN exercise e on (ce.exercise_id = e.id)
             LEFT JOIN running r on e.id = r.exercise_id
@@ -144,10 +140,8 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
                 (SELECT c.id AS competitionId, c.title AS title, c.background AS background, c.ended_at AS endedAt, c.type AS type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants
                 FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
                 WHERE (c.host_id = :uid OR p.participant_id = :uid) AND c.is_deleted = FALSE
-                GROUP BY c.id),
-                exercises AS
-                (SELECT r2.rep FROM compe_ex ce2 JOIN exercise e2 ON ce2.exercise_id = e2.id JOIN push_up r2 on e2.id = r2.exercise_id)
-            (SELECT (SELECT COUNT(*) FROM exercises WHERE r.rep <= exercises.rep) AS position, ec.*, CONCAT(r.rep, ' reps') AS score
+                GROUP BY c.id)
+            (SELECT (SELECT COUNT(*) FROM (SELECT r2.rep FROM compe_ex ce2 JOIN exercise e2 ON (ce2.exercise_id = e2.id AND ce2.compe_id = ec.competitionId) JOIN push_up r2 on e2.id = r2.exercise_id) cc WHERE r.rep <= cc.rep) - (SELECT COUNT(*) FROM (SELECT r3.rep, r3.id FROM compe_ex ce3 JOIN exercise e3 ON (ce3.exercise_id = e3.id AND ce3.compe_id = ec.competitionId) JOIN push_up r3 on e3.id = r3.exercise_id) cc2 WHERE r.rep = cc2.rep AND r.id != cc2.id) AS position, ec.*, CONCAT(r.rep, ' reps') AS score
             FROM ec LEFT JOIN compe_ex ce ON ec.competitionId = ce.compe_id
             LEFT JOIN exercise e on (ce.exercise_id = e.id)
             LEFT JOIN push_up r on e.id = r.exercise_id
