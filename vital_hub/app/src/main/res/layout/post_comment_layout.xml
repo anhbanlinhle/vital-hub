@@ -64,13 +64,18 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="7dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    app:hintEnabled="false"
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/mont_alt_reg"
-                        android:hint="Comment" />
+                        android:background="@drawable/edit_text_rounded"
+                        android:hint="Comment"
+                        android:textCursorDrawable="@null"
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageButton
