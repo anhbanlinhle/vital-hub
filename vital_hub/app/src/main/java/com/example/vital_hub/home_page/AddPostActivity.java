@@ -3,9 +3,11 @@ package com.example.vital_hub.home_page;
 import static com.example.vital_hub.client.spring.controller.Api.initAddPost;
 import static com.example.vital_hub.client.spring.controller.Api.initGetExerciseList;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.client.spring.objects.ExerciseResponse;
+import com.example.vital_hub.competition.AddCompeActivity;
 import com.example.vital_hub.competition.data.CompetitionAdd;
 import com.example.vital_hub.helper.ImgToUrl.ImageUploadTask;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -145,7 +148,7 @@ public class AddPostActivity extends AppCompatActivity {
     }
 
     //add post
-    private void addPost() {
+    private void addPost(PopupDialog[] dialog) {
         initAddPost(headers, body);
         Api.addPost.clone().enqueue(new Callback<Void>() {
             @Override
@@ -154,9 +157,18 @@ public class AddPostActivity extends AppCompatActivity {
                     Toast.makeText(AddPostActivity.this, "Error occured. Code: " + response.code(), Toast.LENGTH_LONG).show();
                     return;
                 }
-                finish();
-                openPopup("Success!", "Upload post successful", Styles.SUCCESS);
                 HomeFragment.refetch = true;
+                dialog[0] = PopupDialog.getInstance(AddPostActivity.this);
+                dialog[0].setStyle(Styles.SUCCESS)
+                        .setHeading("Success")
+                        .setDescription("Add competition successfully")
+                        .setCancelable(true)
+                        .showDialog(new OnDialogButtonClickListener() {
+                            @Override
+                            public void onDismissClicked(Dialog dialog) {
+                                finish();
+                            }
+                        });
             }
 
             @Override
@@ -166,7 +178,13 @@ public class AddPostActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("ResourceAsColor")
     private void uploadImageAndSetUrl(String content, Long exercise_id) {
+        final PopupDialog[] dialog = {PopupDialog.getInstance(this)};
+        dialog[0].setStyle(Styles.PROGRESS)
+                .setProgressDialogTint(Color.parseColor("#1DB954"))
+                .setCancelable(false)
+                .showDialog();
         ImageUploadTask imageUploadTask = new ImageUploadTask(add_post_img, new ImageUploadTask.ImageUploadCallback() {
             @Override
             public void onImageUploaded(String imageUrl) {
@@ -174,7 +192,7 @@ public class AddPostActivity extends AppCompatActivity {
                 body.setImage(imageUrl);
                 body.setTitle(content);
                 body.setExerciseId(exercise_id);
-                addPost();
+                addPost(dialog);
             }
 
             @Override

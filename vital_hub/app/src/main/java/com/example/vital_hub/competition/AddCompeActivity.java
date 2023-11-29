@@ -10,6 +10,7 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -39,6 +40,7 @@ import retrofit2.Response;
 
 import com.example.vital_hub.helper.*;
 import com.example.vital_hub.helper.ImgToUrl.ImageUploadTask;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.saadahmedsoft.popupdialog.PopupDialog;
 import com.saadahmedsoft.popupdialog.Styles;
 import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
@@ -62,7 +64,7 @@ public class AddCompeActivity extends AppCompatActivity {
 
     private Button addImgBtn;
     private AppCompatButton addButton, backButton;
-    private ImageView imageView;
+    private ShapeableImageView imageView;
     SharedPreferences prefs;
     String jwt;
     Map<String, String> headers;
@@ -318,9 +320,9 @@ public class AddCompeActivity extends AppCompatActivity {
     }
 
     private void uploadImageAndSetUrl(CompetitionAdd competitionAdd) {
-        PopupDialog dialog = PopupDialog.getInstance(this);
-        dialog.setStyle(Styles.PROGRESS)
-                .setProgressDialogTint(R.color.color_green)
+        final PopupDialog[] dialog = {PopupDialog.getInstance(this)};
+        dialog[0].setStyle(Styles.PROGRESS)
+                .setProgressDialogTint(Color.parseColor("#1DB954"))
                 .setCancelable(false)
                 .showDialog();
         imageUploadTask = new ImageUploadTask(imageView, new ImageUploadTask.ImageUploadCallback() {
@@ -328,13 +330,15 @@ public class AddCompeActivity extends AppCompatActivity {
             public void onImageUploaded(String imageUrl) {
                 competitionAdd.setBackground(imageUrl);
                 addCompetition(competitionAdd);
-                dialog.setStyle(Styles.SUCCESS)
+                dialog[0] = PopupDialog.getInstance(AddCompeActivity.this);
+                dialog[0].setStyle(Styles.SUCCESS)
                         .setHeading("Success")
                         .setDescription("Add competition successfully")
                         .setCancelable(true)
                         .showDialog(new OnDialogButtonClickListener() {
                             @Override
                             public void onDismissClicked(Dialog dialog) {
+                                CompetitionFragment.refetch = true;
                                 finish();
                             }
                         });
