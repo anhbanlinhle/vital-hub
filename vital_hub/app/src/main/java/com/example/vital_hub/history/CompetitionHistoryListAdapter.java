@@ -1,6 +1,7 @@
 package com.example.vital_hub.history;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,16 @@ public class CompetitionHistoryListAdapter extends RecyclerView.Adapter<Competit
         holder.participantCount.setText(String.valueOf(competitionHistoryList.get(position).getParticipants()));
         if ((competitionHistoryList.get(position).getPositionStr()).equals("0th")) {
             holder.ranking.setText("N/A");
+            holder.ranking.setTextColor(Color.parseColor("#000000"));
+        } else if ((competitionHistoryList.get(position).getPositionStr()).equals("1st")) {
+            holder.ranking.setText(competitionHistoryList.get(position).getPositionStr());
+            holder.ranking.setTextColor(Color.parseColor("#ffdb0d"));
+        } else if ((competitionHistoryList.get(position).getPositionStr()).equals("2nd")) {
+            holder.ranking.setText(competitionHistoryList.get(position).getPositionStr());
+            holder.ranking.setTextColor(Color.parseColor("#B4B4B4"));
+        } else if ((competitionHistoryList.get(position).getPositionStr()).equals("3rd")) {
+            holder.ranking.setText(competitionHistoryList.get(position).getPositionStr());
+            holder.ranking.setTextColor(Color.parseColor("#AD8A56"));
         } else {
             holder.ranking.setText(competitionHistoryList.get(position).getPositionStr());
         }
