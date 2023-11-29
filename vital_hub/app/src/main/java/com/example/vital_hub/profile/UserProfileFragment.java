@@ -62,6 +62,7 @@ public class UserProfileFragment extends Fragment {
     private UserInfo fetchedUserProfile;
     private CountResponse countResponse;
     private UserDetail fetchedUserProfileDetail;
+    public static boolean isProfileDetailUpdated = false;
 
     public UserProfileFragment() {
         // Required empty public constructor
@@ -78,6 +79,16 @@ public class UserProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
         TransitionInflater inflater = TransitionInflater.from(requireContext());
         setEnterTransition(inflater.inflateTransition(R.transition.fade));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isProfileDetailUpdated) {
+            fetchUserProfileDetail();
+            fetchFriends();
+            isProfileDetailUpdated = true;
+        }
     }
 
     private void signOut() {

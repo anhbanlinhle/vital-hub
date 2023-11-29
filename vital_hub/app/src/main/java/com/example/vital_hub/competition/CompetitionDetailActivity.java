@@ -239,6 +239,7 @@ public class CompetitionDetailActivity extends AppCompatActivity {
                                 @Override
                                 public void onDismissClicked(Dialog dialog) {
                                     super.onDismissClicked(dialog);
+                                    CompetitionFragment.refetch = true;
                                     finish();
                                 }
                             });
