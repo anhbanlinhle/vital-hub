@@ -58,7 +58,6 @@ public class UserProfileFragment extends Fragment {
     TextView description;
     TextView totalFriend;
     ImageView profileImage;
-    Button openOthersProfileTest;
     private UserInfo fetchedUserProfile;
     private CountResponse countResponse;
     private UserDetail fetchedUserProfileDetail;
@@ -160,18 +159,9 @@ public class UserProfileFragment extends Fragment {
         friend = view.findViewById(R.id.friend_view);
         name = view.findViewById(R.id.username);
         profileImage = view.findViewById(R.id.profile_image);
-        openOthersProfileTest = view.findViewById(R.id.others_profile);
         totalFriend = view.findViewById(R.id.friend_counter);
         description = view.findViewById(R.id.description);
 
-        openOthersProfileTest.setVisibility(View.GONE);
-        openOthersProfileTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(requireContext(), OthersProfileActivity.class);
-                startActivity(intent);
-            }
-        });
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
