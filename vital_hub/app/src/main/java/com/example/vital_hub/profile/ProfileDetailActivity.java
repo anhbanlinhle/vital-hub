@@ -5,6 +5,7 @@ import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAnd
 import static com.example.vital_hub.client.spring.controller.Api.updateUserProfile;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -37,6 +38,9 @@ import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.client.spring.objects.ProfileDetailResponse;
 import com.example.vital_hub.helper.KeyboardHelper;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -373,7 +377,18 @@ public class ProfileDetailActivity extends AppCompatActivity implements AdapterV
             @Override
             public void onResponse(Call<UserDetail> call, Response<UserDetail> response) {
                 if (response.isSuccessful()) {
-                    savePopUp(ProfileDetailActivity.this.getWindow().getDecorView().getRootView());
+//                    savePopUp(ProfileDetailActivity.this.getWindow().getDecorView().getRootView());
+                    PopupDialog.getInstance(ProfileDetailActivity.this)
+                            .setStyle(Styles.SUCCESS)
+                            .setHeading("Well Done")
+                            .setDescription("User information updated successfully!")
+                            .setCancelable(false)
+                            .showDialog(new OnDialogButtonClickListener() {
+                                @Override
+                                public void onDismissClicked(Dialog dialog) {
+                                    super.onDismissClicked(dialog);
+                                }
+                            });
                 }
             }
 
