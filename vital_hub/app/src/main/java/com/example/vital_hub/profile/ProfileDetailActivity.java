@@ -389,6 +389,7 @@ public class ProfileDetailActivity extends AppCompatActivity implements AdapterV
                                     super.onDismissClicked(dialog);
                                 }
                             });
+                    UserProfileFragment.isProfileDetailUpdated = false;
                 }
             }
 

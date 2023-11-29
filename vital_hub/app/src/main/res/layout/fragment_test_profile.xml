@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="20dp"
+        android:paddingHorizontal="15dp"
         android:clipToPadding="false"
         android:background="@color/white">
 
@@ -31,23 +31,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:fontFamily="@font/mont_bold"
                 android:text="You"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
             <ImageView
                 android:id="@+id/setting"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="right"
-                android:src="@drawable/outline_settings_24" />
+                android:src="@drawable/outline_settings_24"
+                app:tint="@color/white"/>
         </androidx.appcompat.widget.Toolbar>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/profile_view"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="0dp"
             android:background="@drawable/rounded_borderless_corner"
             android:elevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -96,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/mont_semi_bold"
-                android:drawableStart="@drawable/friend_icon"
+                android:drawableStart="@drawable/profile_friends"
                 android:drawableTint="@color/color_green"
                 android:text="  Friends"
                 android:textSize="15sp"
@@ -187,7 +189,7 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="25dp"
-                android:src="@drawable/graph_icon"
+                android:src="@drawable/profile_history"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -241,7 +243,7 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="25dp"
-                android:src="@drawable/statistic_icon"
+                android:src="@drawable/profile_graph"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -294,7 +296,7 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="25dp"
-                android:src="@drawable/friend_icon"
+                android:src="@drawable/profile_friends"
                 app:tint="@color/color_green"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -341,7 +343,7 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="25dp"
-                android:src="@drawable/logout_icon"
+                android:src="@drawable/profile_logout"
                 app:tint="@color/color_green"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
