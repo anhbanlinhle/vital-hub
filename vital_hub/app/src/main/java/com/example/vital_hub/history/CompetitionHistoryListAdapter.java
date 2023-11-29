@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.objects.CompetitionHistoryListResponse;
+import com.example.vital_hub.competition.CompetitionDetailActivity;
 import com.example.vital_hub.friend.ItemClickListener;
 import com.example.vital_hub.helper.KeyboardHelper;
 
@@ -67,8 +68,8 @@ public class CompetitionHistoryListAdapter extends RecyclerView.Adapter<Competit
 
             } else {
                 KeyboardHelper.hideKeyboard(view);
-                Intent intent = new Intent(view.getContext(), CompetitionHistoryDetailActivity.class);
-                intent.putExtra("competitionHistoryId", competitionHistoryList.get(listPosition).getCompetitionId());
+                Intent intent = new Intent(view.getContext(), CompetitionDetailActivity.class);
+                intent.putExtra("competitionId", competitionHistoryList.get(listPosition).getCompetitionId());
                 view.getContext().startActivity(intent);
             }
         });
