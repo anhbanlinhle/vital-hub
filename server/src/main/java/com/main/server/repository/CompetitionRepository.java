@@ -31,7 +31,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
                         WHERE ((c.id IN (SELECT comp_id FROM participants WHERE participant_id = :id)) = :isJoined)
                         AND IF(:name IS NOT NULL, c.title LIKE CONCAT('%', :name, '%'), 1) AND c.is_deleted = FALSE
                         GROUP BY c.id, c.title, c.background, c.ended_at, u.id, u.name, u.avatar
-                        ORDER BY remainDay DESC
+                        ORDER BY c.ended_at DESC, c.id DESC
                         LIMIT :limit OFFSET :offset
                     """
     )
@@ -57,7 +57,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
                         WHERE c.host_id = :id AND c.is_deleted = FALSE
                         AND IF(:name IS NOT NULL, c.title LIKE CONCAT('%', :name, '%'), 1)
                         GROUP BY c.id, c.title, c.background, c.ended_at, u.id, u.name, u.avatar
-                        ORDER BY remainDay DESC
+                        ORDER BY c.ended_at DESC, c.id DESC
                         LIMIT :limit OFFSET :offset
                     """
     )

@@ -66,7 +66,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("res", String.valueOf(refetch));
         if(refetch) {
             refetchPost();
         }
@@ -186,5 +185,6 @@ public class HomeFragment extends Fragment {
         arrayList.clear();
         pageNum = 0;
         getMoreData();
+        refetch = false;
     }
 }

@@ -56,14 +56,17 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/add_post_input"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edit_text_rounded"
                     android:fontFamily="@font/mont_alt_reg"
-                    android:hint="Post Content" />
+                    android:hint="Post Content"
+                    android:textCursorDrawable="@null"
+                     />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Spinner
