@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -28,6 +29,9 @@ import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.competition.data.CompetitionEdit;
 import com.example.vital_hub.helper.ImgToUrl.ImageUploadTask;
 import com.example.vital_hub.utils.HeaderInitUtil;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -154,7 +158,19 @@ public class EditCompetitionActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(EditCompetitionActivity.this, "Edit competition successfully", Toast.LENGTH_SHORT).show();
+
+//                    Toast.makeText(EditCompetitionActivity.this, "Edit competition successfully", Toast.LENGTH_SHORT).show();
+                    PopupDialog.getInstance(EditCompetitionActivity.this)
+                            .setStyle(Styles.SUCCESS)
+                            .setHeading("Well Done")
+                            .setDescription("Edit competition successfully")
+                            .setCancelable(false)
+                            .showDialog(new OnDialogButtonClickListener() {
+                                @Override
+                                public void onDismissClicked(Dialog dialog) {
+                                    super.onDismissClicked(dialog);
+                                }
+                            });
                     progressBar.setVisibility(View.GONE);
                     waitStartActivity(CompetitionDetailActivity.class);
 
@@ -163,7 +179,18 @@ public class EditCompetitionActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(EditCompetitionActivity.this, "Fail to edit competition", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(EditCompetitionActivity.this, "Fail to edit competition", Toast.LENGTH_SHORT).show();
+                PopupDialog.getInstance(EditCompetitionActivity.this)
+                        .setStyle(Styles.FAILED)
+                        .setHeading("Uh-Oh")
+                        .setDescription("Fail to edit competition")
+                        .setCancelable(false)
+                        .showDialog(new OnDialogButtonClickListener() {
+                            @Override
+                            public void onDismissClicked(Dialog dialog) {
+                                super.onDismissClicked(dialog);
+                            }
+                        });
             }
         });
     }
