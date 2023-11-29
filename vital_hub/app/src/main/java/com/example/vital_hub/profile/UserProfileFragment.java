@@ -48,6 +48,7 @@ public class UserProfileFragment extends Fragment {
     View history;
     View statistic;
     View friend;
+    View logout;
     Button profileDetailButton;
     SharedPreferences prefs;
     String jwt;
@@ -157,6 +158,7 @@ public class UserProfileFragment extends Fragment {
         history = view.findViewById(R.id.history_view);
         statistic = view.findViewById(R.id.statistic_view);
         friend = view.findViewById(R.id.friend_view);
+        logout = view.findViewById(R.id.logout_view);
         name = view.findViewById(R.id.username);
         profileImage = view.findViewById(R.id.profile_image);
         totalFriend = view.findViewById(R.id.friend_counter);
@@ -183,6 +185,12 @@ public class UserProfileFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(requireContext(), FriendList.class);
                 startActivity(intent);
+            }
+        });
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signOut();
             }
         });
         profileDetailButton.setOnClickListener(new View.OnClickListener() {
