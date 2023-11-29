@@ -483,8 +483,8 @@ public class BicycleTrackerActivity extends AppCompatActivity implements OnMapRe
         }
 
         PolylineOptions polylineOptions = new PolylineOptions();
-        polylineOptions.color(Color.BLUE);
-        polylineOptions.width(5);
+        polylineOptions.color(Color.parseColor("#b92d1d"));
+        polylineOptions.width(20);
 
         for (LatLng location : locations) {
             polylineOptions.add(location);
