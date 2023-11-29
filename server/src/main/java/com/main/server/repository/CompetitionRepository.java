@@ -99,7 +99,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
                 ec AS
                 (SELECT c.id AS competitionId, c.title AS title, c.background AS background, c.ended_at AS endedAt, c.type AS type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants
                 FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
-                WHERE (c.host_id = :uid OR p.participant_id = :uid)
+                WHERE (c.host_id = :uid OR p.participant_id = :uid) AND c.is_deleted = FALSE
                 GROUP BY c.id),
                 exercises AS
                 (SELECT r2.distance FROM compe_ex ce2 JOIN exercise e2 ON ce2.exercise_id = e2.id JOIN bicycling r2 on e2.id = r2.exercise_id)
@@ -112,7 +112,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
             UNION
             (SELECT 0 AS position, c.id AS competitionId, c.title AS title, c.background AS background, c.ended_at AS endedAt, c.type AS type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants, '0' AS score
             FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
-            WHERE ((c.host_id = :uid OR p.participant_id = :uid) AND c.type = 'BICYCLING')
+            WHERE ((c.host_id = :uid OR p.participant_id = :uid) AND c.type = 'BICYCLING' AND c.is_deleted = FALSE)
             GROUP BY c.id)) tb
             GROUP BY tb.competitionId)
             UNION
@@ -121,7 +121,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
                 ec AS
                 (SELECT c.id AS competitionId, c.title AS title, c.background AS background, c.ended_at AS endedAt, c.type AS type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants
                 FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
-                WHERE (c.host_id = :uid OR p.participant_id = :uid)
+                WHERE (c.host_id = :uid OR p.participant_id = :uid) AND c.is_deleted = FALSE
                 GROUP BY c.id),
                 exercises AS
                 (SELECT r2.step FROM compe_ex ce2 JOIN exercise e2 ON ce2.exercise_id = e2.id JOIN running r2 on e2.id = r2.exercise_id)
@@ -134,7 +134,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
             UNION
             (SELECT 0 AS position, c.id AS competitionId, c.title AS title, c.background AS background, c.ended_at AS endedAt, c.type AS type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants, '0' AS score
             FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
-            WHERE ((c.host_id = :uid OR p.participant_id = :uid) AND c.type = 'RUNNING')
+            WHERE ((c.host_id = :uid OR p.participant_id = :uid) AND c.type = 'RUNNING' AND c.is_deleted = FALSE)
             GROUP BY c.id)) tb
             GROUP BY tb.competitionId)
             UNION
@@ -143,7 +143,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
                 ec AS
                 (SELECT c.id AS competitionId, c.title AS title, c.background AS background, c.ended_at AS endedAt, c.type AS type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants
                 FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
-                WHERE (c.host_id = :uid OR p.participant_id = :uid)
+                WHERE (c.host_id = :uid OR p.participant_id = :uid) AND c.is_deleted = FALSE
                 GROUP BY c.id),
                 exercises AS
                 (SELECT r2.rep FROM compe_ex ce2 JOIN exercise e2 ON ce2.exercise_id = e2.id JOIN push_up r2 on e2.id = r2.exercise_id)
@@ -156,7 +156,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
             UNION
             (SELECT 0 AS position, c.id AS competitionId, c.title AS title, c.background AS background, c.ended_at AS endedAt, c.type AS type, (SELECT COUNT(p2.participant_id) FROM participants p2 WHERE p2.comp_id = c.id) AS participants, '0' AS score
             FROM participants p LEFT JOIN competition c ON c.id = p.comp_id
-            WHERE ((c.host_id = :uid OR p.participant_id = :uid) AND c.type = 'PUSHUP')
+            WHERE ((c.host_id = :uid OR p.participant_id = :uid) AND c.type = 'PUSHUP' AND c.is_deleted = FALSE)
             GROUP BY c.id)) tb
             GROUP BY tb.competitionId)
             LIMIT :limit OFFSET :offset
