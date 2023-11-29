@@ -9,6 +9,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingHorizontal="20dp"
+        android:clipToPadding="false"
         android:background="@color/white">
 
         <androidx.appcompat.widget.Toolbar
@@ -43,8 +45,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/profile_view"
-            android:layout_width="380dp"
-            android:layout_height="280dp"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/rounded_borderless_corner"
             android:elevation="5dp"
@@ -94,8 +96,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/mont_semi_bold"
-                android:text="Friends"
-                android:textSize="17sp"
+                android:drawableStart="@drawable/friend_icon"
+                android:drawableTint="@color/color_green"
+                android:text="  Friends"
+                android:textSize="15sp"
                 android:textColor="@color/black"
                 android:layout_marginTop="15dp"
                 app:layout_constraintStart_toStartOf="@id/username"
@@ -109,21 +113,21 @@
                 android:fontFamily="@font/mont_semi_bold"
                 android:text="0"
                 android:textColor="@color/black"
-                android:textSize="17sp"
+                android:textSize="15sp"
                 app:layout_constraintStart_toEndOf="@+id/total_friend"
                 app:layout_constraintTop_toTopOf="@id/total_friend"/>
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:fontFamily="@font/mont_semi_bold"
                 android:includeFontPadding="false"
                 android:text="Description"
-                android:textSize="13sp"
+                android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/profile_image" />
 
@@ -145,7 +149,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/history_view"
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/rounded_borderless_corner"
@@ -201,7 +205,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/statistic_view"
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/rounded_borderless_corner"
@@ -254,7 +258,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/friend_view"
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/rounded_borderless_corner"
@@ -308,7 +312,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/logout_view"
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/rounded_borderless_corner"
@@ -352,12 +356,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="629dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
