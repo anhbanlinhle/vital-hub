@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/edit_text_rounded"
                     android:fontFamily="@font/mont_alt_reg"
-                    android:hint="Post Content"
+                    android:hint="Post Title"
                     android:textCursorDrawable="@null"
                      />
             </com.google.android.material.textfield.TextInputLayout>
