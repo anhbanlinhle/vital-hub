@@ -4,6 +4,7 @@ import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAnd
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,6 +22,9 @@ import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.competition.data.CompetitionAllDetail;
 import com.example.vital_hub.utils.HeaderInitUtil;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.util.Map;
 
@@ -225,14 +229,36 @@ public class CompetitionDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(CompetitionDetailActivity.this, "Delete competition successfully", Toast.LENGTH_SHORT).show();
-                    waitStartActivity(CompetitionActivity.class);
+//                    Toast.makeText(CompetitionDetailActivity.this, "Delete competition successfully", Toast.LENGTH_SHORT).show();
+                    PopupDialog.getInstance(CompetitionDetailActivity.this)
+                            .setStyle(Styles.SUCCESS)
+                            .setHeading("Well Done")
+                            .setDescription("Delete competition successfully")
+                            .setCancelable(false)
+                            .showDialog(new OnDialogButtonClickListener() {
+                                @Override
+                                public void onDismissClicked(Dialog dialog) {
+                                    super.onDismissClicked(dialog);
+                                    finish();
+                                }
+                            });
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(CompetitionDetailActivity.this, "Cannot delete this competition", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(CompetitionDetailActivity.this, "Cannot delete this competition", Toast.LENGTH_SHORT).show();
+                PopupDialog.getInstance(CompetitionDetailActivity.this)
+                        .setStyle(Styles.FAILED)
+                        .setHeading("Uh-Oh")
+                        .setDescription("Cannot delete this competition")
+                        .setCancelable(false)
+                        .showDialog(new OnDialogButtonClickListener() {
+                            @Override
+                            public void onDismissClicked(Dialog dialog) {
+                                super.onDismissClicked(dialog);
+                            }
+                        });
             }
         });
     }
