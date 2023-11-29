@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
@@ -26,6 +27,9 @@ import com.example.vital_hub.exercises.adapter.SingleExerciseAdapter;
 import com.example.vital_hub.exercises.data_container.SingleExercise;
 import com.example.vital_hub.utils.ExerciseType;
 import com.example.vital_hub.utils.HeaderInitUtil;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -125,7 +129,7 @@ public class GroupExerciseActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
-                            Toast.makeText(GroupExerciseActivity.this, "Save exercise successfully", Toast.LENGTH_SHORT).show();
+                            openPopup("Well done", "Save attempt successfully", Styles.SUCCESS);
                             saveExerciseAndCompetitionDto = new SaveExerciseAndCompetitionDto();
                             submitBtn.setBackgroundResource(R.drawable.rounded_button_green);
                             submitBtn.setImageResource(R.drawable.baseline_cloud_upload_32_white);
@@ -135,7 +139,7 @@ public class GroupExerciseActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
-                        Toast.makeText(GroupExerciseActivity.this, "Fail to save exercise", Toast.LENGTH_SHORT).show();
+                        openPopup("Oh no", "Fail to save exercise", Styles.FAILED);
                     }
                 });
             }
@@ -178,5 +182,19 @@ public class GroupExerciseActivity extends AppCompatActivity {
                 Toast.makeText(GroupExerciseActivity.this, "Fail to get exercise in group " + groupId, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void openPopup(String heading, String description, Styles styles) {
+        PopupDialog.getInstance(this)
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
     }
 }

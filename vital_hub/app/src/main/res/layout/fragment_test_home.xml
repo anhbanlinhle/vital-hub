@@ -9,26 +9,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingBottom="52dp"
+        android:clipToPadding="true"
+        android:backgroundTint="@color/white"
     >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_white"
+            android:background="@color/color_green"
             android:orientation="horizontal"
-            android:padding="15dp">
+            android:paddingTop="5dp"
+            android:paddingLeft="15dp">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginBottom="15dp"
                 android:layout_weight="22"
                 android:fontFamily="@font/mont_black"
                 android:gravity="center_vertical"
                 android:text="vitalHub"
-                android:textColor="@color/color_green"
-                android:textSize="25sp" />
+                android:textColor="@color/color_white"
+                android:textSize="28sp" />
 
         </LinearLayout>
 
@@ -40,15 +43,17 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="7">
+            android:layout_weight="9">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/home_page_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"
+                android:background="@color/white"
                 tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="119dp" />
+                tools:layout_editor_absoluteY="999dp"
+                android:clipToPadding="true"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/add_post_button"

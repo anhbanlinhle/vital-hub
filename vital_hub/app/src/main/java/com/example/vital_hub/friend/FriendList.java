@@ -3,6 +3,7 @@ package com.example.vital_hub.friend;
 
 import static com.example.vital_hub.client.spring.controller.Api.initRetrofitAndController;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,6 +26,9 @@ import com.example.vital_hub.client.spring.objects.CountResponse;
 import com.example.vital_hub.client.spring.objects.FriendListResponse;
 import com.example.vital_hub.helper.EndlessScrollListener;
 import com.example.vital_hub.helper.KeyboardHelper;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,19 +84,19 @@ public class FriendList extends AppCompatActivity implements FriendListAdapter.F
         // Get total friend
         Api.initGetTotalFriend(headers);
         Api.getTotalFriend.clone().enqueue(new Callback<CountResponse>() {
-               @Override
-               public void onResponse(Call<CountResponse> call, Response<CountResponse> response) {
-                   if (response.isSuccessful()) {
-                       countResponse = response.body();
-                       totalFriend.setText("Total friend: " + countResponse.getData());
-                   }
-               }
+                                               @Override
+                                               public void onResponse(@NonNull Call<CountResponse> call, @NonNull Response<CountResponse> response) {
+                                                   if (response.isSuccessful()) {
+                                                       countResponse = response.body();
+                                                       totalFriend.setText("Total friend: " + countResponse.getData());
+                                                   }
+                                               }
 
-               @Override
-               public void onFailure(Call<CountResponse> call, Throwable t) {
-                   Log.e("Error", t.getMessage());
-               }
-           }
+                                               @Override
+                                               public void onFailure(@NonNull Call<CountResponse> call, @NonNull Throwable t) {
+                                                   openPopup("Oh no", "Failed to fetch total friend", Styles.FAILED);
+                                               }
+                                           }
         );
 
         // Get list friend
@@ -182,7 +186,7 @@ public class FriendList extends AppCompatActivity implements FriendListAdapter.F
 
     private void fetchFriendList(String name, Integer limit, Integer offset) {
         fetchedFriendList.clear();
-        if(name == null || name.isEmpty()) {
+        if (name == null || name.isEmpty()) {
 
             Api.initGetFriendList(headers, name, limit, offset);
 
@@ -194,20 +198,18 @@ public class FriendList extends AppCompatActivity implements FriendListAdapter.F
                                                           assert friendListResponse != null;
                                                           fetchedFriendList.addAll(Arrays.asList(friendListResponse.getData()));
                                                           friendListAdapter.notifyDataSetChanged();
-                                                      }
-                                                      else {
-                                                          Toast.makeText(FriendList.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                                                      } else {
+                                                          openPopup("Oh no", "Error: " + response.code(), Styles.FAILED);
                                                       }
                                                   }
 
                                                   @Override
                                                   public void onFailure(@NonNull Call<FriendListResponse> call, @NonNull Throwable t) {
-                                                      Toast.makeText(FriendList.this, "Failed to fetch friend list", Toast.LENGTH_SHORT).show();
+                                                      openPopup("Oh no", "Failed to fetch friend list", Styles.FAILED);
                                                   }
                                               }
             );
-        }
-        else {
+        } else {
             Api.initGetSearchList(headers, name, limit, offset);
             Api.getSearchList.clone().enqueue(new Callback<FriendListResponse>() {
                                                   @Override
@@ -217,8 +219,7 @@ public class FriendList extends AppCompatActivity implements FriendListAdapter.F
                                                           assert friendListResponse != null;
                                                           fetchedFriendList.addAll(Arrays.asList(friendListResponse.getData()));
                                                           friendListAdapter.notifyDataSetChanged();
-                                                      }
-                                                      else {
+                                                      } else {
                                                           Toast.makeText(FriendList.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                                                       }
                                                   }
@@ -239,5 +240,19 @@ public class FriendList extends AppCompatActivity implements FriendListAdapter.F
         fetchedFriendList.clear();
         fetchFriendList(searchFriend.getText().toString(), 10, 0);
         friendList.setAdapter(friendListAdapter);
+    }
+
+    private void openPopup(String heading, String description, Styles styles) {
+        PopupDialog.getInstance(this)
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
     }
 }

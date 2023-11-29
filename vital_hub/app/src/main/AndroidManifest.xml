@@ -34,7 +34,8 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".bicycle.BicycleTrackerActivity"
             android:exported="false" />
@@ -81,7 +82,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -90,15 +90,16 @@
             android:name=".authentication.LoginScreen"
             android:exported="true" />
         <activity
-            android:name=".profile.UserProfile"
+            android:name=".profile.UserProfileActivity"
             android:exported="true"
             android:label="false" />
         <activity
             android:name=".profile.OthersProfileActivity"
             android:exported="true"
             android:label="false" />
-        <activity
-            android:name=".history.HistoryActivity"
+        <activity android:name=".history.CompetitionHistoryActivity"
+            android:exported="true" />
+        <activity android:name=".history.CompetitionHistoryDetailActivity"
             android:exported="true" />
         <activity
             android:name=".test.TestMain"
@@ -126,7 +127,7 @@
             android:exported="true"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".profile.ProfileDetail"
+            android:name=".profile.ProfileDetailActivity"
             android:exported="true" />
         <activity
             android:name=".TestPage"

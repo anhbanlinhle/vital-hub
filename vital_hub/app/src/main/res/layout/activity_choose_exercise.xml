@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".exercises.ChooseExerciseActivity"
     android:orientation="vertical"
+    android:background="@color/white"
 >
 
     <androidx.appcompat.widget.Toolbar
@@ -39,6 +40,7 @@
         app:tabSelectedTextColor="@color/custom_green"
         app:tabTextColor="@color/black"
         app:tabIndicatorColor="@color/custom_green"
+        android:background="@color/white"
     >
 
         <com.google.android.material.tabs.TabItem

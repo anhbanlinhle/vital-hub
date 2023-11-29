@@ -13,7 +13,7 @@ import com.example.vital_hub.bicycle.BicycleTrackerActivity;
 import com.example.vital_hub.competition.CompetitionActivity;
 import com.example.vital_hub.home_page.HomePageActivity;
 import com.example.vital_hub.pushup.PushupVideoScan;
-import com.example.vital_hub.profile.UserProfile;
+import com.example.vital_hub.profile.UserProfileActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.example.vital_hub.running.RunningActivity;
@@ -63,7 +63,7 @@ public class ExerciseGeneralActivity extends AppCompatActivity implements Naviga
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.profile) {
-            startActivity(new Intent(getApplicationContext(), UserProfile.class));
+            startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
             overridePendingTransition(0, 0);
             return true;
         } else if (item.getItemId() == R.id.home) {

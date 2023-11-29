@@ -31,6 +31,7 @@ import com.example.vital_hub.client.spring.objects.CountResponse;
 import com.example.vital_hub.client.spring.objects.ProfileDetailResponse;
 import com.example.vital_hub.client.spring.objects.ProfileResponse;
 import com.example.vital_hub.friend.FriendList;
+import com.example.vital_hub.history.CompetitionHistoryActivity;
 import com.example.vital_hub.statistics.StatisticsActivity;
 import com.example.vital_hub.test.TestMain;
 
@@ -41,7 +42,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProfileFragment extends Fragment {
+public class UserProfileFragment extends Fragment {
     Toolbar toolbar;
     ImageView setting;
     View history;
@@ -62,12 +63,12 @@ public class ProfileFragment extends Fragment {
     private CountResponse countResponse;
     private UserDetail fetchedUserProfileDetail;
 
-    public ProfileFragment() {
+    public UserProfileFragment() {
         // Required empty public constructor
     }
 
-    public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
+    public static UserProfileFragment newInstance(String param1, String param2) {
+        UserProfileFragment fragment = new UserProfileFragment();
 
         return fragment;
     }
@@ -174,7 +175,7 @@ public class ProfileFragment extends Fragment {
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(requireContext(), TestPage.class);
+                Intent intent = new Intent(requireContext(), CompetitionHistoryActivity.class);
                 startActivity(intent);
             }
         });
@@ -197,7 +198,7 @@ public class ProfileFragment extends Fragment {
         profileDetailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(requireContext(), ProfileDetail.class);
+                Intent intent = new Intent(requireContext(), ProfileDetailActivity.class);
                 startActivity(intent);
             }
         });

@@ -1,9 +1,9 @@
 package com.example.vital_hub;
 
-import com.example.vital_hub.home_page.HomeFragment;
-import com.example.vital_hub.exercises.ExerciseGeneralFragment;
-import com.example.vital_hub.competition.CompetitionFragment;
-import com.example.vital_hub.profile.ProfileFragment;
+import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -12,10 +12,15 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.transition.Explode;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.example.vital_hub.competition.CompetitionFragment;
+import com.example.vital_hub.exercises.ExerciseGeneralFragment;
+import com.example.vital_hub.home_page.HomeFragment;
+import com.example.vital_hub.profile.UserProfileFragment;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -33,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-
         bottomNavigation = findViewById(R.id.bottomNavigation);
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.nav_home));
         bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.nav_exercise));
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setNavigationBarColor(ContextCompat.getColor(this, R.color.color_green));
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.color_green));
 
         replaceFragment(new HomeFragment());
         bottomNavigation.show(1, true);
@@ -67,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                         replaceFragment(new CompetitionFragment());
                         break;
                     case 4:
-                        replaceFragment(new ProfileFragment());
+                        replaceFragment(new UserProfileFragment());
                         break;
                 }
                 return null;

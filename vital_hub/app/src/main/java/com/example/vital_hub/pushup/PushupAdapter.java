@@ -23,6 +23,7 @@ public class PushupAdapter extends RecyclerView.Adapter<PushupAdapter.ViewHolder
     private ArrayList<Integer> arrayList;
     final int VIEW_TYPE_ITEM = 0;
     final int VIEW_TYPE_LOADING = 1;
+    final int VIEW_TYPE_DEFAULT = 2;
 
     public PushupAdapter(ArrayList<Integer> arrayList) {
         this.arrayList = arrayList;
@@ -35,10 +36,14 @@ public class PushupAdapter extends RecyclerView.Adapter<PushupAdapter.ViewHolder
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             View view = inflater.inflate(R.layout.pushup_count_result, parent, false);
             return new PushupAdapter.ViewHolder(view, VIEW_TYPE_ITEM);
-        } else {
+        } else if (viewType == VIEW_TYPE_LOADING) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             View view = inflater.inflate(R.layout.loading_item, parent, false);
             return new PushupAdapter.ViewHolder(view, VIEW_TYPE_LOADING);
+        } else {
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            View view = inflater.inflate(R.layout.pushup_instruction, parent, false);
+            return new PushupAdapter.ViewHolder(view, VIEW_TYPE_DEFAULT);
         }
     }
 
@@ -52,7 +57,13 @@ public class PushupAdapter extends RecyclerView.Adapter<PushupAdapter.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        return arrayList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+        if (arrayList.get(position) == null) {
+            return VIEW_TYPE_LOADING;
+        } else if (arrayList.get(position) == -1) {
+            return VIEW_TYPE_DEFAULT;
+        } else {
+            return VIEW_TYPE_ITEM;
+        }
     }
 
     @Override
@@ -68,8 +79,10 @@ public class PushupAdapter extends RecyclerView.Adapter<PushupAdapter.ViewHolder
             if (viewType == VIEW_TYPE_ITEM) {
                 result = itemView.findViewById(R.id.result);
                 itemType = VIEW_TYPE_ITEM;
-            } else {
+            } else if (viewType == VIEW_TYPE_LOADING) {
                 itemType = VIEW_TYPE_LOADING;
+            } else {
+                itemType = VIEW_TYPE_DEFAULT;
             }
         }
     }

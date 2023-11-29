@@ -1,5 +1,6 @@
 package com.example.vital_hub.competition;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -25,9 +26,12 @@ import com.example.vital_hub.exercises.ExerciseGeneralActivity;
 import com.example.vital_hub.helper.EndlessScrollListener;
 import com.example.vital_hub.helper.KeyboardHelper;
 import com.example.vital_hub.home_page.HomePageActivity;
-import com.example.vital_hub.profile.UserProfile;
+import com.example.vital_hub.profile.UserProfileActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -231,13 +235,13 @@ public class CompetitionActivity extends AppCompatActivity implements Navigation
                     competitionListAdapter = new CompetitionListAdapter(competitions, isJoined, isCreated);
                     competitionList.setAdapter(competitionListAdapter);
                 } else {
-                    Log.d("Error", "Error: " + response.code());
+                    openPopup("Oh no", "Error: " + response.code(), Styles.FAILED);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<CompetitionListResponse> call, @NonNull Throwable t) {
-                System.out.println("Error: " + t.getMessage());
+                openPopup("Oh no", "Error: " + t.getMessage(), Styles.FAILED);
             }
         });
     }
@@ -254,13 +258,13 @@ public class CompetitionActivity extends AppCompatActivity implements Navigation
                     competitionListAdapter = new CompetitionListAdapter(competitions, isJoined, isCreated);
                     competitionList.setAdapter(competitionListAdapter);
                 } else {
-                    Log.d("Error", "Error: " + response.code());
+                    openPopup("Oh no", "Error: " + response.code(), Styles.FAILED);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<CompetitionListResponse> call, @NonNull Throwable t) {
-                System.out.println("Error: " + t.getMessage());
+                openPopup("Oh no", "Error: " + t.getMessage(), Styles.FAILED);
             }
         });
     }
@@ -268,7 +272,7 @@ public class CompetitionActivity extends AppCompatActivity implements Navigation
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.profile) {
-            startActivity(new Intent(getApplicationContext(), UserProfile.class));
+            startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
             overridePendingTransition(0, 0);
             return true;
         } else if (item.getItemId() == R.id.home) {
@@ -296,5 +300,19 @@ public class CompetitionActivity extends AppCompatActivity implements Navigation
             competitions.clear();
             fetchCompetitionList(isJoined, null, limit, offset);
         }
+    }
+
+    private void openPopup(String heading, String description, Styles styles) {
+        PopupDialog.getInstance(this)
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
     }
 }

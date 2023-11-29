@@ -1,16 +1,21 @@
 package com.example.vital_hub.client.spring.controller;
 
-import com.example.vital_hub.client.spring.objects.CommentPost;
-import com.example.vital_hub.client.spring.objects.*;
-
+import com.example.vital_hub.client.spring.objects.WeeklyExercise;
 import com.example.vital_hub.client.spring.objects.AuthResponseObject;
+import com.example.vital_hub.client.spring.objects.CommentPost;
+import com.example.vital_hub.client.spring.objects.CompetitionDurationResponse;
+import com.example.vital_hub.client.spring.objects.CompetitionHistoryListResponse;
 import com.example.vital_hub.client.spring.objects.CompetitionListResponse;
+import com.example.vital_hub.client.spring.objects.CompetitionMinDetailResponse;
 import com.example.vital_hub.client.spring.objects.CountResponse;
+import com.example.vital_hub.client.spring.objects.ExerciseResponse;
 import com.example.vital_hub.client.spring.objects.FriendListResponse;
 import com.example.vital_hub.client.spring.objects.ProfileDetailResponse;
 import com.example.vital_hub.client.spring.objects.ProfileResponse;
 import com.example.vital_hub.client.spring.objects.RegistRequestObject;
 import com.example.vital_hub.client.spring.objects.ResponseObject;
+import com.example.vital_hub.client.spring.objects.SaveExerciseAndCompetitionDto;
+import com.example.vital_hub.competition.data.CompetitionAdd;
 import com.example.vital_hub.competition.data.CompetitionAllDetail;
 import com.example.vital_hub.competition.data.CompetitionEdit;
 import com.example.vital_hub.competition.data.CompetitionAdd;
@@ -99,6 +104,8 @@ public class Api {
     public static Call<ProfileDetailResponse> getOthersProfileDetail;
     public static Call<ProfileResponse> getOthersProfile;
 
+    //Competition History
+    public static Call<List<CompetitionHistoryListResponse>> getCompetitionHistoryList;
 
     public static void initRetrofitAndController(String server) {
         String url = "http://" + server + ":8080/";
@@ -264,6 +271,11 @@ public class Api {
     }
     public static void initGetOthersProfileDetail(Map<String, String> headers, Long id) {
         getOthersProfileDetail = controller.getOthersProfileDetail(headers, id);
+    }
+
+    //Competition History
+    public static void initGetCompetitionHistoryList(Map<String, String> headers, Integer pageNum) {
+        getCompetitionHistoryList = controller.getCompetitionHistoryList(headers, pageNum, 10);
     }
     // post and comment
     public static void initGetPostResponse(Map<String, String> headers, int pageNum) {
