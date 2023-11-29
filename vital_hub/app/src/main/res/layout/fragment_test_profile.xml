@@ -9,6 +9,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingHorizontal="20dp"
+        android:clipToPadding="false"
         android:background="@color/white">
 
         <androidx.appcompat.widget.Toolbar
@@ -43,8 +45,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/profile_view"
-            android:layout_width="380dp"
-            android:layout_height="280dp"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/rounded_borderless_corner"
             android:elevation="5dp"
@@ -94,8 +96,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/mont_semi_bold"
-                android:text="Friends"
-                android:textSize="17sp"
+                android:drawableStart="@drawable/friend_icon"
+                android:drawableTint="@color/color_green"
+                android:text="  Friends"
+                android:textSize="15sp"
                 android:textColor="@color/black"
                 android:layout_marginTop="15dp"
                 app:layout_constraintStart_toStartOf="@id/username"
@@ -109,33 +113,35 @@
                 android:fontFamily="@font/mont_semi_bold"
                 android:text="0"
                 android:textColor="@color/black"
-                android:textSize="17sp"
+                android:textSize="15sp"
                 app:layout_constraintStart_toEndOf="@+id/total_friend"
                 app:layout_constraintTop_toTopOf="@id/total_friend"/>
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:fontFamily="@font/mont_semi_bold"
                 android:includeFontPadding="false"
                 android:text="Description"
-                android:textSize="13sp"
+                android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/profile_image" />
 
             <Button
                 android:id="@+id/profile_detail_button"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/rounded_corner"
                 android:paddingVertical="0dp"
                 android:text="Detail"
+                android:drawableLeft="@drawable/outline_info_24"
+                android:drawableTint="@color/color_green"
                 android:textColor="@color/color_green"
                 android:textSize="15sp"
                 app:backgroundTint="@null"
@@ -145,7 +151,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/history_view"
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/rounded_borderless_corner"
@@ -169,8 +175,8 @@
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="179dp"
                 android:fontFamily="@font/mont_semi_bold"
-                android:text="History"
-                android:textSize="15sp"
+                android:text="Competition History"
+                android:textSize="18sp"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/history_icon"
@@ -201,7 +207,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/statistic_view"
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/rounded_borderless_corner"
@@ -223,8 +229,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
                 android:fontFamily="@font/mont_semi_bold"
-                android:text="Statistics"
-                android:textSize="15sp"
+                android:text="Workout Statistics"
+                android:textSize="18sp"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/statistic_icon"
@@ -254,7 +260,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/friend_view"
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/rounded_borderless_corner"
@@ -277,7 +283,7 @@
                 android:layout_marginStart="25dp"
                 android:fontFamily="@font/mont_semi_bold"
                 android:text="Friends"
-                android:textSize="15sp"
+                android:textSize="18sp"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/friend_icon"
@@ -306,19 +312,53 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <Button
-            android:id="@+id/others_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Others profile test button"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/logout_view"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_borderless_corner"
+            android:elevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/friend_view"
-            app:layout_constraintVertical_bias="0.244" />
+            app:layout_constraintTop_toBottomOf="@id/friend_view">
+
+            <TextView
+                android:id="@+id/logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:fontFamily="@font/mont_semi_bold"
+                android:text="Logout"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/logout_icon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/logout_icon"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="25dp"
+                android:src="@drawable/logout_icon"
+                app:tint="@color/color_green"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/logout_next_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/next_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
