@@ -3,6 +3,8 @@ package com.example.vital_hub.home_page;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -36,6 +38,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.example.vital_hub.client.spring.controller.Api.initDeletePost;
+
+import static java.security.AccessController.getContext;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -82,7 +86,7 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
             holder.title.setText(post.getUsername());
             holder.message.setText(post.getTitle());
             holder.post_score.setText(post.getScore());
-            holder.post_calo.setText(post.getCalo().toString());
+            holder.post_calo.setText(String.format("%1$,.2f", post.getCalo()) + " calo");
             Glide.with(holder.profileImage.getContext()).load(post.getAvatar()).into(holder.profileImage);
             Glide.with(holder.postImage.getContext()).load(post.getImage()).into(holder.postImage);
 
@@ -211,7 +215,7 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
                                     int position = getArrPosition(postId);
                                     arrayList.remove(position);
                                     notifyDataSetChanged();
-                                    Toast.makeText(v.getContext(), "Delete post successfully", Toast.LENGTH_SHORT).show();
+                                    openPopup("Successful", "Delete post successful", Styles.SUCCESS, v);
                                 }
 
                                 @Override
@@ -235,5 +239,22 @@ public class HpRecyclerAdapter extends RecyclerView.Adapter<HpRecyclerAdapter.Vi
             }
         }
         return -1;
+    }
+
+    private void openPopup(String heading, String description, Styles styles, View v) {
+        if (v.getContext() == null) {
+            return;
+        }
+        PopupDialog.getInstance(v.getContext())
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
     }
 }

@@ -4,6 +4,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 import static com.example.vital_hub.client.spring.controller.Api.initDeleteComment;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +28,10 @@ import com.example.vital_hub.R;
 import com.example.vital_hub.client.spring.controller.Api;
 import com.example.vital_hub.home_page.HomePagePost;
 import com.example.vital_hub.home_page.HpRecyclerAdapter;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,6 +76,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
         }
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull CommentRecyclerAdapter.ViewHolder holder, int position) {
         if (holder.itemType == VIEW_TYPE_COMMENT) {
@@ -80,11 +87,18 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
             holder.comment_text.setText(cmt.getContent());
         } else if (holder.itemType == VIEW_TYPE_POST) {
             HomePagePost post = arrayList.get(position).getPost();
+
+            if (!post.getOwned()) {
+                holder.post_kebab_button.setVisibility(View.GONE);
+            } else {
+                holder.post_kebab_button.setVisibility(View.VISIBLE);
+            }
+
             holder.isOwned = post.getOwned();
             holder.post_profile_name.setText(post.getUsername());
             holder.post_text.setText(post.getTitle());
             holder.post_score.setText(post.getScore());
-            holder.post_calo.setText(post.getCalo().toString());
+            holder.post_calo.setText(String.format("%1$,.2f", post.getCalo()) + " calo");
             Glide.with(holder.post_profile_image.getContext()).load(post.getAvatar()).into(holder.post_profile_image);
             Glide.with(holder.post_image.getContext()).load(post.getImage()).into(holder.post_image);
 
@@ -140,6 +154,8 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
         ImageView post_ex_icon;
         TextView post_score;
         TextView post_calo;
+        LottieAnimationView lottieHeart;
+        boolean switchOn = false;
         int itemType;
 
         public ViewHolder(@NonNull View itemView, int viewType) {
@@ -164,6 +180,24 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
                 post_ex_icon = itemView.findViewById(R.id.post_ex_icon);
                 post_score = itemView.findViewById(R.id.post_score);
                 post_calo = itemView.findViewById(R.id.post_calo);
+                lottieHeart = itemView.findViewById(R.id.like_button);
+
+                lottieHeart.setProgress(0.0f);
+
+                lottieHeart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (switchOn) {
+                            lottieHeart.setMinAndMaxProgress(0.9f, 1.0f);
+                            lottieHeart.playAnimation();
+                            switchOn = false;
+                        } else {
+                            lottieHeart.setMinAndMaxProgress(0.4f, 0.8f);
+                            lottieHeart.playAnimation();
+                            switchOn = true;
+                        }
+                    }
+                });
 
                 post_kebab_button.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -195,7 +229,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
                     }
                     arrayList.remove(position);
                     notifyDataSetChanged();
-                    Toast.makeText(context, "Delete comment successfully", Toast.LENGTH_SHORT).show();
+                    openPopup("Successful", "Delete comment successful", Styles.SUCCESS, context);
                 }
 
                 @Override
@@ -213,5 +247,22 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
         jwt = prefs.getString("jwt", null);
         headers = new HashMap<>();
         headers.put("Authorization", "Bearer " + jwt);
+    }
+
+    private void openPopup(String heading, String description, Styles styles, Context context) {
+        if (context == null) {
+            return;
+        }
+        PopupDialog.getInstance(context)
+                .setStyle(styles)
+                .setHeading(heading)
+                .setDescription(description)
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                    }
+                });
     }
 }

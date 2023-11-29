@@ -162,15 +162,6 @@
             android:gravity="end"
             app:srcCompat="@drawable/comment_icon" />
 
-        <ImageButton
-            android:id="@+id/share_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="15dp"
-            android:background="@color/white"
-            android:gravity="end"
-            app:srcCompat="@drawable/share_icon_02" />
     </LinearLayout>
 
 </LinearLayout>
